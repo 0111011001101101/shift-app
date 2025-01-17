@@ -14,7 +14,7 @@ export function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-2 px-4 backdrop-blur-lg bg-white/80 animate-slideUp">
+    <nav className="fixed bottom-4 left-4 right-4 glass rounded-2xl py-3 px-6 animate-slideUp z-50">
       <div className="max-w-lg mx-auto flex justify-between items-center">
         {navItems.map(({ icon: Icon, label, path }) => (
           <Link
@@ -22,8 +22,8 @@ export function BottomNav() {
             to={path}
             className={`nav-item transition-all duration-200 ${
               location.pathname === path
-                ? "text-primary scale-110"
-                : "text-muted-foreground hover:text-primary/80"
+                ? "text-secondary scale-110"
+                : "text-white/60 hover:text-white/90"
             }`}
           >
             <Icon className="w-5 h-5 mb-1" />

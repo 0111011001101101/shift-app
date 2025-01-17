@@ -25,27 +25,27 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#9b87f5",
+          DEFAULT: "#0A2463",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#D6BCFA",
-          foreground: "#1A1A1A",
+          DEFAULT: "#7E72F2",
+          foreground: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#FEC6A1",
+          DEFAULT: "#FFB17A",
           foreground: "#1A1A1A",
         },
         muted: {
-          DEFAULT: "#F1F0FB",
-          foreground: "#8E9196",
+          DEFAULT: "#F0F4F8",
+          foreground: "#64748B",
         },
         success: {
-          DEFAULT: "#7E69AB",
+          DEFAULT: "#4CAF50",
           foreground: "#FFFFFF",
         },
         warning: {
-          DEFAULT: "#FEF7CD",
+          DEFAULT: "#FFB17A",
           foreground: "#1A1A1A",
         },
         destructive: {
@@ -78,12 +78,17 @@ export default {
           "0%": { transform: "translateY(10px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         fadeIn: "fadeIn 0.5s ease-out",
         slideUp: "slideUp 0.5s ease-out",
+        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },
