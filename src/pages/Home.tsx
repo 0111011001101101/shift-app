@@ -9,7 +9,21 @@ export default function Home() {
   
   return (
     <PageContainer>
-      <div className="space-y-6">
+      <div className="space-y-4">
+        {/* Streak Section - Now First and Smaller */}
+        <Card className="text-center py-4 px-3 bg-gradient-to-br from-white via-gray-50/95 to-gray-100/90 dark:from-gray-800 dark:via-gray-900/95 dark:to-gray-950/90 hover:shadow-lg transition-all duration-300 group overflow-hidden relative animate-fadeIn">
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="relative flex items-center justify-center gap-3">
+            <Star className="w-4 h-4 text-amber-500 animate-pulse" />
+            <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
+            <Star className="w-4 h-4 text-amber-500 animate-pulse" />
+            <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+              day streak
+            </span>
+          </div>
+        </Card>
+
+        {/* Header Section */}
         <header className="space-y-1.5 animate-fadeIn">
           <div className="flex items-center gap-2">
             <div className="p-2 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 backdrop-blur-sm">
@@ -22,6 +36,7 @@ export default function Home() {
           <p className="text-sm text-gray-500 dark:text-gray-400">Let's start your day with intention</p>
         </header>
         
+        {/* Stand-up Card */}
         <Card 
           className="relative overflow-hidden bg-gradient-to-br from-white/95 via-gray-50/90 to-gray-100/95 dark:from-gray-800/95 dark:via-gray-900/90 dark:to-gray-950/95 backdrop-blur-lg border border-gray-100/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 animate-slideUp group cursor-pointer"
           onClick={() => navigate("/stand-up")}
@@ -44,6 +59,7 @@ export default function Home() {
           </div>
         </Card>
 
+        {/* Today's Focus Section */}
         <section className="space-y-4 animate-fadeIn">
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-lg bg-gradient-to-br from-secondary/20 to-transparent">
@@ -59,29 +75,6 @@ export default function Home() {
             <div className="flex items-center gap-3 group-hover:translate-x-1 transition-transform duration-300">
               <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
               <span className="text-sm text-gray-700 dark:text-gray-300">30 min meditation</span>
-            </div>
-          </Card>
-        </section>
-
-        <section className="space-y-4 animate-fadeIn">
-          <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-            <Trophy className="w-4 h-4 text-amber-500" />
-            Current Streak
-          </h2>
-          <Card className="text-center py-8 px-4 bg-gradient-to-br from-white via-gray-50/95 to-gray-100/90 dark:from-gray-800 dark:via-gray-900/95 dark:to-gray-950/90 hover:shadow-lg transition-all duration-300 group overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative">
-              <div className="flex items-center justify-center gap-2 mb-3">
-                <Star className="w-6 h-6 text-amber-500 animate-pulse" />
-                <span className="text-4xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
-                <Star className="w-6 h-6 text-amber-500 animate-pulse" />
-              </div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                day streak of consistent check-ins
-              </p>
-              <div className="mt-3 text-xs text-secondary">
-                Keep it up! You're building a great habit.
-              </div>
             </div>
           </Card>
         </section>
