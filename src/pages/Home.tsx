@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useSpring, animated, to } from "@react-spring/web";
+import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 
 interface Todo {
@@ -39,7 +39,7 @@ export default function Home() {
       toast({
         title: "Todo added",
         description: "New todo has been added successfully.",
-        variant: "default",
+        variant: "default", // Changed from "success" to "default"
       });
     }
   };
@@ -58,7 +58,7 @@ export default function Home() {
       toast({
         title: "Todo updated",
         description: "Your changes have been saved.",
-        variant: "default",
+        variant: "default", // Changed from "success" to "default"
       });
     }
   };
@@ -77,37 +77,8 @@ export default function Home() {
     toast({
       title: "Todo completed",
       description: "Great job! Todo marked as complete.",
-      variant: "default",
+      variant: "default", // Changed from "success" to "default"
     });
-  };
-
-  const createTodoBindings = (id: string) => {
-    const [{ x }, api] = useSpring(() => ({ x: 0 }));
-
-    const bind = useDrag(({ down, movement: [mx], direction: [xDir], cancel, canceled }) => {
-      if (canceled) return;
-      
-      const threshold = 75;
-      
-      if (down) {
-        api.start({ x: mx, immediate: true });
-      } else {
-        if (mx < -threshold) {
-          handleDeleteTodo(id);
-          cancel();
-        } else if (mx > threshold) {
-          handleCompleteTodo(id);
-          cancel();
-        }
-        api.start({ x: 0, immediate: false });
-      }
-    }, {
-      axis: 'x',
-      bounds: { left: -100, right: 100 },
-      rubberband: true
-    });
-
-    return { bind, x };
   };
 
   return (
@@ -182,63 +153,46 @@ export default function Home() {
             </div>
             
             <div className="space-y-2">
-              {todos.map(todo => {
-                const { bind, x } = createTodoBindings(todo.id);
-                
-                return (
-                  <div key={todo.id} className="group relative">
-                    <div className="absolute inset-y-0 left-0 w-full flex items-center justify-between px-4 pointer-events-none">
-                      <div className="flex-1" />
-                      <div className="flex gap-8">
-                        <Check className="w-5 h-5 text-green-500 opacity-0 transition-opacity duration-200" 
-                               style={{ opacity: to(x, v => v > 40 ? Math.min((v - 40) / 35, 1) : 0) as any }} />
-                        <Trash className="w-5 h-5 text-red-500 opacity-0 transition-opacity duration-200"
-                               style={{ opacity: to(x, v => v < -40 ? Math.min((-v - 40) / 35, 1) : 0) as any }} />
+              {todos.map(todo => (
+                <div key={todo.id} className="group relative">
+                  <div className="flex items-center justify-between text-sm p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                    {editingTodoId === todo.id ? (
+                      <div className="flex items-center gap-2 w-full">
+                        <Input
+                          value={editedTodoText}
+                          onChange={(e) => setEditedTodoText(e.target.value)}
+                          className="flex-1"
+                          autoFocus
+                        />
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleSaveTodo(todo.id)}
+                        >
+                          <Check className="w-4 h-4" />
+                        </Button>
                       </div>
-                    </div>
-                    <animated.div
-                      {...bind()}
-                      style={{ x, touchAction: 'none' }}
-                      className="flex items-center justify-between text-sm p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm cursor-grab active:cursor-grabbing"
-                    >
-                      {editingTodoId === todo.id ? (
-                        <div className="flex items-center gap-2 w-full">
-                          <Input
-                            value={editedTodoText}
-                            onChange={(e) => setEditedTodoText(e.target.value)}
-                            className="flex-1"
-                            autoFocus
-                          />
+                    ) : (
+                      <>
+                        <span>{todo.text}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
+                            {todo.type}
+                          </span>
                           <Button
                             size="sm"
                             variant="ghost"
-                            onClick={() => handleSaveTodo(todo.id)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleEditTodo(todo.id, todo.text)}
                           >
-                            <Check className="w-4 h-4" />
+                            <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
                           </Button>
                         </div>
-                      ) : (
-                        <>
-                          <span>{todo.text}</span>
-                          <div className="flex items-center gap-2">
-                            <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
-                              {todo.type}
-                            </span>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="opacity-0 group-hover:opacity-100 transition-opacity"
-                              onClick={() => handleEditTodo(todo.id, todo.text)}
-                            >
-                              <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
-                            </Button>
-                          </div>
-                        </>
-                      )}
-                    </animated.div>
+                      </>
+                    )}
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           </TabsContent>
           
