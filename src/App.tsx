@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BottomNav } from "./components/layout/BottomNav";
+import { FloatingChat } from "./components/chat/FloatingChat";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/learn" element={<div className="page-container">Learn Page (Coming Soon)</div>} />
           <Route path="/settings" element={<div className="page-container">Settings Page (Coming Soon)</div>} />
         </Routes>
+        <FloatingChat />
         <BottomNav />
       </BrowserRouter>
     </TooltipProvider>
