@@ -110,7 +110,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black bg-gradient-to-br from-amber-400 to-amber-600 bg-clip-text text-transparent [text-shadow:_2px_2px_8px_rgba(251,191,36,0.5)] transform hover:scale-110 transition-transform duration-200 animate-pulse">7</span>
+                  <span className="text-5xl font-black bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent [text-shadow:_2px_2px_12px_rgba(245,158,11,0.6)] transform hover:scale-110 transition-transform duration-200 animate-pulse">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -119,9 +119,9 @@ export default function Home() {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-300 to-amber-500 flex items-center justify-center transform hover:scale-110 transition-transform duration-200"
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-white via-amber-200 to-amber-400 flex items-center justify-center transform hover:scale-110 transition-transform duration-200 shadow-lg"
                 >
-                  <Star className="w-4 h-4 text-amber-100" />
+                  <Star className="w-4 h-4 fill-current text-amber-500" />
                 </div>
               ))}
             </div>
@@ -183,26 +183,28 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 mt-4 group relative">
-              <Input
-                value={newTodoText}
-                onChange={(e) => setNewTodoText(e.target.value)}
-                placeholder="Add a new todo..."
-                className="flex-1 pr-10 transition-all duration-200 focus:ring-2 focus:ring-primary/20"
-                onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
-              />
-              <Button 
-                onClick={handleAddTodo} 
-                size="icon" 
-                className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary/10 hover:bg-primary/20 text-primary transition-all duration-200"
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
+            <div className="relative mt-6">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-lg blur" />
+              <div className="relative flex items-center gap-2">
+                <Input
+                  value={newTodoText}
+                  onChange={(e) => setNewTodoText(e.target.value)}
+                  placeholder="Add a new todo..."
+                  className="flex-1 pr-12 border-primary/20 focus:border-primary/40 transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+                  onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
+                />
+                <Button 
+                  onClick={handleAddTodo} 
+                  size="icon"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white shadow-lg transition-all duration-200 hover:scale-105"
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </TabsContent>
           
           <TabsContent value="week" className="space-y-4">
-            <div className="space-y-2">
               {/* Weekly Goals */}
               <div className="flex items-center justify-between text-sm">
                 <span>Exercise 3 times per week</span>
@@ -212,11 +214,9 @@ export default function Home() {
                 <span>Weekend digital detox</span>
                 <span className="text-xs px-2 py-0.5 bg-secondary/10 text-secondary rounded-full">Weekly</span>
               </div>
-            </div>
           </TabsContent>
         </Tabs>
 
-        {/* Long Term Goals Section */}
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
