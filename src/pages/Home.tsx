@@ -82,23 +82,23 @@ export default function Home() {
   return (
     <PageContainer>
       <div className="space-y-6">
-        {/* Header Section with reduced whitespace and improved styling */}
+        {/* Modern Header Section */}
         <div className="relative py-4">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
-          <div className="flex items-start gap-3">
-            <div className="space-y-1">
-              <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fadeIn relative">
-                Good Morning, Couch Potato!
-                <div className="absolute -bottom-1 left-0 w-1/3 h-0.5 bg-gradient-to-r from-primary to-secondary"></div>
+          <div className="flex flex-col gap-2">
+            <div className="space-y-2">
+              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fadeIn relative inline-block">
+                Good Morning
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-secondary transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                Let's make today count 🚀
+              <p className="text-lg font-light tracking-wide text-gray-600 dark:text-gray-300">
+                Time to embrace the day's potential
               </p>
             </div>
           </div>
         </div>
 
-        {/* Current Streak Section with black highlight for "7" */}
+        {/* Enhanced Streak Section */}
         <div className="p-6 rounded-xl bg-gradient-to-br from-amber-500/30 via-secondary/40 to-primary/30 backdrop-blur-sm border border-amber-500/40 transition-all duration-300 hover:shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -111,7 +111,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent [text-shadow:_0_0_4px_rgba(0,0,0,0.8),_0_0_8px_rgba(0,0,0,0.6)] [filter:_drop-shadow(0_0_2px_rgba(0,0,0,0.9))]">7</span>
+                  <span className="text-3xl font-black bg-gradient-to-br from-amber-400 to-amber-600 bg-clip-text text-transparent [text-shadow:_2px_2px_4px_rgba(251,191,36,0.3)] transform hover:scale-110 transition-transform duration-200">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -120,9 +120,9 @@ export default function Home() {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/40 to-secondary/40 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-300 to-amber-500 flex items-center justify-center"
                 >
-                  <Star className="w-4 h-4 text-white" />
+                  <Star className="w-4 h-4 text-amber-100" />
                 </div>
               ))}
             </div>
