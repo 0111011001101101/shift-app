@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BottomNav } from "./components/layout/BottomNav";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
+import StandUp from "./pages/StandUp";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/goals" element={<Goals />} />
+          <Route path="/stand-up" element={<StandUp />} />
           <Route path="/hurdles" element={<div className="page-container">Hurdles Page (Coming Soon)</div>} />
           <Route path="/coach" element={<div className="page-container">Coach Page (Coming Soon)</div>} />
           <Route path="/learn" element={<div className="page-container">Learn Page (Coming Soon)</div>} />

@@ -2,8 +2,11 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Sun, Target, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
+  
   return (
     <PageContainer>
       <div className="space-y-6">
@@ -19,7 +22,10 @@ export default function Home() {
           <p className="text-sm text-gray-500 dark:text-gray-400">Let's start your day with intention</p>
         </header>
         
-        <Card className="relative overflow-hidden bg-gradient-to-br from-white/95 via-gray-50/90 to-gray-100/95 dark:from-gray-800/95 dark:via-gray-900/90 dark:to-gray-950/95 backdrop-blur-lg border border-gray-100/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 animate-slideUp group">
+        <Card 
+          className="relative overflow-hidden bg-gradient-to-br from-white/95 via-gray-50/90 to-gray-100/95 dark:from-gray-800/95 dark:via-gray-900/90 dark:to-gray-950/95 backdrop-blur-lg border border-gray-100/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 animate-slideUp group"
+          onClick={() => navigate("/stand-up")}
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative p-6">
             <div className="flex items-center justify-between mb-4">
