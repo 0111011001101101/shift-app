@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
-import { cn } from "@/lib/utils";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -34,7 +33,6 @@ export default function Home() {
   const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
     if (newTodo.trim()) {
-      // Add todo logic here
       setNewTodo("");
       toast({
         title: "Todo added",
@@ -43,14 +41,19 @@ export default function Home() {
     }
   };
 
-  // Swipe to delete animation setup
+  // Swipe to delete animation setup with proper typing
   const [{ x }, api] = useSpring(() => ({ x: 0 }));
-  const bind = useDrag(({ down, movement: [mx], direction: [xDir], velocity }) => {
-    const trigger = velocity > 0.2;
+  
+  const bind = useDrag(({ down, movement: [mx], direction: [xDir], velocity: [vx] }) => {
+    const trigger = vx > 0.2; // Now properly comparing number with number
     const isGone = !down && trigger;
-    api.start({ x: isGone ? window.innerWidth : down ? mx : 0, immediate: down });
+    
+    api.start({ 
+      x: isGone ? window.innerWidth : down ? mx : 0, 
+      immediate: down 
+    });
+    
     if (isGone) {
-      // Delete todo logic here
       toast({
         title: "Todo removed",
         description: "The todo has been deleted.",
@@ -112,7 +115,6 @@ export default function Home() {
                     size="sm"
                     variant="ghost"
                     className="h-6 w-6 p-0 hover:bg-success/10 hover:text-success"
-                    onClick={() => {/* Toggle todo completion */}}
                   >
                     <Check className="w-4 h-4" />
                   </Button>
