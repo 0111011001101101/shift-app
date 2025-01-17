@@ -102,8 +102,8 @@ export default function Home() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="absolute inset-0 bg-amber-500/40 blur-xl rounded-full" />
-                <div className="relative p-2 bg-gradient-to-br from-amber-500/50 to-secondary/50 rounded-xl backdrop-blur-sm">
+                <div className="absolute inset-0 bg-secondary/40 blur-xl rounded-full" />
+                <div className="relative p-2 bg-gradient-to-br from-secondary/50 to-primary/50 rounded-xl backdrop-blur-sm">
                   <Trophy className="w-5 h-5 text-[#9b87f5]" />
                 </div>
               </div>
@@ -119,7 +119,7 @@ export default function Home() {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/40 to-secondary/40 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-secondary/50 to-primary/50 flex items-center justify-center"
                 >
                   <Star className="w-4 h-4 text-[#8B5CF6]" />
                 </div>
