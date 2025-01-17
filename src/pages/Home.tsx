@@ -98,6 +98,10 @@ export default function Home() {
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Let's make today count
               </p>
+              <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                Next standup: Tomorrow, 9:30 AM
+              </p>
             </div>
           </div>
         </div>
