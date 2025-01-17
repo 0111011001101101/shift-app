@@ -126,8 +126,9 @@ export default function Home() {
               ))}
             </div>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-            Next stand-up: Tomorrow, 9:30 AM
+          <p className="text-xs text-gray-600 dark:text-gray-400 mt-4 flex items-center gap-1 justify-center">
+            <Clock className="w-3 h-3" />
+            Next stand-up: Tomorrow, 9:30
           </p>
         </div>
 
