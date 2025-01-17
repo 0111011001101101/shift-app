@@ -234,7 +234,7 @@ export default function Home() {
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Launch MVP Product</h3>
-                  <p className="text-sm text-gray-500 mt-0.5">Target: Q2 2024</p>
+                  <p className="text-sm text-gray-500 mt-0.5">Target: Q2 2025</p>
                 </div>
                 <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">In Progress</span>
               </div>
