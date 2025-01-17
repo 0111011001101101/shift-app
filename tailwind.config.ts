@@ -33,8 +33,8 @@ export default {
           foreground: "#FFFFFF",
         },
         accent: {
-          DEFAULT: "#FFB17A",
-          foreground: "#1A1A1A",
+          DEFAULT: "#3B82F6", // Changed from pink to blue
+          foreground: "#FFFFFF",
         },
         muted: {
           DEFAULT: "#F0F4F8",
@@ -45,11 +45,11 @@ export default {
           foreground: "#FFFFFF",
         },
         warning: {
-          DEFAULT: "#FFB17A",
+          DEFAULT: "#F59E0B",
           foreground: "#1A1A1A",
         },
         destructive: {
-          DEFAULT: "#FF8585",
+          DEFAULT: "#EF4444",
           foreground: "#FFFFFF",
         },
       },

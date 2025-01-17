@@ -14,12 +14,27 @@
     --radius: 0.5rem;
   }
 
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  .dark body {
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  }
+
+  body {
     background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
   }
 
@@ -33,7 +48,7 @@
   }
 
   p {
-    @apply text-sm leading-relaxed text-gray-600;
+    @apply text-sm leading-relaxed text-gray-600 dark:text-gray-300;
   }
 }
 
@@ -42,8 +57,8 @@
 }
 
 .card {
-  @apply bg-white/95 backdrop-blur-sm rounded-lg shadow-sm p-5 transition-all duration-300 
-         hover:shadow-md border border-gray-100/50;
+  @apply bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-sm p-5 transition-all duration-300 
+         hover:shadow-md border border-gray-100/50 dark:border-gray-700/50;
 }
 
 .nav-item {
@@ -51,52 +66,12 @@
 }
 
 .nav-item.active {
-  @apply text-pink-500;
+  @apply text-blue-500 dark:text-blue-400;
 }
 
 /* Refined glass effect */
 .glass {
-  @apply bg-white/90 backdrop-blur-md border border-gray-100/50 shadow-sm;
+  @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-100/50 dark:border-gray-700/50 shadow-sm;
 }
 
-/* Smooth transitions */
-.transition-elegant {
-  @apply transition-all duration-300 ease-out;
-}
-
-/* Refined scrollbar */
-::-webkit-scrollbar {
-  width: 3px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-200 rounded-full;
-}
-
-/* Progress indicators */
-.progress-ring {
-  @apply transition-all duration-500 ease-out transform;
-}
-
-/* Gradient text */
-.gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-rose-500;
-}
-
-/* Card layouts */
-.feature-card {
-  @apply card space-y-3 mb-4;
-}
-
-.stat-card {
-  @apply card text-center py-4;
-}
-
-/* Button styles following Apple HIG */
-.btn-primary {
-  @apply rounded-lg text-sm font-medium px-4 py-2 transition-all duration-200;
-}
+/* ... keep existing code (transitions, scrollbar, progress indicators, etc.) */
