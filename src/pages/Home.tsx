@@ -98,20 +98,20 @@ export default function Home() {
         </div>
 
         {/* Current Streak Section with Gradient */}
-        <div className="p-6 rounded-xl bg-gradient-to-br from-amber-500/10 via-secondary/10 to-primary/10 backdrop-blur-sm border border-amber-500/20 transition-all duration-300 hover:shadow-lg">
+        <div className="p-6 rounded-xl bg-gradient-to-br from-amber-500/30 via-secondary/40 to-primary/30 backdrop-blur-sm border border-amber-500/40 transition-all duration-300 hover:shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
-                <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
+                <div className="absolute inset-0 bg-amber-500/40 blur-xl rounded-full" />
+                <div className="relative p-2 bg-gradient-to-br from-amber-500/50 to-secondary/50 rounded-xl backdrop-blur-sm">
                   <Trophy className="w-5 h-5 text-amber-500" />
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
                   <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
-                  <span className="text-xs text-gray-500">days</span>
+                  <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
             </div>
@@ -119,14 +119,14 @@ export default function Home() {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/40 to-secondary/40 flex items-center justify-center"
                 >
                   <Star className="w-4 h-4 text-amber-500" />
                 </div>
               ))}
             </div>
           </div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mt-4 flex items-center gap-1 justify-center">
+          <p className="text-xs text-gray-700 dark:text-gray-300 mt-4 flex items-center gap-1 justify-center">
             <Clock className="w-3 h-3" />
             Next stand-up: Tomorrow, 9:30
           </p>
