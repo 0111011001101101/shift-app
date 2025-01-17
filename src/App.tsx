@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
 import Hurdles from "./pages/Hurdles";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -37,12 +38,7 @@ const App = () => (
                   <p className="text-muted-foreground">Coming Soon</p>
                 </div>
               } />
-              <Route path="/settings" element={
-                <div className="page-container glass p-6 m-4 rounded-xl">
-                  <h1 className="text-2xl font-semibold mb-4">Settings</h1>
-                  <p className="text-muted-foreground">Coming Soon</p>
-                </div>
-              } />
+              <Route path="/settings" element={<Settings />} />
             </Routes>
             <FloatingChat />
             <BottomNav />
