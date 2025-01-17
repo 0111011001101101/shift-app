@@ -110,7 +110,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent [text-shadow:_2px_2px_12px_rgba(245,158,11,0.6)] transform hover:scale-110 transition-transform duration-200 animate-pulse">7</span>
+                  <span className="text-5xl font-black relative after:content-['7'] after:absolute after:inset-0 after:text-[#222222] after:z-[-1] after:translate-x-[0.5px] after:translate-y-[0.5px] transform hover:scale-110 transition-transform duration-200">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -184,19 +184,18 @@ export default function Home() {
             </div>
 
             <div className="relative mt-6">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 rounded-lg blur" />
               <div className="relative flex items-center gap-2">
                 <Input
                   value={newTodoText}
                   onChange={(e) => setNewTodoText(e.target.value)}
                   placeholder="Add a new todo..."
-                  className="flex-1 pr-12 border-primary/20 focus:border-primary/40 transition-all duration-200 focus:ring-2 focus:ring-primary/20"
+                  className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full"
                   onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
                 />
                 <Button 
                   onClick={handleAddTodo} 
                   size="icon"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white shadow-lg transition-all duration-200 hover:scale-105"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
                 >
                   <Plus className="h-4 w-4" />
                 </Button>
