@@ -92,8 +92,8 @@ export default function Home() {
               <Sun className="w-6 h-6 text-secondary animate-pulse" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-                Good Morning, User
+              <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fadeIn">
+                Good Morning, Couch Potato
               </h1>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Let's make today count
