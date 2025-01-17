@@ -110,7 +110,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-5xl font-black relative after:content-['7'] after:absolute after:inset-0 after:text-[#222222] after:z-[-1] after:translate-x-[0.5px] after:translate-y-[0.5px] transform hover:scale-110 transition-transform duration-200">7</span>
+                  <span className="text-5xl font-black bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 bg-clip-text text-transparent relative after:content-['7'] after:absolute after:inset-0 after:text-black/90 after:z-[-1] after:translate-x-[0.5px] after:translate-y-[0.5px] transform hover:scale-110 transition-transform duration-200">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -242,7 +242,9 @@ export default function Home() {
                 </div>
                 <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">In Progress</span>
               </div>
-              <Progress value={65} className="h-1.5 mb-2" />
+              <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500/30 via-secondary/40 to-primary/30 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 transition-all duration-300" style={{ width: '65%' }} />
+              </div>
             </div>
 
             <div className="p-4 rounded-xl border border-secondary/10 bg-secondary/5 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/10">
@@ -253,7 +255,9 @@ export default function Home() {
                 </div>
                 <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full">Planning</span>
               </div>
-              <Progress value={25} className="h-1.5 mb-2" />
+              <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500/30 via-secondary/40 to-primary/30 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 transition-all duration-300" style={{ width: '25%' }} />
+              </div>
             </div>
           </div>
         </section>
