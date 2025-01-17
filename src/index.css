@@ -6,12 +6,12 @@
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 0 0% 100%;
-    --border: 215 25% 27%;
-    --input: 217 19% 27%;
-    --ring: 215 20.2% 65.1%;
-    --radius: 1.5rem;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.75rem;
   }
 
   * {
@@ -20,19 +20,19 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: linear-gradient(135deg, #0A2463 0%, #1E3D59 100%);
+    background: linear-gradient(180deg, #f7f7f7 0%, #ffffff 100%);
   }
 
   h1 {
-    @apply text-xl font-semibold tracking-tight;
+    @apply text-lg font-medium tracking-tight;
   }
 
   h2 {
-    @apply text-base font-medium;
+    @apply text-sm font-medium;
   }
 
   p {
-    @apply text-sm leading-relaxed text-white/80;
+    @apply text-xs leading-relaxed text-gray-600;
   }
 }
 
@@ -41,21 +41,21 @@
 }
 
 .card {
-  @apply bg-white/10 backdrop-blur-md rounded-2xl shadow-xl p-5 transition-all duration-300 
-         hover:shadow-2xl hover:bg-white/15 border border-white/10;
+  @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-4 transition-all duration-300 
+         hover:shadow-md border border-gray-100;
 }
 
 .nav-item {
-  @apply flex flex-col items-center justify-center gap-1 text-[0.7rem] font-medium;
+  @apply flex flex-col items-center justify-center gap-0.5 text-[0.65rem] font-medium;
 }
 
 .nav-item.active {
-  @apply text-secondary;
+  @apply text-pink-500;
 }
 
 /* Glass effect for containers */
 .glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/10 shadow-xl;
+  @apply bg-white/90 backdrop-blur-md border border-gray-100 shadow-sm;
 }
 
 /* Elegant transitions */
@@ -65,7 +65,7 @@
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
@@ -73,7 +73,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/20 rounded-full;
+  @apply bg-gray-200 rounded-full;
 }
 
 /* Progress circles */
@@ -83,19 +83,19 @@
 
 /* Gradient text */
 .gradient-text {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-secondary to-accent;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-rose-500;
 }
 
 /* Card layouts */
 .feature-card {
-  @apply card space-y-3 mb-4;
+  @apply card space-y-2 mb-3;
 }
 
 .stat-card {
-  @apply card text-center py-4;
+  @apply card text-center py-3;
 }
 
 /* Button styles */
 .btn-primary {
-  @apply rounded-xl text-sm font-medium px-4 py-2.5;
+  @apply rounded-lg text-xs font-medium px-3 py-2;
 }
