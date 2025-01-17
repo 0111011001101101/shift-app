@@ -31,7 +31,7 @@
   }
 
   .dark body {
-    background: linear-gradient(180deg, #0A2463 0%, #1E293B 100%);
+    background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
   }
 
   body {
@@ -47,7 +47,7 @@
   }
 
   p {
-    @apply text-sm leading-relaxed text-muted-foreground;
+    @apply text-sm leading-relaxed text-gray-600 dark:text-gray-300;
   }
 }
 
@@ -56,23 +56,18 @@
 }
 
 .card {
-  @apply bg-background/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-sm p-5 transition-all duration-300 
-         hover:shadow-md border border-muted/50;
+  @apply bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-sm p-5 transition-all duration-300 
+         hover:shadow-md border border-gray-100/50 dark:border-gray-700/50;
 }
 
 .glass {
-  @apply bg-background/90 dark:bg-gray-800/90 backdrop-blur-md border border-muted/50 shadow-sm;
+  @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-100/50 dark:border-gray-700/50 shadow-sm;
 }
 
 @layer components {
-  .nav-item {
-    @apply flex flex-col items-center gap-0.5 p-1.5 rounded-lg transition-all duration-300
-           hover:bg-muted/50 active:scale-95;
-  }
+  /* Add your custom components here */
 }
 
 @layer utilities {
-  .text-gradient {
-    @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
-  }
+  /* Add your custom utilities here */
 }
