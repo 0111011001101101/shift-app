@@ -2,7 +2,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Trash, Plus, Clock } from "lucide-react";
+import { Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Trash, Plus, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
@@ -88,9 +88,6 @@ export default function Home() {
         <div className="relative py-6">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 backdrop-blur-sm">
-              <Sun className="w-6 h-6 text-secondary animate-pulse" />
-            </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fadeIn">
                 Good Morning, Couch Potato
@@ -102,7 +99,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Streak Section */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="relative">
