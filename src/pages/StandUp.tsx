@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { CheckCircle, AlertCircle, Target, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,9 +17,22 @@ export default function StandUp() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Auto-save functionality
+  useEffect(() => {
+    const saveTimeout = setTimeout(() => {
+      if (wins || focus || hurdles || mentalHealth[0] !== 7) {
+        toast({
+          title: "Progress saved!",
+          description: "Your stand-up has been auto-saved as a draft.",
+        });
+      }
+    }, 2000);
+
+    return () => clearTimeout(saveTimeout);
+  }, [wins, focus, hurdles, mentalHealth, toast]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Here we would save the stand-up data
     toast({
       title: "Stand-up completed!",
       description: "Your morning check-in has been saved.",
@@ -37,13 +50,6 @@ export default function StandUp() {
 
   const handleMentalHealthChange = (value: number[]) => {
     setMentalHealth(value);
-  };
-
-  const handleSave = () => {
-    toast({
-      title: "Progress saved!",
-      description: "Your stand-up has been saved as a draft.",
-    });
   };
 
   return (
@@ -118,27 +124,19 @@ export default function StandUp() {
             />
           </Card>
 
-          <div className="flex justify-between items-center gap-4">
+          <div className="flex flex-col gap-4">
             <Button
               type="button"
               variant="outline"
-              onClick={handleSave}
+              onClick={() => navigate("/goals")}
+              className="w-full"
             >
-              Save Draft
+              View Goals
             </Button>
-            <div className="flex gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => navigate("/goals")}
-              >
-                View Goals
-              </Button>
-              <Button type="submit" className="gap-2">
-                Complete Stand-Up
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </div>
+            <Button type="submit" className="w-full">
+              Submit
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
           </div>
         </form>
       </div>
