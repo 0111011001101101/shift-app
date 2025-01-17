@@ -14,16 +14,20 @@ export function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-2 px-4">
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 py-2 px-4 backdrop-blur-lg bg-white/80 animate-slideUp">
       <div className="max-w-lg mx-auto flex justify-between items-center">
         {navItems.map(({ icon: Icon, label, path }) => (
           <Link
             key={path}
             to={path}
-            className={`nav-item ${location.pathname === path ? "active" : "text-gray-500"}`}
+            className={`nav-item transition-all duration-200 ${
+              location.pathname === path
+                ? "text-primary scale-110"
+                : "text-muted-foreground hover:text-primary/80"
+            }`}
           >
-            <Icon className="w-6 h-6" />
-            <span>{label}</span>
+            <Icon className="w-5 h-5 mb-1" />
+            <span className="text-xs font-medium">{label}</span>
           </Link>
         ))}
       </div>
