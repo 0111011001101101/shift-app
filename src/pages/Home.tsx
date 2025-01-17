@@ -1,9 +1,7 @@
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowRight, Sun, Target, Sparkles, Trophy, Star, ChevronRight, Edit2 } from "lucide-react";
+import { Sun, Target, ChevronRight, Trophy, Star, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -11,88 +9,60 @@ export default function Home() {
   
   return (
     <PageContainer>
-      <div className="space-y-4">
-        {/* Header Section - Enhanced Design */}
-        <Card className="overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-transparent backdrop-blur-sm border-0 shadow-none">
-          <div className="relative p-6">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
-            <div className="flex items-center gap-3 mb-2">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 backdrop-blur-sm">
-                <Sun className="w-6 h-6 text-secondary animate-pulse" />
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-                  Good Morning, User
-                </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Let's make today count
-                </p>
-              </div>
+      <div className="space-y-6">
+        {/* Header Section - Clean Design */}
+        <div className="relative py-6">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 backdrop-blur-sm">
+              <Sun className="w-6 h-6 text-secondary animate-pulse" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+                Good Morning, User
+              </h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                Let's make today count
+              </p>
             </div>
           </div>
-        </Card>
+        </div>
 
-        {/* Streak Section - Modernized Design */}
-        <Card className="p-4 bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-800/95 dark:to-gray-900/95 border border-gray-100/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
-                <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
-                  <Trophy className="w-5 h-5 text-amber-500" />
-                </div>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
-                  <span className="text-xs text-gray-500">days</span>
-                </div>
+        {/* Streak Section - Modern Design */}
+        <div className="flex items-center justify-between p-4 bg-gradient-to-br from-white/50 to-transparent dark:from-gray-800/50 rounded-2xl backdrop-blur-sm">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
+              <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
+                <Trophy className="w-5 h-5 text-amber-500" />
               </div>
             </div>
-            <div className="flex -space-x-2">
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
-                >
-                  <Star className="w-4 h-4 text-amber-500" />
-                </div>
-              ))}
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
+                <span className="text-xs text-gray-500">days</span>
+              </div>
             </div>
           </div>
-        </Card>
-        
-        {/* Stand-up Card */}
-        <Card 
-          className="relative overflow-hidden bg-gradient-to-br from-white/95 via-gray-50/90 to-gray-100/95 dark:from-gray-800/95 dark:via-gray-900/90 dark:to-gray-950/95 backdrop-blur-lg border border-gray-100/50 dark:border-gray-700/50 hover:shadow-xl transition-all duration-300 animate-slideUp group cursor-pointer"
-          onClick={() => navigate("/stand-up")}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="relative p-6">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-900/50 dark:to-blue-800/30 rounded-xl shadow-inner">
-                  <Sparkles className="w-5 h-5 text-blue-500 dark:text-blue-400" />
-                </div>
-                <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">Morning Stand-Up</h2>
+          <div className="flex -space-x-2">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
+              >
+                <Star className="w-4 h-4 text-amber-500" />
               </div>
-              <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-1 rounded-full">5 min</span>
-            </div>
-            <Button variant="secondary" className="w-full text-sm py-2 h-10 bg-gradient-to-r from-blue-500 via-blue-600 to-secondary hover:from-blue-600 hover:via-blue-700 hover:to-secondary/90 text-white shadow-lg hover:shadow-xl transition-all duration-300 group-hover:scale-[1.02]">
-              Begin Check-in <ArrowRight className="w-4 h-4 ml-1.5" />
-            </Button>
+            ))}
           </div>
-        </Card>
+        </div>
 
-        {/* Goals Section */}
-        <section className="space-y-3">
+        {/* Long Term Goals Section */}
+        <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-gradient-to-br from-secondary/20 to-transparent">
-                <Target className="w-4 h-4 text-secondary" />
-              </div>
-              <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Goals & Tasks</h2>
+              <Target className="w-4 h-4 text-primary" />
+              <h2 className="text-base font-semibold">Long Term Goals</h2>
             </div>
             <Button 
               variant="ghost" 
@@ -100,67 +70,52 @@ export default function Home() {
               className="text-xs"
               onClick={() => navigate("/goals")}
             >
-              <Edit2 className="w-3 h-3 mr-1" />
-              Edit Goals
+              View All
+              <ChevronRight className="w-3 h-3 ml-1" />
             </Button>
           </div>
           
-          <Card className="divide-y divide-gray-100 dark:divide-gray-800">
-            {/* Daily Tasks */}
-            <div className="p-4 space-y-3">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 rounded-full bg-green-500" />
-                <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Daily Tasks</span>
+          <div className="space-y-4">
+            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">Launch MVP Product</h3>
+                  <p className="text-sm text-gray-500 mt-0.5">Target: Q2 2024</p>
+                </div>
+                <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">In Progress</span>
               </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <Checkbox id="task1" className="data-[state=checked]:bg-green-500" />
-                  <label htmlFor="task1" className="text-sm text-gray-700 dark:text-gray-300">Complete project presentation</label>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Checkbox id="task2" className="data-[state=checked]:bg-green-500" />
-                  <label htmlFor="task2" className="text-sm text-gray-700 dark:text-gray-300">30 min meditation</label>
-                </div>
+              <Progress value={65} className="h-1.5 mb-2" />
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <span>3 milestones completed</span>
+                <span>•</span>
+                <span>2 remaining</span>
               </div>
             </div>
 
-            {/* Weekly Goals */}
-            <div className="p-4 space-y-3">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-blue-500" />
-                  <span className="text-xs font-medium text-gray-600 dark:text-gray-300">Weekly Goal Progress</span>
+            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">Scale User Base</h3>
+                  <p className="text-sm text-gray-500 mt-0.5">Target: Q4 2024</p>
                 </div>
-                <span className="text-xs text-gray-500">4 days left</span>
+                <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full">Planning</span>
               </div>
-              <div className="space-y-4">
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-700 dark:text-gray-300">Exercise Routine</span>
-                    <span className="text-gray-500">60%</span>
-                  </div>
-                  <Progress value={60} className="h-1.5" />
-                </div>
-                <div>
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-700 dark:text-gray-300">Reading Goal</span>
-                    <span className="text-gray-500">40%</span>
-                  </div>
-                  <Progress value={40} className="h-1.5" />
-                </div>
+              <Progress value={25} className="h-1.5 mb-2" />
+              <div className="flex items-center gap-2 text-xs text-gray-500">
+                <span>1 milestone completed</span>
+                <span>•</span>
+                <span>4 remaining</span>
               </div>
             </div>
-          </Card>
+          </div>
         </section>
 
-        {/* Hurdles Section */}
-        <section className="space-y-3">
+        {/* Current Hurdles Section */}
+        <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 rounded-lg bg-gradient-to-br from-destructive/20 to-transparent">
-                <Target className="w-4 h-4 text-destructive" />
-              </div>
-              <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Current Hurdles</h2>
+              <Target className="w-4 h-4 text-destructive" />
+              <h2 className="text-base font-semibold">Current Hurdles</h2>
             </div>
             <Button 
               variant="ghost" 
@@ -172,25 +127,36 @@ export default function Home() {
               <ChevronRight className="w-3 h-3 ml-1" />
             </Button>
           </div>
-          
-          <Card className="p-4 space-y-3">
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-700 dark:text-gray-300">Time Management</span>
-                  <span className="text-gray-500">2/3 solutions tried</span>
+
+          <div className="space-y-4">
+            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Time Management</h3>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Pomodoro Technique</span>
+                  <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Effective</span>
                 </div>
-                <Progress value={66} className="h-1.5" />
-              </div>
-              <div>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-700 dark:text-gray-300">Work-Life Balance</span>
-                  <span className="text-gray-500">1/4 solutions tried</span>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Weekly Planning</span>
+                  <span className="text-xs px-2 py-0.5 bg-warning/10 text-warning rounded-full">In Progress</span>
                 </div>
-                <Progress value={25} className="h-1.5" />
               </div>
             </div>
-          </Card>
+
+            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+              <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Work-Life Balance</h3>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Set Work Hours</span>
+                  <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Effective</span>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-600">Regular Exercise</span>
+                  <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">New Solution</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </PageContainer>
