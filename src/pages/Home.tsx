@@ -127,7 +127,7 @@ export default function Home() {
             </div>
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-            Keep up the great work! Your consistency is paying off.
+            Next stand-up: Tomorrow, 9:30 AM
           </p>
         </div>
 
