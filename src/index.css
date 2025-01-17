@@ -11,7 +11,7 @@
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 
   .dark {
@@ -27,7 +27,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased min-h-screen;
   }
 
   .dark body {
@@ -35,10 +35,9 @@
   }
 
   body {
-    background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
   }
 
-  /* Typography scale following Apple HIG */
   h1 {
     @apply text-2xl font-semibold tracking-tight leading-none;
   }
@@ -61,17 +60,14 @@
          hover:shadow-md border border-gray-100/50 dark:border-gray-700/50;
 }
 
-.nav-item {
-  @apply flex flex-col items-center justify-center gap-1 text-xs font-medium;
-}
-
-.nav-item.active {
-  @apply text-blue-500 dark:text-blue-400;
-}
-
-/* Refined glass effect */
 .glass {
   @apply bg-white/90 dark:bg-gray-800/90 backdrop-blur-md border border-gray-100/50 dark:border-gray-700/50 shadow-sm;
 }
 
-/* ... keep existing code (transitions, scrollbar, progress indicators, etc.) */
+@layer components {
+  /* Add your custom components here */
+}
+
+@layer utilities {
+  /* Add your custom utilities here */
+}
