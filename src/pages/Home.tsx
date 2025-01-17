@@ -97,35 +97,38 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
-              <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
-                <Trophy className="w-5 h-5 text-amber-500" />
+        {/* Current Streak Section with Gradient */}
+        <div className="p-6 rounded-xl bg-gradient-to-br from-amber-500/10 via-secondary/10 to-primary/10 backdrop-blur-sm border border-amber-500/20 transition-all duration-300 hover:shadow-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
+                <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
+                  <Trophy className="w-5 h-5 text-amber-500" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
+                  <span className="text-xs text-gray-500">days</span>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
-              <div className="flex items-baseline gap-1">
-                <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
-                <span className="text-xs text-gray-500">days</span>
-              </div>
+            <div className="flex -space-x-2">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
+                >
+                  <Star className="w-4 h-4 text-amber-500" />
+                </div>
+              ))}
             </div>
-          </div>
-          <div className="flex -space-x-2">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
-              >
-                <Star className="w-4 h-4 text-amber-500" />
-              </div>
-            ))}
           </div>
         </div>
 
-        {/* Gradient Block */}
+        {/* Next Stand-up Info */}
         <div className="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 via-secondary/10 to-primary/10 backdrop-blur-sm border border-amber-500/20">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Clock className="w-4 h-4" />
