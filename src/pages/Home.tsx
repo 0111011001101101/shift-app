@@ -1,7 +1,7 @@
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, Sun, Target, Sparkles } from "lucide-react";
+import { ArrowRight, Sun, Target, Sparkles, Trophy, Star } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -65,13 +65,23 @@ export default function Home() {
 
         <section className="space-y-4 animate-fadeIn">
           <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <Trophy className="w-4 h-4 text-amber-500" />
             Current Streak
           </h2>
           <Card className="text-center py-8 px-4 bg-gradient-to-br from-white via-gray-50/95 to-gray-100/90 dark:from-gray-800 dark:via-gray-900/95 dark:to-gray-950/90 hover:shadow-lg transition-all duration-300 group overflow-hidden relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-secondary/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <div className="relative">
-              <div className="text-4xl font-bold bg-gradient-to-r from-secondary to-blue-500 bg-clip-text text-transparent animate-pulse mb-2">7</div>
-              <p className="text-xs text-gray-500 dark:text-gray-400">days of consistent check-ins</p>
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <Star className="w-6 h-6 text-amber-500 animate-pulse" />
+                <span className="text-4xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
+                <Star className="w-6 h-6 text-amber-500 animate-pulse" />
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400">
+                day streak of consistent check-ins
+              </p>
+              <div className="mt-3 text-xs text-secondary">
+                Keep it up! You're building a great habit.
+              </div>
             </div>
           </Card>
         </section>
