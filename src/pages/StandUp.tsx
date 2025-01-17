@@ -101,7 +101,7 @@ export default function StandUp() {
           <Card className="p-6 space-y-4">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-secondary" />
-              <h2 className="font-medium">Potential Obstacles and How to Overcome Them</h2>
+              <h2 className="font-medium">Hurdles</h2>
             </div>
             <Textarea
               value={hurdles}
