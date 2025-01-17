@@ -1,14 +1,15 @@
-import { PageContainer } from "@/components/layout/PageContainer";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Plus, X } from "lucide-react";
+import { Toaster } from "@/components/ui/toaster";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Plus, X } from "lucide-react";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ export default function Home() {
   const [{ x }, api] = useSpring(() => ({ x: 0 }));
   
   const bind = useDrag(({ down, movement: [mx], direction: [xDir], velocity: [vx] }) => {
-    const trigger = vx > 0.2; // Now properly comparing number with number
+    const trigger = vx > 0.2;
     const isGone = !down && trigger;
     
     api.start({ 
@@ -78,6 +79,18 @@ export default function Home() {
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                 Let's make today count
               </p>
+            </div>
+          </div>
+          
+          {/* Streak Section */}
+          <div className="mt-4 flex items-center gap-4">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10">
+              <Trophy className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium">5 day streak!</span>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/10">
+              <Star className="w-4 h-4 text-secondary" />
+              <span className="text-sm font-medium">Level 3</span>
             </div>
           </div>
         </div>
