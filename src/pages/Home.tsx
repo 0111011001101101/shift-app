@@ -2,7 +2,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, ArrowRight } from "lucide-react";
+import { Sun, Target, ChevronRight, Trophy, Star, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {
@@ -10,7 +10,7 @@ export default function Home() {
   
   return (
     <PageContainer>
-      <div className="space-y-6">
+      <div className="space-y-8">
         {/* Header Section */}
         <div className="relative py-6">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
@@ -98,8 +98,8 @@ export default function Home() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Target className="w-4 h-4 text-primary" />
-              <h2 className="text-base font-semibold">Long Term Goals</h2>
+              <Target className="w-5 h-5 text-primary" />
+              <h2 className="text-lg font-semibold">Long Term Goals</h2>
             </div>
             <Button 
               variant="ghost" 
@@ -113,7 +113,7 @@ export default function Home() {
           </div>
           
           <div className="space-y-4">
-            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+            <div className="p-4 rounded-xl border border-primary/10 bg-primary/5 backdrop-blur-sm transition-all duration-300 hover:bg-primary/10">
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Launch MVP Product</h3>
@@ -124,7 +124,7 @@ export default function Home() {
               <Progress value={65} className="h-1.5 mb-2" />
             </div>
 
-            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+            <div className="p-4 rounded-xl border border-secondary/10 bg-secondary/5 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/10">
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Scale User Base</h3>
@@ -141,8 +141,8 @@ export default function Home() {
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Target className="w-4 h-4 text-destructive" />
-              <h2 className="text-base font-semibold">Current Hurdles</h2>
+              <AlertCircle className="w-5 h-5 text-destructive" />
+              <h2 className="text-lg font-semibold">Current Hurdles</h2>
             </div>
             <Button 
               variant="ghost" 
@@ -156,7 +156,7 @@ export default function Home() {
           </div>
 
           <div className="space-y-4">
-            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+            <div className="p-4 rounded-xl border border-destructive/10 bg-destructive/5 backdrop-blur-sm transition-all duration-300 hover:bg-destructive/10">
               <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Time Management</h3>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
@@ -170,7 +170,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="p-4 bg-white/50 dark:bg-gray-800/50 rounded-xl backdrop-blur-sm">
+            <div className="p-4 rounded-xl border border-destructive/10 bg-destructive/5 backdrop-blur-sm transition-all duration-300 hover:bg-destructive/10">
               <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Work-Life Balance</h3>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
