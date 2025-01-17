@@ -110,7 +110,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent text-stroke-2 text-stroke-white">7</span>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent text-stroke-2 text-stroke-white [text-shadow:_0_0_2px_rgba(255,255,255,0.5)]">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -130,14 +130,6 @@ export default function Home() {
             <Clock className="w-3 h-3" />
             Next stand-up: Tomorrow, 9:30
           </p>
-        </div>
-
-        {/* Next Stand-up Info */}
-        <div className="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 via-secondary/10 to-primary/10 backdrop-blur-sm border border-amber-500/20">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Clock className="w-4 h-4" />
-            <span>Next stand-up: Tomorrow, 9:30 AM</span>
-          </div>
         </div>
 
         {/* To-Do Tabs Section */}
