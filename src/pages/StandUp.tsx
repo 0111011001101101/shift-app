@@ -48,7 +48,7 @@ export default function StandUp() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 animate-fadeIn">
+      <div className="space-y-6 animate-fadeIn pb-24">
         <header className="space-y-2">
           <h1 className="text-2xl font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             Morning Stand-Up
