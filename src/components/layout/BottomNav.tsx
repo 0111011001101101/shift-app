@@ -1,10 +1,10 @@
-import { Home, Target, Barrier, MessageCircle, BookOpen, Settings } from "lucide-react";
+import { Home, Target, AlertTriangle, MessageCircle, BookOpen, Settings } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const navItems = [
   { icon: Home, label: "Home", path: "/" },
   { icon: Target, label: "Goals", path: "/goals" },
-  { icon: Barrier, label: "Hurdles", path: "/hurdles" },
+  { icon: AlertTriangle, label: "Hurdles", path: "/hurdles" },
   { icon: MessageCircle, label: "Coach", path: "/coach" },
   { icon: BookOpen, label: "Learn", path: "/learn" },
   { icon: Settings, label: "Settings", path: "/settings" },
