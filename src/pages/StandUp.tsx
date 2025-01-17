@@ -39,6 +39,13 @@ export default function StandUp() {
     setMentalHealth(value);
   };
 
+  const handleSave = () => {
+    toast({
+      title: "Progress saved!",
+      description: "Your stand-up has been saved as a draft.",
+    });
+  };
+
   return (
     <PageContainer>
       <div className="space-y-6 animate-fadeIn">
@@ -101,7 +108,7 @@ export default function StandUp() {
           <Card className="p-6 space-y-4">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-secondary" />
-              <h2 className="font-medium">Hurdles</h2>
+              <h2 className="font-medium">Potential Hurdles and Solutions</h2>
             </div>
             <Textarea
               value={hurdles}
@@ -111,18 +118,27 @@ export default function StandUp() {
             />
           </Card>
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-4">
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate("/goals")}
+              onClick={handleSave}
             >
-              View Goals
+              Save Draft
             </Button>
-            <Button type="submit" className="gap-2">
-              Complete Stand-Up
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => navigate("/goals")}
+              >
+                View Goals
+              </Button>
+              <Button type="submit" className="gap-2">
+                Complete Stand-Up
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </form>
       </div>
