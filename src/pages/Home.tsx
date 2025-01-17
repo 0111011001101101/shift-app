@@ -1,22 +1,18 @@
-import { Toaster } from "@/components/ui/toaster";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useSpring, animated } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Plus, X } from "lucide-react";
-import { PageContainer } from "@/components/layout/PageContainer";
 
 export default function Home() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
-  const [newTodo, setNewTodo] = useState("");
   
   const handleEditTodo = (id: string, currentText: string) => {
     setEditingTodoId(id);
@@ -24,48 +20,18 @@ export default function Home() {
   };
 
   const handleSaveTodo = (id: string) => {
+    // Here you would typically update your todo state/backend
     setEditingTodoId(null);
     toast({
       title: "Todo updated",
       description: "Your changes have been saved.",
     });
   };
-
-  const handleAddTodo = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newTodo.trim()) {
-      setNewTodo("");
-      toast({
-        title: "Todo added",
-        description: "New todo has been added to your list.",
-      });
-    }
-  };
-
-  // Swipe to delete animation setup with proper typing
-  const [{ x }, api] = useSpring(() => ({ x: 0 }));
-  
-  const bind = useDrag(({ down, movement: [mx], direction: [xDir], velocity: [vx] }) => {
-    const trigger = vx > 0.2;
-    const isGone = !down && trigger;
-    
-    api.start({ 
-      x: isGone ? window.innerWidth : down ? mx : 0, 
-      immediate: down 
-    });
-    
-    if (isGone) {
-      toast({
-        title: "Todo removed",
-        description: "The todo has been deleted.",
-      });
-    }
-  });
   
   return (
     <PageContainer>
       <div className="space-y-8">
-        {/* Header Section with improved gradient */}
+        {/* Header Section */}
         <div className="relative py-6">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
           <div className="flex items-center gap-3 mb-2">
@@ -81,84 +47,135 @@ export default function Home() {
               </p>
             </div>
           </div>
-          
-          {/* Streak Section */}
-          <div className="mt-4 flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10">
-              <Trophy className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium">5 day streak!</span>
+        </div>
+
+        {/* Streak Section */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
+              <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
+                <Trophy className="w-5 h-5 text-amber-500" />
+              </div>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary/10">
-              <Star className="w-4 h-4 text-secondary" />
-              <span className="text-sm font-medium">Level 3</span>
+            <div className="flex flex-col">
+              <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
+              <div className="flex items-baseline gap-1">
+                <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
+                <span className="text-xs text-gray-500">days</span>
+              </div>
             </div>
+          </div>
+          <div className="flex -space-x-2">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
+              >
+                <Star className="w-4 h-4 text-amber-500" />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Quick Add Todo Form */}
-        <form onSubmit={handleAddTodo} className="flex gap-2">
-          <Input
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            placeholder="Add a new todo..."
-            className="flex-1"
-          />
-          <Button type="submit" size="icon">
-            <Plus className="w-4 h-4" />
-          </Button>
-        </form>
-
-        {/* Todos Section with improved visual hierarchy */}
-        <div className="rounded-xl border border-gray-100 dark:border-gray-800 overflow-hidden">
-          <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full border-b border-gray-100 dark:border-gray-800">
-              <TabsTrigger value="today" className="flex-1">Today's To-Do</TabsTrigger>
-              <TabsTrigger value="week" className="flex-1">Week's To-Do</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="today" className="p-4 space-y-2">
-              {/* Animated Todo Items */}
-              <animated.div
-                {...bind()}
-                style={{ x, touchAction: 'none' }}
-                className="flex items-center justify-between text-sm p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700 hover:border-primary/20 transition-colors group"
-              >
-                <div className="flex items-center gap-3">
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="h-6 w-6 p-0 hover:bg-success/10 hover:text-success"
-                  >
-                    <Check className="w-4 h-4" />
-                  </Button>
-                  <span>Take lunch breaks away from desk</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Daily</span>
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6 p-0"
-                    onClick={() => handleEditTodo("1", "Take lunch breaks away from desk")}
-                  >
-                    <Pencil className="w-3.5 h-3.5" />
-                  </Button>
-                </div>
-              </animated.div>
-            </TabsContent>
-            
-            <TabsContent value="week" className="p-4 space-y-2">
-              {/* Weekly todos with similar styling */}
-              <div className="flex items-center justify-between text-sm p-3 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-100 dark:border-gray-700">
+        {/* To-Do Tabs Section */}
+        <Tabs defaultValue="today" className="w-full">
+          <TabsList className="w-full mb-4">
+            <TabsTrigger value="today" className="flex-1">Today's To-Do</TabsTrigger>
+            <TabsTrigger value="week" className="flex-1">Week's To-Do</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="today" className="space-y-4">
+            <div className="space-y-2">
+              {/* Today's To-dos with Quick Edit */}
+              <div className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+                {editingTodoId === "1" ? (
+                  <div className="flex items-center gap-2 w-full">
+                    <Input
+                      value={editedTodoText}
+                      onChange={(e) => setEditedTodoText(e.target.value)}
+                      className="flex-1"
+                      autoFocus
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleSaveTodo("1")}
+                    >
+                      <Check className="w-4 h-4 text-success" />
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <span>Take lunch breaks away from desk</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Daily</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleEditTodo("1", "Take lunch breaks away from desk")}
+                      >
+                        <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+              <div className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+                {editingTodoId === "2" ? (
+                  <div className="flex items-center gap-2 w-full">
+                    <Input
+                      value={editedTodoText}
+                      onChange={(e) => setEditedTodoText(e.target.value)}
+                      className="flex-1"
+                      autoFocus
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleSaveTodo("2")}
+                    >
+                      <Check className="w-4 h-4 text-success" />
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <span>No work emails after 6 PM</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">Daily</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleEditTodo("2", "No work emails after 6 PM")}
+                      >
+                        <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                      </Button>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="week" className="space-y-4">
+            <div className="space-y-2">
+              {/* Weekly Goals */}
+              <div className="flex items-center justify-between text-sm">
                 <span>Exercise 3 times per week</span>
                 <span className="text-xs px-2 py-0.5 bg-warning/10 text-warning rounded-full">2/3</span>
               </div>
-            </TabsContent>
-          </Tabs>
-        </div>
+              <div className="flex items-center justify-between text-sm">
+                <span>Weekend digital detox</span>
+                <span className="text-xs px-2 py-0.5 bg-secondary/10 text-secondary rounded-full">Weekly</span>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
 
-        {/* Goals Preview Section */}
-        <div className="rounded-xl border border-gray-100 dark:border-gray-800 p-4 space-y-4">
+        {/* Long Term Goals Section */}
+        <section className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Target className="w-5 h-5 text-primary" />
@@ -175,7 +192,7 @@ export default function Home() {
             </Button>
           </div>
           
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="p-4 rounded-xl border border-primary/10 bg-primary/5 backdrop-blur-sm transition-all duration-300 hover:bg-primary/10">
               <div className="flex justify-between items-start mb-3">
                 <div>
@@ -186,10 +203,21 @@ export default function Home() {
               </div>
               <Progress value={65} className="h-1.5 mb-2" />
             </div>
-          </div>
-        </div>
 
-        {/* Hurdles Preview Button */}
+            <div className="p-4 rounded-xl border border-secondary/10 bg-secondary/5 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/10">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h3 className="font-medium text-gray-900 dark:text-gray-100">Scale User Base</h3>
+                  <p className="text-sm text-gray-500 mt-0.5">Target: Q4 2024</p>
+                </div>
+                <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full">Planning</span>
+              </div>
+              <Progress value={25} className="h-1.5 mb-2" />
+            </div>
+          </div>
+        </section>
+
+        {/* Simplified Hurdles Section */}
         <Button
           variant="outline"
           size="lg"
