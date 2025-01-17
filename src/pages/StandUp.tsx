@@ -25,18 +25,18 @@ export default function StandUp() {
       description: "Your morning check-in has been saved.",
     });
     setShowPrompt(true);
-    navigate("/");
-  };
-
-  const handleMentalHealthChange = (value: number[]) => {
-    setMentalHealth(value);
-    if (value[0] < 5) {
+    if (mentalHealth[0] < 5) {
       toast({
         title: "We noticed you're not feeling great",
         description: "Would you like to talk to your AI coach about it?",
         action: <Button variant="secondary" size="sm">Talk to Coach</Button>,
       });
     }
+    navigate("/");
+  };
+
+  const handleMentalHealthChange = (value: number[]) => {
+    setMentalHealth(value);
   };
 
   return (
