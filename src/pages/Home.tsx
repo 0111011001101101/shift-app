@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useSpring, animated } from "@react-spring/web";
+import { useSpring, animated, to } from "@react-spring/web";
 import { useDrag } from "@use-gesture/react";
 
 interface Todo {
@@ -191,9 +191,9 @@ export default function Home() {
                       <div className="flex-1" />
                       <div className="flex gap-8">
                         <Check className="w-5 h-5 text-green-500 opacity-0 transition-opacity duration-200" 
-                               style={{ opacity: x.to(v => v > 40 ? Math.min((v - 40) / 35, 1) : 0) }} />
+                               style={{ opacity: to(x, v => v > 40 ? Math.min((v - 40) / 35, 1) : 0) as any }} />
                         <Trash className="w-5 h-5 text-red-500 opacity-0 transition-opacity duration-200"
-                               style={{ opacity: x.to(v => v < -40 ? Math.min((-v - 40) / 35, 1) : 0) }} />
+                               style={{ opacity: to(x, v => v < -40 ? Math.min((-v - 40) / 35, 1) : 0) as any }} />
                       </div>
                     </div>
                     <animated.div
