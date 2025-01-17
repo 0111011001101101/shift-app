@@ -86,13 +86,12 @@ export default function Home() {
         <div className="relative py-4">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
           <div className="flex flex-col gap-2">
-            <div className="space-y-2">
+            <div className="space-y-1">
               <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fadeIn relative inline-block">
-                Good Morning
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-primary to-secondary transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"></span>
+                Good Morning, Couch Potato
               </h1>
-              <p className="text-lg font-light tracking-wide text-gray-600 dark:text-gray-300">
-                Time to embrace the day's potential
+              <p className="text-lg font-medium tracking-wide text-gray-600 dark:text-gray-300 bg-gradient-to-r from-secondary/80 to-primary/80 bg-clip-text text-transparent">
+                Let's make today count
               </p>
             </div>
           </div>
@@ -111,7 +110,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-black bg-gradient-to-br from-amber-400 to-amber-600 bg-clip-text text-transparent [text-shadow:_2px_2px_4px_rgba(251,191,36,0.3)] transform hover:scale-110 transition-transform duration-200">7</span>
+                  <span className="text-4xl font-black bg-gradient-to-br from-amber-400 to-amber-600 bg-clip-text text-transparent [text-shadow:_2px_2px_8px_rgba(251,191,36,0.5)] transform hover:scale-110 transition-transform duration-200 animate-pulse">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -120,7 +119,7 @@ export default function Home() {
               {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-300 to-amber-500 flex items-center justify-center"
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-300 to-amber-500 flex items-center justify-center transform hover:scale-110 transition-transform duration-200"
                 >
                   <Star className="w-4 h-4 text-amber-100" />
                 </div>
@@ -184,15 +183,19 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="flex items-center gap-2 mt-4">
+            <div className="flex items-center gap-2 mt-4 group relative">
               <Input
                 value={newTodoText}
                 onChange={(e) => setNewTodoText(e.target.value)}
                 placeholder="Add a new todo..."
-                className="flex-1"
+                className="flex-1 pr-10 transition-all duration-200 focus:ring-2 focus:ring-primary/20"
                 onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
               />
-              <Button onClick={handleAddTodo} size="icon" variant="ghost">
+              <Button 
+                onClick={handleAddTodo} 
+                size="icon" 
+                className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary/10 hover:bg-primary/20 text-primary transition-all duration-200"
+              >
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
