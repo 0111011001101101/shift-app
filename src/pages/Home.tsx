@@ -110,7 +110,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent text-stroke-2 text-stroke-white [text-shadow:_0_0_2px_rgba(255,255,255,0.5)]">7</span>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent [text-shadow:_0_0_4px_rgba(255,255,255,0.8),_0_0_8px_rgba(255,255,255,0.6)] [filter:_drop-shadow(0_0_2px_rgba(255,255,255,0.9))]">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
