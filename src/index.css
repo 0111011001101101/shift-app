@@ -11,7 +11,7 @@
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
-    --radius: 0.75rem;
+    --radius: 0.5rem;
   }
 
   * {
@@ -20,52 +20,53 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: linear-gradient(180deg, #f7f7f7 0%, #ffffff 100%);
+    background: linear-gradient(180deg, #FFFFFF 0%, #F9FAFB 100%);
   }
 
+  /* Typography scale following Apple HIG */
   h1 {
-    @apply text-lg font-medium tracking-tight;
+    @apply text-2xl font-semibold tracking-tight leading-none;
   }
 
   h2 {
-    @apply text-sm font-medium;
+    @apply text-base font-medium leading-tight;
   }
 
   p {
-    @apply text-xs leading-relaxed text-gray-600;
+    @apply text-sm leading-relaxed text-gray-600;
   }
 }
 
 .page-container {
-  @apply max-w-lg mx-auto px-4 py-4 min-h-screen animate-fadeIn;
+  @apply max-w-lg mx-auto px-4 py-6 min-h-screen animate-fadeIn;
 }
 
 .card {
-  @apply bg-white/80 backdrop-blur-sm rounded-xl shadow-sm p-4 transition-all duration-300 
-         hover:shadow-md border border-gray-100;
+  @apply bg-white/95 backdrop-blur-sm rounded-lg shadow-sm p-5 transition-all duration-300 
+         hover:shadow-md border border-gray-100/50;
 }
 
 .nav-item {
-  @apply flex flex-col items-center justify-center gap-0.5 text-[0.65rem] font-medium;
+  @apply flex flex-col items-center justify-center gap-1 text-xs font-medium;
 }
 
 .nav-item.active {
   @apply text-pink-500;
 }
 
-/* Glass effect for containers */
+/* Refined glass effect */
 .glass {
-  @apply bg-white/90 backdrop-blur-md border border-gray-100 shadow-sm;
+  @apply bg-white/90 backdrop-blur-md border border-gray-100/50 shadow-sm;
 }
 
-/* Elegant transitions */
+/* Smooth transitions */
 .transition-elegant {
-  @apply transition-all duration-300 ease-in-out;
+  @apply transition-all duration-300 ease-out;
 }
 
-/* Custom scrollbar */
+/* Refined scrollbar */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -76,9 +77,9 @@
   @apply bg-gray-200 rounded-full;
 }
 
-/* Progress circles */
+/* Progress indicators */
 .progress-ring {
-  @apply transition-all duration-500 ease-in-out transform;
+  @apply transition-all duration-500 ease-out transform;
 }
 
 /* Gradient text */
@@ -88,14 +89,14 @@
 
 /* Card layouts */
 .feature-card {
-  @apply card space-y-2 mb-3;
+  @apply card space-y-3 mb-4;
 }
 
 .stat-card {
-  @apply card text-center py-3;
+  @apply card text-center py-4;
 }
 
-/* Button styles */
+/* Button styles following Apple HIG */
 .btn-primary {
-  @apply rounded-lg text-xs font-medium px-3 py-2;
+  @apply rounded-lg text-sm font-medium px-4 py-2 transition-all duration-200;
 }
