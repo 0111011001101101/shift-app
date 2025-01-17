@@ -15,21 +15,23 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/goals" element={<Goals />} />
-          <Route path="/stand-up" element={<StandUp />} />
-          <Route path="/hurdles" element={<Hurdles />} />
-          <Route path="/coach" element={<div className="page-container">Coach Page (Coming Soon)</div>} />
-          <Route path="/learn" element={<div className="page-container">Learn Page (Coming Soon)</div>} />
-          <Route path="/settings" element={<div className="page-container">Settings Page (Coming Soon)</div>} />
-        </Routes>
-        <FloatingChat />
-        <BottomNav />
-      </BrowserRouter>
+      <div className="min-h-screen bg-background text-foreground antialiased">
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/goals" element={<Goals />} />
+            <Route path="/stand-up" element={<StandUp />} />
+            <Route path="/hurdles" element={<Hurdles />} />
+            <Route path="/coach" element={<div className="page-container">Coach Page (Coming Soon)</div>} />
+            <Route path="/learn" element={<div className="page-container">Learn Page (Coming Soon)</div>} />
+            <Route path="/settings" element={<div className="page-container">Settings Page (Coming Soon)</div>} />
+          </Routes>
+          <FloatingChat />
+          <BottomNav />
+        </BrowserRouter>
+      </div>
     </TooltipProvider>
   </QueryClientProvider>
 );

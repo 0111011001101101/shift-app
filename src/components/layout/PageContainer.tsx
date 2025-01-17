@@ -7,7 +7,9 @@ interface PageContainerProps {
 
 export function PageContainer({ children, className = "" }: PageContainerProps) {
   return (
-    <main className={`page-container pb-20 space-y-6 ${className}`}>
+    <main 
+      className={`max-w-lg mx-auto px-4 py-6 min-h-screen pb-24 space-y-6 animate-fadeIn ${className}`}
+    >
       {children}
     </main>
   );
