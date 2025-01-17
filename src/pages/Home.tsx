@@ -2,7 +2,7 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Trash, Plus } from "lucide-react";
+import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Trash, Plus, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
