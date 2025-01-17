@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-import { Brain, CheckCircle, AlertCircle, Target, ArrowRight } from "lucide-react";
+import { CheckCircle, AlertCircle, Target, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function StandUp() {
@@ -13,6 +13,7 @@ export default function StandUp() {
   const [wins, setWins] = useState("");
   const [focus, setFocus] = useState("");
   const [hurdles, setHurdles] = useState("");
+  const [showPrompt, setShowPrompt] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -23,6 +24,7 @@ export default function StandUp() {
       title: "Stand-up completed!",
       description: "Your morning check-in has been saved.",
     });
+    setShowPrompt(true);
     navigate("/");
   };
 
@@ -52,17 +54,14 @@ export default function StandUp() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <Card className="p-6 space-y-4">
             <div className="space-y-4">
-              <div className="flex items-center gap-2">
-                <Brain className="w-5 h-5 text-secondary" />
-                <h2 className="font-medium">How are you feeling today?</h2>
-              </div>
+              <h2 className="font-medium">How are you feeling today?</h2>
               <div className="px-2">
                 <Slider
                   value={mentalHealth}
                   onValueChange={handleMentalHealthChange}
                   max={10}
                   min={1}
-                  step={1}
+                  step={0.1}
                   className="w-full"
                 />
                 <div className="flex justify-between mt-2 text-xs text-muted-foreground">
@@ -102,7 +101,7 @@ export default function StandUp() {
           <Card className="p-6 space-y-4">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-secondary" />
-              <h2 className="font-medium">Potential Hurdles</h2>
+              <h2 className="font-medium">Potential Obstacles and How to Overcome Them</h2>
             </div>
             <Textarea
               value={hurdles}
