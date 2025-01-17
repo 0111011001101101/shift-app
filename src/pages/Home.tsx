@@ -2,11 +2,31 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, AlertCircle } from "lucide-react";
+import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
+  const [editedTodoText, setEditedTodoText] = useState("");
+  
+  const handleEditTodo = (id: string, currentText: string) => {
+    setEditingTodoId(id);
+    setEditedTodoText(currentText);
+  };
+
+  const handleSaveTodo = (id: string) => {
+    // Here you would typically update your todo state/backend
+    setEditingTodoId(null);
+    toast({
+      title: "Todo updated",
+      description: "Your changes have been saved.",
+    });
+  };
   
   return (
     <PageContainer>
@@ -67,14 +87,74 @@ export default function Home() {
           
           <TabsContent value="today" className="space-y-4">
             <div className="space-y-2">
-              {/* Today's Goals */}
-              <div className="flex items-center justify-between text-sm">
-                <span>Take lunch breaks away from desk</span>
-                <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Daily</span>
+              {/* Today's To-dos with Quick Edit */}
+              <div className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+                {editingTodoId === "1" ? (
+                  <div className="flex items-center gap-2 w-full">
+                    <Input
+                      value={editedTodoText}
+                      onChange={(e) => setEditedTodoText(e.target.value)}
+                      className="flex-1"
+                      autoFocus
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleSaveTodo("1")}
+                    >
+                      <Check className="w-4 h-4 text-success" />
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <span>Take lunch breaks away from desk</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Daily</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleEditTodo("1", "Take lunch breaks away from desk")}
+                      >
+                        <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
-              <div className="flex items-center justify-between text-sm">
-                <span>No work emails after 6 PM</span>
-                <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">Daily</span>
+              <div className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
+                {editingTodoId === "2" ? (
+                  <div className="flex items-center gap-2 w-full">
+                    <Input
+                      value={editedTodoText}
+                      onChange={(e) => setEditedTodoText(e.target.value)}
+                      className="flex-1"
+                      autoFocus
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => handleSaveTodo("2")}
+                    >
+                      <Check className="w-4 h-4 text-success" />
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <span>No work emails after 6 PM</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">Daily</span>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        className="opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => handleEditTodo("2", "No work emails after 6 PM")}
+                      >
+                        <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                      </Button>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </TabsContent>
@@ -137,54 +217,22 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Current Hurdles Section */}
-        <section className="space-y-4">
-          <div className="flex items-center justify-between">
+        {/* Simplified Hurdles Section */}
+        <Button
+          variant="outline"
+          size="lg"
+          className="w-full group relative overflow-hidden"
+          onClick={() => navigate("/hurdles")}
+        >
+          <div className="absolute inset-0 bg-destructive/5 group-hover:bg-destructive/10 transition-colors" />
+          <div className="relative flex items-center justify-between w-full">
             <div className="flex items-center gap-2">
-              <AlertCircle className="w-5 h-5 text-destructive" />
-              <h2 className="text-lg font-semibold">Current Hurdles</h2>
+              <Lock className="w-4 h-4 text-destructive" />
+              <span className="text-destructive font-medium">View Current Hurdles</span>
             </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-xs"
-              onClick={() => navigate("/hurdles")}
-            >
-              View All
-              <ChevronRight className="w-3 h-3 ml-1" />
-            </Button>
+            <ChevronRight className="w-4 h-4 text-destructive" />
           </div>
-
-          <div className="space-y-4">
-            <div className="p-4 rounded-xl border border-destructive/10 bg-destructive/5 backdrop-blur-sm transition-all duration-300 hover:bg-destructive/10">
-              <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Time Management</h3>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Pomodoro Technique</span>
-                  <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Effective</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Weekly Planning</span>
-                  <span className="text-xs px-2 py-0.5 bg-warning/10 text-warning rounded-full">In Progress</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 rounded-xl border border-destructive/10 bg-destructive/5 backdrop-blur-sm transition-all duration-300 hover:bg-destructive/10">
-              <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-2">Work-Life Balance</h3>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Set Work Hours</span>
-                  <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Effective</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Regular Exercise</span>
-                  <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">New Solution</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        </Button>
       </div>
     </PageContainer>
   );
