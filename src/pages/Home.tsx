@@ -2,32 +2,83 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check } from "lucide-react";
+import { Sun, Target, ChevronRight, Trophy, Star, Lock, Pencil, Check, Trash, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useSpring, animated } from "@react-spring/web";
+import { useDrag } from "@use-gesture/react";
+
+interface Todo {
+  id: string;
+  text: string;
+  type: 'daily' | 'weekly';
+}
 
 export default function Home() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
-  
+  const [newTodoText, setNewTodoText] = useState("");
+  const [todos, setTodos] = useState<Todo[]>([
+    { id: "1", text: "Take lunch breaks away from desk", type: 'daily' },
+    { id: "2", text: "No work emails after 6 PM", type: 'daily' },
+  ]);
+
+  const handleAddTodo = () => {
+    if (newTodoText.trim()) {
+      const newTodo: Todo = {
+        id: Date.now().toString(),
+        text: newTodoText,
+        type: 'daily'
+      };
+      setTodos([...todos, newTodo]);
+      setNewTodoText("");
+      toast({
+        title: "Todo added",
+        description: "New todo has been added successfully.",
+      });
+    }
+  };
+
   const handleEditTodo = (id: string, currentText: string) => {
     setEditingTodoId(id);
     setEditedTodoText(currentText);
   };
 
   const handleSaveTodo = (id: string) => {
-    // Here you would typically update your todo state/backend
-    setEditingTodoId(null);
+    if (editedTodoText.trim()) {
+      setTodos(todos.map(todo => 
+        todo.id === id ? { ...todo, text: editedTodoText } : todo
+      ));
+      setEditingTodoId(null);
+      toast({
+        title: "Todo updated",
+        description: "Your changes have been saved.",
+      });
+    }
+  };
+
+  const handleDeleteTodo = (id: string) => {
+    setTodos(todos.filter(todo => todo.id !== id));
     toast({
-      title: "Todo updated",
-      description: "Your changes have been saved.",
+      title: "Todo removed",
+      description: "The todo has been deleted.",
+      variant: "destructive",
     });
   };
-  
+
+  const handleCompleteTodo = (id: string) => {
+    handleDeleteTodo(id);
+    toast({
+      title: "Todo completed",
+      description: "Great job! Todo marked as complete.",
+      variant: "success",
+    });
+  };
+
   return (
     <PageContainer>
       <div className="space-y-8">
@@ -86,76 +137,91 @@ export default function Home() {
           </TabsList>
           
           <TabsContent value="today" className="space-y-4">
+            <div className="flex items-center gap-2 mb-4">
+              <Input
+                value={newTodoText}
+                onChange={(e) => setNewTodoText(e.target.value)}
+                placeholder="Add a new todo..."
+                className="flex-1"
+                onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
+              />
+              <Button onClick={handleAddTodo} size="icon" variant="ghost">
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+            
             <div className="space-y-2">
-              {/* Today's To-dos with Quick Edit */}
-              <div className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
-                {editingTodoId === "1" ? (
-                  <div className="flex items-center gap-2 w-full">
-                    <Input
-                      value={editedTodoText}
-                      onChange={(e) => setEditedTodoText(e.target.value)}
-                      className="flex-1"
-                      autoFocus
-                    />
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleSaveTodo("1")}
-                    >
-                      <Check className="w-4 h-4 text-success" />
-                    </Button>
-                  </div>
-                ) : (
-                  <>
-                    <span>Take lunch breaks away from desk</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs px-2 py-0.5 bg-success/10 text-success rounded-full">Daily</span>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => handleEditTodo("1", "Take lunch breaks away from desk")}
-                      >
-                        <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
-                      </Button>
+              {todos.map(todo => {
+                const [{ x }, api] = useSpring(() => ({ x: 0 }));
+                
+                const bind = useDrag(({ down, movement: [mx], velocity: [vx], direction: [xDir] }) => {
+                  const trigger = Math.abs(mx) > 100;
+                  
+                  if (!down && trigger) {
+                    if (mx < 0) {
+                      handleDeleteTodo(todo.id);
+                    } else {
+                      handleCompleteTodo(todo.id);
+                    }
+                  } else {
+                    api.start({ x: down ? mx : 0, immediate: down });
+                  }
+                }, { axis: 'x' });
+
+                return (
+                  <animated.div
+                    key={todo.id}
+                    {...bind()}
+                    style={{
+                      x,
+                      touchAction: 'none',
+                    }}
+                    className="relative"
+                  >
+                    <div className="absolute inset-y-0 left-0 w-full flex items-center justify-between px-4 -z-10">
+                      <Trash className="h-5 w-5 text-destructive" />
+                      <Check className="h-5 w-5 text-success" />
                     </div>
-                  </>
-                )}
-              </div>
-              <div className="flex items-center justify-between text-sm p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors group">
-                {editingTodoId === "2" ? (
-                  <div className="flex items-center gap-2 w-full">
-                    <Input
-                      value={editedTodoText}
-                      onChange={(e) => setEditedTodoText(e.target.value)}
-                      className="flex-1"
-                      autoFocus
-                    />
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => handleSaveTodo("2")}
-                    >
-                      <Check className="w-4 h-4 text-success" />
-                    </Button>
-                  </div>
-                ) : (
-                  <>
-                    <span>No work emails after 6 PM</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">Daily</span>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => handleEditTodo("2", "No work emails after 6 PM")}
-                      >
-                        <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
-                      </Button>
+                    
+                    <div className="flex items-center justify-between text-sm p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm relative">
+                      {editingTodoId === todo.id ? (
+                        <div className="flex items-center gap-2 w-full">
+                          <Input
+                            value={editedTodoText}
+                            onChange={(e) => setEditedTodoText(e.target.value)}
+                            className="flex-1"
+                            autoFocus
+                          />
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => handleSaveTodo(todo.id)}
+                          >
+                            <Check className="w-4 h-4 text-success" />
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          <span>{todo.text}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
+                              {todo.type}
+                            </span>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="opacity-0 group-hover:opacity-100 transition-opacity"
+                              onClick={() => handleEditTodo(todo.id, todo.text)}
+                            >
+                              <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
+                            </Button>
+                          </div>
+                        </>
+                      )}
                     </div>
-                  </>
-                )}
-              </div>
+                  </animated.div>
+                );
+              })}
             </div>
           </TabsContent>
           
