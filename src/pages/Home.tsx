@@ -7,8 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { useSpring, animated } from "@react-spring/web";
-import { useDrag } from "@use-gesture/react";
 
 interface Todo {
   id: string;
@@ -39,7 +37,7 @@ export default function Home() {
       toast({
         title: "Todo added",
         description: "New todo has been added successfully.",
-        variant: "default", // Changed from "success" to "default"
+        variant: "default",
       });
     }
   };
@@ -58,7 +56,7 @@ export default function Home() {
       toast({
         title: "Todo updated",
         description: "Your changes have been saved.",
-        variant: "default", // Changed from "success" to "default"
+        variant: "default",
       });
     }
   };
@@ -77,7 +75,7 @@ export default function Home() {
     toast({
       title: "Todo completed",
       description: "Great job! Todo marked as complete.",
-      variant: "default", // Changed from "success" to "default"
+      variant: "default",
     });
   };
 
@@ -127,10 +125,12 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Next Stand-up Info */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Clock className="w-4 h-4" />
-          <span>Next stand-up: Tomorrow, 9:30 AM</span>
+        {/* Gradient Block */}
+        <div className="p-4 rounded-xl bg-gradient-to-r from-amber-500/10 via-secondary/10 to-primary/10 backdrop-blur-sm border border-amber-500/20">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Clock className="w-4 h-4" />
+            <span>Next stand-up: Tomorrow, 9:30 AM</span>
+          </div>
         </div>
 
         {/* To-Do Tabs Section */}
@@ -141,19 +141,6 @@ export default function Home() {
           </TabsList>
           
           <TabsContent value="today" className="space-y-4">
-            <div className="flex items-center gap-2 mb-4">
-              <Input
-                value={newTodoText}
-                onChange={(e) => setNewTodoText(e.target.value)}
-                placeholder="Add a new todo..."
-                className="flex-1"
-                onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
-              />
-              <Button onClick={handleAddTodo} size="icon" variant="ghost">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            
             <div className="space-y-2">
               {todos.map(todo => (
                 <div key={todo.id} className="group relative">
@@ -195,6 +182,19 @@ export default function Home() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            <div className="flex items-center gap-2 mt-4">
+              <Input
+                value={newTodoText}
+                onChange={(e) => setNewTodoText(e.target.value)}
+                placeholder="Add a new todo..."
+                className="flex-1"
+                onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
+              />
+              <Button onClick={handleAddTodo} size="icon" variant="ghost">
+                <Plus className="h-4 w-4" />
+              </Button>
             </div>
           </TabsContent>
           
