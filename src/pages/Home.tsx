@@ -12,19 +12,6 @@ export default function Home() {
   return (
     <PageContainer>
       <div className="space-y-4">
-        {/* Streak Section */}
-        <Card className="text-center py-4 px-3 bg-gradient-to-br from-white via-gray-50/95 to-gray-100/90 dark:from-gray-800 dark:via-gray-900/95 dark:to-gray-950/90 hover:shadow-lg transition-all duration-300 group overflow-hidden relative animate-fadeIn">
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="relative flex items-center justify-center gap-3">
-            <Star className="w-4 h-4 text-amber-500 animate-pulse" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
-            <Star className="w-4 h-4 text-amber-500 animate-pulse" />
-            <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
-              day streak
-            </span>
-          </div>
-        </Card>
-
         {/* Header Section - Enhanced Design */}
         <Card className="overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-transparent backdrop-blur-sm border-0 shadow-none">
           <div className="relative p-6">
@@ -41,6 +28,37 @@ export default function Home() {
                   Let's make today count
                 </p>
               </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Streak Section - Modernized Design */}
+        <Card className="p-4 bg-gradient-to-br from-white/95 to-gray-50/95 dark:from-gray-800/95 dark:to-gray-900/95 border border-gray-100/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <div className="absolute inset-0 bg-amber-500/20 blur-xl rounded-full" />
+                <div className="relative p-2 bg-gradient-to-br from-amber-500/30 to-secondary/30 rounded-xl backdrop-blur-sm">
+                  <Trophy className="w-5 h-5 text-amber-500" />
+                </div>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-300">Current Streak</span>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-2xl font-bold bg-gradient-to-r from-amber-500 to-secondary bg-clip-text text-transparent">7</span>
+                  <span className="text-xs text-gray-500">days</span>
+                </div>
+              </div>
+            </div>
+            <div className="flex -space-x-2">
+              {[...Array(3)].map((_, i) => (
+                <div
+                  key={i}
+                  className="w-8 h-8 rounded-full border-2 border-white dark:border-gray-800 bg-gradient-to-br from-amber-500/20 to-secondary/20 flex items-center justify-center"
+                >
+                  <Star className="w-4 h-4 text-amber-500" />
+                </div>
+              ))}
             </div>
           </div>
         </Card>
