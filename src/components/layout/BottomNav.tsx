@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Target, ArrowUpCircle, AlertTriangle, BookOpen, Settings } from "lucide-react";
+import { Home, Target, AlertTriangle, BookOpen, Settings } from "lucide-react";
 
 const navItems = [
   {
@@ -12,11 +12,6 @@ const navItems = [
     label: "Goals",
     icon: Target,
     href: "/goals",
-  },
-  {
-    label: "Stand Up",
-    icon: ArrowUpCircle,
-    href: "/stand-up",
   },
   {
     label: "Hurdles",
