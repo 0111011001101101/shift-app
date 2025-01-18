@@ -109,7 +109,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent relative after:content-['7'] after:absolute after:inset-0 after:text-black/20 after:z-[-1] after:translate-x-[1px] after:translate-y-[1px] before:content-['7'] before:absolute before:inset-0 before:text-black/20 before:z-[-1] before:translate-x-[-1px] before:translate-y-[-1px] transform hover:scale-110 transition-transform duration-200">7</span>
+                  <span className="text-4xl font-black bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent relative after:content-['7'] after:absolute after:inset-0 after:text-black/10 after:z-[-1] after:translate-x-[0.5px] after:translate-y-[0.5px] transform hover:scale-110 transition-transform duration-200">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -131,11 +131,11 @@ export default function Home() {
           </p>
         </div>
 
-        {/* To-Do Tabs Section with enhanced styling */}
+        {/* To-Do Tabs Section */}
         <Tabs defaultValue="today" className="w-full">
-          <TabsList className="w-full mb-4 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm">
-            <TabsTrigger value="today" className="flex-1 data-[state=active]:bg-secondary/20">Today's To-Do</TabsTrigger>
-            <TabsTrigger value="week" className="flex-1 data-[state=active]:bg-secondary/20">Week's To-Do</TabsTrigger>
+          <TabsList className="w-full mb-4">
+            <TabsTrigger value="today" className="flex-1">Today's To-Do</TabsTrigger>
+            <TabsTrigger value="week" className="flex-1">Week's To-Do</TabsTrigger>
           </TabsList>
           
           <TabsContent value="today" className="space-y-4">
@@ -233,7 +233,7 @@ export default function Home() {
           </div>
           
           <div className="space-y-4">
-            <div className="p-4 rounded-xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm transition-all duration-300 hover:bg-primary/10 shadow-lg">
+            <div className="p-4 rounded-xl border border-primary/10 bg-primary/5 backdrop-blur-sm transition-all duration-300 hover:bg-primary/10">
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Launch MVP Product</h3>
@@ -241,12 +241,12 @@ export default function Home() {
                 </div>
                 <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">In Progress</span>
               </div>
-              <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-primary/20 via-primary/30 to-primary/20 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-primary/80 via-primary to-primary/80 transition-all duration-300" style={{ width: '65%' }} />
+              <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500/30 via-secondary/40 to-primary/30 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 transition-all duration-300" style={{ width: '65%' }} />
               </div>
             </div>
 
-            <div className="p-4 rounded-xl border-2 border-secondary/20 bg-gradient-to-br from-secondary/5 via-secondary/10 to-secondary/5 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/10 shadow-lg">
+            <div className="p-4 rounded-xl border border-secondary/10 bg-secondary/5 backdrop-blur-sm transition-all duration-300 hover:bg-secondary/10">
               <div className="flex justify-between items-start mb-3">
                 <div>
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Scale User Base</h3>
@@ -254,8 +254,8 @@ export default function Home() {
                 </div>
                 <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full">Planning</span>
               </div>
-              <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-secondary/20 via-secondary/30 to-secondary/20 overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-secondary/80 via-secondary to-secondary/80 transition-all duration-300" style={{ width: '25%' }} />
+              <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500/30 via-secondary/40 to-primary/30 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 transition-all duration-300" style={{ width: '25%' }} />
               </div>
             </div>
           </div>
