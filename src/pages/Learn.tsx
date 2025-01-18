@@ -38,44 +38,47 @@ export default function Learn() {
   );
 
   return (
-    <PageContainer className="max-w-4xl">
-      <div className="space-y-8 animate-fadeIn">
+    <PageContainer className="max-w-4xl px-4 sm:px-6">
+      <div className="space-y-6 sm:space-y-8 animate-fadeIn">
+        {/* Header Section */}
         <div className="text-center space-y-4">
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4 sm:mb-6">
             <div className="relative">
               <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary to-secondary blur-md opacity-75" />
-              <div className="relative bg-white dark:bg-gray-800 rounded-full p-4">
-                <Brain className="h-8 w-8 text-primary" />
+              <div className="relative bg-white dark:bg-gray-800 rounded-full p-3 sm:p-4">
+                <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 flex items-center justify-center gap-2">
-            <GraduationCap className="h-8 w-8" />
+          <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary flex items-center justify-center gap-2">
+            <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8" />
             Learn & Grow
           </h1>
-          <p className="text-base text-muted-foreground max-w-md mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto px-4">
             Explore curated content designed to help you overcome challenges and achieve your goals
           </p>
         </div>
 
-        <div className="relative max-w-md mx-auto">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        {/* Search Section */}
+        <div className="relative max-w-md mx-auto px-4">
+          <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="Search modules..."
-            className="pl-10"
+            className="pl-10 h-11 bg-white dark:bg-gray-800"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
+        {/* Modules Grid */}
         {isLoading ? (
-          <div className="grid grid-cols-1 gap-4 animate-pulse">
+          <div className="grid gap-4 px-4">
             <Skeleton className="h-[200px] w-full" />
             <Skeleton className="h-[200px] w-full" />
             <Skeleton className="h-[200px] w-full" />
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid gap-4 px-4">
             {filteredModules?.map((module) => (
               <ModuleCard
                 key={module.id}
