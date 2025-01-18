@@ -109,7 +109,7 @@ export default function Home() {
               <div className="flex flex-col">
                 <span className="text-sm font-medium text-gray-800 dark:text-gray-200">Current Streak</span>
                 <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-black bg-gradient-to-br from-amber-300 via-amber-400 to-yellow-500 bg-clip-text text-transparent relative after:content-['7'] after:absolute after:inset-0 after:text-black/10 after:z-[-1] after:translate-x-[0.5px] after:translate-y-[0.5px] transform hover:scale-110 transition-transform duration-200">7</span>
+                  <span className="text-4xl font-black text-black relative">7</span>
                   <span className="text-xs text-gray-700 dark:text-gray-300">days</span>
                 </div>
               </div>
@@ -188,7 +188,7 @@ export default function Home() {
                   value={newTodoText}
                   onChange={(e) => setNewTodoText(e.target.value)}
                   placeholder="Add a new todo..."
-                  className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full"
+                  className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
                   onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
                 />
                 <Button 
@@ -215,7 +215,7 @@ export default function Home() {
           </TabsContent>
         </Tabs>
 
-        <section className="space-y-4">
+        <section className="space-y-4 bg-gray-50/80 dark:bg-gray-800/50 p-4 rounded-xl backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Target className="w-5 h-5 text-primary" />
@@ -239,7 +239,7 @@ export default function Home() {
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Launch MVP Product</h3>
                   <p className="text-sm text-gray-500 mt-0.5">Target: Q2 2025</p>
                 </div>
-                <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">In Progress</span>
+                <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded-full">65%</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500/30 via-secondary/40 to-primary/30 overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 transition-all duration-300" style={{ width: '65%' }} />
@@ -252,7 +252,7 @@ export default function Home() {
                   <h3 className="font-medium text-gray-900 dark:text-gray-100">Scale User Base</h3>
                   <p className="text-sm text-gray-500 mt-0.5">Target: Q4 2024</p>
                 </div>
-                <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full">Planning</span>
+                <span className="text-xs px-2 py-1 bg-secondary/10 text-secondary rounded-full">25%</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-amber-500/30 via-secondary/40 to-primary/30 overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 transition-all duration-300" style={{ width: '25%' }} />
