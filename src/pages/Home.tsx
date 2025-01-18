@@ -187,7 +187,7 @@ export default function Home() {
                 <Input
                   value={newTodoText}
                   onChange={(e) => setNewTodoText(e.target.value)}
-                  placeholder="Add a new todo..."
+                  placeholder="Add system logic"
                   className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
                   onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
                 />
