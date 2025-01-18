@@ -8,7 +8,6 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -30,31 +29,59 @@ serve(async (req) => {
       .order('created_at', { ascending: false })
       .limit(5);
 
+    // Fetch goals with their sub-goals
     const { data: goals } = await supabaseClient
       .from('goals')
-      .select('*')
+      .select(`
+        *,
+        sub_goals (
+          id,
+          title,
+          frequency,
+          completed
+        )
+      `)
       .eq('user_id', userId)
       .eq('completed', false)
-      .order('created_at', { ascending: false })
-      .limit(5);
+      .order('position');
 
+    // Fetch hurdles with their solutions
     const { data: hurdles } = await supabaseClient
       .from('hurdles')
-      .select('*, solutions(*)')
+      .select(`
+        *,
+        solutions (
+          id,
+          title,
+          frequency,
+          completed
+        )
+      `)
       .eq('user_id', userId)
       .eq('completed', false)
-      .order('created_at', { ascending: false })
-      .limit(5);
+      .order('position');
 
-    // Construct context for the AI
+    // Construct detailed context for the AI
     const context = {
       recentMood: standUps?.[0]?.mental_health || null,
       recentWins: standUps?.[0]?.wins || null,
       currentFocus: standUps?.[0]?.focus || null,
-      activeGoals: goals?.map(g => g.title) || [],
-      activeHurdles: hurdles?.map(h => ({
+      goals: goals?.map(g => ({
+        title: g.title,
+        deadline: g.deadline,
+        subGoals: g.sub_goals?.map(sg => ({
+          title: sg.title,
+          frequency: sg.frequency,
+          completed: sg.completed
+        }))
+      })) || [],
+      hurdles: hurdles?.map(h => ({
         title: h.title,
-        solutions: h.solutions?.map(s => s.title) || []
+        solutions: h.solutions?.map(s => ({
+          title: s.title,
+          frequency: s.frequency,
+          completed: s.completed
+        })) || []
       })) || []
     };
 
@@ -73,15 +100,30 @@ serve(async (req) => {
             content: `You are an AI coach and mental health supporter for ambitious professionals. 
             Your goal is to provide empathetic, practical advice while maintaining a growth mindset.
             
-            Recent context about the user:
+            Here's the current context about the user:
             - Current mood: ${context.recentMood}/10
             - Recent wins: ${context.recentWins}
             - Current focus: ${context.currentFocus}
-            - Active goals: ${context.activeGoals.join(', ')}
-            - Current hurdles: ${context.activeHurdles.map(h => h.title).join(', ')}
+            
+            Active goals:
+            ${context.goals.map(g => `
+              - ${g.title} (Due: ${g.deadline || 'No deadline'})
+                Sub-goals:
+                ${g.subGoals?.map(sg => `
+                  - ${sg.title} (${sg.frequency || 'No frequency'}) - ${sg.completed ? 'Completed' : 'In Progress'}`).join('\n') || 'No sub-goals'
+            }`).join('\n')}
+            
+            Current hurdles:
+            ${context.hurdles.map(h => `
+              - ${h.title}
+                Solutions:
+                ${h.solutions?.map(s => `
+                  - ${s.title} (${s.frequency || 'No frequency'}) - ${s.completed ? 'Completed' : 'In Progress'}`).join('\n') || 'No solutions'
+            }`).join('\n')}
             
             Keep responses concise, practical, and encouraging. If the user seems to be struggling 
-            (mood < 5), show extra empathy and offer specific coping strategies.`
+            (mood < 5), show extra empathy and offer specific coping strategies. Reference their specific
+            goals, hurdles, and progress to provide personalized advice.`
           },
           { role: 'user', content: message }
         ],
@@ -96,7 +138,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ 
         reply: data.choices[0].message.content,
-        context: context 
+        context 
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
