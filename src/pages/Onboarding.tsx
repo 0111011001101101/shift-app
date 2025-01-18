@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, ArrowLeft } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 type OnboardingStep = "name" | "standUpTime" | "aiPreferences";
 
@@ -165,11 +166,12 @@ export default function Onboarding() {
             )}
 
             {step === "aiPreferences" && (
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <p className="text-sm text-gray-500">
                   Share any preferences that would help your AI coach better understand and support you.
                   This is completely optional and can be updated later.
                 </p>
+                
                 <FormField
                   control={form.control}
                   name="aiPreferences.tone"
@@ -177,13 +179,112 @@ export default function Onboarding() {
                     <FormItem>
                       <FormLabel>Preferred Communication Style</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Direct, Friendly, Professional" {...field} />
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="grid grid-cols-2 gap-4"
+                        >
+                          <FormItem>
+                            <FormControl>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="friendly" id="friendly" />
+                                <FormLabel htmlFor="friendly" className="font-normal">
+                                  Friendly
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                          <FormItem>
+                            <FormControl>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="professional" id="professional" />
+                                <FormLabel htmlFor="professional" className="font-normal">
+                                  Professional
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                          <FormItem>
+                            <FormControl>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="direct" id="direct" />
+                                <FormLabel htmlFor="direct" className="font-normal">
+                                  Direct
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                          <FormItem>
+                            <FormControl>
+                              <div className="flex items-center space-x-2">
+                                <RadioGroupItem value="casual" id="casual" />
+                                <FormLabel htmlFor="casual" className="font-normal">
+                                  Casual
+                                </FormLabel>
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aiPreferences.gender"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Gender (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your gender" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {/* Add more optional fields for AI preferences */}
+
+                <FormField
+                  control={form.control}
+                  name="aiPreferences.age"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Age Range (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., 25-34" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aiPreferences.religion"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Religious/Spiritual Background (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your religious/spiritual background" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aiPreferences.culture"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Cultural Background (Optional)</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your cultural background" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             )}
 
