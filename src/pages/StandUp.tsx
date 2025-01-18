@@ -184,9 +184,7 @@ export default function StandUp() {
       });
       return;
     }
-    if (currentStep < STEPS.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
+    setCurrentStep(currentStep + 1);
   };
 
   const handleBack = () => {
