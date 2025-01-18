@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, XCircle2, Eye } from "lucide-react";
+import { CheckCircle2, XCircle, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface WelcomeHeaderProps {
@@ -63,7 +63,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
             </div>
           ) : (
             <div className="flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm">
-              <XCircle2 className="w-4 h-4" />
+              <XCircle className="w-4 h-4" />
               <span>Not done yet</span>
             </div>
           )}
