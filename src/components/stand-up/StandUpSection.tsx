@@ -1,6 +1,5 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Mic, List, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -53,6 +52,7 @@ export function StandUpSection({
     
     // Combine all bullet points into a single string for the parent component
     const combinedText = updatedPoints
+      .filter(point => point.text.trim() || (point.solution && point.solution.trim()))
       .map(point => point.solution 
         ? `• ${point.text}\n  → ${point.solution}`
         : `• ${point.text}`
@@ -78,6 +78,7 @@ export function StandUpSection({
       setBulletPoints(updatedPoints);
       
       const combinedText = updatedPoints
+        .filter(point => point.text.trim() || (point.solution && point.solution.trim()))
         .map(point => point.solution 
           ? `• ${point.text}\n  → ${point.solution}`
           : `• ${point.text}`
@@ -103,16 +104,14 @@ export function StandUpSection({
           {required && <span className="text-destructive">*</span>}
         </div>
         <div className="flex gap-2">
-          {allowMultiple && (
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={addBulletPoint}
-            >
-              <Plus className="w-4 h-4" />
-            </Button>
-          )}
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={addBulletPoint}
+          >
+            <Plus className="w-4 h-4" />
+          </Button>
           <Button
             type="button"
             variant="ghost"
@@ -135,7 +134,7 @@ export function StandUpSection({
                 className="flex-1"
                 required={required && index === 0}
               />
-              {allowMultiple && bulletPoints.length > 1 && (
+              {bulletPoints.length > 1 && (
                 <Button
                   type="button"
                   variant="ghost"

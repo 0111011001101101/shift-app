@@ -11,7 +11,7 @@ import { QuickGoalsDialog } from "@/components/stand-up/QuickGoalsDialog";
 import { supabase } from "@/integrations/supabase/client";
 
 const STORAGE_KEY = 'standUpData';
-const STEPS = ["Mood", "Yesterday", "Today", "Hurdles"];
+const STEPS = ["Mood", "Yesterday", "Today", "Challenges"];
 
 export default function StandUp() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -211,7 +211,7 @@ export default function StandUp() {
               className="gap-2"
             >
               <Eye className="w-4 h-4" />
-              View Goals
+              Quick Goals
             </Button>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -234,6 +234,7 @@ export default function StandUp() {
               onChange={setWins}
               placeholder="What went well yesterday?"
               required={true}
+              allowMultiple={true}
             />
           )}
 
@@ -245,16 +246,17 @@ export default function StandUp() {
               onChange={setFocus}
               placeholder="What do you want to accomplish today?"
               required={true}
+              allowMultiple={true}
             />
           )}
 
           {currentStep === 3 && (
             <StandUpSection
               icon={<AlertCircle className="w-5 h-5 text-secondary" />}
-              title="Potential Hurdles & Solutions"
+              title="Today's Challenges & Solutions"
               value={hurdles}
               onChange={setHurdles}
-              placeholder="What challenges might you face? How will you handle them?"
+              placeholder="What challenges might you face?"
               required={false}
               allowMultiple={true}
               requireSolution={true}
