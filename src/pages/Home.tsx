@@ -22,7 +22,6 @@ export default function Home() {
   const [newTodoText, setNewTodoText] = useState("");
   const [todos, setTodos] = useState<Todo[]>([
     { id: "1", text: "Take lunch breaks away from desk", type: 'daily' },
-    { id: "2", text: "No work emails after 6 PM", type: 'daily' },
   ]);
 
   const handleAddTodo = () => {
