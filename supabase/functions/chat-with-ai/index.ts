@@ -14,9 +14,10 @@ serve(async (req) => {
 
   try {
     const { message, userId } = await req.json();
-    console.log('Received request for user:', userId);
+    console.log('Received chat request for user:', userId);
 
     if (!userId) {
+      console.error('No user ID provided');
       throw new Error('User ID is required');
     }
 
@@ -28,6 +29,28 @@ serve(async (req) => {
 
     // Fetch user's recent data for context
     console.log('Fetching user context...');
+    
+    // Fetch goals with detailed error logging
+    console.log('Fetching goals for user:', userId);
+    const { data: goals, error: goalsError } = await supabaseClient
+      .from('goals')
+      .select(`
+        *,
+        sub_goals (*)
+      `)
+      .eq('user_id', userId)
+      .eq('completed', false);
+
+    if (goalsError) {
+      console.error('Error fetching goals:', goalsError);
+      console.error('SQL query details:', goalsError.details);
+      console.error('SQL query hint:', goalsError.hint);
+      throw goalsError;
+    }
+
+    console.log('Found goals:', goals?.length || 0);
+    
+    // Fetch recent stand-ups
     const { data: standUps, error: standUpsError } = await supabaseClient
       .from('stand_ups')
       .select('*')
@@ -40,20 +63,7 @@ serve(async (req) => {
       throw standUpsError;
     }
 
-    const { data: goals, error: goalsError } = await supabaseClient
-      .from('goals')
-      .select(`
-        *,
-        sub_goals (*)
-      `)
-      .eq('user_id', userId)
-      .eq('completed', false);
-
-    if (goalsError) {
-      console.error('Error fetching goals:', goalsError);
-      throw goalsError;
-    }
-
+    // Fetch hurdles
     const { data: hurdles, error: hurdlesError } = await supabaseClient
       .from('hurdles')
       .select(`
@@ -92,7 +102,8 @@ serve(async (req) => {
       })) || []
     };
 
-    console.log('Calling OpenAI with context:', JSON.stringify(context, null, 2));
+    console.log('Constructed AI context:', JSON.stringify(context, null, 2));
+    console.log('Calling OpenAI with user message:', message);
 
     // Call OpenAI API
     const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -130,6 +141,7 @@ serve(async (req) => {
                   - ${s.title} (${s.frequency || 'No frequency'}) - ${s.completed ? 'Completed' : 'In Progress'}`).join('\n') || 'No solutions'
             }`).join('\n')}
             
+            If I don't have any goals data, politely ask the user to share their goals and explain that you need this information to provide better guidance.
             Keep responses concise, practical, and encouraging. If the user seems to be struggling 
             (mood < 5), show extra empathy and offer specific coping strategies. Reference their specific
             goals, hurdles, and progress to provide personalized advice.`
@@ -148,7 +160,7 @@ serve(async (req) => {
     }
 
     const data = await openAIResponse.json();
-    console.log('OpenAI response received:', data);
+    console.log('OpenAI response received');
 
     return new Response(
       JSON.stringify({ 
