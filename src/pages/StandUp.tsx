@@ -1,30 +1,44 @@
 import { useState, useEffect } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { CheckCircle, AlertCircle, Target, ArrowRight, Mic } from "lucide-react";
+import { CheckCircle, AlertCircle, Target, ArrowRight, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-interface StandUpData {
-  mentalHealth: number[];
-  wins: string;
-  focus: string;
-  hurdles: string;
-  date: string;
-  completed: boolean;
-}
+import { MoodTracker } from "@/components/stand-up/MoodTracker";
+import { StandUpSection } from "@/components/stand-up/StandUpSection";
+import { ProgressIndicator } from "@/components/stand-up/ProgressIndicator";
+import { supabase } from "@/integrations/supabase/client";
 
 const STORAGE_KEY = 'standUpData';
+const STEPS = ["Mood", "Yesterday", "Today", "Hurdles"];
+
+const TEMPLATES = {
+  wins: [
+    "Completed project milestone",
+    "Had productive meetings",
+    "Solved key problem",
+    "Made progress on goals",
+  ],
+  focus: [
+    "Complete key deliverable",
+    "Strategic planning",
+    "Team alignment",
+    "Client meetings",
+  ],
+  hurdles: [
+    "Time management",
+    "Resource constraints",
+    "Technical challenges",
+    "Team coordination",
+  ],
+};
 
 export default function StandUp() {
+  const [currentStep, setCurrentStep] = useState(0);
   const [mentalHealth, setMentalHealth] = useState<number[]>([7]);
   const [wins, setWins] = useState("");
   const [focus, setFocus] = useState("");
   const [hurdles, setHurdles] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -32,8 +46,7 @@ export default function StandUp() {
   useEffect(() => {
     const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
-      const parsed = JSON.parse(savedData) as StandUpData;
-      // Only load if it's from today and not completed
+      const parsed = JSON.parse(savedData);
       const isToday = new Date(parsed.date).toDateString() === new Date().toDateString();
       if (isToday && !parsed.completed) {
         setMentalHealth(parsed.mentalHealth);
@@ -46,9 +59,9 @@ export default function StandUp() {
 
   // Autosave functionality
   useEffect(() => {
-    const saveTimeout = setTimeout(() => {
+    const saveTimeout = setTimeout(async () => {
       if (wins || focus || hurdles || mentalHealth[0] !== 7) {
-        const data: StandUpData = {
+        const data = {
           mentalHealth,
           wins,
           focus,
@@ -57,31 +70,52 @@ export default function StandUp() {
           completed: false
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-        toast({
-          title: "Progress saved!",
-          description: "Your stand-up has been auto-saved as a draft.",
-        });
+
+        // Save draft to Supabase
+        const { error } = await supabase
+          .from('stand_ups')
+          .upsert({
+            mental_health: mentalHealth[0],
+            draft_wins: wins,
+            draft_focus: focus,
+            draft_hurdles: hurdles,
+            last_edited_at: new Date().toISOString(),
+          });
+
+        if (!error) {
+          toast({
+            title: "Progress saved!",
+            description: "Your stand-up has been auto-saved as a draft.",
+          });
+        }
       }
     }, 2000);
 
     return () => clearTimeout(saveTimeout);
   }, [wins, focus, hurdles, mentalHealth, toast]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Save completed stand-up
-    const data: StandUpData = {
-      mentalHealth,
-      wins,
-      focus,
-      hurdles,
-      date: new Date().toISOString(),
-      completed: true
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const { error } = await supabase
+      .from('stand_ups')
+      .insert({
+        mental_health: mentalHealth[0],
+        wins,
+        focus,
+        hurdles,
+        completed: true
+      });
 
-    // Check mental health score
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to save your stand-up. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (mentalHealth[0] < 5) {
       toast({
         title: "We noticed you're not feeling great",
@@ -91,7 +125,6 @@ export default function StandUp() {
             variant="secondary" 
             size="sm" 
             onClick={() => {
-              // This would trigger the AI chat to open
               document.dispatchEvent(new CustomEvent('openAIChat', {
                 detail: {
                   context: 'low_mood',
@@ -114,20 +147,15 @@ export default function StandUp() {
     navigate("/");
   };
 
-  const handleMentalHealthChange = (value: number[]) => {
-    setMentalHealth(value);
+  const handleNext = () => {
+    if (currentStep < STEPS.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
-  const toggleVoiceRecording = (field: 'wins' | 'focus' | 'hurdles') => {
-    if (!isRecording) {
-      setIsRecording(true);
-      // Here you would implement actual voice recording logic
-      toast({
-        title: "Voice recording",
-        description: "Voice recording feature coming soon!",
-      });
-    } else {
-      setIsRecording(false);
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
     }
   };
 
@@ -143,85 +171,75 @@ export default function StandUp() {
           </p>
         </header>
 
+        <ProgressIndicator steps={STEPS} currentStep={currentStep} />
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          <Card className="p-6 space-y-4">
-            <div className="space-y-4">
-              <h2 className="font-medium">How are you feeling today?</h2>
-              <div className="px-2">
-                <Slider
-                  value={mentalHealth}
-                  onValueChange={handleMentalHealthChange}
-                  max={10}
-                  min={1}
-                  step={0.1}
-                  className="w-full"
-                />
-                <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                  <span>Not great</span>
-                  <span>Amazing</span>
-                </div>
-              </div>
-            </div>
-          </Card>
+          {currentStep === 0 && (
+            <MoodTracker value={mentalHealth} onChange={setMentalHealth} />
+          )}
 
-          {['wins', 'focus', 'hurdles'].map((field) => (
-            <Card key={field} className="p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  {field === 'wins' && <CheckCircle className="w-5 h-5 text-secondary" />}
-                  {field === 'focus' && <Target className="w-5 h-5 text-secondary" />}
-                  {field === 'hurdles' && <AlertCircle className="w-5 h-5 text-secondary" />}
-                  <h2 className="font-medium">
-                    {field === 'wins' && "Yesterday's Wins"}
-                    {field === 'focus' && "Today's Focus"}
-                    {field === 'hurdles' && "Potential Hurdles & Solutions"}
-                  </h2>
-                </div>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => toggleVoiceRecording(field as any)}
-                  className={isRecording ? 'text-destructive' : ''}
-                >
-                  <Mic className="w-4 h-4" />
-                </Button>
-              </div>
-              <Textarea
-                value={
-                  field === 'wins' ? wins :
-                  field === 'focus' ? focus :
-                  hurdles
-                }
-                onChange={(e) => {
-                  if (field === 'wins') setWins(e.target.value);
-                  if (field === 'focus') setFocus(e.target.value);
-                  if (field === 'hurdles') setHurdles(e.target.value);
-                }}
-                placeholder={
-                  field === 'wins' ? "What went well yesterday?" :
-                  field === 'focus' ? "What do you want to accomplish today?" :
-                  "What challenges might you face? How will you handle them?"
-                }
-                className="min-h-[100px]"
-              />
-            </Card>
-          ))}
+          {currentStep === 1 && (
+            <StandUpSection
+              icon={<CheckCircle className="w-5 h-5 text-secondary" />}
+              title="Yesterday's Wins"
+              value={wins}
+              onChange={setWins}
+              placeholder="What went well yesterday?"
+              templates={TEMPLATES.wins}
+            />
+          )}
 
-          <div className="flex flex-col gap-4">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => navigate("/goals")}
-              className="w-full"
-            >
-              View Goals
-            </Button>
-            <Button type="submit" className="w-full">
-              Submit
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+          {currentStep === 2 && (
+            <StandUpSection
+              icon={<Target className="w-5 h-5 text-secondary" />}
+              title="Today's Focus"
+              value={focus}
+              onChange={setFocus}
+              placeholder="What do you want to accomplish today?"
+              templates={TEMPLATES.focus}
+            />
+          )}
+
+          {currentStep === 3 && (
+            <StandUpSection
+              icon={<AlertCircle className="w-5 h-5 text-secondary" />}
+              title="Potential Hurdles & Solutions"
+              value={hurdles}
+              onChange={setHurdles}
+              placeholder="What challenges might you face? How will you handle them?"
+              templates={TEMPLATES.hurdles}
+            />
+          )}
+
+          <div className="flex gap-4">
+            {currentStep > 0 && (
+              <Button type="button" variant="outline" onClick={handleBack} className="flex-1">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+            )}
+            
+            {currentStep < STEPS.length - 1 ? (
+              <Button type="button" onClick={handleNext} className="flex-1">
+                Next
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            ) : (
+              <Button type="submit" className="flex-1">
+                Complete
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            )}
           </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => navigate("/goals")}
+            className="w-full"
+          >
+            View Goals
+          </Button>
         </form>
       </div>
     </PageContainer>
