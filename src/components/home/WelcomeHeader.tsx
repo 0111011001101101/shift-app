@@ -45,15 +45,22 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
           <span className="text-sm font-medium">Today's Stand-up:</span>
           {isLoading ? (
             <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-6 w-24 rounded-full" />
-          ) : todayStandUp?.completed ? (
-            <div className="flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full text-sm">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>Completed</span>
-            </div>
+          ) : todayStandUp ? (
+            todayStandUp.completed ? (
+              <div className="flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full text-sm">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Completed</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm">
+                <XCircle className="w-4 h-4" />
+                <span>Not done yet</span>
+              </div>
+            )
           ) : (
             <div className="flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm">
               <XCircle className="w-4 h-4" />
-              <span>Not done yet</span>
+              <span>Not started</span>
             </div>
           )}
         </div>
