@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Mic, Plus, Minus } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Mic, Plus, Minus, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
@@ -38,8 +38,11 @@ export function StandUpSection({
   const [bulletPoints, setBulletPoints] = useState<BulletPoint[]>([
     { id: '1', text: '', solution: requireSolution ? '' : undefined }
   ]);
+  const [noChallengesToday, setNoChallengesToday] = useState(false);
 
   const handleBulletPointChange = (id: string, text: string, isSolution = false) => {
+    if (noChallengesToday) return;
+    
     const updatedPoints = bulletPoints.map(point => {
       if (point.id === id) {
         return isSolution 
@@ -61,6 +64,8 @@ export function StandUpSection({
   };
 
   const addBulletPoint = () => {
+    if (noChallengesToday) return;
+    
     setBulletPoints([
       ...bulletPoints,
       { 
@@ -72,6 +77,8 @@ export function StandUpSection({
   };
 
   const removeBulletPoint = (id: string) => {
+    if (noChallengesToday) return;
+    
     if (bulletPoints.length > 1) {
       const updatedPoints = bulletPoints.filter(point => point.id !== id);
       setBulletPoints(updatedPoints);
@@ -94,6 +101,12 @@ export function StandUpSection({
     });
   };
 
+  const handleNoChallengesToday = () => {
+    setNoChallengesToday(true);
+    setBulletPoints([{ id: '1', text: '', solution: '' }]);
+    onChange("No significant challenges expected today!");
+  };
+
   return (
     <Card className="p-6 space-y-4">
       <div className="flex items-center justify-between">
@@ -103,65 +116,86 @@ export function StandUpSection({
           {required && <span className="text-destructive">*</span>}
         </div>
         <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={addBulletPoint}
-          >
-            <Plus className="w-4 h-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={handleVoiceRecording}
-          >
-            <Mic className="w-4 h-4" />
-          </Button>
+          {!noChallengesToday && (
+            <>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={addBulletPoint}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={handleVoiceRecording}
+              >
+                <Mic className="w-4 h-4" />
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
-      <div className="space-y-4">
-        {bulletPoints.map((point) => (
-          <div key={point.id} className="space-y-2">
-            <p className="text-sm text-muted-foreground ml-1">
-              {placeholder}
-            </p>
-            <div className="flex gap-2">
-              <Input
-                value={point.text}
-                onChange={(e) => handleBulletPointChange(point.id, e.target.value)}
-                className="flex-1"
-                required={required && bulletPoints.indexOf(point) === 0}
-              />
-              {bulletPoints.length > 1 && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeBulletPoint(point.id)}
-                >
-                  <Minus className="w-4 h-4" />
-                </Button>
+      {requireSolution && !noChallengesToday && (
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={handleNoChallengesToday}
+          className="w-full flex items-center gap-2 text-sm"
+        >
+          <Check className="w-4 h-4" />
+          I'm ready for today - no significant challenges expected!
+        </Button>
+      )}
+
+      {!noChallengesToday && (
+        <div className="space-y-4">
+          {bulletPoints.map((point) => (
+            <div key={point.id} className="space-y-2">
+              <p className="text-sm text-muted-foreground ml-1">
+                {placeholder}
+              </p>
+              <div className="flex gap-2">
+                <Textarea
+                  value={point.text}
+                  onChange={(e) => handleBulletPointChange(point.id, e.target.value)}
+                  className="flex-1 min-h-[80px] resize-y"
+                  required={required && bulletPoints.indexOf(point) === 0}
+                  disabled={noChallengesToday}
+                />
+                {bulletPoints.length > 1 && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => removeBulletPoint(point.id)}
+                  >
+                    <Minus className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+              {requireSolution && (
+                <>
+                  <p className="text-sm text-muted-foreground ml-1">Solution</p>
+                  <Textarea
+                    value={point.solution}
+                    onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
+                    className="w-full min-h-[80px] resize-y"
+                    required={required && bulletPoints.indexOf(point) === 0}
+                    disabled={noChallengesToday}
+                  />
+                </>
               )}
             </div>
-            {requireSolution && (
-              <>
-                <p className="text-sm text-muted-foreground ml-6">Solution</p>
-                <Input
-                  value={point.solution}
-                  onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
-                  className="ml-6"
-                  required={required && bulletPoints.indexOf(point) === 0}
-                />
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
-      {templates && templates.length > 0 && (
+      {templates && templates.length > 0 && !noChallengesToday && (
         <div className="flex gap-2 flex-wrap">
           {templates.map((template, index) => (
             <Button
