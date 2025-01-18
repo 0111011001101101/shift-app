@@ -47,7 +47,7 @@ const Auth = () => {
                     brand: '#0A2463',
                     brandAccent: '#7E72F2',
                   },
-                  borderRadii: {
+                  radii: {
                     borderRadiusButton: '0.75rem',
                     buttonBorderRadius: '0.75rem',
                     inputBorderRadius: '0.75rem',
