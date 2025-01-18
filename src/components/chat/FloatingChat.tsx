@@ -135,7 +135,7 @@ export function FloatingChat() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-24 right-4 h-12 w-12 rounded-full shadow-lg bg-primary hover:bg-primary/90"
+        className="fixed bottom-24 right-4 h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90 z-50"
       >
         <MessageCircle className="h-6 w-6" />
       </Button>
@@ -145,8 +145,8 @@ export function FloatingChat() {
   return (
     <Card
       className={cn(
-        "fixed right-4 shadow-lg transition-all duration-200 bg-gradient-to-br from-white/95 via-gray-50/90 to-gray-100/95 dark:from-gray-800/95 dark:via-gray-900/90 dark:to-gray-950/95 backdrop-blur-lg border border-gray-100/50 dark:border-gray-700/50",
-        isMinimized ? "bottom-24 h-14 w-72" : "bottom-24 h-[500px] w-72"
+        "fixed right-4 z-50 shadow-lg transition-all duration-200 bg-gradient-to-br from-white/95 via-gray-50/90 to-gray-100/95 dark:from-gray-800/95 dark:via-gray-900/90 dark:to-gray-950/95 backdrop-blur-lg border border-gray-100/50 dark:border-gray-700/50",
+        isMinimized ? "bottom-24 h-14 w-72" : "bottom-24 h-[500px] w-[350px]"
       )}
     >
       <div className="flex h-14 items-center justify-between border-b border-gray-100/50 dark:border-gray-700/50 px-4">
@@ -194,7 +194,7 @@ export function FloatingChat() {
                 >
                   <div
                     className={cn(
-                      "rounded-2xl px-4 py-2 max-w-[80%]",
+                      "rounded-2xl px-4 py-2 max-w-[80%] shadow-sm",
                       msg.isAi
                         ? "bg-secondary/10 text-gray-900 dark:text-gray-100"
                         : "bg-primary text-primary-foreground"
@@ -219,7 +219,7 @@ export function FloatingChat() {
               />
               <Button 
                 onClick={handleSend} 
-                size="icon" 
+                size="icon"
                 className="bg-primary hover:bg-primary/90"
                 disabled={isLoading}
               >
