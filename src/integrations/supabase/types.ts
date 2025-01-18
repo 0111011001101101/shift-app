@@ -210,33 +210,39 @@ export type Database = {
       }
       profiles: {
         Row: {
+          ai_preferences: Json | null
           created_at: string
           first_name: string | null
           id: string
           last_name: string | null
           last_stand_up: string | null
+          onboarding_completed: boolean | null
           preferences: Json | null
           stand_up_time: string | null
           streak: number | null
           updated_at: string
         }
         Insert: {
+          ai_preferences?: Json | null
           created_at?: string
           first_name?: string | null
           id: string
           last_name?: string | null
           last_stand_up?: string | null
+          onboarding_completed?: boolean | null
           preferences?: Json | null
           stand_up_time?: string | null
           streak?: number | null
           updated_at?: string
         }
         Update: {
+          ai_preferences?: Json | null
           created_at?: string
           first_name?: string | null
           id?: string
           last_name?: string | null
           last_stand_up?: string | null
+          onboarding_completed?: boolean | null
           preferences?: Json | null
           stand_up_time?: string | null
           streak?: number | null

@@ -16,7 +16,19 @@ const Auth = () => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       if (event === "SIGNED_IN" && session) {
-        navigate("/");
+        // Check if user has completed onboarding
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("onboarding_completed")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profile?.onboarding_completed) {
+          navigate("/home");
+        } else {
+          navigate("/onboarding");
+        }
+
         toast({
           title: "Welcome!",
           description: "You have successfully signed in.",
