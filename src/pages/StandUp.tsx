@@ -86,6 +86,12 @@ export default function StandUp() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Only allow submission on the final step
+    if (currentStep !== STEPS.length - 1) {
+      handleNext();
+      return;
+    }
+    
     if (!wins.trim() || !focus.trim()) {
       toast({
         title: "Missing information",
@@ -268,17 +274,19 @@ export default function StandUp() {
               </Button>
             )}
             
-            {currentStep < STEPS.length - 1 ? (
-              <Button type="button" onClick={handleNext} className="flex-1">
-                Next
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            ) : (
-              <Button type="submit" className="flex-1">
-                Complete
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            )}
+            <Button type="submit" className="flex-1">
+              {currentStep < STEPS.length - 1 ? (
+                <>
+                  Next
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              ) : (
+                <>
+                  Complete
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </>
+              )}
+            </Button>
           </div>
         </form>
       </div>
