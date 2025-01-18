@@ -30,6 +30,56 @@ export function FloatingChat() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
+  // Check for AI suggestions every 5 minutes
+  useEffect(() => {
+    const checkForSuggestions = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) return;
+
+        const { data, error } = await supabase.functions.invoke('ai-coach-suggest', {
+          body: { userId: user.id }
+        });
+
+        if (error) throw error;
+
+        if (data.suggestion) {
+          const aiSuggestion: Message = {
+            id: Date.now().toString(),
+            content: data.suggestion,
+            isAi: true,
+            timestamp: new Date(),
+          };
+
+          setMessages(prev => [...prev, aiSuggestion]);
+          
+          if (!isOpen) {
+            toast({
+              title: "New message from AI Coach",
+              description: "Your coach has some suggestions for you!",
+              action: (
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={() => setIsOpen(true)}
+                >
+                  View
+                </Button>
+              ),
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error checking for AI suggestions:', error);
+      }
+    };
+
+    const interval = setInterval(checkForSuggestions, 5 * 60 * 1000); // Every 5 minutes
+    checkForSuggestions(); // Initial check
+
+    return () => clearInterval(interval);
+  }, [isOpen, toast]);
+
   const handleSend = async () => {
     if (!message.trim() || isLoading) return;
 
