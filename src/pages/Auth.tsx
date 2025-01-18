@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
+import { Smile, Users } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -17,12 +18,12 @@ const Auth = () => {
       if (event === "SIGNED_IN" && session) {
         navigate("/");
         toast({
-          title: "Welcome back!",
+          title: "Welcome!",
           description: "You have successfully signed in.",
         });
       }
       if (event === "SIGNED_OUT") {
-        setErrorMessage(""); // Clear errors on sign out
+        setErrorMessage("");
       }
       if (event === "USER_UPDATED") {
         const { error } = await supabase.auth.getSession();
@@ -37,19 +38,18 @@ const Auth = () => {
 
   const getErrorMessage = (error: AuthError) => {
     if (error instanceof AuthApiError) {
-      switch (error.code) {
-        case 'invalid_credentials':
-          return 'Invalid email or password. Please check your credentials and try again.';
-        case 'email_not_confirmed':
+      switch (error.message) {
+        case 'Password should be at least 6 characters.':
+          return 'Please use a password that is at least 6 characters long for better security.';
+        case 'Invalid login credentials':
+          return 'The email or password you entered is incorrect. Please try again.';
+        case 'Email not confirmed':
           return 'Please verify your email address before signing in.';
-        case 'user_not_found':
-          return 'No user found with these credentials.';
-        case 'weak_password':
-          return 'Password should be at least 6 characters long.';
+        case 'User not found':
+          return 'No account found with these credentials. Please sign up first.';
         default:
-          // Check if it's a weak password error from the error message
           if (error.message.includes('weak_password')) {
-            return 'Password should be at least 6 characters long.';
+            return 'Please use a password that is at least 6 characters long for better security.';
           }
           return error.message;
       }
@@ -58,51 +58,64 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+      {/* Hero Section */}
+      <div className="flex-1 flex flex-col items-center justify-center p-4 space-y-8">
+        <div className="text-center space-y-4 max-w-2xl mx-auto animate-fadeIn">
+          <div className="flex justify-center space-x-4 mb-6">
+            <Smile className="w-12 h-12 text-primary animate-pulse" />
+            <Users className="w-12 h-12 text-secondary animate-pulse" />
+          </div>
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            Welcome
+            Welcome to Shift
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            Sign in to continue to your dashboard
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+            Your personal space for mindful moments and daily growth.
           </p>
         </div>
-        
-        <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200/50 dark:border-gray-700/50">
-          {errorMessage && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertDescription>{errorMessage}</AlertDescription>
-            </Alert>
-          )}
-          
-          <SupabaseAuth 
-            supabaseClient={supabase}
-            appearance={{
-              theme: ThemeSupa,
-              variables: {
-                default: {
-                  colors: {
-                    brand: '#0A2463',
-                    brandAccent: '#7E72F2',
-                  },
-                  radii: {
-                    borderRadiusButton: '0.75rem',
-                    buttonBorderRadius: '0.75rem',
-                    inputBorderRadius: '0.75rem',
+
+        <div className="w-full max-w-md">
+          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200/50 dark:border-gray-700/50 animate-slideUp">
+            {errorMessage && (
+              <Alert variant="destructive" className="mb-4">
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
+            
+            <SupabaseAuth 
+              supabaseClient={supabase}
+              appearance={{
+                theme: ThemeSupa,
+                variables: {
+                  default: {
+                    colors: {
+                      brand: '#0A2463',
+                      brandAccent: '#7E72F2',
+                    },
+                    radii: {
+                      borderRadiusButton: '0.75rem',
+                      buttonBorderRadius: '0.75rem',
+                      inputBorderRadius: '0.75rem',
+                    },
                   },
                 },
-              },
-              className: {
-                container: 'w-full',
-                button: 'w-full px-4 py-2 rounded-lg font-medium transition-colors duration-200',
-                input: 'w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-primary/20',
-              },
-            }}
-            theme="light"
-            providers={[]}
-          />
+                className: {
+                  container: 'w-full',
+                  button: 'w-full px-4 py-2 rounded-lg font-medium transition-colors duration-200',
+                  input: 'w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-primary/20',
+                  message: 'text-sm text-red-500 mt-1',
+                },
+              }}
+              theme="light"
+              providers={[]}
+            />
+          </div>
         </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center p-4 text-sm text-gray-500">
+        <p>Start your mindful journey today</p>
       </div>
     </div>
   );
