@@ -24,6 +24,12 @@ const Auth = () => {
       if (event === "SIGNED_OUT") {
         setErrorMessage(""); // Clear errors on sign out
       }
+      if (event === "USER_UPDATED") {
+        const { error } = await supabase.auth.getSession();
+        if (error) {
+          setErrorMessage(getErrorMessage(error));
+        }
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -38,7 +44,13 @@ const Auth = () => {
           return 'Please verify your email address before signing in.';
         case 'user_not_found':
           return 'No user found with these credentials.';
+        case 'weak_password':
+          return 'Password should be at least 6 characters long.';
         default:
+          // Check if it's a weak password error from the error message
+          if (error.message.includes('weak_password')) {
+            return 'Password should be at least 6 characters long.';
+          }
           return error.message;
       }
     }
