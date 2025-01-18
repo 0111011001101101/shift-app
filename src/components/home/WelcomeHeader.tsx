@@ -9,7 +9,7 @@ interface WelcomeHeaderProps {
 }
 
 export function WelcomeHeader({ username = "there", children }: WelcomeHeaderProps) {
-  const { data: todayStandUp } = useQuery({
+  const { data: todayStandUp, isLoading } = useQuery({
     queryKey: ["todayStandUp"],
     queryFn: async () => {
       const today = new Date();
@@ -42,7 +42,9 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         </div>
         <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-sm">
           <span className="text-sm font-medium">Today's Stand-up:</span>
-          {todayStandUp?.completed ? (
+          {isLoading ? (
+            <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-6 w-24 rounded-full" />
+          ) : todayStandUp?.completed ? (
             <div className="flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full text-sm">
               <CheckCircle2 className="w-4 h-4" />
               <span>Completed</span>

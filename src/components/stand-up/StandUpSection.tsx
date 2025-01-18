@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Mic, Plus, Minus, Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
@@ -101,10 +102,15 @@ export function StandUpSection({
     });
   };
 
-  const handleNoChallengesToday = () => {
-    setNoChallengesToday(true);
-    setBulletPoints([{ id: '1', text: '', solution: '' }]);
-    onChange("No significant challenges expected today!");
+  const handleNoChallengesToday = (checked: boolean) => {
+    setNoChallengesToday(checked);
+    if (checked) {
+      setBulletPoints([{ id: '1', text: '', solution: '' }]);
+      onChange("No significant challenges expected today!");
+    } else {
+      setBulletPoints([{ id: '1', text: '', solution: requireSolution ? '' : undefined }]);
+      onChange("");
+    }
   };
 
   return (
@@ -140,17 +146,20 @@ export function StandUpSection({
       </div>
 
       {requireSolution && (
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={handleNoChallengesToday}
-          className="w-full text-xs sm:text-sm py-2 px-3 h-auto min-h-[36px] whitespace-normal text-left justify-start"
-          disabled={noChallengesToday}
-        >
-          <Check className="w-4 h-4 mr-2 flex-shrink-0" />
-          <span>I'm ready for today - no significant challenges expected!</span>
-        </Button>
+        <div className="flex items-start space-x-2">
+          <Checkbox
+            id="noChallengesToday"
+            checked={noChallengesToday}
+            onCheckedChange={handleNoChallengesToday}
+            className="mt-1"
+          />
+          <label
+            htmlFor="noChallengesToday"
+            className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            I'm ready for today - no significant challenges expected!
+          </label>
+        </div>
       )}
 
       {!noChallengesToday && (
