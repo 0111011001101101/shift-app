@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
-import { Smile, Users } from "lucide-react";
+import { ArrowRight, Lock } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -59,23 +59,41 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-      {/* Hero Section */}
       <div className="flex-1 flex flex-col items-center justify-center p-4 space-y-8">
-        <div className="text-center space-y-4 max-w-2xl mx-auto animate-fadeIn">
-          <div className="flex justify-center space-x-4 mb-6">
-            <Smile className="w-12 h-12 text-primary animate-pulse" />
-            <Users className="w-12 h-12 text-secondary animate-pulse" />
+        {/* Hero Section */}
+        <div className="text-center space-y-6 max-w-2xl mx-auto animate-fadeIn">
+          <div className="inline-flex items-center justify-center p-2 bg-primary/5 rounded-full mb-4">
+            <Lock className="w-6 h-6 text-primary" />
           </div>
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            Welcome to SHIFT
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-            Your AI-powered companion for peak performance and mental clarity.
-          </p>
+          
+          <div className="space-y-4">
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+              Welcome to SHIFT
+            </h1>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto leading-relaxed">
+              Your AI-powered companion for peak performance and mental clarity
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <ArrowRight className="w-4 h-4" />
+              <span>Daily Stand-ups</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <ArrowRight className="w-4 h-4" />
+              <span>Goal Tracking</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <ArrowRight className="w-4 h-4" />
+              <span>AI Coaching</span>
+            </div>
+          </div>
         </div>
 
+        {/* Auth Form */}
         <div className="w-full max-w-md">
-          <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg rounded-2xl p-6 shadow-xl border border-gray-200/50 dark:border-gray-700/50 animate-slideUp">
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50 animate-slideUp">
             {errorMessage && (
               <Alert variant="destructive" className="mb-4">
                 <AlertDescription>{errorMessage}</AlertDescription>
@@ -101,8 +119,8 @@ const Auth = () => {
                 },
                 className: {
                   container: 'w-full',
-                  button: 'w-full px-4 py-2 rounded-lg font-medium transition-colors duration-200',
-                  input: 'w-full px-4 py-2 rounded-lg border focus:ring-2 focus:ring-primary/20',
+                  button: 'w-full px-4 py-3 rounded-lg font-medium transition-colors duration-200 shadow-sm',
+                  input: 'w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 bg-white dark:bg-gray-800',
                   message: 'text-sm text-red-500 mt-1',
                 },
               }}
@@ -114,8 +132,10 @@ const Auth = () => {
       </div>
 
       {/* Footer */}
-      <div className="text-center p-4 text-sm text-gray-500">
-        <p>Join ambitious leaders who use SHIFT to stay focused and resilient</p>
+      <div className="text-center p-6">
+        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+          Join ambitious leaders who use SHIFT to stay focused and resilient
+        </p>
       </div>
     </div>
   );
