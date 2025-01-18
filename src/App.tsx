@@ -1,52 +1,44 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { BottomNav } from "./components/layout/BottomNav";
-import { FloatingChat } from "./components/chat/FloatingChat";
-import Home from "./pages/Home";
-import Goals from "./pages/Goals";
-import StandUp from "./pages/StandUp";
-import Hurdles from "./pages/Hurdles";
-import Settings from "./pages/Settings";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import AuthPage from "@/pages/Auth";
+import Home from "@/pages/Home";
 
-const queryClient = new QueryClient();
+function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <div className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 text-foreground antialiased">
-        <div className="mx-auto max-w-lg min-h-screen relative pb-20">
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/goals" element={<Goals />} />
-              <Route path="/stand-up" element={<StandUp />} />
-              <Route path="/hurdles" element={<Hurdles />} />
-              <Route path="/coach" element={
-                <div className="page-container glass p-6 m-4 rounded-xl">
-                  <h1 className="text-2xl font-semibold mb-4">AI Coach</h1>
-                  <p className="text-muted-foreground">Coming Soon</p>
-                </div>
-              } />
-              <Route path="/learn" element={
-                <div className="page-container glass p-6 m-4 rounded-xl">
-                  <h1 className="text-2xl font-semibold mb-4">Learn</h1>
-                  <p className="text-muted-foreground">Coming Soon</p>
-                </div>
-              } />
-              <Route path="/settings" element={<Settings />} />
-            </Routes>
-            <FloatingChat />
-            <BottomNav />
-          </BrowserRouter>
-        </div>
-      </div>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  if (isAuthenticated === null) {
+    return null; // Or a loading spinner
+  }
+
+  return (
+    <Router>
+      <Routes>
+        <Route 
+          path="/" 
+          element={isAuthenticated ? <Home /> : <Navigate to="/auth" />} 
+        />
+        <Route 
+          path="/auth" 
+          element={!isAuthenticated ? <AuthPage /> : <Navigate to="/" />} 
+        />
+      </Routes>
+      <Toaster />
+    </Router>
+  );
+}
 
 export default App;
