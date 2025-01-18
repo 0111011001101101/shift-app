@@ -46,6 +46,76 @@ export function FloatingChat() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
+        // Check for recently completed goals
+        const { data: completedGoals } = await supabase
+          .from('goals')
+          .select('title')
+          .eq('user_id', user.id)
+          .eq('completed', true)
+          .gt('updated_at', new Date(Date.now() - 5 * 60 * 1000).toISOString());
+
+        if (completedGoals?.length) {
+          const goalMessage: Message = {
+            id: Date.now().toString(),
+            content: `🎉 Congratulations on completing your goal: "${completedGoals[0].title}"! This is a significant achievement. Would you like to set a new goal or discuss your next steps?`,
+            isAi: true,
+            timestamp: new Date(),
+          };
+          setMessages(prev => [...prev, goalMessage]);
+          
+          if (!isOpen) {
+            toast({
+              title: "Goal Completed! 🎯",
+              description: "Your AI coach has some encouragement for you!",
+              action: (
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={() => setIsOpen(true)}
+                >
+                  View
+                </Button>
+              ),
+            });
+          }
+        }
+
+        // Check for recent low mood scores
+        const { data: recentStandUp } = await supabase
+          .from('stand_ups')
+          .select('mental_health')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (recentStandUp?.mental_health && recentStandUp.mental_health < 5) {
+          const supportMessage: Message = {
+            id: (Date.now() + 1).toString(),
+            content: `I noticed you're not feeling your best today. Remember, it's okay to have challenging days. Would you like to talk about what's on your mind? We can work through this together.`,
+            isAi: true,
+            timestamp: new Date(),
+          };
+          setMessages(prev => [...prev, supportMessage]);
+          
+          if (!isOpen) {
+            toast({
+              title: "Your AI Coach is Here for You 💙",
+              description: "Let's talk about how you're feeling.",
+              action: (
+                <Button 
+                  variant="secondary" 
+                  size="sm" 
+                  onClick={() => setIsOpen(true)}
+                >
+                  Chat Now
+                </Button>
+              ),
+            });
+          }
+        }
+
+        // Original suggestion check
         const { data, error } = await supabase.functions.invoke('ai-coach-suggest', {
           body: { userId: user.id }
         });
@@ -54,12 +124,11 @@ export function FloatingChat() {
 
         if (data.suggestion) {
           const aiSuggestion: Message = {
-            id: Date.now().toString(),
+            id: (Date.now() + 2).toString(),
             content: data.suggestion,
             isAi: true,
             timestamp: new Date(),
           };
-
           setMessages(prev => [...prev, aiSuggestion]);
           
           if (!isOpen) {

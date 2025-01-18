@@ -166,7 +166,7 @@ export default function StandUp() {
 
       if (standUpError) throw standUpError;
 
-      // Update user's streak
+      // Update user's streak with better logic
       const { data: profile } = await supabase
         .from('profiles')
         .select('streak, last_stand_up')
@@ -181,14 +181,17 @@ export default function StandUp() {
         yesterday.setDate(yesterday.getDate() - 1);
 
         let newStreak = profile.streak || 0;
+        let streakMessage = '';
         
         // If last stand-up was yesterday, increment streak
         if (lastStandUp && lastStandUp.toDateString() === yesterday.toDateString()) {
           newStreak += 1;
+          streakMessage = `🔥 ${newStreak} day streak! Keep it up!`;
         } 
         // If last stand-up was not yesterday and not today, reset streak to 1
         else if (!lastStandUp || lastStandUp.toDateString() !== today.toDateString()) {
           newStreak = 1;
+          streakMessage = "🌟 Starting a new streak! Let's make it count!";
         }
 
         const { error: profileError } = await supabase
@@ -200,11 +203,19 @@ export default function StandUp() {
           .eq('id', user.id);
 
         if (profileError) throw profileError;
+
+        if (streakMessage) {
+          toast({
+            title: "Streak Update",
+            description: streakMessage,
+          });
+        }
       }
 
       // Clear localStorage
       localStorage.removeItem(STORAGE_KEY);
 
+      // Handle low mood score with immediate AI response
       if (mentalHealth[0] < 5) {
         toast({
           title: "We noticed you're not feeling great",
@@ -226,12 +237,12 @@ export default function StandUp() {
             </Button>
           ),
         });
+      } else {
+        toast({
+          title: "Stand-up completed!",
+          description: "Your morning check-in has been saved.",
+        });
       }
-
-      toast({
-        title: "Stand-up completed!",
-        description: "Your morning check-in has been saved.",
-      });
       
       navigate("/");
     } catch (error) {
