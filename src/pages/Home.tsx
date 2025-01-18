@@ -286,5 +286,3 @@ export default function Home() {
     </PageContainer>
   );
 }
-
-export default Home;
