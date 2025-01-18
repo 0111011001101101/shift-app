@@ -50,8 +50,8 @@ export default function StandUp() {
       completed: false
     });
 
-    // Only save if data has actually changed
-    if (currentData !== lastSavedData) {
+    // Only save if data has actually changed and we're not on the final step
+    if (currentData !== lastSavedData && currentStep < STEPS.length - 1) {
       const saveTimeout = setTimeout(async () => {
         const { data: { user } } = await supabase.auth.getUser();
         
@@ -81,7 +81,7 @@ export default function StandUp() {
 
       return () => clearTimeout(saveTimeout);
     }
-  }, [wins, focus, hurdles, mentalHealth, lastSavedData]);
+  }, [wins, focus, hurdles, mentalHealth, lastSavedData, currentStep]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
