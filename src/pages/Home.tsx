@@ -80,11 +80,11 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6">
+      <div className="space-y-4">
         {/* Modern Header Section */}
         <div className="relative py-4">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary/20 to-primary/20 rounded-full blur-3xl -z-10" />
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
             <div className="space-y-1">
               <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-fadeIn relative inline-block">
                 Good Morning, Couch Potato
