@@ -12,6 +12,7 @@ import StandUp from "./pages/StandUp";
 import Hurdles from "./pages/Hurdles";
 import Settings from "./pages/Settings";
 import Auth from "./pages/Auth";
+import Learn from "./pages/Learn";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +55,14 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <Hurdles />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/learn"
+                element={
+                  <ProtectedRoute>
+                    <Learn />
                   </ProtectedRoute>
                 }
               />
