@@ -18,12 +18,13 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
       const { data, error } = await supabase
         .from("stand_ups")
         .select("*")
+        .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
         .gte("created_at", today.toISOString())
         .lt("created_at", new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString())
-        .limit(1)
-        .single();
+        .order('created_at', { ascending: false })
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') throw error;
+      if (error) throw error;
       return data;
     },
   });
