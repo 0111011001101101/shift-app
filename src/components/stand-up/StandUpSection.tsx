@@ -1,8 +1,16 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Mic, List } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Mic, List, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+
+interface BulletPoint {
+  id: string;
+  text: string;
+  solution?: string;
+}
 
 interface StandUpSectionProps {
   icon: React.ReactNode;
@@ -12,6 +20,8 @@ interface StandUpSectionProps {
   placeholder: string;
   templates?: string[];
   required?: boolean;
+  allowMultiple?: boolean;
+  requireSolution?: boolean;
 }
 
 export function StandUpSection({
@@ -22,13 +32,59 @@ export function StandUpSection({
   placeholder,
   templates,
   required = true,
+  allowMultiple = false,
+  requireSolution = false,
 }: StandUpSectionProps) {
   const { toast } = useToast();
+  const [bulletPoints, setBulletPoints] = useState<BulletPoint[]>([
+    { id: '1', text: '', solution: requireSolution ? '' : undefined }
+  ]);
 
-  const handleTemplateClick = (template: string) => {
-    const bulletPoint = "• ";
-    const newValue = value ? `${value}\n${bulletPoint}${template}` : `${bulletPoint}${template}`;
-    onChange(newValue);
+  const handleBulletPointChange = (id: string, text: string, isSolution = false) => {
+    const updatedPoints = bulletPoints.map(point => {
+      if (point.id === id) {
+        return isSolution 
+          ? { ...point, solution: text }
+          : { ...point, text };
+      }
+      return point;
+    });
+    setBulletPoints(updatedPoints);
+    
+    // Combine all bullet points into a single string for the parent component
+    const combinedText = updatedPoints
+      .map(point => point.solution 
+        ? `• ${point.text}\n  → ${point.solution}`
+        : `• ${point.text}`
+      )
+      .join('\n');
+    onChange(combinedText);
+  };
+
+  const addBulletPoint = () => {
+    setBulletPoints([
+      ...bulletPoints,
+      { 
+        id: Date.now().toString(),
+        text: '',
+        solution: requireSolution ? '' : undefined
+      }
+    ]);
+  };
+
+  const removeBulletPoint = (id: string) => {
+    if (bulletPoints.length > 1) {
+      const updatedPoints = bulletPoints.filter(point => point.id !== id);
+      setBulletPoints(updatedPoints);
+      
+      const combinedText = updatedPoints
+        .map(point => point.solution 
+          ? `• ${point.text}\n  → ${point.solution}`
+          : `• ${point.text}`
+        )
+        .join('\n');
+      onChange(combinedText);
+    }
   };
 
   const handleVoiceRecording = () => {
@@ -47,14 +103,16 @@ export function StandUpSection({
           {required && <span className="text-destructive">*</span>}
         </div>
         <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            onClick={() => handleTemplateClick("• ")}
-          >
-            <List className="w-4 h-4" />
-          </Button>
+          {allowMultiple && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={addBulletPoint}
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+          )}
           <Button
             type="button"
             variant="ghost"
@@ -65,6 +123,42 @@ export function StandUpSection({
           </Button>
         </div>
       </div>
+
+      <div className="space-y-4">
+        {bulletPoints.map((point, index) => (
+          <div key={point.id} className="space-y-2">
+            <div className="flex gap-2">
+              <Input
+                value={point.text}
+                onChange={(e) => handleBulletPointChange(point.id, e.target.value)}
+                placeholder={`${placeholder} ${index + 1}`}
+                className="flex-1"
+                required={required && index === 0}
+              />
+              {allowMultiple && bulletPoints.length > 1 && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => removeBulletPoint(point.id)}
+                >
+                  <Minus className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
+            {requireSolution && (
+              <Input
+                value={point.solution}
+                onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
+                placeholder="Solution..."
+                className="ml-6"
+                required={required && index === 0}
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
       {templates && templates.length > 0 && (
         <div className="flex gap-2 flex-wrap">
           {templates.map((template, index) => (
@@ -72,7 +166,16 @@ export function StandUpSection({
               key={index}
               variant="outline"
               size="sm"
-              onClick={() => handleTemplateClick(template)}
+              onClick={() => {
+                if (bulletPoints.length === 1 && !bulletPoints[0].text) {
+                  handleBulletPointChange(bulletPoints[0].id, template);
+                } else {
+                  setBulletPoints([
+                    ...bulletPoints,
+                    { id: Date.now().toString(), text: template, solution: requireSolution ? '' : undefined }
+                  ]);
+                }
+              }}
               className="text-xs"
             >
               {template}
@@ -80,13 +183,6 @@ export function StandUpSection({
           ))}
         </div>
       )}
-      <Textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="min-h-[100px]"
-        required={required}
-      />
     </Card>
   );
 }

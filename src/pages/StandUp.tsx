@@ -75,19 +75,14 @@ export default function StandUp() {
             last_edited_at: new Date().toISOString(),
           });
 
-        if (!error) {
-          toast({
-            title: "Progress saved!",
-            description: "Your stand-up has been auto-saved as a draft.",
-          });
-        } else {
+        if (error) {
           console.error('Error saving draft:', error);
         }
       }, 2000);
 
       return () => clearTimeout(saveTimeout);
     }
-  }, [wins, focus, hurdles, mentalHealth, toast, lastSavedData]);
+  }, [wins, focus, hurdles, mentalHealth, lastSavedData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -261,6 +256,8 @@ export default function StandUp() {
               onChange={setHurdles}
               placeholder="What challenges might you face? How will you handle them?"
               required={false}
+              allowMultiple={true}
+              requireSolution={true}
             />
           )}
 

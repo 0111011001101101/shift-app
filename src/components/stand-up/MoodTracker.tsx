@@ -10,11 +10,12 @@ interface MoodTrackerProps {
 
 export function MoodTracker({ value, onChange }: MoodTrackerProps) {
   const getMoodIcon = (score: number) => {
-    if (score <= 3) return <Frown className="w-8 h-8 text-destructive" />;
-    if (score <= 5) return <Meh className="w-8 h-8 text-warning" />;
-    if (score <= 7) return <Smile className="w-8 h-8 text-primary" />;
-    if (score <= 9) return <SmilePlus className="w-8 h-8 text-success" />;
-    return <Heart className="w-8 h-8 text-success" />;
+    const iconClass = "w-12 h-12 transition-all duration-300";
+    if (score <= 3) return <Frown className={cn(iconClass, "text-destructive animate-pulse")} />;
+    if (score <= 5) return <Meh className={cn(iconClass, "text-warning")} />;
+    if (score <= 7) return <Smile className={cn(iconClass, "text-primary")} />;
+    if (score <= 9) return <SmilePlus className={cn(iconClass, "text-success")} />;
+    return <Heart className={cn(iconClass, "text-success animate-bounce")} />;
   };
 
   const getMoodLabel = (score: number) => {
@@ -26,12 +27,12 @@ export function MoodTracker({ value, onChange }: MoodTrackerProps) {
   };
 
   return (
-    <Card className="p-6 space-y-4">
+    <Card className="p-6 space-y-4 bg-gradient-to-br from-background to-muted/20">
       <div className="space-y-4">
-        <h2 className="font-medium">How are you feeling today?</h2>
-        <div className="text-center mb-4">
+        <h2 className="font-medium text-center">How are you feeling today?</h2>
+        <div className="flex flex-col items-center gap-2">
           {getMoodIcon(value[0])}
-          <p className="text-sm text-muted-foreground mt-2">{getMoodLabel(value[0])}</p>
+          <p className="text-sm text-muted-foreground">{getMoodLabel(value[0])}</p>
         </div>
         <div className="px-2">
           <Slider
