@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Mic } from "lucide-react";
+import { Mic, List } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface StandUpSectionProps {
@@ -11,6 +11,7 @@ interface StandUpSectionProps {
   onChange: (value: string) => void;
   placeholder: string;
   templates?: string[];
+  required?: boolean;
 }
 
 export function StandUpSection({
@@ -20,11 +21,14 @@ export function StandUpSection({
   onChange,
   placeholder,
   templates,
+  required = true,
 }: StandUpSectionProps) {
   const { toast } = useToast();
 
   const handleTemplateClick = (template: string) => {
-    onChange(template);
+    const bulletPoint = "• ";
+    const newValue = value ? `${value}\n${bulletPoint}${template}` : `${bulletPoint}${template}`;
+    onChange(newValue);
   };
 
   const handleVoiceRecording = () => {
@@ -40,15 +44,26 @@ export function StandUpSection({
         <div className="flex items-center gap-2">
           {icon}
           <h2 className="font-medium">{title}</h2>
+          {required && <span className="text-destructive">*</span>}
         </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={handleVoiceRecording}
-        >
-          <Mic className="w-4 h-4" />
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => handleTemplateClick("• ")}
+          >
+            <List className="w-4 h-4" />
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={handleVoiceRecording}
+          >
+            <Mic className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
       {templates && templates.length > 0 && (
         <div className="flex gap-2 flex-wrap">
@@ -70,6 +85,7 @@ export function StandUpSection({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className="min-h-[100px]"
+        required={required}
       />
     </Card>
   );

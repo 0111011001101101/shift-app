@@ -1,6 +1,7 @@
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Frown, Meh, SmilePlus, Smile, Heart } from "lucide-react";
 
 interface MoodTrackerProps {
   value: number[];
@@ -8,12 +9,12 @@ interface MoodTrackerProps {
 }
 
 export function MoodTracker({ value, onChange }: MoodTrackerProps) {
-  const getMoodEmoji = (score: number) => {
-    if (score <= 3) return "😔";
-    if (score <= 5) return "😐";
-    if (score <= 7) return "🙂";
-    if (score <= 9) return "😊";
-    return "🤩";
+  const getMoodIcon = (score: number) => {
+    if (score <= 3) return <Frown className="w-8 h-8 text-destructive" />;
+    if (score <= 5) return <Meh className="w-8 h-8 text-warning" />;
+    if (score <= 7) return <Smile className="w-8 h-8 text-primary" />;
+    if (score <= 9) return <SmilePlus className="w-8 h-8 text-success" />;
+    return <Heart className="w-8 h-8 text-success" />;
   };
 
   const getMoodLabel = (score: number) => {
@@ -29,7 +30,7 @@ export function MoodTracker({ value, onChange }: MoodTrackerProps) {
       <div className="space-y-4">
         <h2 className="font-medium">How are you feeling today?</h2>
         <div className="text-center mb-4">
-          <span className="text-4xl">{getMoodEmoji(value[0])}</span>
+          {getMoodIcon(value[0])}
           <p className="text-sm text-muted-foreground mt-2">{getMoodLabel(value[0])}</p>
         </div>
         <div className="px-2">
@@ -41,11 +42,11 @@ export function MoodTracker({ value, onChange }: MoodTrackerProps) {
             step={0.1}
             className={cn(
               "w-full",
-              value[0] <= 3 ? "accent-red-500" :
-              value[0] <= 5 ? "accent-orange-500" :
-              value[0] <= 7 ? "accent-yellow-500" :
-              value[0] <= 9 ? "accent-green-500" :
-              "accent-emerald-500"
+              value[0] <= 3 ? "accent-destructive" :
+              value[0] <= 5 ? "accent-warning" :
+              value[0] <= 7 ? "accent-primary" :
+              value[0] <= 9 ? "accent-success" :
+              "accent-success"
             )}
           />
           <div className="flex justify-between mt-2 text-xs text-muted-foreground">
