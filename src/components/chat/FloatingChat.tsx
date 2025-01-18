@@ -144,9 +144,9 @@ export function FloatingChat() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-24 right-4 h-16 w-16 rounded-full shadow-lg bg-primary hover:bg-primary/90 z-50"
+        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 z-50 md:bottom-24 md:h-14 md:w-14"
       >
-        <MessageCircle className="h-8 w-8" />
+        <MessageCircle className="h-6 w-6" />
       </Button>
     );
   }
@@ -154,8 +154,10 @@ export function FloatingChat() {
   return (
     <Card
       className={cn(
-        "fixed right-4 z-50 shadow-xl transition-all duration-200 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border border-gray-200/50 dark:border-gray-700/50",
-        isMinimized ? "bottom-24 h-14 w-80" : "bottom-24 h-[600px] w-[400px]"
+        "fixed right-2 left-2 mx-auto z-50 shadow-xl transition-all duration-200 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border border-gray-200/50 dark:border-gray-700/50 md:left-auto md:right-4 md:mx-0",
+        isMinimized 
+          ? "bottom-20 h-14 max-w-[280px] md:bottom-24 md:w-72" 
+          : "bottom-20 h-[500px] max-w-[400px] md:bottom-24 md:h-[600px] md:w-[380px]"
       )}
     >
       <div className="flex h-14 items-center justify-between border-b border-gray-200/50 dark:border-gray-700/50 px-4 bg-gradient-to-r from-primary/5 to-secondary/5">
@@ -191,8 +193,8 @@ export function FloatingChat() {
 
       {!isMinimized && (
         <>
-          <ScrollArea className="flex-1 p-4">
-            <div className="space-y-4">
+          <ScrollArea className="flex-1 p-3">
+            <div className="space-y-3">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
@@ -203,7 +205,7 @@ export function FloatingChat() {
                 >
                   <div
                     className={cn(
-                      "rounded-2xl px-4 py-3 max-w-[85%] shadow-sm",
+                      "rounded-2xl px-3 py-2 max-w-[85%] shadow-sm",
                       msg.isAi
                         ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                         : "bg-primary text-primary-foreground"
@@ -219,7 +221,7 @@ export function FloatingChat() {
             </div>
           </ScrollArea>
 
-          <div className="border-t border-gray-200/50 dark:border-gray-700/50 p-4">
+          <div className="border-t border-gray-200/50 dark:border-gray-700/50 p-3">
             <div className="flex gap-2">
               <Input
                 value={message}
@@ -232,7 +234,7 @@ export function FloatingChat() {
               <Button 
                 onClick={handleSend} 
                 size="icon"
-                className="bg-primary hover:bg-primary/90 h-10 w-10"
+                className="bg-primary hover:bg-primary/90 h-10 w-10 flex-shrink-0"
                 disabled={isLoading}
               >
                 <Send className="h-4 w-4" />
