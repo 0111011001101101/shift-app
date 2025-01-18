@@ -9,7 +9,256 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      goals: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          deadline: string | null
+          id: string
+          position: number | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          position?: number | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          deadline?: string | null
+          id?: string
+          position?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hurdles: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          id: string
+          position: number | null
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          id?: string
+          position?: number | null
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          id?: string
+          position?: number | null
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hurdles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          last_stand_up: string | null
+          preferences: Json | null
+          stand_up_time: string | null
+          streak: number | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          last_stand_up?: string | null
+          preferences?: Json | null
+          stand_up_time?: string | null
+          streak?: number | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          last_stand_up?: string | null
+          preferences?: Json | null
+          stand_up_time?: string | null
+          streak?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      solutions: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          frequency: string | null
+          hurdle_id: string | null
+          id: string
+          position: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          frequency?: string | null
+          hurdle_id?: string | null
+          id?: string
+          position?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          frequency?: string | null
+          hurdle_id?: string | null
+          id?: string
+          position?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "solutions_hurdle_id_fkey"
+            columns: ["hurdle_id"]
+            isOneToOne: false
+            referencedRelation: "hurdles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      stand_ups: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          draft_focus: string | null
+          draft_hurdles: string | null
+          draft_wins: string | null
+          focus: string | null
+          hurdles: string | null
+          id: string
+          last_edited_at: string | null
+          mental_health: number | null
+          user_id: string | null
+          wins: string | null
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          draft_focus?: string | null
+          draft_hurdles?: string | null
+          draft_wins?: string | null
+          focus?: string | null
+          hurdles?: string | null
+          id?: string
+          last_edited_at?: string | null
+          mental_health?: number | null
+          user_id?: string | null
+          wins?: string | null
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          draft_focus?: string | null
+          draft_hurdles?: string | null
+          draft_wins?: string | null
+          focus?: string | null
+          hurdles?: string | null
+          id?: string
+          last_edited_at?: string | null
+          mental_health?: number | null
+          user_id?: string | null
+          wins?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stand_ups_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sub_goals: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          frequency: string | null
+          goal_id: string | null
+          id: string
+          position: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          frequency?: string | null
+          goal_id?: string | null
+          id?: string
+          position?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          frequency?: string | null
+          goal_id?: string | null
+          id?: string
+          position?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sub_goals_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

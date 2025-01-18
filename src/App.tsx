@@ -5,11 +5,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { BottomNav } from "./components/layout/BottomNav";
 import { FloatingChat } from "./components/chat/FloatingChat";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
 import Hurdles from "./pages/Hurdles";
 import Settings from "./pages/Settings";
+import Auth from "./pages/Auth";
 
 const queryClient = new QueryClient();
 
@@ -22,23 +24,47 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/goals" element={<Goals />} />
-              <Route path="/stand-up" element={<StandUp />} />
-              <Route path="/hurdles" element={<Hurdles />} />
-              <Route path="/coach" element={
-                <div className="page-container glass p-6 m-4 rounded-xl">
-                  <h1 className="text-2xl font-semibold mb-4">AI Coach</h1>
-                  <p className="text-muted-foreground">Coming Soon</p>
-                </div>
-              } />
-              <Route path="/learn" element={
-                <div className="page-container glass p-6 m-4 rounded-xl">
-                  <h1 className="text-2xl font-semibold mb-4">Learn</h1>
-                  <p className="text-muted-foreground">Coming Soon</p>
-                </div>
-              } />
-              <Route path="/settings" element={<Settings />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/goals"
+                element={
+                  <ProtectedRoute>
+                    <Goals />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/stand-up"
+                element={
+                  <ProtectedRoute>
+                    <StandUp />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/hurdles"
+                element={
+                  <ProtectedRoute>
+                    <Hurdles />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/settings"
+                element={
+                  <ProtectedRoute>
+                    <Settings />
+                  </ProtectedRoute>
+                }
+              />
             </Routes>
             <FloatingChat />
             <BottomNav />
