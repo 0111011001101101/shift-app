@@ -67,10 +67,10 @@ const Auth = () => {
             <Users className="w-12 h-12 text-secondary animate-pulse" />
           </div>
           <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-            Welcome to Shift
+            Welcome to SHIFT
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto">
-            Your personal space for mindful moments and daily growth.
+            Your AI-powered companion for peak performance and mental clarity.
           </p>
         </div>
 
@@ -115,7 +115,7 @@ const Auth = () => {
 
       {/* Footer */}
       <div className="text-center p-4 text-sm text-gray-500">
-        <p>Start your mindful journey today</p>
+        <p>Join ambitious leaders who use SHIFT to stay focused and resilient</p>
       </div>
     </div>
   );

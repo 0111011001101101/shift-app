@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { LogOut } from "lucide-react";
+import { Bell, Clock, LogOut, Moon, Palette } from "lucide-react";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -30,7 +30,53 @@ export default function Settings() {
     <PageContainer>
       <div className="space-y-6">
         <h1 className="text-2xl font-bold tracking-tight">Settings</h1>
+        
         <div className="space-y-4">
+          {/* Stand-up Time */}
+          <Button 
+            variant="outline" 
+            className="w-full justify-start"
+            disabled
+          >
+            <Clock className="mr-2 h-4 w-4" />
+            Stand-up Time
+            <span className="ml-auto text-xs text-muted-foreground">Coming soon</span>
+          </Button>
+
+          {/* Notifications */}
+          <Button 
+            variant="outline" 
+            className="w-full justify-start"
+            disabled
+          >
+            <Bell className="mr-2 h-4 w-4" />
+            Notifications
+            <span className="ml-auto text-xs text-muted-foreground">Coming soon</span>
+          </Button>
+
+          {/* Appearance */}
+          <Button 
+            variant="outline" 
+            className="w-full justify-start"
+            disabled
+          >
+            <Palette className="mr-2 h-4 w-4" />
+            Appearance
+            <span className="ml-auto text-xs text-muted-foreground">Coming soon</span>
+          </Button>
+
+          {/* Dark Mode */}
+          <Button 
+            variant="outline" 
+            className="w-full justify-start"
+            disabled
+          >
+            <Moon className="mr-2 h-4 w-4" />
+            Dark Mode
+            <span className="ml-auto text-xs text-muted-foreground">Coming soon</span>
+          </Button>
+
+          {/* Logout Button */}
           <Button 
             variant="destructive" 
             onClick={handleLogout}
