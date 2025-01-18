@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, X, Minimize2, Maximize2, Send, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface Message {
   id: string;
@@ -25,9 +27,11 @@ export function FloatingChat() {
       timestamp: new Date(),
     },
   ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSend = async () => {
-    if (!message.trim()) return;
+    if (!message.trim() || isLoading) return;
 
     const newMessage: Message = {
       id: Date.now().toString(),
@@ -38,17 +42,36 @@ export function FloatingChat() {
 
     setMessages((prev) => [...prev, newMessage]);
     setMessage("");
+    setIsLoading(true);
 
-    // Simulate AI response
-    setTimeout(() => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
+
+      const { data, error } = await supabase.functions.invoke('chat-with-ai', {
+        body: { message, userId: user.id }
+      });
+
+      if (error) throw error;
+
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
-        content: "I'm here to help! What's on your mind?",
+        content: data.reply,
         isAi: true,
         timestamp: new Date(),
       };
+
       setMessages((prev) => [...prev, aiResponse]);
-    }, 1000);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast({
+        title: "Error",
+        description: "Failed to get AI response. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -140,10 +163,16 @@ export function FloatingChat() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Type a message..."
+                placeholder={isLoading ? "AI is thinking..." : "Type a message..."}
+                disabled={isLoading}
                 className="flex-1 bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700"
               />
-              <Button onClick={handleSend} size="icon" className="bg-primary hover:bg-primary/90">
+              <Button 
+                onClick={handleSend} 
+                size="icon" 
+                className="bg-primary hover:bg-primary/90"
+                disabled={isLoading}
+              >
                 <Send className="h-4 w-4" />
               </Button>
             </div>
