@@ -14,6 +14,11 @@ serve(async (req) => {
 
   try {
     const { userId } = await req.json();
+    console.log('Checking for suggestions for user:', userId);
+
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
 
     // Initialize Supabase client
     const supabaseClient = createClient(
@@ -22,33 +27,60 @@ serve(async (req) => {
     );
 
     // Fetch user's recent data
-    const { data: recentStandUps } = await supabaseClient
+    console.log('Fetching user data...');
+    const { data: recentStandUps, error: standUpsError } = await supabaseClient
       .from('stand_ups')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(5);
 
-    const { data: goals } = await supabaseClient
+    if (standUpsError) {
+      console.error('Error fetching stand-ups:', standUpsError);
+      throw standUpsError;
+    }
+
+    const { data: goals, error: goalsError } = await supabaseClient
       .from('goals')
       .select('*, sub_goals(*)')
       .eq('user_id', userId)
       .eq('completed', false);
 
-    const { data: hurdles } = await supabaseClient
+    if (goalsError) {
+      console.error('Error fetching goals:', goalsError);
+      throw goalsError;
+    }
+
+    const { data: hurdles, error: hurdlesError } = await supabaseClient
       .from('hurdles')
       .select('*, solutions(*)')
       .eq('user_id', userId)
       .eq('completed', false);
 
+    if (hurdlesError) {
+      console.error('Error fetching hurdles:', hurdlesError);
+      throw hurdlesError;
+    }
+
     // Analyze patterns and triggers
     const triggers = [];
+    const context = {
+      recentMood: null,
+      stalledGoals: [],
+      unaddressedHurdles: [],
+      recentWins: null,
+      currentFocus: null,
+    };
 
     // Check for mood patterns
     const recentMoods = recentStandUps?.map(s => s.mental_health) || [];
-    const avgMood = recentMoods.reduce((a, b) => a + b, 0) / recentMoods.length;
-    if (avgMood < 5) {
+    const avgMood = recentMoods.length > 0 
+      ? recentMoods.reduce((a, b) => a + b, 0) / recentMoods.length 
+      : null;
+    
+    if (avgMood !== null && avgMood < 5) {
       triggers.push('low_mood');
+      context.recentMood = avgMood;
     }
 
     // Check for stalled goals
@@ -56,27 +88,32 @@ serve(async (req) => {
       g.sub_goals?.every(sg => !sg.completed) && 
       new Date(g.deadline) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
     ) || [];
+    
     if (stalledGoals.length > 0) {
       triggers.push('stalled_goals');
+      context.stalledGoals = stalledGoals.map(g => g.title);
     }
 
     // Check for unaddressed hurdles
     const unaddressedHurdles = hurdles?.filter(h => 
       !h.solutions || h.solutions.length === 0
     ) || [];
+    
     if (unaddressedHurdles.length > 0) {
       triggers.push('unaddressed_hurdles');
+      context.unaddressedHurdles = unaddressedHurdles.map(h => h.title);
+    }
+
+    // Add recent context
+    if (recentStandUps?.[0]) {
+      context.recentWins = recentStandUps[0].wins;
+      context.currentFocus = recentStandUps[0].focus;
     }
 
     // If we have triggers, generate an AI suggestion
     if (triggers.length > 0) {
-      const context = {
-        recentMood: avgMood,
-        stalledGoals: stalledGoals.map(g => g.title),
-        unaddressedHurdles: unaddressedHurdles.map(h => h.title),
-        recentWins: recentStandUps?.[0]?.wins || null,
-        currentFocus: recentStandUps?.[0]?.focus || null,
-      };
+      console.log('Triggers found:', triggers);
+      console.log('Generating suggestion with context:', context);
 
       // Call OpenAI API
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -86,7 +123,7 @@ serve(async (req) => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'gpt-4-turbo-preview',
           messages: [
             {
               role: 'system',
@@ -112,8 +149,14 @@ serve(async (req) => {
         }),
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('OpenAI API error:', errorData);
+        throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+      }
+
       const data = await response.json();
-      console.log('AI Suggestion:', data);
+      console.log('OpenAI response received:', data);
 
       return new Response(
         JSON.stringify({ 
@@ -125,6 +168,7 @@ serve(async (req) => {
       );
     }
 
+    console.log('No triggers found, no suggestion needed');
     return new Response(
       JSON.stringify({ suggestion: null, triggers: [], context: null }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
@@ -133,7 +177,10 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in ai-coach-suggest function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.toString()
+      }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }

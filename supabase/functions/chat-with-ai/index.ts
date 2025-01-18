@@ -14,6 +14,11 @@ serve(async (req) => {
 
   try {
     const { message, userId } = await req.json();
+    console.log('Received request for user:', userId);
+
+    if (!userId) {
+      throw new Error('User ID is required');
+    }
 
     // Initialize Supabase client
     const supabaseClient = createClient(
@@ -22,46 +27,48 @@ serve(async (req) => {
     );
 
     // Fetch user's recent data for context
-    const { data: standUps } = await supabaseClient
+    console.log('Fetching user context...');
+    const { data: standUps, error: standUpsError } = await supabaseClient
       .from('stand_ups')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(5);
 
-    // Fetch goals with their sub-goals
-    const { data: goals } = await supabaseClient
+    if (standUpsError) {
+      console.error('Error fetching stand-ups:', standUpsError);
+      throw standUpsError;
+    }
+
+    const { data: goals, error: goalsError } = await supabaseClient
       .from('goals')
       .select(`
         *,
-        sub_goals (
-          id,
-          title,
-          frequency,
-          completed
-        )
+        sub_goals (*)
       `)
       .eq('user_id', userId)
-      .eq('completed', false)
-      .order('position');
+      .eq('completed', false);
 
-    // Fetch hurdles with their solutions
-    const { data: hurdles } = await supabaseClient
+    if (goalsError) {
+      console.error('Error fetching goals:', goalsError);
+      throw goalsError;
+    }
+
+    const { data: hurdles, error: hurdlesError } = await supabaseClient
       .from('hurdles')
       .select(`
         *,
-        solutions (
-          id,
-          title,
-          frequency,
-          completed
-        )
+        solutions (*)
       `)
       .eq('user_id', userId)
-      .eq('completed', false)
-      .order('position');
+      .eq('completed', false);
 
-    // Construct detailed context for the AI
+    if (hurdlesError) {
+      console.error('Error fetching hurdles:', hurdlesError);
+      throw hurdlesError;
+    }
+
+    // Construct context for the AI
     const context = {
       recentMood: standUps?.[0]?.mental_health || null,
       recentWins: standUps?.[0]?.wins || null,
@@ -85,15 +92,17 @@ serve(async (req) => {
       })) || []
     };
 
+    console.log('Calling OpenAI with context:', JSON.stringify(context, null, 2));
+
     // Call OpenAI API
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const openAIResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4-turbo-preview',
         messages: [
           {
             role: 'system',
@@ -132,8 +141,14 @@ serve(async (req) => {
       }),
     });
 
-    const data = await response.json();
-    console.log('AI Response:', data);
+    if (!openAIResponse.ok) {
+      const errorData = await openAIResponse.json();
+      console.error('OpenAI API error:', errorData);
+      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+    }
+
+    const data = await openAIResponse.json();
+    console.log('OpenAI response received:', data);
 
     return new Response(
       JSON.stringify({ 
@@ -145,7 +160,10 @@ serve(async (req) => {
   } catch (error) {
     console.error('Error in chat-with-ai function:', error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ 
+        error: error.message,
+        details: error.toString()
+      }),
       { 
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
