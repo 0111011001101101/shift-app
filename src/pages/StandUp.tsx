@@ -24,20 +24,56 @@ export default function StandUp() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  // Load saved data on mount
   useEffect(() => {
-    const savedData = localStorage.getItem(STORAGE_KEY);
-    if (savedData) {
-      const parsed = JSON.parse(savedData);
-      const isToday = new Date(parsed.date).toDateString() === new Date().toDateString();
-      if (isToday && !parsed.completed) {
-        setMentalHealth(parsed.mentalHealth);
-        setWins(parsed.wins);
-        setFocus(parsed.focus);
-        setHurdles(parsed.hurdles);
-        setLastSavedData(JSON.stringify(parsed));
+    const loadSavedData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // First check localStorage for draft
+      const savedData = localStorage.getItem(STORAGE_KEY);
+      if (savedData) {
+        const parsed = JSON.parse(savedData);
+        const isToday = new Date(parsed.date).toDateString() === new Date().toDateString();
+        if (isToday && !parsed.completed) {
+          setMentalHealth(parsed.mentalHealth);
+          setWins(parsed.wins);
+          setFocus(parsed.focus);
+          setHurdles(parsed.hurdles);
+          setLastSavedData(JSON.stringify(parsed));
+          return;
+        }
       }
-    }
-  }, []);
+
+      // If no draft in localStorage, check Supabase for today's stand-up
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      const { data: standUp } = await supabase
+        .from('stand_ups')
+        .select('*')
+        .eq('user_id', user.id)
+        .gte('created_at', today.toISOString())
+        .lt('created_at', new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString())
+        .single();
+
+      if (standUp) {
+        setMentalHealth([standUp.mental_health]);
+        setWins(standUp.wins || '');
+        setFocus(standUp.focus || '');
+        setHurdles(standUp.hurdles || '');
+        if (standUp.completed) {
+          toast({
+            title: "Stand-up already completed",
+            description: "You've already completed your stand-up for today!",
+          });
+          navigate('/');
+        }
+      }
+    };
+
+    loadSavedData();
+  }, [navigate, toast]);
 
   // Autosave functionality
   useEffect(() => {
@@ -112,57 +148,100 @@ export default function StandUp() {
       return;
     }
 
-    const { error } = await supabase
-      .from('stand_ups')
-      .insert({
-        user_id: user.id,
-        mental_health: Math.round(mentalHealth[0]),
-        wins,
-        focus,
-        hurdles,
-        completed: true
-      });
+    try {
+      // Submit the completed stand-up
+      const { error: standUpError } = await supabase
+        .from('stand_ups')
+        .upsert({
+          user_id: user.id,
+          mental_health: Math.round(mentalHealth[0]),
+          wins,
+          focus,
+          hurdles,
+          completed: true,
+          draft_wins: null,
+          draft_focus: null,
+          draft_hurdles: null,
+        });
 
-    if (error) {
-      console.error('Submission error:', error);
+      if (standUpError) throw standUpError;
+
+      // Update user's streak
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('streak, last_stand_up')
+        .eq('id', user.id)
+        .single();
+
+      if (profile) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const lastStandUp = profile.last_stand_up ? new Date(profile.last_stand_up) : null;
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+
+        let newStreak = profile.streak || 0;
+        
+        // If last stand-up was yesterday, increment streak
+        if (lastStandUp && lastStandUp.toDateString() === yesterday.toDateString()) {
+          newStreak += 1;
+        } 
+        // If last stand-up was not yesterday and not today, reset streak to 1
+        else if (!lastStandUp || lastStandUp.toDateString() !== today.toDateString()) {
+          newStreak = 1;
+        }
+
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update({ 
+            streak: newStreak,
+            last_stand_up: today.toISOString()
+          })
+          .eq('id', user.id);
+
+        if (profileError) throw profileError;
+      }
+
+      // Clear localStorage
+      localStorage.removeItem(STORAGE_KEY);
+
+      if (mentalHealth[0] < 5) {
+        toast({
+          title: "We noticed you're not feeling great",
+          description: "Would you like to talk to your AI coach about it?",
+          action: (
+            <Button 
+              variant="secondary" 
+              size="sm" 
+              onClick={() => {
+                document.dispatchEvent(new CustomEvent('openAIChat', {
+                  detail: {
+                    context: 'low_mood',
+                    score: mentalHealth[0]
+                  }
+                }));
+              }}
+            >
+              Talk to Coach
+            </Button>
+          ),
+        });
+      }
+
+      toast({
+        title: "Stand-up completed!",
+        description: "Your morning check-in has been saved.",
+      });
+      
+      navigate("/");
+    } catch (error) {
+      console.error('Error submitting stand-up:', error);
       toast({
         title: "Error",
         description: "Failed to save your stand-up. Please try again.",
         variant: "destructive",
       });
-      return;
     }
-
-    if (mentalHealth[0] < 5) {
-      toast({
-        title: "We noticed you're not feeling great",
-        description: "Would you like to talk to your AI coach about it?",
-        action: (
-          <Button 
-            variant="secondary" 
-            size="sm" 
-            onClick={() => {
-              document.dispatchEvent(new CustomEvent('openAIChat', {
-                detail: {
-                  context: 'low_mood',
-                  score: mentalHealth[0]
-                }
-              }));
-            }}
-          >
-            Talk to Coach
-          </Button>
-        ),
-      });
-    }
-
-    localStorage.removeItem(STORAGE_KEY);
-    toast({
-      title: "Stand-up completed!",
-      description: "Your morning check-in has been saved.",
-    });
-    
-    navigate("/");
   };
 
   const handleNext = () => {

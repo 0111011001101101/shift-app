@@ -139,16 +139,17 @@ export function StandUpSection({
         </div>
       </div>
 
-      {requireSolution && !noChallengesToday && (
+      {requireSolution && (
         <Button
           type="button"
           variant="outline"
           size="sm"
           onClick={handleNoChallengesToday}
-          className="w-full flex items-center gap-2 text-sm"
+          className="w-full text-xs sm:text-sm py-2 px-3 h-auto min-h-[36px] whitespace-normal text-left justify-start"
+          disabled={noChallengesToday}
         >
-          <Check className="w-4 h-4" />
-          I'm ready for today - no significant challenges expected!
+          <Check className="w-4 h-4 mr-2 flex-shrink-0" />
+          <span>I'm ready for today - no significant challenges expected!</span>
         </Button>
       )}
 
@@ -179,8 +180,8 @@ export function StandUpSection({
                 )}
               </div>
               {requireSolution && (
-                <>
-                  <p className="text-sm text-muted-foreground ml-1">Solution</p>
+                <div className="ml-4 border-l-2 border-muted pl-4">
+                  <p className="text-sm text-muted-foreground mb-2">Solution</p>
                   <Textarea
                     value={point.solution}
                     onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
@@ -188,7 +189,7 @@ export function StandUpSection({
                     required={required && bulletPoints.indexOf(point) === 0}
                     disabled={noChallengesToday}
                   />
-                </>
+                </div>
               )}
             </div>
           ))}
