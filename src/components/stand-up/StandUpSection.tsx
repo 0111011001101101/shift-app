@@ -1,7 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Mic, List, Plus, Minus } from "lucide-react";
+import { Mic, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
@@ -126,11 +126,13 @@ export function StandUpSection({
       <div className="space-y-4">
         {bulletPoints.map((point, index) => (
           <div key={point.id} className="space-y-2">
+            <p className="text-sm text-muted-foreground ml-1">
+              {`${placeholder} ${index + 1}`}
+            </p>
             <div className="flex gap-2">
               <Input
                 value={point.text}
                 onChange={(e) => handleBulletPointChange(point.id, e.target.value)}
-                placeholder={`${placeholder} ${index + 1}`}
                 className="flex-1"
                 required={required && index === 0}
               />
@@ -146,13 +148,15 @@ export function StandUpSection({
               )}
             </div>
             {requireSolution && (
-              <Input
-                value={point.solution}
-                onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
-                placeholder="Solution..."
-                className="ml-6"
-                required={required && index === 0}
-              />
+              <>
+                <p className="text-sm text-muted-foreground ml-6">Solution</p>
+                <Input
+                  value={point.solution}
+                  onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
+                  className="ml-6"
+                  required={required && index === 0}
+                />
+              </>
             )}
           </div>
         ))}
