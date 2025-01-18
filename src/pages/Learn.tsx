@@ -38,59 +38,62 @@ export default function Learn() {
   );
 
   return (
-    <PageContainer className="max-w-4xl px-4 sm:px-6">
-      <div className="space-y-6 sm:space-y-8 animate-fadeIn">
+    <PageContainer className="max-w-4xl">
+      <div className="space-y-6 animate-fadeIn">
         {/* Header Section */}
-        <div className="text-center space-y-4">
-          <div className="flex justify-center mb-4 sm:mb-6">
+        <div className="text-center space-y-4 px-4">
+          <div className="flex justify-center mb-4">
             <div className="relative">
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary to-secondary blur-md opacity-75" />
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-secondary to-accent blur-md opacity-75" />
               <div className="relative bg-white dark:bg-gray-800 rounded-full p-3 sm:p-4">
-                <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+                <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary animate-pulse" />
               </div>
             </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary flex items-center justify-center gap-2">
-            <GraduationCap className="h-6 w-6 sm:h-8 sm:w-8" />
+          <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
             Learn & Grow
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto px-4">
+          <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto">
             Explore curated content designed to help you overcome challenges and achieve your goals
           </p>
         </div>
 
         {/* Search Section */}
         <div className="relative max-w-md mx-auto px-4">
-          <Search className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search modules..."
-            className="pl-10 h-11 bg-white dark:bg-gray-800"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+            <Input
+              placeholder="Search modules..."
+              className="pl-10 h-11 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-100/50 dark:border-gray-700/50"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
         </div>
 
         {/* Modules Grid */}
-        {isLoading ? (
-          <div className="grid gap-4 px-4">
-            <Skeleton className="h-[200px] w-full" />
-            <Skeleton className="h-[200px] w-full" />
-            <Skeleton className="h-[200px] w-full" />
-          </div>
-        ) : (
-          <div className="grid gap-4 px-4">
-            {filteredModules?.map((module) => (
-              <ModuleCard
-                key={module.id}
-                id={module.id}
-                title={module.title}
-                description={module.description}
-                estimatedMinutes={module.estimated_minutes}
-                progress={Math.round(module.progress)}
-              />
-            ))}
-          </div>
-        )}
+        <div className="px-4 space-y-4">
+          {isLoading ? (
+            <>
+              <Skeleton className="h-[180px] w-full" />
+              <Skeleton className="h-[180px] w-full" />
+              <Skeleton className="h-[180px] w-full" />
+            </>
+          ) : (
+            <div className="grid gap-4">
+              {filteredModules?.map((module) => (
+                <ModuleCard
+                  key={module.id}
+                  id={module.id}
+                  title={module.title}
+                  description={module.description}
+                  estimatedMinutes={module.estimated_minutes}
+                  progress={Math.round(module.progress)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </PageContainer>
   );
