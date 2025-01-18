@@ -50,7 +50,6 @@ export function StandUpSection({
     });
     setBulletPoints(updatedPoints);
     
-    // Combine all bullet points into a single string for the parent component
     const combinedText = updatedPoints
       .filter(point => point.text.trim() || (point.solution && point.solution.trim()))
       .map(point => point.solution 
@@ -124,17 +123,17 @@ export function StandUpSection({
       </div>
 
       <div className="space-y-4">
-        {bulletPoints.map((point, index) => (
+        {bulletPoints.map((point) => (
           <div key={point.id} className="space-y-2">
             <p className="text-sm text-muted-foreground ml-1">
-              {`${placeholder} ${index + 1}`}
+              {placeholder}
             </p>
             <div className="flex gap-2">
               <Input
                 value={point.text}
                 onChange={(e) => handleBulletPointChange(point.id, e.target.value)}
                 className="flex-1"
-                required={required && index === 0}
+                required={required && bulletPoints.indexOf(point) === 0}
               />
               {bulletPoints.length > 1 && (
                 <Button
@@ -154,7 +153,7 @@ export function StandUpSection({
                   value={point.solution}
                   onChange={(e) => handleBulletPointChange(point.id, e.target.value, true)}
                   className="ml-6"
-                  required={required && index === 0}
+                  required={required && bulletPoints.indexOf(point) === 0}
                 />
               </>
             )}

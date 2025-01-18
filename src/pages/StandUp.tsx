@@ -24,7 +24,6 @@ export default function StandUp() {
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Load saved data on mount
   useEffect(() => {
     const savedData = localStorage.getItem(STORAGE_KEY);
     if (savedData) {
@@ -244,7 +243,7 @@ export default function StandUp() {
               title="Today's Focus"
               value={focus}
               onChange={setFocus}
-              placeholder="What do you want to accomplish today?"
+              placeholder="What are your goals for today?"
               required={true}
               allowMultiple={true}
             />
