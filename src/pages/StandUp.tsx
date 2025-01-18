@@ -61,6 +61,13 @@ export default function StandUp() {
   useEffect(() => {
     const saveTimeout = setTimeout(async () => {
       if (wins || focus || hurdles || mentalHealth[0] !== 7) {
+        const { data: { user } } = await supabase.auth.getUser();
+        
+        if (!user) {
+          console.error('No user found');
+          return;
+        }
+
         const data = {
           mentalHealth,
           wins,
@@ -71,10 +78,11 @@ export default function StandUp() {
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
-        // Save draft to Supabase
+        // Save draft to Supabase with user_id
         const { error } = await supabase
           .from('stand_ups')
           .upsert({
+            user_id: user.id,
             mental_health: mentalHealth[0],
             draft_wins: wins,
             draft_focus: focus,
@@ -87,6 +95,8 @@ export default function StandUp() {
             title: "Progress saved!",
             description: "Your stand-up has been auto-saved as a draft.",
           });
+        } else {
+          console.error('Error saving draft:', error);
         }
       }
     }, 2000);
@@ -97,9 +107,21 @@ export default function StandUp() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      toast({
+        title: "Error",
+        description: "You must be logged in to submit a stand-up.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const { error } = await supabase
       .from('stand_ups')
       .insert({
+        user_id: user.id,
         mental_health: mentalHealth[0],
         wins,
         focus,
@@ -108,6 +130,7 @@ export default function StandUp() {
       });
 
     if (error) {
+      console.error('Submission error:', error);
       toast({
         title: "Error",
         description: "Failed to save your stand-up. Please try again.",
