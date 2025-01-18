@@ -215,7 +215,7 @@ export default function Home() {
           </TabsContent>
         </Tabs>
 
-        <section className="space-y-4 bg-gray-50/80 dark:bg-gray-800/50 p-4 rounded-xl backdrop-blur-sm">
+        <section className="space-y-4 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Target className="w-5 h-5 text-primary" />
