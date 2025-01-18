@@ -21,7 +21,7 @@ export default function Home() {
   const [editedTodoText, setEditedTodoText] = useState("");
   const [newTodoText, setNewTodoText] = useState("");
   const [todos, setTodos] = useState<Todo[]>([
-    { id: "1", text: "Take lunch breaks away from desk", type: 'daily' },
+    { id: "1", text: "Add system logic", type: 'daily' },
   ]);
 
   const handleAddTodo = () => {
