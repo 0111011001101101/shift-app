@@ -78,12 +78,12 @@ export default function StandUp() {
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
-        // Save draft to Supabase with user_id
+        // Save draft to Supabase with user_id and rounded mental health score
         const { error } = await supabase
           .from('stand_ups')
           .upsert({
             user_id: user.id,
-            mental_health: mentalHealth[0],
+            mental_health: Math.round(mentalHealth[0]),
             draft_wins: wins,
             draft_focus: focus,
             draft_hurdles: hurdles,
@@ -122,7 +122,7 @@ export default function StandUp() {
       .from('stand_ups')
       .insert({
         user_id: user.id,
-        mental_health: mentalHealth[0],
+        mental_health: Math.round(mentalHealth[0]),
         wins,
         focus,
         hurdles,
