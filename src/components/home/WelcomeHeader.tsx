@@ -25,7 +25,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         .lt("created_at", tomorrow.toISOString())
         .order('created_at', { ascending: false })
         .limit(1)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
