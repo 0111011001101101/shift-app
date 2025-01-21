@@ -5,13 +5,21 @@ import { StreakCard } from "@/components/home/StreakCard";
 import { TodoList } from "@/components/home/TodoList";
 import { GoalsSection } from "@/components/home/GoalsSection";
 import { HurdlesButton } from "@/components/home/HurdlesButton";
+import { MetricsBar } from "@/components/home/MetricsBar";
+import { GrowthChart } from "@/components/home/GrowthChart";
 
 export default function Home() {
   return (
     <PageContainer>
-      <div className="space-y-4">
+      <div className="space-y-6">
         <WelcomeHeader />
-        <StreakCard />
+        
+        <MetricsBar />
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <StreakCard />
+          <GrowthChart />
+        </div>
 
         <Tabs defaultValue="today" className="w-full">
           <TabsList className="w-full mb-4">
