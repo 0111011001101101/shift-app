@@ -19,6 +19,14 @@ export function StreakCard() {
             </div>
           </div>
         </div>
+        <div className="text-right">
+          <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Top 5%</span>
+          <div className="flex items-center gap-1 mt-1">
+            <Star className="w-3 h-3 text-amber-500" fill="currentColor" />
+            <Star className="w-3 h-3 text-amber-500" fill="currentColor" />
+            <Star className="w-3 h-3 text-amber-500" fill="currentColor" />
+          </div>
+        </div>
       </div>
       <p className="text-xs text-gray-700 dark:text-gray-300 mt-4 flex items-center gap-1 justify-center">
         <Clock className="w-3 h-3" />

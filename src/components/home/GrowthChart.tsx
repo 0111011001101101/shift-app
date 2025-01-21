@@ -15,12 +15,13 @@ export function GrowthChart() {
       <div className="mb-4">
         <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">User Growth</h3>
         <p className="text-2xl font-bold text-primary">500% in 5 months</p>
+        <p className="text-xs text-gray-500">Targeting 100K users by EOY</p>
       </div>
       
       <div className="h-[200px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 3" opacity={0.1} />
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
