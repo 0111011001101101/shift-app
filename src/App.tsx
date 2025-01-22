@@ -21,7 +21,7 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <div className="min-h-screen bg-gradient-to-b from-[#1A1F2C] via-[#1A1F2C]/95 to-[#1A1F2C]/90 text-white antialiased">
+      <div className="min-h-screen bg-gradient-to-b from-white via-gray-50/50 to-white text-gray-900 antialiased">
         <div className="mx-auto max-w-lg min-h-screen relative pb-20">
           <Toaster />
           <Sonner />

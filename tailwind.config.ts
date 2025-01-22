@@ -69,8 +69,8 @@ export default {
           foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "#1A1F2C",
-          foreground: "#94A3B8",
+          DEFAULT: "#F3F4F6",
+          foreground: "#6B7280",
         },
       },
       borderRadius: {
