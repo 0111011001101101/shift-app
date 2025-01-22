@@ -187,6 +187,8 @@ export function FloatingChat() {
     setMessage("");
     setIsLoading(true);
 
+    let currentChoice: string | null = null;
+
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
@@ -195,7 +197,6 @@ export function FloatingChat() {
       const lastAiMessage = [...messages].reverse().find(m => m.isAi);
       const isNumericResponse = /^[1-9]\d*$/.test(message.trim());
       
-      let currentChoice: string | null = null;
       if (lastAiMessage?.options && isNumericResponse) {
         const choiceIndex = parseInt(message.trim()) - 1;
         if (choiceIndex >= 0 && choiceIndex < lastAiMessage.options.length) {
