@@ -30,6 +30,7 @@ export function FloatingChat() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const lastSuggestionRef = useRef<Date | null>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -39,34 +40,46 @@ export function FloatingChat() {
     scrollToBottom();
   }, [messages]);
 
-  // Check for AI suggestions every 5 minutes
+  // Check for AI suggestions every 30 minutes instead of 5
   useEffect(() => {
     const checkForSuggestions = async () => {
       try {
+        // Check if enough time has passed since last suggestion (at least 30 minutes)
+        if (lastSuggestionRef.current) {
+          const timeSinceLastSuggestion = Date.now() - lastSuggestionRef.current.getTime();
+          if (timeSinceLastSuggestion < 30 * 60 * 1000) { // 30 minutes
+            return;
+          }
+        }
+
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        // Check for recently completed goals
+        // Check for recently completed goals (only if completed in last 30 mins)
         const { data: completedGoals } = await supabase
           .from('goals')
           .select('title')
           .eq('user_id', user.id)
           .eq('completed', true)
-          .gt('updated_at', new Date(Date.now() - 5 * 60 * 1000).toISOString());
+          .gt('updated_at', new Date(Date.now() - 30 * 60 * 1000).toISOString());
 
         if (completedGoals?.length) {
           const goalMessage: Message = {
             id: Date.now().toString(),
-            content: `🎉 Congratulations on completing your goal: "${completedGoals[0].title}"! This is a significant achievement. Would you like to set a new goal or discuss your next steps?`,
+            content: `Congratulations on completing "${completedGoals[0].title}"! Would you like to:
+1. Set a new goal to maintain momentum?
+2. Break down your next goal into smaller steps?
+3. Reflect on what helped you succeed?`,
             isAi: true,
             timestamp: new Date(),
           };
           setMessages(prev => [...prev, goalMessage]);
+          lastSuggestionRef.current = new Date();
           
           if (!isOpen) {
             toast({
-              title: "Goal Completed! 🎯",
-              description: "Your AI coach has some encouragement for you!",
+              title: "Achievement Unlocked! 🎯",
+              description: "Let's build on this success.",
               action: (
                 <Button 
                   variant="secondary" 
@@ -78,30 +91,36 @@ export function FloatingChat() {
               ),
             });
           }
+          return; // Exit to avoid multiple suggestions
         }
 
-        // Check for recent low mood scores
-        const { data: recentStandUp } = await supabase
+        // Check for recent low mood scores (only significant drops)
+        const { data: recentStandUps } = await supabase
           .from('stand_ups')
           .select('mental_health')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
+          .limit(2);
 
-        if (recentStandUp?.mental_health && recentStandUp.mental_health < 5) {
+        if (recentStandUps?.length >= 2 && 
+            recentStandUps[0].mental_health < 5 && 
+            recentStandUps[0].mental_health < recentStandUps[1].mental_health - 2) {
           const supportMessage: Message = {
             id: (Date.now() + 1).toString(),
-            content: `I noticed you're not feeling your best today. Remember, it's okay to have challenging days. Would you like to talk about what's on your mind? We can work through this together.`,
+            content: `I noticed a significant change in your mood. Would you like to:
+1. Talk through what's on your mind?
+2. Review some proven stress-management techniques?
+3. Focus on small wins to build momentum?`,
             isAi: true,
             timestamp: new Date(),
           };
           setMessages(prev => [...prev, supportMessage]);
+          lastSuggestionRef.current = new Date();
           
           if (!isOpen) {
             toast({
-              title: "Your AI Coach is Here for You 💙",
-              description: "Let's talk about how you're feeling.",
+              title: "Check-in Time 💙",
+              description: "Let's work through this together.",
               action: (
                 <Button 
                   variant="secondary" 
@@ -113,11 +132,15 @@ export function FloatingChat() {
               ),
             });
           }
+          return; // Exit to avoid multiple suggestions
         }
 
-        // Original suggestion check
+        // Only proceed with general suggestions if no specific triggers found
         const { data, error } = await supabase.functions.invoke('ai-coach-suggest', {
-          body: { userId: user.id }
+          body: { 
+            userId: user.id,
+            lastSuggestionTime: lastSuggestionRef.current?.toISOString()
+          }
         });
 
         if (error) throw error;
@@ -130,11 +153,12 @@ export function FloatingChat() {
             timestamp: new Date(),
           };
           setMessages(prev => [...prev, aiSuggestion]);
+          lastSuggestionRef.current = new Date();
           
           if (!isOpen) {
             toast({
-              title: "New message from AI Coach",
-              description: "Your coach has some suggestions for you!",
+              title: "Coaching Insight",
+              description: "I have a suggestion that might help you progress.",
               action: (
                 <Button 
                   variant="secondary" 
@@ -152,7 +176,7 @@ export function FloatingChat() {
       }
     };
 
-    const interval = setInterval(checkForSuggestions, 5 * 60 * 1000);
+    const interval = setInterval(checkForSuggestions, 30 * 60 * 1000); // Check every 30 minutes
     checkForSuggestions();
 
     return () => clearInterval(interval);

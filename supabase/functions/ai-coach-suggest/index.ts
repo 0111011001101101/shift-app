@@ -13,164 +13,119 @@ serve(async (req) => {
   }
 
   try {
-    const { userId } = await req.json();
-    console.log('Checking for suggestions for user:', userId);
-
+    const { userId, lastSuggestionTime } = await req.json();
+    
     if (!userId) {
       throw new Error('User ID is required');
     }
 
-    // Initialize Supabase client
+    // If last suggestion was less than 30 minutes ago, don't suggest
+    if (lastSuggestionTime) {
+      const timeSinceLastSuggestion = Date.now() - new Date(lastSuggestionTime).getTime();
+      if (timeSinceLastSuggestion < 30 * 60 * 1000) {
+        return new Response(
+          JSON.stringify({ suggestion: null }),
+          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Fetch user's recent data
-    console.log('Fetching user data...');
-    const { data: recentStandUps, error: standUpsError } = await supabaseClient
-      .from('stand_ups')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(5);
+    // Fetch comprehensive user context
+    const [
+      { data: goals },
+      { data: hurdles },
+      { data: standUps },
+      { data: profile }
+    ] = await Promise.all([
+      supabaseClient
+        .from('goals')
+        .select('*, sub_goals(*)')
+        .eq('user_id', userId)
+        .eq('completed', false)
+        .order('created_at', { ascending: false })
+        .limit(3),
+      supabaseClient
+        .from('hurdles')
+        .select('*, solutions(*)')
+        .eq('user_id', userId)
+        .eq('completed', false)
+        .order('created_at', { ascending: false })
+        .limit(3),
+      supabaseClient
+        .from('stand_ups')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(5),
+      supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single()
+    ]);
 
-    if (standUpsError) {
-      console.error('Error fetching stand-ups:', standUpsError);
-      throw standUpsError;
-    }
-
-    const { data: goals, error: goalsError } = await supabaseClient
-      .from('goals')
-      .select('*, sub_goals(*)')
-      .eq('user_id', userId)
-      .eq('completed', false);
-
-    if (goalsError) {
-      console.error('Error fetching goals:', goalsError);
-      throw goalsError;
-    }
-
-    const { data: hurdles, error: hurdlesError } = await supabaseClient
-      .from('hurdles')
-      .select('*, solutions(*)')
-      .eq('user_id', userId)
-      .eq('completed', false);
-
-    if (hurdlesError) {
-      console.error('Error fetching hurdles:', hurdlesError);
-      throw hurdlesError;
-    }
-
-    // Analyze patterns and triggers
-    const triggers = [];
+    // Analyze patterns and determine most relevant suggestion
     const context = {
-      recentMood: null,
-      stalledGoals: [],
-      unaddressedHurdles: [],
-      recentWins: null,
-      currentFocus: null,
+      stagnantGoals: goals?.filter(g => 
+        g.sub_goals?.every(sg => !sg.completed) && 
+        new Date(g.created_at) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+      ) || [],
+      unaddressedHurdles: hurdles?.filter(h => !h.solutions?.length) || [],
+      recentMoodTrend: standUps?.map(s => s.mental_health) || [],
+      streak: profile?.streak || 0,
+      lastStandUp: profile?.last_stand_up,
     };
 
-    // Check for mood patterns
-    const recentMoods = recentStandUps?.map(s => s.mental_health) || [];
-    const avgMood = recentMoods.length > 0 
-      ? recentMoods.reduce((a, b) => a + b, 0) / recentMoods.length 
-      : null;
+    // Call OpenAI API with rich context
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: `You are a proactive executive coach for ambitious professionals. 
+            Your suggestions should be specific, actionable, and tied to the user's current context.
+            Focus on one clear next step or insight rather than general advice.
+            Be concise but impactful. Limit response to 2-3 sentences.
+            
+            Current context:
+            - Stagnant goals: ${context.stagnantGoals.map(g => g.title).join(', ')}
+            - Unaddressed hurdles: ${context.unaddressedHurdles.map(h => h.title).join(', ')}
+            - Recent mood trend: ${context.recentMoodTrend.join(', ')}
+            - Current streak: ${context.streak}
+            - Last stand-up: ${context.lastStandUp}
+            
+            Only provide a suggestion if there's a clear opportunity for impact.`
+          }
+        ],
+        temperature: 0.7,
+        max_tokens: 150,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('OpenAI API error:', errorData);
+      throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
+    }
+
+    const data = await response.json();
     
-    if (avgMood !== null && avgMood < 5) {
-      triggers.push('low_mood');
-      context.recentMood = avgMood;
-    }
-
-    // Check for stalled goals
-    const stalledGoals = goals?.filter(g => 
-      g.sub_goals?.every(sg => !sg.completed) && 
-      new Date(g.deadline) < new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
-    ) || [];
-    
-    if (stalledGoals.length > 0) {
-      triggers.push('stalled_goals');
-      context.stalledGoals = stalledGoals.map(g => g.title);
-    }
-
-    // Check for unaddressed hurdles
-    const unaddressedHurdles = hurdles?.filter(h => 
-      !h.solutions || h.solutions.length === 0
-    ) || [];
-    
-    if (unaddressedHurdles.length > 0) {
-      triggers.push('unaddressed_hurdles');
-      context.unaddressedHurdles = unaddressedHurdles.map(h => h.title);
-    }
-
-    // Add recent context
-    if (recentStandUps?.[0]) {
-      context.recentWins = recentStandUps[0].wins;
-      context.currentFocus = recentStandUps[0].focus;
-    }
-
-    // If we have triggers, generate an AI suggestion
-    if (triggers.length > 0) {
-      console.log('Triggers found:', triggers);
-      console.log('Generating suggestion with context:', context);
-
-      // Call OpenAI API
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          model: 'gpt-4-turbo-preview',
-          messages: [
-            {
-              role: 'system',
-              content: `You are a proactive AI coach and mental health supporter. 
-              Based on the user's data, generate a supportive message that addresses their current challenges.
-              Keep responses concise, practical, and encouraging.
-              
-              Current triggers: ${triggers.join(', ')}
-              User context:
-              - Average recent mood: ${context.recentMood}/10
-              - Stalled goals: ${context.stalledGoals.join(', ')}
-              - Unaddressed hurdles: ${context.unaddressedHurdles.join(', ')}
-              - Recent wins: ${context.recentWins}
-              - Current focus: ${context.currentFocus}
-              
-              If mood is low, show extra empathy and offer specific coping strategies.
-              If goals are stalled, provide actionable steps to make progress.
-              If hurdles are unaddressed, suggest practical solutions.`
-            }
-          ],
-          temperature: 0.7,
-          max_tokens: 300,
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('OpenAI API error:', errorData);
-        throw new Error(`OpenAI API error: ${errorData.error?.message || 'Unknown error'}`);
-      }
-
-      const data = await response.json();
-      console.log('OpenAI response received:', data);
-
-      return new Response(
-        JSON.stringify({ 
-          suggestion: data.choices[0].message.content,
-          triggers,
-          context 
-        }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    console.log('No triggers found, no suggestion needed');
     return new Response(
-      JSON.stringify({ suggestion: null, triggers: [], context: null }),
+      JSON.stringify({ 
+        suggestion: data.choices[0].message.content,
+        context 
+      }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
 
