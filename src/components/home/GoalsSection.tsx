@@ -1,9 +1,67 @@
 import { Button } from "@/components/ui/button";
-import { Target, ChevronRight, Star } from "lucide-react";
+import { Target, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export function GoalsSection() {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const { data: goals, isLoading, error } = useQuery({
+    queryKey: ["goals"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("goals")
+        .select("*")
+        .order("position");
+
+      if (error) {
+        console.error("Error fetching goals:", error);
+        toast({
+          title: "Error fetching goals",
+          description: "Please try again later",
+          variant: "destructive",
+        });
+        return [];
+      }
+      return data || [];
+    },
+  });
+  
+  if (isLoading) {
+    return (
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg animate-pulse">
+        <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded-lg" />
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+        <p className="text-red-500">Error loading goals. Please try again later.</p>
+      </section>
+    );
+  }
+
+  if (!goals?.length) {
+    return (
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="text-center space-y-4">
+          <Target className="w-12 h-12 mx-auto text-blue-500 opacity-50" />
+          <div>
+            <h3 className="font-medium">No Goals Yet</h3>
+            <p className="text-sm text-muted-foreground">Start by creating your first goal</p>
+          </div>
+          <Button onClick={() => navigate("/goals")} className="mt-4">
+            Create Goal
+          </Button>
+        </div>
+      </section>
+    );
+  }
   
   return (
     <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
@@ -33,31 +91,32 @@ export function GoalsSection() {
       </div>
       
       <div className="space-y-4">
-        <div className="p-4 rounded-xl border border-blue-500/10 bg-gradient-to-r from-blue-500/5 to-transparent backdrop-blur-sm transition-all duration-300 hover:bg-blue-500/10 hover:scale-[1.02] group">
-          <div className="flex justify-between items-start mb-3">
-            <div>
-              <h3 className="font-medium text-gray-900 dark:text-gray-100">Launch MVP Product</h3>
-              <p className="text-sm text-gray-500 mt-0.5">Target: Q2 2025</p>
+        {goals.slice(0, 2).map((goal) => (
+          <div 
+            key={goal.id} 
+            className="p-4 rounded-xl border border-blue-500/10 bg-gradient-to-r from-blue-500/5 to-transparent backdrop-blur-sm transition-all duration-300 hover:bg-blue-500/10 hover:scale-[1.02] group"
+          >
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <h3 className="font-medium text-gray-900 dark:text-gray-100">{goal.title}</h3>
+                {goal.deadline && (
+                  <p className="text-sm text-gray-500 mt-0.5">
+                    Target: {new Date(goal.deadline).toLocaleDateString()}
+                  </p>
+                )}
+              </div>
+              <span className="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full font-medium group-hover:bg-blue-500 group-hover:text-white transition-colors">
+                {goal.completed ? "100%" : "In Progress"}
+              </span>
             </div>
-            <span className="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full font-medium group-hover:bg-blue-500 group-hover:text-white transition-colors">65%</span>
-          </div>
-          <div className="h-2 w-full rounded-full bg-gradient-to-r from-blue-500/10 to-transparent overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300" style={{ width: '65%' }} />
-          </div>
-        </div>
-
-        <div className="p-4 rounded-xl border border-purple-500/10 bg-gradient-to-r from-purple-500/5 to-transparent backdrop-blur-sm transition-all duration-300 hover:bg-purple-500/10 hover:scale-[1.02] group">
-          <div className="flex justify-between items-start mb-3">
-            <div>
-              <h3 className="font-medium text-gray-900 dark:text-gray-100">Scale User Base</h3>
-              <p className="text-sm text-gray-500 mt-0.5">Target: Q4 2024</p>
+            <div className="h-2 w-full rounded-full bg-gradient-to-r from-blue-500/10 to-transparent overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300" 
+                style={{ width: goal.completed ? "100%" : "65%" }} 
+              />
             </div>
-            <span className="text-xs px-2.5 py-1 bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-full font-medium group-hover:bg-purple-500 group-hover:text-white transition-colors">25%</span>
           </div>
-          <div className="h-2 w-full rounded-full bg-gradient-to-r from-purple-500/10 to-transparent overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300" style={{ width: '25%' }} />
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );
