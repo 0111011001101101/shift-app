@@ -304,7 +304,7 @@ export function FloatingChat() {
       </div>
 
       {!isMinimized && (
-        <>
+        <div className="flex flex-col h-[calc(100%-3.5rem)]">
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-4">
               {messages.map((msg) => (
@@ -334,7 +334,7 @@ export function FloatingChat() {
           </ScrollArea>
 
           <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-800/50">
-            <div className="flex gap-2 relative">
+            <div className="flex gap-2">
               <Input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
@@ -353,7 +353,7 @@ export function FloatingChat() {
               </Button>
             </div>
           </div>
-        </>
+        </div>
       )}
     </Card>
   );
