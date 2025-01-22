@@ -33,16 +33,16 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md"
+      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-white dark:bg-gray-800 border-[#FFDEE2] dark:border-gray-700 shadow-sm hover:shadow-md"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-1.5 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform">
-            <AlertCircle className="w-4 h-4 text-primary" />
+          <div className="p-1.5 bg-[#FFDEE2] rounded-lg group-hover:scale-110 transition-transform">
+            <AlertCircle className="w-4 h-4 text-[#D946EF]" />
           </div>
           <div className="flex flex-col items-start">
-            <span className="text-primary font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
+            <span className="text-[#D946EF] font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
             {activeHurdles && activeHurdles.length > 0 && (
               <span className="text-xs text-gray-500">
                 {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'}
@@ -50,7 +50,7 @@ export function HurdlesButton() {
             )}
           </div>
         </div>
-        <ChevronRight className="w-4 h-4 text-primary group-hover:translate-x-1 transition-transform" />
+        <ChevronRight className="w-4 h-4 text-[#D946EF] group-hover:translate-x-1 transition-transform" />
       </div>
     </Button>
   );
