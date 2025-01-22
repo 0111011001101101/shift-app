@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Lock, ChevronRight } from "lucide-react";
+import { Lock, ChevronRight, AlertCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export function HurdlesButton() {
@@ -12,15 +12,15 @@ export function HurdlesButton() {
       className="w-full group relative overflow-hidden hover:scale-[1.02] transition-all duration-300"
       onClick={() => navigate("/hurdles")}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-destructive/5 via-destructive/10 to-destructive/5 group-hover:from-destructive/10 group-hover:via-destructive/15 group-hover:to-destructive/10 transition-colors" />
+      <div className="absolute inset-0 bg-gradient-to-r from-rose-500/5 via-rose-500/10 to-rose-500/5 group-hover:from-rose-500/10 group-hover:via-rose-500/15 group-hover:to-rose-500/10 transition-colors" />
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-1.5 bg-destructive/10 rounded-lg">
-            <Lock className="w-4 h-4 text-destructive" />
+          <div className="p-1.5 bg-gradient-to-br from-rose-500/20 to-pink-500/20 rounded-lg group-hover:from-rose-500/30 group-hover:to-pink-500/30 transition-colors">
+            <AlertCircle className="w-4 h-4 text-rose-500" />
           </div>
-          <span className="text-destructive font-medium">View Current Hurdles</span>
+          <span className="text-rose-600 dark:text-rose-400 font-medium">View Current Hurdles</span>
         </div>
-        <ChevronRight className="w-4 h-4 text-destructive group-hover:translate-x-1 transition-transform" />
+        <ChevronRight className="w-4 h-4 text-rose-500 group-hover:translate-x-1 transition-transform" />
       </div>
     </Button>
   );
