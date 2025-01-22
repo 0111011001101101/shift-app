@@ -40,26 +40,57 @@ export default function Goals() {
   const [newGoalTitle, setNewGoalTitle] = useState("");
   const [showNewGoalInput, setShowNewGoalInput] = useState(false);
 
-  // Fetch goals
-  const { data: goals, isLoading } = useQuery({
-    queryKey: ["goals"],
+  // Get current user
+  const { data: session } = useQuery({
+    queryKey: ["session"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("goals")
-        .select("*")
-        .order("position");
-      if (error) throw error;
-      return data;
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        navigate("/auth");
+        return null;
+      }
+      return data.session;
     },
   });
 
-  // Add new goal
-  const addGoalMutation = useMutation({
-    mutationFn: async () => {
+  // Fetch goals with proper user filtering
+  const { data: goals, isLoading } = useQuery({
+    queryKey: ["goals"],
+    queryFn: async () => {
+      if (!session?.user.id) return [];
+      
       const { data, error } = await supabase
         .from("goals")
-        .insert([{ title: newGoalTitle }])
+        .select("*")
+        .eq("user_id", session.user.id)
+        .order("position");
+
+      if (error) {
+        toast({
+          title: "Error fetching goals",
+          description: error.message,
+          variant: "destructive",
+        });
+        return [];
+      }
+      return data;
+    },
+    enabled: !!session?.user.id,
+  });
+
+  // Add new goal with user_id
+  const addGoalMutation = useMutation({
+    mutationFn: async () => {
+      if (!session?.user.id) throw new Error("Not authenticated");
+
+      const { data, error } = await supabase
+        .from("goals")
+        .insert([{ 
+          title: newGoalTitle,
+          user_id: session.user.id 
+        }])
         .select();
+
       if (error) throw error;
       return data;
     },
@@ -72,8 +103,16 @@ export default function Goals() {
         description: "Your new goal has been created.",
       });
     },
+    onError: (error) => {
+      toast({
+        title: "Error adding goal",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
   });
 
+  // Delete goal (already has user check via RLS)
   const deleteGoalMutation = useMutation({
     mutationFn: async (goalId: string) => {
       const { error } = await supabase.from("goals").delete().eq("id", goalId);
@@ -87,8 +126,16 @@ export default function Goals() {
         variant: "destructive",
       });
     },
+    onError: (error) => {
+      toast({
+        title: "Error deleting goal",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
   });
 
+  // Move goal (already has user check via RLS)
   const moveGoalMutation = useMutation({
     mutationFn: async ({
       goalId,
@@ -105,6 +152,13 @@ export default function Goals() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error moving goal",
+        description: error.message,
+        variant: "destructive",
+      });
     },
   });
 
@@ -253,9 +307,9 @@ export default function Goals() {
 
                     <div className="mt-3">
                       <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-primary rounded-full transition-all"
-                          style={{ width: `${calculateProgress(goal)}%` }}
+                        <div 
+                          className="h-full bg-primary rounded-full transition-all" 
+                          style={{ width: `${calculateProgress(goal)}%` }} 
                         />
                       </div>
                       <p className="text-xs text-muted-foreground mt-1">
