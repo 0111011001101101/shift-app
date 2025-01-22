@@ -31,6 +31,8 @@ interface Goal {
   id: string;
   title: string;
   deadline?: string;
+  completed?: boolean;
+  position?: number;
 }
 
 export default function Goals() {
@@ -87,7 +89,8 @@ export default function Goals() {
         .from("goals")
         .insert([{ 
           title: newGoalTitle,
-          user_id: session.user.id 
+          user_id: session.user.id,
+          position: (goals?.length || 0) + 1
         }])
         .select();
 
@@ -100,7 +103,7 @@ export default function Goals() {
       setShowNewGoalInput(false);
       toast({
         title: "Goal Added",
-        description: "Your new goal has been created.",
+        description: "Your new goal has been created successfully.",
       });
     },
     onError: (error) => {
@@ -112,7 +115,36 @@ export default function Goals() {
     },
   });
 
-  // Delete goal (already has user check via RLS)
+  // Toggle goal completion
+  const toggleGoalMutation = useMutation({
+    mutationFn: async (goalId: string) => {
+      const goal = goals?.find(g => g.id === goalId);
+      if (!goal) throw new Error("Goal not found");
+
+      const { error } = await supabase
+        .from("goals")
+        .update({ completed: !goal.completed })
+        .eq("id", goalId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["goals"] });
+      toast({
+        title: "Goal Updated",
+        description: "Goal status has been updated successfully.",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error updating goal",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Delete goal
   const deleteGoalMutation = useMutation({
     mutationFn: async (goalId: string) => {
       const { error } = await supabase.from("goals").delete().eq("id", goalId);
@@ -122,8 +154,7 @@ export default function Goals() {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
       toast({
         title: "Goal Deleted",
-        description: "The goal has been removed.",
-        variant: "destructive",
+        description: "The goal has been removed successfully.",
       });
     },
     onError: (error) => {
@@ -135,7 +166,7 @@ export default function Goals() {
     },
   });
 
-  // Move goal (already has user check via RLS)
+  // Move goal position
   const moveGoalMutation = useMutation({
     mutationFn: async ({
       goalId,
@@ -185,11 +216,6 @@ export default function Goals() {
     moveGoalMutation.mutate({ goalId, newPosition });
   };
 
-  const calculateProgress = (goal: Goal) => {
-    // We'll implement this with actual sub-goals data later
-    return Math.round(Math.random() * 100);
-  };
-
   return (
     <PageContainer>
       <div className="space-y-4">
@@ -199,23 +225,25 @@ export default function Goals() {
               variant="ghost"
               size="icon"
               onClick={() => navigate("/home")}
-              className="rounded-full"
+              className="rounded-full hover:bg-primary-50 dark:hover:bg-primary-900/10"
             >
               <ArrowLeft className="h-4 w-4" />
             </Button>
-            <h1 className="text-xl font-semibold text-gray-900">Goals</h1>
+            <h1 className="text-xl font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+              Goals
+            </h1>
           </div>
           <Button
             size="sm"
             onClick={() => setShowNewGoalInput(true)}
-            className="text-xs"
+            className="text-xs bg-primary hover:bg-primary-600 text-white"
           >
             <Plus className="w-4 h-4 mr-1" /> Add Goal
           </Button>
         </div>
 
         {showNewGoalInput && (
-          <Card className="p-4">
+          <Card className="p-4 border-primary-100 dark:border-primary-900/20">
             <div className="flex gap-2">
               <Input
                 value={newGoalTitle}
@@ -223,7 +251,11 @@ export default function Goals() {
                 placeholder="Enter goal title..."
                 className="flex-1"
               />
-              <Button onClick={addGoal} size="sm">
+              <Button 
+                onClick={addGoal} 
+                size="sm"
+                className="bg-primary hover:bg-primary-600 text-white"
+              >
                 Add
               </Button>
             </div>
@@ -241,10 +273,10 @@ export default function Goals() {
               ))}
             </div>
           ) : goals?.length === 0 ? (
-            <Card className="p-6 text-center space-y-3">
+            <Card className="p-6 text-center space-y-3 border-primary-100 dark:border-primary-900/20">
               <Target className="w-12 h-12 mx-auto text-primary opacity-50" />
               <div className="space-y-1">
-                <h3 className="font-medium">No Goals Yet</h3>
+                <h3 className="font-medium text-gray-900 dark:text-gray-100">No Goals Yet</h3>
                 <p className="text-sm text-muted-foreground">
                   Add your first goal to start tracking your progress
                 </p>
@@ -252,20 +284,40 @@ export default function Goals() {
               <Button
                 size="sm"
                 onClick={() => setShowNewGoalInput(true)}
-                className="mx-auto"
+                className="mx-auto bg-primary hover:bg-primary-600 text-white"
               >
                 <Plus className="w-4 h-4 mr-1" /> Add Your First Goal
               </Button>
             </Card>
           ) : (
             goals?.map((goal, index) => (
-              <Card key={goal.id} className="p-4">
+              <Card 
+                key={goal.id} 
+                className={`p-4 transition-all duration-300 border-primary-100 dark:border-primary-900/20 ${
+                  goal.completed ? 'bg-primary-50 dark:bg-primary-900/10' : ''
+                }`}
+              >
                 <div className="flex items-start gap-3">
-                  <Target className="w-5 h-5 text-primary mt-0.5" />
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toggleGoalMutation.mutate(goal.id)}
+                    className={`h-8 w-8 p-0 ${
+                      goal.completed
+                        ? 'text-primary'
+                        : 'text-muted-foreground'
+                    }`}
+                  >
+                    <CheckCircle className="h-5 w-5" />
+                  </Button>
                   <div className="flex-1">
                     <div className="flex items-start justify-between gap-2">
                       <div>
-                        <h3 className="font-medium text-gray-900">{goal.title}</h3>
+                        <h3 className={`font-medium text-gray-900 dark:text-gray-100 ${
+                          goal.completed ? 'line-through text-muted-foreground' : ''
+                        }`}>
+                          {goal.title}
+                        </h3>
                         {goal.deadline && (
                           <div className="flex items-center text-xs text-muted-foreground mt-1">
                             <Calendar className="w-3.5 h-3.5 mr-1" />
@@ -279,7 +331,7 @@ export default function Goals() {
                             variant="ghost"
                             size="sm"
                             onClick={() => moveGoal(goal.id, "up")}
-                            className="h-8 w-8 p-0"
+                            className="h-8 w-8 p-0 hover:bg-primary-50 dark:hover:bg-primary-900/10"
                           >
                             <ChevronUp className="h-4 w-4" />
                           </Button>
@@ -289,7 +341,7 @@ export default function Goals() {
                             variant="ghost"
                             size="sm"
                             onClick={() => moveGoal(goal.id, "down")}
-                            className="h-8 w-8 p-0"
+                            className="h-8 w-8 p-0 hover:bg-primary-50 dark:hover:bg-primary-900/10"
                           >
                             <ChevronDown className="h-4 w-4" />
                           </Button>
@@ -298,39 +350,35 @@ export default function Goals() {
                           variant="ghost"
                           size="sm"
                           onClick={() => deleteGoal(goal.id)}
-                          className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                          className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </div>
 
-                    <div className="mt-3">
-                      <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-primary rounded-full transition-all" 
-                          style={{ width: `${calculateProgress(goal)}%` }} 
-                        />
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {calculateProgress(goal)}% complete
-                      </p>
-                    </div>
-
                     <div className="mt-4">
                       <Tabs defaultValue="daily" className="w-full">
-                        <TabsList className="w-full mb-4">
-                          <TabsTrigger value="daily" className="flex-1">
+                        <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-primary-100 dark:border-primary-900/20">
+                          <TabsTrigger 
+                            value="daily" 
+                            className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+                          >
                             Daily Tasks
                           </TabsTrigger>
-                          <TabsTrigger value="weekly" className="flex-1">
+                          <TabsTrigger 
+                            value="weekly" 
+                            className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+                          >
                             Weekly Tasks
                           </TabsTrigger>
                         </TabsList>
-                        <TabsContent value="daily">
+                        
+                        <TabsContent value="daily" className="mt-2">
                           <TodoList frequency="daily" goalId={goal.id} />
                         </TabsContent>
-                        <TabsContent value="weekly">
+                        
+                        <TabsContent value="week" className="mt-2">
                           <TodoList frequency="weekly" goalId={goal.id} />
                         </TabsContent>
                       </Tabs>
