@@ -191,14 +191,16 @@ export function FloatingChat() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Find the last AI message using filter and reverse
+      // Find the last AI message by reversing the array and finding first AI message
       const lastAiMessage = [...messages].reverse().find(m => m.isAi);
       const isNumericResponse = /^[1-9]\d*$/.test(message.trim());
       
+      let selectedChoice: string | null = null;
       if (lastAiMessage?.options && isNumericResponse) {
         const choiceIndex = parseInt(message.trim()) - 1;
         if (choiceIndex >= 0 && choiceIndex < lastAiMessage.options.length) {
-          setLastChoice(lastAiMessage.options[choiceIndex]);
+          selectedChoice = lastAiMessage.options[choiceIndex];
+          setLastChoice(selectedChoice);
         }
       }
 
@@ -206,7 +208,7 @@ export function FloatingChat() {
         body: { 
           message,
           userId: user.id,
-          lastChoice: lastChoice
+          lastChoice: selectedChoice || lastChoice
         }
       });
 
@@ -241,7 +243,9 @@ export function FloatingChat() {
       });
     } finally {
       setIsLoading(false);
-      setLastChoice(null);
+      if (!selectedChoice) {
+        setLastChoice(null);
+      }
     }
   };
 
