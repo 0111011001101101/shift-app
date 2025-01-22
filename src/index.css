@@ -6,19 +6,19 @@
 
 @layer base {
   :root {
-    --background: 270 100% 98%;
+    --background: 250 100% 99%;
     --foreground: 224 71.4% 4.1%;
     --card: 0 0% 100%;
     --card-foreground: 224 71.4% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
-    --primary: 265 93% 58%;
+    --primary: 262 83.3% 57.8%;
     --primary-foreground: 210 20% 98%;
-    --secondary: 297 91% 73%;
+    --secondary: 327 73.3% 60.2%;
     --secondary-foreground: 210 20% 98%;
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
-    --accent: 297 91% 73%;
+    --accent: 327 73.3% 60.2%;
     --accent-foreground: 210 20% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;
@@ -35,13 +35,13 @@
     --card-foreground: 210 20% 98%;
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
-    --primary: 265 93% 58%;
+    --primary: 262 83.3% 57.8%;
     --primary-foreground: 210 20% 98%;
-    --secondary: 297 91% 73%;
+    --secondary: 327 73.3% 60.2%;
     --secondary-foreground: 210 20% 98%;
     --muted: 215 25% 27%;
     --muted-foreground: 217.9 10.6% 64.9%;
-    --accent: 297 91% 73%;
+    --accent: 327 73.3% 60.2%;
     --accent-foreground: 210 20% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 20% 98%;
@@ -64,7 +64,7 @@
   }
 
   body {
-    background: linear-gradient(180deg, #F5F3FF 0%, #EDE9FE 100%);
+    background: linear-gradient(180deg, #F5F3FF 0%, #FCE7F3 100%);
   }
 
   h1 {
@@ -85,33 +85,33 @@
 }
 
 .glass {
-  @apply bg-gradient-card dark:bg-gradient-dark-card backdrop-blur-md border border-white/20 dark:border-white/10 
+  @apply bg-gradient-card dark:bg-gradient-dark-card backdrop-blur-lg border border-white/30 dark:border-white/10 
          shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl;
 }
 
 .card {
-  @apply bg-gradient-card dark:bg-gradient-dark-card backdrop-blur-sm rounded-2xl shadow-lg 
+  @apply bg-gradient-card dark:bg-gradient-dark-card backdrop-blur-lg rounded-2xl shadow-lg 
          p-6 transition-all duration-300 hover:shadow-xl 
-         border border-white/20 dark:border-white/10;
+         border border-white/30 dark:border-white/10;
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white rounded-md px-6 py-3 font-medium 
+    @apply bg-primary text-white rounded-xl px-6 py-3 font-medium 
            hover:bg-primary-700 active:bg-primary-800 transition-colors duration-200
            disabled:opacity-50 disabled:cursor-not-allowed
            focus:outline-none focus:ring-2 focus:ring-primary/20;
   }
 
   .btn-secondary {
-    @apply bg-secondary text-white rounded-md px-6 py-3 font-medium 
+    @apply bg-secondary text-white rounded-xl px-6 py-3 font-medium 
            hover:bg-secondary-700 active:bg-secondary-800 transition-colors duration-200
            disabled:opacity-50 disabled:cursor-not-allowed
            focus:outline-none focus:ring-2 focus:ring-secondary/20;
   }
 
   .input-field {
-    @apply w-full rounded-md border border-gray-200 dark:border-gray-700 
+    @apply w-full rounded-xl border border-gray-200 dark:border-gray-700 
            bg-white dark:bg-gray-800 px-4 py-3 text-base
            focus:outline-none focus:ring-2 focus:ring-primary/20
            disabled:opacity-50 disabled:cursor-not-allowed;
@@ -128,7 +128,7 @@
   }
   
   .glass-effect {
-    @apply bg-clip-padding backdrop-filter backdrop-blur-sm;
+    @apply bg-clip-padding backdrop-filter backdrop-blur-lg;
   }
   
   .text-gradient {

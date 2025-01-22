@@ -25,7 +25,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#7C3AED", // Vibrant purple
+          DEFAULT: "#8B5CF6", // Rich purple
           foreground: "#FFFFFF",
           50: "#F5F3FF",
           100: "#EDE9FE",
@@ -39,38 +39,38 @@ export default {
           900: "#4C1D95",
         },
         secondary: {
-          DEFAULT: "#E879F9", // Pink accent
+          DEFAULT: "#EC4899", // Vibrant pink
           foreground: "#FFFFFF",
-          50: "#FDF4FF",
-          100: "#FAE8FF",
-          200: "#F5D0FE",
-          300: "#F0ABFC",
-          400: "#E879F9",
-          500: "#D946EF",
-          600: "#C026D3",
-          700: "#A21CAF",
-          800: "#86198F",
-          900: "#701A75",
+          50: "#FDF2F8",
+          100: "#FCE7F3",
+          200: "#FBCFE8",
+          300: "#F9A8D4",
+          400: "#F472B6",
+          500: "#EC4899",
+          600: "#DB2777",
+          700: "#BE185D",
+          800: "#9D174D",
+          900: "#831843",
         },
         accent: {
-          DEFAULT: "#F0ABFC",
+          DEFAULT: "#F472B6",
           foreground: "#FFFFFF",
         },
         success: {
-          DEFAULT: "#046C4E",
+          DEFAULT: "#10B981",
           foreground: "#FFFFFF",
         },
         warning: {
-          DEFAULT: "#B44D12",
+          DEFAULT: "#F59E0B",
           foreground: "#FFFFFF",
         },
         destructive: {
-          DEFAULT: "#9B2C2C",
+          DEFAULT: "#EF4444",
           foreground: "#FFFFFF",
         },
         muted: {
-          DEFAULT: "#F5F7FA",
-          foreground: "#616E7C",
+          DEFAULT: "#F8FAFC",
+          foreground: "#64748B",
         },
       },
       borderRadius: {
@@ -82,9 +82,9 @@ export default {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       backgroundImage: {
-        'gradient-home': 'linear-gradient(135deg, #7C3AED 0%, #E879F9 100%)',
-        'gradient-card': 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%)',
-        'gradient-dark-card': 'linear-gradient(135deg, rgba(30,30,30,0.9) 0%, rgba(30,30,30,0.7) 100%)',
+        'gradient-home': 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+        'gradient-card': 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)',
+        'gradient-dark-card': 'linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(30,30,30,0.85) 100%)',
       },
       keyframes: {
         "accordion-down": {

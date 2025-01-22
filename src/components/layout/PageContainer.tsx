@@ -12,6 +12,7 @@ export function PageContainer({ children, className = "" }: PageContainerProps) 
         {/* Decorative background elements */}
         <div className="fixed inset-0 bg-gradient-home opacity-5 pointer-events-none" />
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-400/20 via-transparent to-transparent pointer-events-none" />
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-secondary-400/20 via-transparent to-transparent pointer-events-none" />
         
         {/* Content */}
         <div className="relative">
