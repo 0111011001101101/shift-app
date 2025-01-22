@@ -16,7 +16,11 @@ interface SubGoal {
   } | null;
 }
 
-export function TodoList() {
+interface TodoListProps {
+  frequency: 'daily' | 'weekly';
+}
+
+export function TodoList({ frequency }: TodoListProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
@@ -25,7 +29,7 @@ export function TodoList() {
 
   // Fetch sub-goals
   const { data: todos, isLoading } = useQuery({
-    queryKey: ["sub-goals"],
+    queryKey: ["sub-goals", frequency],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("sub_goals")
@@ -38,6 +42,7 @@ export function TodoList() {
             title
           )
         `)
+        .eq('frequency', frequency)
         .order('position');
 
       if (error) throw error;
@@ -53,7 +58,7 @@ export function TodoList() {
         .insert([
           {
             title: newTodoText,
-            frequency: 'daily',
+            frequency: frequency,
           },
         ])
         .select();
@@ -116,9 +121,9 @@ export function TodoList() {
     }
   };
 
-  const handleEditTodo = (id: string, currentText: string) => {
+  const handleEditTodo = (id: string, currentTitle: string) => {
     setEditingTodoId(id);
-    setEditedTodoText(currentText);
+    setEditedTodoText(currentTitle);
   };
 
   const handleSaveTodo = (id: string) => {
@@ -138,10 +143,6 @@ export function TodoList() {
       </div>
     );
   }
-
-  const filterTodosByFrequency = (frequency: 'daily' | 'weekly') => {
-    return todos?.filter(todo => todo.frequency === frequency) || [];
-  };
 
   return (
     <div className="space-y-4">
@@ -183,7 +184,7 @@ export function TodoList() {
                     </Button>
                     <div>
                       <span className={`${todo.completed ? 'line-through text-muted-foreground' : ''}`}>
-                        {todo.text}
+                        {todo.title}
                       </span>
                       {todo.goal && (
                         <span className="text-xs text-muted-foreground ml-2">
@@ -193,14 +194,11 @@ export function TodoList() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
-                      {todo.frequency}
-                    </span>
                     <Button
                       size="sm"
                       variant="ghost"
                       className="opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => handleEditTodo(todo.id, todo.text)}
+                      onClick={() => handleEditTodo(todo.id, todo.title)}
                     >
                       <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
                     </Button>
