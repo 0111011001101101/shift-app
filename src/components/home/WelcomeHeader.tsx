@@ -40,16 +40,16 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
     <>
       <div className="relative py-6 overflow-hidden">
         {/* Decorative elements */}
-        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-purple-500/20 via-blue-500/20 to-pink-500/20 rounded-full blur-3xl -z-10 animate-pulse" />
-        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-500/20 via-purple-500/20 to-pink-500/20 rounded-full blur-2xl -z-10" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary-500/20 via-secondary-500/20 to-primary-600/20 rounded-full blur-3xl -z-10 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-secondary-500/20 via-primary-500/20 to-primary-600/20 rounded-full blur-2xl -z-10" />
         
         <div className="flex flex-col gap-6">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-purple-600 via-blue-600 to-pink-600 bg-clip-text text-transparent animate-fadeIn relative inline-block">
+              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary-600 via-secondary-600 to-primary-700 bg-clip-text text-transparent animate-fadeIn relative inline-block">
                 Hi {username}!
               </h1>
-              <Sparkles className="w-6 h-6 text-amber-400 animate-pulse" />
+              <Sparkles className="w-6 h-6 text-primary-400 animate-pulse" />
             </div>
             <p className="text-lg font-medium tracking-wide text-gray-600 dark:text-gray-300 animate-slideUp">
               Let's make things happen
@@ -65,16 +65,16 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
                 {isLoading ? (
                   <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-12 w-12 rounded-xl" />
                 ) : todayStandUp?.completed ? (
-                  <div className="p-3 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                    <CheckCircle2 className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  <div className="p-3 bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-xl group-hover:scale-110 transition-transform">
+                    <CheckCircle2 className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                 ) : (
-                  <div className="p-3 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 rounded-xl group-hover:scale-110 transition-transform">
-                    <XCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  <div className="p-3 bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 rounded-xl group-hover:scale-110 transition-transform">
+                    <XCircle className="w-6 h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                 )}
                 <div className="text-left">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                     Morning Stand-up
                   </h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -84,7 +84,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
                   </p>
                 </div>
               </div>
-              <div className="text-gray-400 group-hover:text-blue-500 transition-colors">
+              <div className="text-gray-400 group-hover:text-primary-500 transition-colors">
                 <svg
                   className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                   fill="none"

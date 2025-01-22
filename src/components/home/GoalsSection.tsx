@@ -50,7 +50,7 @@ export function GoalsSection() {
     return (
       <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="text-center space-y-4">
-          <Target className="w-12 h-12 mx-auto text-blue-500 opacity-50" />
+          <Target className="w-12 h-12 mx-auto text-primary opacity-50" />
           <div>
             <h3 className="font-medium">No Goals Yet</h3>
             <p className="text-sm text-muted-foreground">Start by creating your first goal</p>
@@ -67,22 +67,22 @@ export function GoalsSection() {
     <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.1),transparent)] animate-pulse" />
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 animate-pulse" />
+      <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-secondary-500/5 to-primary-600/5 animate-pulse" />
       
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-400/30 to-purple-400/30 blur-lg rounded-full" />
-            <div className="relative p-2 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl backdrop-blur-sm">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-400/30 to-secondary-400/30 blur-lg rounded-full" />
+            <div className="relative p-2 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl backdrop-blur-sm">
               <Target className="w-5 h-5 text-white" />
             </div>
           </div>
-          <h2 className="text-lg font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Long Term Goals</h2>
+          <h2 className="text-lg font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">Long Term Goals</h2>
         </div>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-xs hover:bg-blue-500/10 group"
+          className="text-xs hover:bg-primary-500/10 group"
           onClick={() => navigate("/goals")}
         >
           View All
@@ -94,7 +94,7 @@ export function GoalsSection() {
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 
-            className="p-4 rounded-xl border border-blue-500/10 bg-gradient-to-r from-blue-500/5 to-transparent backdrop-blur-sm transition-all duration-300 hover:bg-blue-500/10 hover:scale-[1.02] group"
+            className="p-4 rounded-xl border border-primary-500/10 bg-gradient-to-r from-primary-500/5 to-transparent backdrop-blur-sm transition-all duration-300 hover:bg-primary-500/10 hover:scale-[1.02] group"
           >
             <div className="flex justify-between items-start mb-3">
               <div>
@@ -105,13 +105,13 @@ export function GoalsSection() {
                   </p>
                 )}
               </div>
-              <span className="text-xs px-2.5 py-1 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-full font-medium group-hover:bg-blue-500 group-hover:text-white transition-colors">
+              <span className="text-xs px-2.5 py-1 bg-primary-500/10 text-primary-600 dark:text-primary-400 rounded-full font-medium group-hover:bg-primary-500 group-hover:text-white transition-colors">
                 {goal.completed ? "100%" : "In Progress"}
               </span>
             </div>
-            <div className="h-2 w-full rounded-full bg-gradient-to-r from-blue-500/10 to-transparent overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-gradient-to-r from-primary-500/10 to-transparent overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-300" 
+                className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-300" 
                 style={{ width: goal.completed ? "100%" : "65%" }} 
               />
             </div>
