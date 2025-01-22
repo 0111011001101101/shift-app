@@ -1,7 +1,9 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle2, XCircle } from "lucide-react";
+import { StandUpDialog } from "../stand-up/StandUpDialog";
+import { Button } from "../ui/button";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -9,6 +11,8 @@ interface WelcomeHeaderProps {
 }
 
 export function WelcomeHeader({ username = "there", children }: WelcomeHeaderProps) {
+  const [showStandUp, setShowStandUp] = useState(false);
+  
   const { data: todayStandUp, isLoading } = useQuery({
     queryKey: ["todayStandUp"],
     queryFn: async () => {
@@ -33,43 +37,74 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
   });
 
   return (
-    <div className="relative py-6">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-secondary/30 via-primary/20 to-accent/10 rounded-full blur-3xl -z-10" />
-      <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-accent/20 via-secondary/15 to-primary/10 rounded-full blur-2xl -z-10" />
-      <div className="flex flex-col gap-6">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent animate-fadeIn relative inline-block">
-            Hi {username}!
-          </h1>
-          <p className="text-lg font-medium tracking-wide text-gray-600 dark:text-gray-300 animate-slideUp">
-            Let's make things happen
-          </p>
-        </div>
-        <div className="flex items-center gap-2 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 hover:shadow-md">
-          <span className="text-sm font-medium">Today's Stand-up:</span>
-          {isLoading ? (
-            <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-6 w-24 rounded-full" />
-          ) : todayStandUp ? (
-            todayStandUp.completed ? (
-              <div className="flex items-center gap-1 px-3 py-1 bg-success/10 text-success rounded-full text-sm">
-                <CheckCircle2 className="w-4 h-4" />
-                <span>Completed</span>
+    <>
+      <div className="relative py-6">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-blue-500/20 via-purple-500/20 to-pink-500/10 rounded-full blur-3xl -z-10 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-purple-500/20 via-blue-500/15 to-pink-500/10 rounded-full blur-2xl -z-10" />
+        <div className="flex flex-col gap-6">
+          <div className="space-y-2">
+            <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent animate-fadeIn relative inline-block">
+              Hi {username}!
+            </h1>
+            <p className="text-lg font-medium tracking-wide text-gray-600 dark:text-gray-300 animate-slideUp">
+              Let's make things happen
+            </p>
+          </div>
+          <Button
+            onClick={() => setShowStandUp(true)}
+            className="w-full bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 text-left p-4 h-auto border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300 group"
+          >
+            <div className="flex items-center justify-between w-full">
+              <div className="flex items-center gap-4">
+                {isLoading ? (
+                  <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-12 w-12 rounded-xl" />
+                ) : todayStandUp?.completed ? (
+                  <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-xl">
+                    <CheckCircle2 className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  </div>
+                ) : (
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
+                    <XCircle className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+                  </div>
+                )}
+                <div className="text-left">
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    Morning Stand-up
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {todayStandUp?.completed 
+                      ? "View today's check-in" 
+                      : "Quick 2-min check-in"}
+                  </p>
+                </div>
               </div>
-            ) : (
-              <div className="flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm">
-                <XCircle className="w-4 h-4" />
-                <span>Not done yet</span>
+              <div className="text-gray-400 group-hover:text-blue-500 transition-colors">
+                <svg
+                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
               </div>
-            )
-          ) : (
-            <div className="flex items-center gap-1 px-3 py-1 bg-warning/10 text-warning rounded-full text-sm">
-              <XCircle className="w-4 h-4" />
-              <span>Not started</span>
             </div>
-          )}
+          </Button>
         </div>
+        {children}
       </div>
-      {children}
-    </div>
+
+      <StandUpDialog 
+        open={showStandUp} 
+        onOpenChange={setShowStandUp}
+        completed={todayStandUp?.completed}
+        standUpData={todayStandUp}
+      />
+    </>
   );
 }
