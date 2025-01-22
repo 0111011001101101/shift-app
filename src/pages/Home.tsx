@@ -11,67 +11,35 @@ export default function Home() {
     <PageContainer className="space-y-6">
       <div className="space-y-6 animate-fadeIn">
         <WelcomeHeader />
+        <StreakCard />
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="glass p-6 rounded-2xl hover:shadow-lg transition-all duration-300 group">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 bg-primary/10 rounded-xl">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white">
-                  <span className="text-lg font-semibold">8</span>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">Today's Goals</h3>
-                <p className="text-sm text-muted-foreground">Track your progress</p>
-              </div>
-            </div>
-            <StreakCard />
-          </div>
-
-          <div className="glass p-6 rounded-2xl hover:shadow-lg transition-all duration-300">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-3 bg-primary/10 rounded-xl">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white">
-                  <span className="text-lg font-semibold">3</span>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">AI Support</h3>
-                <p className="text-sm text-muted-foreground">Get guidance</p>
-              </div>
-            </div>
-            <GoalsSection />
-          </div>
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-secondary-500/5 to-primary-600/5 rounded-xl blur-xl" />
+          <GoalsSection />
         </div>
 
-        <div className="glass p-6 rounded-2xl">
+        <div className="space-y-4 bg-white/50 dark:bg-gray-900/50 rounded-xl p-6 backdrop-blur-sm border border-gray-200/20 dark:border-gray-700/20 shadow-lg">
           <Tabs defaultValue="today" className="w-full">
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <h3 className="text-lg font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">Daily Focus</h3>
-                <p className="text-sm text-muted-foreground">3 of 5 completed</p>
-              </div>
-              <TabsList className="bg-white/50 dark:bg-gray-800/50 border border-gray-200/20 dark:border-gray-700/20">
-                <TabsTrigger 
-                  value="today" 
-                  className="data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
-                >
-                  Today
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="week" 
-                  className="data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
-                >
-                  This Week
-                </TabsTrigger>
-              </TabsList>
-            </div>
+            <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-gray-200/20 dark:border-gray-700/20">
+              <TabsTrigger 
+                value="today" 
+                className="flex-1 data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
+              >
+                Today's To-Do
+              </TabsTrigger>
+              <TabsTrigger 
+                value="week" 
+                className="flex-1 data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
+              >
+                Week's To-Do
+              </TabsTrigger>
+            </TabsList>
             
-            <TabsContent value="today" className="mt-2 space-y-4">
+            <TabsContent value="today" className="mt-2">
               <TodoList frequency="daily" />
             </TabsContent>
             
-            <TabsContent value="week" className="mt-2 space-y-4">
+            <TabsContent value="week" className="mt-2">
               <TodoList frequency="weekly" />
             </TabsContent>
           </Tabs>
