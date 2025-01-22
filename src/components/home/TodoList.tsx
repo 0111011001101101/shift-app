@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check, Loader2, Target } from "lucide-react";
+import { Plus, Pencil, Check, Loader2, Target, ChevronRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useNavigate } from "react-router-dom";
 
 interface SubGoal {
   id: string;
@@ -29,6 +30,7 @@ interface TodoListProps {
 
 export function TodoList({ frequency }: TodoListProps) {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
@@ -161,6 +163,10 @@ export function TodoList({ frequency }: TodoListProps) {
     toggleTodoMutation.mutate({ id, completed: !currentStatus });
   };
 
+  const navigateToGoals = () => {
+    navigate('/goals');
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center p-4">
@@ -169,8 +175,27 @@ export function TodoList({ frequency }: TodoListProps) {
     );
   }
 
+  const hasGoals = goals && goals.length > 0;
+
   return (
     <div className="space-y-4">
+      {!hasGoals && (
+        <div className="bg-primary/5 p-4 rounded-lg space-y-3">
+          <h3 className="text-sm font-medium text-primary">Get Started</h3>
+          <p className="text-sm text-muted-foreground">
+            Create your first goal to start organizing your tasks effectively.
+          </p>
+          <Button
+            size="sm"
+            className="w-full"
+            onClick={navigateToGoals}
+          >
+            Create Your First Goal
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
+      )}
+
       <div className="space-y-2">
         {todos?.map(todo => (
           <div 
@@ -212,7 +237,10 @@ export function TodoList({ frequency }: TodoListProps) {
                         {todo.title}
                       </span>
                       {todo.goal && (
-                        <div className="flex items-center gap-1 mt-0.5">
+                        <div 
+                          className="flex items-center gap-1 mt-0.5 cursor-pointer hover:text-primary transition-colors"
+                          onClick={() => navigateToGoals()}
+                        >
                           <Target className="w-3 h-3 text-primary/60" />
                           <span className="text-xs text-primary/60">
                             {todo.goal.title}
@@ -238,43 +266,45 @@ export function TodoList({ frequency }: TodoListProps) {
         ))}
       </div>
 
-      <div className="relative mt-6 space-y-2">
-        <Select
-          value={selectedGoalId || ""}
-          onValueChange={(value) => setSelectedGoalId(value || null)}
-        >
-          <SelectTrigger className="w-full bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-lg text-xs">
-            <SelectValue placeholder="Select a goal (optional)" />
-          </SelectTrigger>
-          <SelectContent>
-            {goals?.map((goal) => (
-              <SelectItem key={goal.id} value={goal.id}>
-                <div className="flex items-center gap-2">
-                  <Target className="w-3 h-3" />
-                  {goal.title}
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-
-        <div className="relative flex items-center gap-2">
-          <Input
-            value={newTodoText}
-            onChange={(e) => setNewTodoText(e.target.value)}
-            placeholder="Add a new todo..."
-            className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
-            onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
-          />
-          <Button 
-            onClick={handleAddTodo} 
-            size="icon"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
+      {hasGoals && (
+        <div className="relative mt-6 space-y-2">
+          <Select
+            value={selectedGoalId || ""}
+            onValueChange={(value) => setSelectedGoalId(value || null)}
           >
-            <Plus className="h-4 w-4" />
-          </Button>
+            <SelectTrigger className="w-full bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-lg text-xs">
+              <SelectValue placeholder="Select a goal (optional)" />
+            </SelectTrigger>
+            <SelectContent>
+              {goals?.map((goal) => (
+                <SelectItem key={goal.id} value={goal.id}>
+                  <div className="flex items-center gap-2">
+                    <Target className="w-3 h-3" />
+                    {goal.title}
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <div className="relative flex items-center gap-2">
+            <Input
+              value={newTodoText}
+              onChange={(e) => setNewTodoText(e.target.value)}
+              placeholder="Add a new todo..."
+              className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
+              onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
+            />
+            <Button 
+              onClick={handleAddTodo} 
+              size="icon"
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

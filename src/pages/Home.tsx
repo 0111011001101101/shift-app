@@ -13,6 +13,8 @@ export default function Home() {
         <WelcomeHeader />
         <StreakCard />
 
+        <GoalsSection />
+
         <Tabs defaultValue="today" className="w-full">
           <TabsList className="w-full mb-4 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm">
             <TabsTrigger value="today" className="flex-1 data-[state=active]:bg-primary/20">
@@ -32,7 +34,6 @@ export default function Home() {
           </TabsContent>
         </Tabs>
 
-        <GoalsSection />
         <HurdlesButton />
       </div>
     </PageContainer>
