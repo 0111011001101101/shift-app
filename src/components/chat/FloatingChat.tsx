@@ -226,7 +226,7 @@ export function FloatingChat() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary via-secondary to-primary hover:opacity-90 transition-all duration-300 z-50 md:bottom-24 md:h-14 md:w-14 group hover:scale-105"
+        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary/90 via-secondary/90 to-primary/90 hover:opacity-90 transition-all duration-300 z-50 md:bottom-24 md:h-14 md:w-14 group hover:scale-105"
       >
         <MessageCircle className="h-6 w-6 group-hover:scale-110 transition-transform" />
       </Button>
@@ -242,19 +242,19 @@ export function FloatingChat() {
           : "bottom-20 h-[500px] max-w-[400px] md:bottom-24 md:h-[600px] md:w-[380px]"
       )}
     >
-      <div className="flex h-14 items-center justify-between border-b border-gray-200/50 dark:border-gray-700/50 px-4 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-lg bg-gradient-to-br from-secondary/20 to-primary/20 group-hover:from-secondary/30 group-hover:to-primary/30 transition-colors">
-            <Sparkles className="h-4 w-4 text-secondary animate-pulse" />
+      <div className="flex h-14 items-center justify-between px-4 bg-gradient-to-r from-gray-50/50 via-white/50 to-gray-50/50 dark:from-gray-800/50 dark:via-gray-900/50 dark:to-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
+        <div className="flex items-center gap-2.5">
+          <div className="p-1.5 rounded-lg bg-primary/10 dark:bg-primary/20">
+            <Sparkles className="h-4 w-4 text-primary" />
           </div>
-          <span className="font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">AI Coach</span>
+          <span className="font-medium text-gray-700 dark:text-gray-200">AI Coach</span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setIsMinimized(!isMinimized)}
-            className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             {isMinimized ? (
               <Maximize2 className="h-4 w-4" />
@@ -266,7 +266,7 @@ export function FloatingChat() {
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(false)}
-            className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -275,25 +275,25 @@ export function FloatingChat() {
 
       {!isMinimized && (
         <>
-          <ScrollArea className="flex-1 p-3">
-            <div className="space-y-3">
+          <ScrollArea className="flex-1 p-4">
+            <div className="space-y-4">
               {messages.map((msg) => (
                 <div
                   key={msg.id}
                   className={cn(
-                    "flex w-full animate-fadeIn",
+                    "flex w-full animate-fade-in",
                     msg.isAi ? "justify-start" : "justify-end"
                   )}
                 >
                   <div
                     className={cn(
-                      "rounded-2xl px-3 py-2 max-w-[85%] shadow-sm transition-all duration-300 hover:shadow-md",
+                      "rounded-2xl px-4 py-2.5 max-w-[85%] shadow-sm transition-all duration-300",
                       msg.isAi
-                        ? "bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-gray-100"
-                        : "bg-gradient-to-r from-primary to-secondary text-primary-foreground"
+                        ? "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200"
+                        : "bg-primary/90 text-primary-foreground"
                     )}
                   >
-                    <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                    <p className="text-[15px] leading-relaxed whitespace-pre-wrap break-words">
                       {msg.content}
                     </p>
                   </div>
@@ -303,7 +303,7 @@ export function FloatingChat() {
             </div>
           </ScrollArea>
 
-          <div className="border-t border-gray-200/50 dark:border-gray-700/50 p-3 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-800/50">
+          <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-800/50">
             <div className="flex gap-2">
               <Input
                 value={message}
@@ -311,12 +311,12 @@ export function FloatingChat() {
                 onKeyPress={handleKeyPress}
                 placeholder={isLoading ? "AI is thinking..." : "Type a message..."}
                 disabled={isLoading}
-                className="flex-1 bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
+                className="flex-1 bg-white/80 dark:bg-gray-800/80 border-gray-200/80 dark:border-gray-700/80 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
               />
               <Button 
                 onClick={handleSend} 
                 size="icon"
-                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 h-10 w-10 flex-shrink-0 transition-all duration-200 hover:scale-105"
+                className="bg-primary/90 hover:bg-primary/80 h-10 w-10 flex-shrink-0 transition-all duration-200"
                 disabled={isLoading}
               >
                 <Send className="h-4 w-4" />
