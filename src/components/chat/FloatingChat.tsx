@@ -191,8 +191,8 @@ export function FloatingChat() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Check if the message is a numeric response to a previous AI message with options
-      const lastAiMessage = messages.findLast(m => m.isAi);
+      // Find the last AI message using filter and reverse
+      const lastAiMessage = [...messages].reverse().find(m => m.isAi);
       const isNumericResponse = /^[1-9]\d*$/.test(message.trim());
       
       if (lastAiMessage?.options && isNumericResponse) {
@@ -206,7 +206,7 @@ export function FloatingChat() {
         body: { 
           message,
           userId: user.id,
-          lastChoice: lastChoice // Send the last choice to provide context
+          lastChoice: lastChoice
         }
       });
 
