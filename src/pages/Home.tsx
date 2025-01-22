@@ -39,27 +39,26 @@ export default function Home() {
   });
 
   return (
-    <PageContainer className="space-y-6">
+    <PageContainer className="max-w-3xl mx-auto space-y-6">
       <div className="space-y-6 animate-fadeIn">
         <WelcomeHeader username={profile?.first_name} />
         
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-secondary-500/5 to-primary-600/5 rounded-xl blur-xl" />
+        <div className="sticky top-4 z-10">
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 glass">
+        <div className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-4 bg-white/50 dark:bg-gray-800/50 border border-primary-100/20 dark:border-primary-900/20">
+            <TabsList className="w-full mb-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200/20 dark:border-gray-700/20">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
+                className="flex-1 data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
               >
                 Today's To-Do
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
+                className="flex-1 data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
               >
                 Week's To-Do
               </TabsTrigger>
@@ -75,11 +74,7 @@ export default function Home() {
           </Tabs>
         </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-secondary-500/5 to-primary-600/5 rounded-xl blur-xl" />
-          <GoalsSection />
-        </div>
-
+        <GoalsSection />
         <HurdlesButton />
       </div>
     </PageContainer>

@@ -32,7 +32,7 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg animate-pulse">
+      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm animate-pulse">
         <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded-lg" />
       </section>
     );
@@ -40,7 +40,7 @@ export function GoalsSection() {
 
   if (error) {
     return (
-      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
         <p className="text-red-500">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -48,9 +48,9 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
+      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
         <div className="text-center space-y-4">
-          <Target className="w-12 h-12 mx-auto text-primary opacity-50" />
+          <Target className="w-12 h-12 mx-auto text-primary opacity-50 animate-float" />
           <div>
             <h3 className="font-medium">No Goals Yet</h3>
             <p className="text-sm text-muted-foreground">Start by creating your first goal</p>
@@ -64,18 +64,18 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
+    <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary-500 rounded-xl">
-            <Target className="w-5 h-5 text-white" />
+          <div className="p-2 bg-primary/10 rounded-xl">
+            <Target className="w-5 h-5 text-primary" />
           </div>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Long Term Goals</h2>
         </div>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-xs hover:bg-primary-500/10 group"
+          className="text-xs hover:bg-primary/10 group"
           onClick={() => navigate("/goals")}
         >
           View All
@@ -83,28 +83,28 @@ export function GoalsSection() {
         </Button>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-3">
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 
-            className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 transition-all duration-300 hover:shadow-md group"
+            className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 transition-all duration-300 hover:shadow-md hover:border-primary/20 group"
           >
             <div className="flex justify-between items-start mb-3">
               <div>
-                <h3 className="font-medium text-gray-900 dark:text-gray-100">{goal.title}</h3>
+                <h3 className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-primary transition-colors">{goal.title}</h3>
                 {goal.deadline && (
                   <p className="text-sm text-gray-500 mt-0.5">
                     Target: {new Date(goal.deadline).toLocaleDateString()}
                   </p>
                 )}
               </div>
-              <span className="text-xs px-2.5 py-1 bg-primary-500/10 text-primary-600 dark:text-primary-400 rounded-full font-medium group-hover:bg-primary-500 group-hover:text-white transition-colors">
+              <span className="text-xs px-2.5 py-1 bg-primary/10 text-primary rounded-full font-medium transition-colors">
                 {goal.completed ? "100%" : "In Progress"}
               </span>
             </div>
-            <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
               <div 
-                className="h-full bg-primary-500 transition-all duration-300" 
+                className="h-full bg-primary transition-all duration-700 ease-in-out" 
                 style={{ width: goal.completed ? "100%" : "65%" }} 
               />
             </div>
