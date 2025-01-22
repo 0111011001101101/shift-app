@@ -5,13 +5,19 @@ import { Plus, Pencil, Check, Loader2, Target, ChevronRight } from "lucide-react
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 
 interface SubGoal {
   id: string;
   title: string;
-  frequency: 'daily' | 'weekly';
+  frequency: "daily" | "weekly";
   completed: boolean;
   goal: {
     id: string;
@@ -25,17 +31,20 @@ interface Goal {
 }
 
 interface TodoListProps {
-  frequency: 'daily' | 'weekly';
+  frequency: "daily" | "weekly";
+  goalId?: string;
 }
 
-export function TodoList({ frequency }: TodoListProps) {
+export function TodoList({ frequency, goalId }: TodoListProps) {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
   const [newTodoText, setNewTodoText] = useState("");
-  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
+  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(
+    goalId || null
+  );
 
   // Fetch goals
   const { data: goals } = useQuery({
@@ -43,8 +52,8 @@ export function TodoList({ frequency }: TodoListProps) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("goals")
-        .select('id, title')
-        .order('position');
+        .select("id, title")
+        .order("position");
 
       if (error) throw error;
       return data as Goal[];
@@ -53,11 +62,12 @@ export function TodoList({ frequency }: TodoListProps) {
 
   // Fetch sub-goals
   const { data: todos, isLoading } = useQuery({
-    queryKey: ["sub-goals", frequency],
+    queryKey: ["sub-goals", frequency, goalId],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("sub_goals")
-        .select(`
+        .select(
+          `
           id,
           title,
           frequency,
@@ -66,9 +76,16 @@ export function TodoList({ frequency }: TodoListProps) {
             id,
             title
           )
-        `)
-        .eq('frequency', frequency)
-        .order('position');
+        `
+        )
+        .eq("frequency", frequency)
+        .order("position");
+
+      if (goalId) {
+        query = query.eq("goal_id", goalId);
+      }
+
+      const { data, error } = await query;
 
       if (error) throw error;
       return data as SubGoal[];
@@ -84,7 +101,7 @@ export function TodoList({ frequency }: TodoListProps) {
           {
             title: newTodoText,
             frequency: frequency,
-            goal_id: selectedGoalId,
+            goal_id: selectedGoalId || goalId,
           },
         ])
         .select();
@@ -95,7 +112,9 @@ export function TodoList({ frequency }: TodoListProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sub-goals"] });
       setNewTodoText("");
-      setSelectedGoalId(null);
+      if (!goalId) {
+        setSelectedGoalId(null);
+      }
       toast({
         title: "Todo added",
         description: "New todo has been added successfully.",
@@ -109,7 +128,7 @@ export function TodoList({ frequency }: TodoListProps) {
       const { data, error } = await supabase
         .from("sub_goals")
         .update({ title: editedTodoText })
-        .eq('id', id)
+        .eq("id", id)
         .select();
 
       if (error) throw error;
@@ -131,7 +150,7 @@ export function TodoList({ frequency }: TodoListProps) {
       const { data, error } = await supabase
         .from("sub_goals")
         .update({ completed })
-        .eq('id', id)
+        .eq("id", id)
         .select();
 
       if (error) throw error;
@@ -164,7 +183,7 @@ export function TodoList({ frequency }: TodoListProps) {
   };
 
   const navigateToGoals = () => {
-    navigate('/goals');
+    navigate("/goals");
   };
 
   if (isLoading) {
@@ -177,29 +196,27 @@ export function TodoList({ frequency }: TodoListProps) {
 
   const hasGoals = goals && goals.length > 0;
 
+  if (!hasGoals && !goalId) {
+    return (
+      <div className="bg-primary/5 p-4 rounded-lg space-y-3">
+        <h3 className="text-sm font-medium text-primary">Get Started</h3>
+        <p className="text-sm text-muted-foreground">
+          Create your first goal to start organizing your tasks effectively.
+        </p>
+        <Button size="sm" className="w-full" onClick={navigateToGoals}>
+          Create Your First Goal
+          <ChevronRight className="w-4 h-4 ml-1" />
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
-      {!hasGoals && (
-        <div className="bg-primary/5 p-4 rounded-lg space-y-3">
-          <h3 className="text-sm font-medium text-primary">Get Started</h3>
-          <p className="text-sm text-muted-foreground">
-            Create your first goal to start organizing your tasks effectively.
-          </p>
-          <Button
-            size="sm"
-            className="w-full"
-            onClick={navigateToGoals}
-          >
-            Create Your First Goal
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </Button>
-        </div>
-      )}
-
       <div className="space-y-2">
-        {todos?.map(todo => (
-          <div 
-            key={todo.id} 
+        {todos?.map((todo) => (
+          <div
+            key={todo.id}
             className="group relative transform transition-all duration-200 hover:scale-[1.02]"
           >
             <div className="flex items-center justify-between text-sm p-3 rounded-lg bg-gradient-to-r from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-800/80 dark:to-gray-900 shadow-sm border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
@@ -225,7 +242,9 @@ export function TodoList({ frequency }: TodoListProps) {
                     <Button
                       size="sm"
                       variant="ghost"
-                      className={`p-0 h-auto hover:bg-transparent ${todo.completed ? 'text-primary' : 'text-muted-foreground'}`}
+                      className={`p-0 h-auto hover:bg-transparent ${
+                        todo.completed ? "text-primary" : "text-muted-foreground"
+                      }`}
                       onClick={() => handleToggleTodo(todo.id, todo.completed)}
                     >
                       <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center">
@@ -233,11 +252,17 @@ export function TodoList({ frequency }: TodoListProps) {
                       </div>
                     </Button>
                     <div>
-                      <span className={`${todo.completed ? 'line-through text-muted-foreground' : ''}`}>
+                      <span
+                        className={`${
+                          todo.completed
+                            ? "line-through text-muted-foreground"
+                            : ""
+                        }`}
+                      >
                         {todo.title}
                       </span>
-                      {todo.goal && (
-                        <div 
+                      {todo.goal && !goalId && (
+                        <div
                           className="flex items-center gap-1 mt-0.5 cursor-pointer hover:text-primary transition-colors"
                           onClick={() => navigateToGoals()}
                         >
@@ -266,8 +291,8 @@ export function TodoList({ frequency }: TodoListProps) {
         ))}
       </div>
 
-      {hasGoals && (
-        <div className="relative mt-6 space-y-2">
+      <div className="relative mt-6 space-y-2">
+        {!goalId && (
           <Select
             value={selectedGoalId || ""}
             onValueChange={(value) => setSelectedGoalId(value || null)}
@@ -286,25 +311,25 @@ export function TodoList({ frequency }: TodoListProps) {
               ))}
             </SelectContent>
           </Select>
+        )}
 
-          <div className="relative flex items-center gap-2">
-            <Input
-              value={newTodoText}
-              onChange={(e) => setNewTodoText(e.target.value)}
-              placeholder="Add a new todo..."
-              className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
-              onKeyPress={(e) => e.key === 'Enter' && handleAddTodo()}
-            />
-            <Button 
-              onClick={handleAddTodo} 
-              size="icon"
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
+        <div className="relative flex items-center gap-2">
+          <Input
+            value={newTodoText}
+            onChange={(e) => setNewTodoText(e.target.value)}
+            placeholder="Add a new todo..."
+            className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
+            onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
+          />
+          <Button
+            onClick={handleAddTodo}
+            size="icon"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
         </div>
-      )}
+      </div>
     </div>
   );
 }
