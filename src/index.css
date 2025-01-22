@@ -6,29 +6,6 @@
 
 @layer base {
   :root {
-    --background: 250 100% 99%;
-    --foreground: 224 71.4% 4.1%;
-    --card: 0 0% 100%;
-    --card-foreground: 224 71.4% 4.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71.4% 4.1%;
-    --primary: 262 83.3% 57.8%;
-    --primary-foreground: 210 20% 98%;
-    --secondary: 327 73.3% 60.2%;
-    --secondary-foreground: 210 20% 98%;
-    --muted: 220 14.3% 95.9%;
-    --muted-foreground: 220 8.9% 46.1%;
-    --accent: 327 73.3% 60.2%;
-    --accent-foreground: 210 20% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 20% 98%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 262.1 83.3% 57.8%;
-    --radius: 1rem;
-  }
-
-  .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
     --card: 224 71.4% 4.1%;
@@ -48,6 +25,7 @@
     --border: 215 25% 27%;
     --input: 215 25% 27%;
     --ring: 262.1 83.3% 57.8%;
+    --radius: 1rem;
   }
 
   * {
@@ -55,16 +33,8 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased min-h-screen overflow-x-hidden;
+    @apply bg-[#1A1F2C] text-foreground font-sans antialiased min-h-screen overflow-x-hidden;
     -webkit-tap-highlight-color: transparent;
-  }
-
-  .dark body {
-    @apply bg-gray-900;
-  }
-
-  body {
-    @apply bg-gradient-to-b from-[#1A1F2C] via-[#1A1F2C]/95 to-[#1A1F2C]/90;
   }
 
   h1 {
@@ -85,7 +55,7 @@
 }
 
 .glass {
-  @apply bg-white/10 backdrop-blur-lg border border-white/10
+  @apply bg-white/5 backdrop-blur-lg border border-white/10
          shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl;
 }
 
