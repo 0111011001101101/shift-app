@@ -39,52 +39,48 @@ export default function Home() {
   });
 
   return (
-    <PageContainer>
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Left Column - Main Content */}
-        <div className="lg:col-span-8 space-y-6">
-          <WelcomeHeader username={profile?.first_name} />
-          
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200/50 dark:border-gray-700/50 p-6">
-            <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 bg-gray-50 dark:bg-gray-900/50">
-                <TabsTrigger 
-                  value="today" 
-                  className="flex-1 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800"
-                >
-                  Today's To-Do
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="week" 
-                  className="flex-1 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800"
-                >
-                  Week's To-Do
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="today" className="mt-2">
-                <TodoList frequency="daily" />
-              </TabsContent>
-              
-              <TabsContent value="week" className="mt-2">
-                <TodoList frequency="weekly" />
-              </TabsContent>
-            </Tabs>
-          </div>
+    <PageContainer className="space-y-6">
+      <div className="space-y-6 animate-fadeIn">
+        <WelcomeHeader username={profile?.first_name} />
+        
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-secondary-500/5 to-primary-600/5 rounded-xl blur-xl" />
+          <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
+        </div>
 
+        <div className="space-y-4 glass">
+          <Tabs defaultValue="today" className="w-full">
+            <TabsList className="w-full mb-4 bg-white/50 dark:bg-gray-800/50 border border-primary-100/20 dark:border-primary-900/20">
+              <TabsTrigger 
+                value="today" 
+                className="flex-1 data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
+              >
+                Today's To-Do
+              </TabsTrigger>
+              <TabsTrigger 
+                value="week" 
+                className="flex-1 data-[state=active]:bg-primary-500/10 data-[state=active]:text-primary-600 dark:data-[state=active]:text-primary-400"
+              >
+                Week's To-Do
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="today" className="mt-2">
+              <TodoList frequency="daily" />
+            </TabsContent>
+            
+            <TabsContent value="week" className="mt-2">
+              <TodoList frequency="weekly" />
+            </TabsContent>
+          </Tabs>
+        </div>
+
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-secondary-500/5 to-primary-600/5 rounded-xl blur-xl" />
           <GoalsSection />
-          <HurdlesButton />
         </div>
 
-        {/* Right Column - Streak & Stats */}
-        <div className="lg:col-span-4 space-y-6">
-          <div className="sticky top-6">
-            <StreakCard 
-              streak={profile?.streak || 0} 
-              standUpTime={profile?.stand_up_time} 
-            />
-          </div>
-        </div>
+        <HurdlesButton />
       </div>
     </PageContainer>
   );
