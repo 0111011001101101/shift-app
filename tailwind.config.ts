@@ -25,7 +25,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1EAEDB", // Bright Blue - more sophisticated
+          DEFAULT: "#1EAEDB",
           foreground: "#FFFFFF",
           50: "#F0F9FF",
           100: "#E0F7FF",
@@ -39,7 +39,7 @@ export default {
           900: "#034666",
         },
         secondary: {
-          DEFAULT: "#8E9196", // Neutral gray
+          DEFAULT: "#8E9196",
           foreground: "#FFFFFF",
           50: "#F8FAFC",
           100: "#F1F5F9",
@@ -53,7 +53,7 @@ export default {
           900: "#0F172A",
         },
         accent: {
-          DEFAULT: "#D3E4FD", // Soft Blue - more subtle accent
+          DEFAULT: "#D3E4FD",
           foreground: "#1E293B",
         },
         success: {
@@ -80,11 +80,6 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "system-ui", "sans-serif"],
-      },
-      backgroundImage: {
-        'gradient-home': 'linear-gradient(135deg, #1EAEDB 0%, #8E9196 100%)',
-        'gradient-card': 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)',
-        'gradient-dark-card': 'linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(30,30,30,0.85) 100%)',
       },
       keyframes: {
         "accordion-down": {

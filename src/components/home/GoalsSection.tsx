@@ -32,7 +32,7 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg animate-pulse">
+      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg animate-pulse">
         <div className="h-20 bg-gray-200 dark:bg-gray-700 rounded-lg" />
       </section>
     );
@@ -40,7 +40,7 @@ export function GoalsSection() {
 
   if (error) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
+      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg">
         <p className="text-red-500">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -48,7 +48,7 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
+      <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="text-center space-y-4">
           <Target className="w-12 h-12 mx-auto text-primary opacity-50" />
           <div>
@@ -64,20 +64,13 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/80 to-gray-100/80 dark:from-gray-900/50 dark:via-gray-800/50 dark:to-gray-900/50 p-6 rounded-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.1),transparent)] animate-pulse" />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 via-secondary-500/5 to-primary-600/5 animate-pulse" />
-      
-      <div className="relative flex items-center justify-between">
+    <section className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200/50 dark:border-gray-700/50 shadow-lg hover:shadow-xl transition-all duration-300">
+      <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-400/30 to-secondary-400/30 blur-lg rounded-full" />
-            <div className="relative p-2 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl backdrop-blur-sm">
-              <Target className="w-5 h-5 text-white" />
-            </div>
+          <div className="p-2 bg-primary-500 rounded-xl">
+            <Target className="w-5 h-5 text-white" />
           </div>
-          <h2 className="text-lg font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">Long Term Goals</h2>
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Long Term Goals</h2>
         </div>
         <Button 
           variant="ghost" 
@@ -94,7 +87,7 @@ export function GoalsSection() {
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 
-            className="p-4 rounded-xl border border-primary-500/10 bg-gradient-to-r from-primary-500/5 to-transparent backdrop-blur-sm transition-all duration-300 hover:bg-primary-500/10 hover:scale-[1.02] group"
+            className="p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 transition-all duration-300 hover:shadow-md group"
           >
             <div className="flex justify-between items-start mb-3">
               <div>
@@ -109,9 +102,9 @@ export function GoalsSection() {
                 {goal.completed ? "100%" : "In Progress"}
               </span>
             </div>
-            <div className="h-2 w-full rounded-full bg-gradient-to-r from-primary-500/10 to-transparent overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-primary-500 to-secondary-500 transition-all duration-300" 
+                className="h-full bg-primary-500 transition-all duration-300" 
                 style={{ width: goal.completed ? "100%" : "65%" }} 
               />
             </div>
