@@ -13,6 +13,7 @@ interface Message {
   content: string;
   isAi: boolean;
   timestamp: Date;
+  options?: string[];
 }
 
 export function FloatingChat() {
@@ -28,6 +29,7 @@ export function FloatingChat() {
     },
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastChoice, setLastChoice] = useState<string | null>(null);
   const { toast } = useToast();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastSuggestionRef = useRef<Date | null>(null);
@@ -37,7 +39,7 @@ export function FloatingChat() {
       try {
         if (lastSuggestionRef.current) {
           const timeSinceLastSuggestion = Date.now() - lastSuggestionRef.current.getTime();
-          if (timeSinceLastSuggestion < 3 * 60 * 60 * 1000) {
+          if (timeSinceLastSuggestion < 3 * 60 * 60 * 1000) { // 3 hours
             return;
           }
         }
@@ -165,7 +167,7 @@ export function FloatingChat() {
       }
     };
 
-    const interval = setInterval(checkForSuggestions, 3 * 60 * 60 * 1000);
+    const interval = setInterval(checkForSuggestions, 3 * 60 * 60 * 1000); // 3 hours
     checkForSuggestions();
 
     return () => clearInterval(interval);
@@ -174,14 +176,14 @@ export function FloatingChat() {
   const handleSend = async () => {
     if (!message.trim() || isLoading) return;
 
-    const newMessage: Message = {
+    const userMessage: Message = {
       id: Date.now().toString(),
       content: message,
       isAi: false,
       timestamp: new Date(),
     };
 
-    setMessages((prev) => [...prev, newMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setMessage("");
     setIsLoading(true);
 
@@ -189,17 +191,44 @@ export function FloatingChat() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
+      // Check if the message is a numeric response to a previous AI message with options
+      const lastAiMessage = messages.findLast(m => m.isAi);
+      const isNumericResponse = /^[1-9]\d*$/.test(message.trim());
+      
+      if (lastAiMessage?.options && isNumericResponse) {
+        const choiceIndex = parseInt(message.trim()) - 1;
+        if (choiceIndex >= 0 && choiceIndex < lastAiMessage.options.length) {
+          setLastChoice(lastAiMessage.options[choiceIndex]);
+        }
+      }
+
       const { data, error } = await supabase.functions.invoke('chat-with-ai', {
-        body: { message, userId: user.id }
+        body: { 
+          message,
+          userId: user.id,
+          lastChoice: lastChoice // Send the last choice to provide context
+        }
       });
 
       if (error) throw error;
+
+      // Parse potential options from AI response
+      const response = data.reply;
+      const hasNumberedList = response.match(/\d+\./);
+      let options: string[] | undefined;
+      
+      if (hasNumberedList) {
+        options = response.split('\n')
+          .filter(line => /^\d+\./.test(line.trim()))
+          .map(line => line.replace(/^\d+\.\s*/, '').trim());
+      }
 
       const aiResponse: Message = {
         id: (Date.now() + 1).toString(),
         content: data.reply,
         isAi: true,
         timestamp: new Date(),
+        options
       };
 
       setMessages((prev) => [...prev, aiResponse]);
@@ -212,6 +241,7 @@ export function FloatingChat() {
       });
     } finally {
       setIsLoading(false);
+      setLastChoice(null);
     }
   };
 
@@ -226,7 +256,7 @@ export function FloatingChat() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary/90 via-secondary/90 to-primary/90 hover:opacity-90 transition-all duration-300 z-50 md:bottom-24 md:h-14 md:w-14 group hover:scale-105"
+        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary/90 via-secondary/90 to-primary/90 hover:opacity-90 transition-all duration-300 z-50 md:bottom-24 md:h-14 md:w-14 group"
       >
         <MessageCircle className="h-6 w-6 group-hover:scale-110 transition-transform" />
       </Button>
@@ -304,7 +334,7 @@ export function FloatingChat() {
           </ScrollArea>
 
           <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-800/50">
-            <div className="flex gap-2">
+            <div className="flex gap-2 relative">
               <Input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
