@@ -32,14 +32,12 @@ export function FloatingChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastSuggestionRef = useRef<Date | null>(null);
 
-  // Check for AI suggestions every 3 hours instead of 30 minutes
   useEffect(() => {
     const checkForSuggestions = async () => {
       try {
-        // Check if enough time has passed since last suggestion (at least 3 hours)
         if (lastSuggestionRef.current) {
           const timeSinceLastSuggestion = Date.now() - lastSuggestionRef.current.getTime();
-          if (timeSinceLastSuggestion < 3 * 60 * 60 * 1000) { // 3 hours
+          if (timeSinceLastSuggestion < 3 * 60 * 60 * 1000) {
             return;
           }
         }
@@ -47,7 +45,6 @@ export function FloatingChat() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        // Check for recently completed goals (only if completed in last 3 hours)
         const { data: completedGoals } = await supabase
           .from('goals')
           .select('title')
@@ -124,10 +121,9 @@ export function FloatingChat() {
               ),
             });
           }
-          return; // Exit to avoid multiple suggestions
+          return;
         }
 
-        // Only proceed with general suggestions if no specific triggers found
         const { data, error } = await supabase.functions.invoke('ai-coach-suggest', {
           body: { 
             userId: user.id,
@@ -169,7 +165,7 @@ export function FloatingChat() {
       }
     };
 
-    const interval = setInterval(checkForSuggestions, 3 * 60 * 60 * 1000); // Check every 3 hours
+    const interval = setInterval(checkForSuggestions, 3 * 60 * 60 * 1000);
     checkForSuggestions();
 
     return () => clearInterval(interval);
@@ -230,7 +226,7 @@ export function FloatingChat() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary via-secondary to-primary hover:from-primary/90 hover:via-secondary/90 hover:to-primary/90 transition-all duration-300 animate-pulse z-50 md:bottom-24 md:h-14 md:w-14 group"
+        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary via-secondary to-primary hover:opacity-90 transition-all duration-300 z-50 md:bottom-24 md:h-14 md:w-14 group hover:scale-105"
       >
         <MessageCircle className="h-6 w-6 group-hover:scale-110 transition-transform" />
       </Button>
