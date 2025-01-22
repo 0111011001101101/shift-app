@@ -5,13 +5,45 @@ import { StreakCard } from "@/components/home/StreakCard";
 import { TodoList } from "@/components/home/TodoList";
 import { GoalsSection } from "@/components/home/GoalsSection";
 import { HurdlesButton } from "@/components/home/HurdlesButton";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
+  const { toast } = useToast();
+  
+  // Fetch user profile for personalization
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+        
+      if (error) {
+        console.error("Error fetching profile:", error);
+        toast({
+          title: "Error fetching profile",
+          description: "Please try again later",
+          variant: "destructive",
+        });
+        return null;
+      }
+      
+      return data;
+    },
+  });
+
   return (
     <PageContainer className="space-y-6">
       <div className="space-y-6 animate-fadeIn">
-        <WelcomeHeader />
-        <StreakCard />
+        <WelcomeHeader username={profile?.first_name} />
+        <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         
         <div className="relative">
           <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-secondary-500/5 to-primary-600/5 rounded-xl blur-xl" />
