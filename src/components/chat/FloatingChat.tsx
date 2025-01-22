@@ -195,12 +195,12 @@ export function FloatingChat() {
       const lastAiMessage = [...messages].reverse().find(m => m.isAi);
       const isNumericResponse = /^[1-9]\d*$/.test(message.trim());
       
-      let selectedChoice: string | null = null;
+      let currentChoice: string | null = null;
       if (lastAiMessage?.options && isNumericResponse) {
         const choiceIndex = parseInt(message.trim()) - 1;
         if (choiceIndex >= 0 && choiceIndex < lastAiMessage.options.length) {
-          selectedChoice = lastAiMessage.options[choiceIndex];
-          setLastChoice(selectedChoice);
+          currentChoice = lastAiMessage.options[choiceIndex];
+          setLastChoice(currentChoice);
         }
       }
 
@@ -208,7 +208,7 @@ export function FloatingChat() {
         body: { 
           message,
           userId: user.id,
-          lastChoice: selectedChoice || lastChoice
+          lastChoice: currentChoice || lastChoice
         }
       });
 
@@ -243,7 +243,7 @@ export function FloatingChat() {
       });
     } finally {
       setIsLoading(false);
-      if (!selectedChoice) {
+      if (!currentChoice) {
         setLastChoice(null);
       }
     }
