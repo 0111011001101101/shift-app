@@ -14,24 +14,21 @@ export default function Home() {
         <StreakCard />
 
         <Tabs defaultValue="today" className="w-full">
-          <TabsList className="w-full mb-4">
-            <TabsTrigger value="today" className="flex-1">Today's To-Do</TabsTrigger>
-            <TabsTrigger value="week" className="flex-1">Week's To-Do</TabsTrigger>
+          <TabsList className="w-full mb-4 bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 backdrop-blur-sm">
+            <TabsTrigger value="today" className="flex-1 data-[state=active]:bg-primary/20">
+              Today's To-Do
+            </TabsTrigger>
+            <TabsTrigger value="week" className="flex-1 data-[state=active]:bg-primary/20">
+              Week's To-Do
+            </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="today">
-            <TodoList />
+          <TabsContent value="today" className="space-y-2">
+            <TodoList frequency="daily" />
           </TabsContent>
           
-          <TabsContent value="week" className="space-y-4">
-            <div className="flex items-center justify-between text-sm">
-              <span>Exercise 3 times per week</span>
-              <span className="text-xs px-2 py-0.5 bg-warning/10 text-warning rounded-full">2/3</span>
-            </div>
-            <div className="flex items-center justify-between text-sm">
-              <span>Weekend digital detox</span>
-              <span className="text-xs px-2 py-0.5 bg-secondary/10 text-secondary rounded-full">Weekly</span>
-            </div>
+          <TabsContent value="week" className="space-y-2">
+            <TodoList frequency="weekly" />
           </TabsContent>
         </Tabs>
 

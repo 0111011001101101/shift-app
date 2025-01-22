@@ -1,38 +1,118 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check } from "lucide-react";
+import { Plus, Pencil, Check, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-interface Todo {
+interface SubGoal {
   id: string;
-  text: string;
-  type: 'daily' | 'weekly';
+  title: string;
+  frequency: 'daily' | 'weekly';
+  completed: boolean;
+  goal: {
+    title: string;
+  } | null;
 }
 
 export function TodoList() {
   const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
   const [newTodoText, setNewTodoText] = useState("");
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: "1", text: "Add system logic", type: 'daily' },
-  ]);
 
-  const handleAddTodo = () => {
-    if (newTodoText.trim()) {
-      const newTodo: Todo = {
-        id: Date.now().toString(),
-        text: newTodoText,
-        type: 'daily'
-      };
-      setTodos([...todos, newTodo]);
+  // Fetch sub-goals
+  const { data: todos, isLoading } = useQuery({
+    queryKey: ["sub-goals"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("sub_goals")
+        .select(`
+          id,
+          title,
+          frequency,
+          completed,
+          goal:goal_id (
+            title
+          )
+        `)
+        .order('position');
+
+      if (error) throw error;
+      return data as SubGoal[];
+    },
+  });
+
+  // Add new sub-goal
+  const addTodoMutation = useMutation({
+    mutationFn: async () => {
+      const { data, error } = await supabase
+        .from("sub_goals")
+        .insert([
+          {
+            title: newTodoText,
+            frequency: 'daily',
+          },
+        ])
+        .select();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sub-goals"] });
       setNewTodoText("");
       toast({
         title: "Todo added",
         description: "New todo has been added successfully.",
-        variant: "default",
       });
+    },
+  });
+
+  // Update sub-goal
+  const updateTodoMutation = useMutation({
+    mutationFn: async (id: string) => {
+      const { data, error } = await supabase
+        .from("sub_goals")
+        .update({ title: editedTodoText })
+        .eq('id', id)
+        .select();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sub-goals"] });
+      setEditingTodoId(null);
+      toast({
+        title: "Todo updated",
+        description: "Your changes have been saved.",
+      });
+    },
+  });
+
+  // Toggle completion status
+  const toggleTodoMutation = useMutation({
+    mutationFn: async ({ id, completed }: { id: string; completed: boolean }) => {
+      const { data, error } = await supabase
+        .from("sub_goals")
+        .update({ completed })
+        .eq('id', id)
+        .select();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sub-goals"] });
+    },
+  });
+
+  const handleAddTodo = () => {
+    if (newTodoText.trim()) {
+      addTodoMutation.mutate();
     }
   };
 
@@ -43,24 +123,35 @@ export function TodoList() {
 
   const handleSaveTodo = (id: string) => {
     if (editedTodoText.trim()) {
-      setTodos(todos.map(todo => 
-        todo.id === id ? { ...todo, text: editedTodoText } : todo
-      ));
-      setEditingTodoId(null);
-      toast({
-        title: "Todo updated",
-        description: "Your changes have been saved.",
-        variant: "default",
-      });
+      updateTodoMutation.mutate(id);
     }
+  };
+
+  const handleToggleTodo = (id: string, currentStatus: boolean) => {
+    toggleTodoMutation.mutate({ id, completed: !currentStatus });
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center p-4">
+        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  const filterTodosByFrequency = (frequency: 'daily' | 'weekly') => {
+    return todos?.filter(todo => todo.frequency === frequency) || [];
   };
 
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        {todos.map(todo => (
-          <div key={todo.id} className="group relative">
-            <div className="flex items-center justify-between text-sm p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+        {todos?.map(todo => (
+          <div 
+            key={todo.id} 
+            className="group relative transform transition-all duration-200 hover:scale-[1.02]"
+          >
+            <div className="flex items-center justify-between text-sm p-3 rounded-lg bg-gradient-to-r from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-800/80 dark:to-gray-900 shadow-sm border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
               {editingTodoId === todo.id ? (
                 <div className="flex items-center gap-2 w-full">
                   <Input
@@ -79,10 +170,31 @@ export function TodoList() {
                 </div>
               ) : (
                 <>
-                  <span>{todo.text}</span>
+                  <div className="flex items-center gap-3 flex-1">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className={`p-0 h-auto hover:bg-transparent ${todo.completed ? 'text-primary' : 'text-muted-foreground'}`}
+                      onClick={() => handleToggleTodo(todo.id, todo.completed)}
+                    >
+                      <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center">
+                        {todo.completed && <Check className="w-3 h-3" />}
+                      </div>
+                    </Button>
+                    <div>
+                      <span className={`${todo.completed ? 'line-through text-muted-foreground' : ''}`}>
+                        {todo.text}
+                      </span>
+                      {todo.goal && (
+                        <span className="text-xs text-muted-foreground ml-2">
+                          ({todo.goal.title})
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <div className="flex items-center gap-2">
                     <span className="text-xs px-2 py-0.5 bg-primary/10 text-primary rounded-full">
-                      {todo.type}
+                      {todo.frequency}
                     </span>
                     <Button
                       size="sm"
