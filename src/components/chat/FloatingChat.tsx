@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, X, Minimize2, Maximize2, Send, Sparkles } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { ChatMessage } from "./ChatMessage";
+import { ChatHeader } from "./ChatHeader";
+import { ChatInput } from "./ChatInput";
 
 interface Message {
   id: string;
@@ -193,7 +195,6 @@ export function FloatingChat() {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      // Find the last AI message by reversing the array and finding first AI message
       const lastAiMessage = [...messages].reverse().find(m => m.isAi);
       const isNumericResponse = /^[1-9]\d*$/.test(message.trim());
       
@@ -215,7 +216,6 @@ export function FloatingChat() {
 
       if (error) throw error;
 
-      // Parse potential options from AI response
       const response = data.reply;
       const hasNumberedList = response.match(/\d+\./);
       let options: string[] | undefined;
@@ -277,87 +277,30 @@ export function FloatingChat() {
           : "bottom-20 h-[500px] max-w-[400px] md:bottom-24 md:h-[600px] md:w-[380px]"
       )}
     >
-      <div className="flex h-14 items-center justify-between px-4 bg-gradient-to-r from-gray-50/50 via-white/50 to-gray-50/50 dark:from-gray-800/50 dark:via-gray-900/50 dark:to-gray-800/50 border-b border-gray-200/50 dark:border-gray-700/50">
-        <div className="flex items-center gap-2.5">
-          <div className="p-1.5 rounded-lg bg-primary/10 dark:bg-primary/20">
-            <Sparkles className="h-4 w-4 text-primary" />
-          </div>
-          <span className="font-medium text-gray-700 dark:text-gray-200">AI Coach</span>
-        </div>
-        <div className="flex gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsMinimized(!isMinimized)}
-            className="h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            {isMinimized ? (
-              <Maximize2 className="h-4 w-4" />
-            ) : (
-              <Minimize2 className="h-4 w-4" />
-            )}
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(false)}
-            className="h-8 w-8 hover:bg-gray-100 dark:hover:bg-gray-800"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <ChatHeader 
+        isMinimized={isMinimized}
+        onMinimize={() => setIsMinimized(!isMinimized)}
+        onClose={() => setIsOpen(false)}
+      />
 
       {!isMinimized && (
         <div className="flex flex-col h-[calc(100%-3.5rem)]">
           <ScrollArea className="flex-1 p-4">
             <div className="space-y-4">
               {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={cn(
-                    "flex w-full animate-fade-in",
-                    msg.isAi ? "justify-start" : "justify-end"
-                  )}
-                >
-                  <div
-                    className={cn(
-                      "rounded-2xl px-4 py-2.5 max-w-[85%] shadow-sm transition-all duration-300",
-                      msg.isAi
-                        ? "bg-gray-100/80 dark:bg-gray-800/80 text-gray-700 dark:text-gray-200"
-                        : "bg-primary/90 text-primary-foreground"
-                    )}
-                  >
-                    <p className="text-[15px] leading-relaxed whitespace-pre-wrap break-words">
-                      {msg.content}
-                    </p>
-                  </div>
-                </div>
+                <ChatMessage key={msg.id} message={msg} />
               ))}
               <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
 
-          <div className="p-4 border-t border-gray-200/50 dark:border-gray-700/50 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-800/50">
-            <div className="flex gap-2">
-              <Input
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder={isLoading ? "AI is thinking..." : "Type a message..."}
-                disabled={isLoading}
-                className="flex-1 bg-white/80 dark:bg-gray-800/80 border-gray-200/80 dark:border-gray-700/80 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
-              />
-              <Button 
-                onClick={handleSend} 
-                size="icon"
-                className="bg-primary/90 hover:bg-primary/80 h-10 w-10 flex-shrink-0 transition-all duration-200"
-                disabled={isLoading}
-              >
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </div>
+          <ChatInput
+            message={message}
+            isLoading={isLoading}
+            onChange={setMessage}
+            onSend={handleSend}
+            onKeyPress={handleKeyPress}
+          />
         </div>
       )}
     </Card>
