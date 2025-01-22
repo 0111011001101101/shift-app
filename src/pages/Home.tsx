@@ -23,11 +23,11 @@ export default function Home() {
             </TabsTrigger>
           </TabsList>
           
-          <TabsContent value="today" className="space-y-2">
+          <TabsContent value="today">
             <TodoList frequency="daily" />
           </TabsContent>
           
-          <TabsContent value="week" className="space-y-2">
+          <TabsContent value="week">
             <TodoList frequency="weekly" />
           </TabsContent>
         </Tabs>

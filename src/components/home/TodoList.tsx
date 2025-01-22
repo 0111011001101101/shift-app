@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check, Loader2 } from "lucide-react";
+import { Plus, Pencil, Check, Loader2, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface SubGoal {
   id: string;
@@ -12,8 +13,14 @@ interface SubGoal {
   frequency: 'daily' | 'weekly';
   completed: boolean;
   goal: {
+    id: string;
     title: string;
   } | null;
+}
+
+interface Goal {
+  id: string;
+  title: string;
 }
 
 interface TodoListProps {
@@ -26,6 +33,21 @@ export function TodoList({ frequency }: TodoListProps) {
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
   const [newTodoText, setNewTodoText] = useState("");
+  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(null);
+
+  // Fetch goals
+  const { data: goals } = useQuery({
+    queryKey: ["goals"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("goals")
+        .select('id, title')
+        .order('position');
+
+      if (error) throw error;
+      return data as Goal[];
+    },
+  });
 
   // Fetch sub-goals
   const { data: todos, isLoading } = useQuery({
@@ -39,6 +61,7 @@ export function TodoList({ frequency }: TodoListProps) {
           frequency,
           completed,
           goal:goal_id (
+            id,
             title
           )
         `)
@@ -59,6 +82,7 @@ export function TodoList({ frequency }: TodoListProps) {
           {
             title: newTodoText,
             frequency: frequency,
+            goal_id: selectedGoalId,
           },
         ])
         .select();
@@ -69,6 +93,7 @@ export function TodoList({ frequency }: TodoListProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["sub-goals"] });
       setNewTodoText("");
+      setSelectedGoalId(null);
       toast({
         title: "Todo added",
         description: "New todo has been added successfully.",
@@ -187,9 +212,12 @@ export function TodoList({ frequency }: TodoListProps) {
                         {todo.title}
                       </span>
                       {todo.goal && (
-                        <span className="text-xs text-muted-foreground ml-2">
-                          ({todo.goal.title})
-                        </span>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <Target className="w-3 h-3 text-primary/60" />
+                          <span className="text-xs text-primary/60">
+                            {todo.goal.title}
+                          </span>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -210,7 +238,26 @@ export function TodoList({ frequency }: TodoListProps) {
         ))}
       </div>
 
-      <div className="relative mt-6">
+      <div className="relative mt-6 space-y-2">
+        <Select
+          value={selectedGoalId || ""}
+          onValueChange={(value) => setSelectedGoalId(value || null)}
+        >
+          <SelectTrigger className="w-full bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-lg text-xs">
+            <SelectValue placeholder="Select a goal (optional)" />
+          </SelectTrigger>
+          <SelectContent>
+            {goals?.map((goal) => (
+              <SelectItem key={goal.id} value={goal.id}>
+                <div className="flex items-center gap-2">
+                  <Target className="w-3 h-3" />
+                  {goal.title}
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
         <div className="relative flex items-center gap-2">
           <Input
             value={newTodoText}
