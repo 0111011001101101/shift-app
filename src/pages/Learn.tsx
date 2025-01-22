@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { Search, GraduationCap, Brain } from "lucide-react";
+import { Search, Brain } from "lucide-react";
 
 export default function Learn() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -36,6 +36,9 @@ export default function Learn() {
     module.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     module.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const featuredModule = filteredModules?.[0];
+  const remainingModules = filteredModules?.slice(1);
 
   return (
     <PageContainer className="max-w-4xl">
@@ -71,6 +74,44 @@ export default function Learn() {
           </div>
         </div>
 
+        {/* Featured Module */}
+        {!isLoading && featuredModule && (
+          <div className="px-4">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/90 to-secondary shadow-xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 backdrop-blur-sm" />
+              <div className="relative p-6 sm:p-8 text-white">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-medium mb-4">
+                  <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                  Featured
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold mb-2">{featuredModule.title}</h2>
+                <p className="text-white/80 mb-6">{featuredModule.description}</p>
+                <div className="flex items-center gap-4 text-sm mb-6">
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-4 h-4 rounded-full bg-white/20" />
+                    {featuredModule.estimated_minutes} mins
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <div className="w-4 h-4 rounded-full bg-white/20" />
+                    {featuredModule.module_sections?.length} lessons
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  <div className="h-2 rounded-full bg-white/20">
+                    <div 
+                      className="h-full rounded-full bg-white transition-all duration-500" 
+                      style={{ width: `${featuredModule.progress}%` }} 
+                    />
+                  </div>
+                  <button className="w-full py-3 px-6 rounded-xl bg-white text-primary font-medium hover:bg-white/90 transition-colors">
+                    Continue Learning
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Modules Grid */}
         <div className="px-4 space-y-4">
           {isLoading ? (
@@ -81,7 +122,7 @@ export default function Learn() {
             </>
           ) : (
             <div className="grid gap-4">
-              {filteredModules?.map((module) => (
+              {remainingModules?.map((module) => (
                 <ModuleCard
                   key={module.id}
                   id={module.id}
