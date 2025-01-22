@@ -25,18 +25,18 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#0EA5E9", // Ocean blue - gender neutral
+          DEFAULT: "#1EAEDB", // Bright Blue - more sophisticated
           foreground: "#FFFFFF",
           50: "#F0F9FF",
-          100: "#E0F2FE",
-          200: "#BAE6FD",
-          300: "#7DD3FC",
-          400: "#38BDF8",
-          500: "#0EA5E9",
-          600: "#0284C7",
-          700: "#0369A1",
-          800: "#075985",
-          900: "#0C4A6E",
+          100: "#E0F7FF",
+          200: "#BAE8FD",
+          300: "#7DD4FC",
+          400: "#38BEF8",
+          500: "#1EAEDB",
+          600: "#0B95C9",
+          700: "#0679A8",
+          800: "#045C84",
+          900: "#034666",
         },
         secondary: {
           DEFAULT: "#8E9196", // Neutral gray
@@ -53,7 +53,7 @@ export default {
           900: "#0F172A",
         },
         accent: {
-          DEFAULT: "#E5DEFF", // Soft purple
+          DEFAULT: "#D3E4FD", // Soft Blue - more subtle accent
           foreground: "#1E293B",
         },
         success: {
@@ -82,7 +82,7 @@ export default {
         sans: ["Inter", "system-ui", "sans-serif"],
       },
       backgroundImage: {
-        'gradient-home': 'linear-gradient(135deg, #0EA5E9 0%, #8E9196 100%)',
+        'gradient-home': 'linear-gradient(135deg, #1EAEDB 0%, #8E9196 100%)',
         'gradient-card': 'linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.85) 100%)',
         'gradient-dark-card': 'linear-gradient(135deg, rgba(30,30,30,0.95) 0%, rgba(30,30,30,0.85) 100%)',
       },
