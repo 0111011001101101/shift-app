@@ -32,22 +32,14 @@ export function FloatingChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastSuggestionRef = useRef<Date | null>(null);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  // Check for AI suggestions every 30 minutes instead of 5
+  // Check for AI suggestions every 3 hours instead of 30 minutes
   useEffect(() => {
     const checkForSuggestions = async () => {
       try {
-        // Check if enough time has passed since last suggestion (at least 30 minutes)
+        // Check if enough time has passed since last suggestion (at least 3 hours)
         if (lastSuggestionRef.current) {
           const timeSinceLastSuggestion = Date.now() - lastSuggestionRef.current.getTime();
-          if (timeSinceLastSuggestion < 30 * 60 * 1000) { // 30 minutes
+          if (timeSinceLastSuggestion < 3 * 60 * 60 * 1000) { // 3 hours
             return;
           }
         }
@@ -55,13 +47,13 @@ export function FloatingChat() {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        // Check for recently completed goals (only if completed in last 30 mins)
+        // Check for recently completed goals (only if completed in last 3 hours)
         const { data: completedGoals } = await supabase
           .from('goals')
           .select('title')
           .eq('user_id', user.id)
           .eq('completed', true)
-          .gt('updated_at', new Date(Date.now() - 30 * 60 * 1000).toISOString());
+          .gt('updated_at', new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString());
 
         if (completedGoals?.length) {
           const goalMessage: Message = {
@@ -85,16 +77,16 @@ export function FloatingChat() {
                   variant="secondary" 
                   size="sm" 
                   onClick={() => setIsOpen(true)}
+                  className="bg-gradient-to-r from-secondary to-primary hover:opacity-90"
                 >
                   View
                 </Button>
               ),
             });
           }
-          return; // Exit to avoid multiple suggestions
+          return;
         }
 
-        // Check for recent low mood scores (only significant drops)
         const { data: recentStandUps } = await supabase
           .from('stand_ups')
           .select('mental_health')
@@ -171,12 +163,13 @@ export function FloatingChat() {
             });
           }
         }
+
       } catch (error) {
         console.error('Error checking for AI suggestions:', error);
       }
     };
 
-    const interval = setInterval(checkForSuggestions, 30 * 60 * 1000); // Check every 30 minutes
+    const interval = setInterval(checkForSuggestions, 3 * 60 * 60 * 1000); // Check every 3 hours
     checkForSuggestions();
 
     return () => clearInterval(interval);
@@ -237,9 +230,9 @@ export function FloatingChat() {
     return (
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-primary hover:bg-primary/90 z-50 md:bottom-24 md:h-14 md:w-14"
+        className="fixed bottom-20 right-4 h-12 w-12 rounded-full shadow-lg bg-gradient-to-br from-primary via-secondary to-primary hover:from-primary/90 hover:via-secondary/90 hover:to-primary/90 transition-all duration-300 animate-pulse z-50 md:bottom-24 md:h-14 md:w-14 group"
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-6 w-6 group-hover:scale-110 transition-transform" />
       </Button>
     );
   }
@@ -247,25 +240,25 @@ export function FloatingChat() {
   return (
     <Card
       className={cn(
-        "fixed right-2 left-2 mx-auto z-50 shadow-xl transition-all duration-200 bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg border border-gray-200/50 dark:border-gray-700/50 md:left-auto md:right-4 md:mx-0",
+        "fixed right-2 left-2 mx-auto z-50 shadow-xl transition-all duration-300 bg-gradient-to-br from-white/95 via-gray-50/95 to-gray-100/95 dark:from-gray-900/95 dark:via-gray-800/95 dark:to-gray-900/95 backdrop-blur-lg border border-gray-200/50 dark:border-gray-700/50 md:left-auto md:right-4 md:mx-0",
         isMinimized 
           ? "bottom-20 h-14 max-w-[280px] md:bottom-24 md:w-72" 
           : "bottom-20 h-[500px] max-w-[400px] md:bottom-24 md:h-[600px] md:w-[380px]"
       )}
     >
-      <div className="flex h-14 items-center justify-between border-b border-gray-200/50 dark:border-gray-700/50 px-4 bg-gradient-to-r from-primary/5 to-secondary/5">
+      <div className="flex h-14 items-center justify-between border-b border-gray-200/50 dark:border-gray-700/50 px-4 bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5">
         <div className="flex items-center gap-2">
-          <div className="p-1.5 rounded-lg bg-gradient-to-br from-secondary/20 to-transparent">
-            <Sparkles className="h-4 w-4 text-secondary" />
+          <div className="p-1.5 rounded-lg bg-gradient-to-br from-secondary/20 to-primary/20 group-hover:from-secondary/30 group-hover:to-primary/30 transition-colors">
+            <Sparkles className="h-4 w-4 text-secondary animate-pulse" />
           </div>
-          <span className="font-semibold text-gray-900 dark:text-gray-100">AI Coach</span>
+          <span className="font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">AI Coach</span>
         </div>
         <div className="flex gap-2">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setIsMinimized(!isMinimized)}
-            className="hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             {isMinimized ? (
               <Maximize2 className="h-4 w-4" />
@@ -277,7 +270,7 @@ export function FloatingChat() {
             variant="ghost"
             size="icon"
             onClick={() => setIsOpen(false)}
-            className="hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             <X className="h-4 w-4" />
           </Button>
@@ -292,16 +285,16 @@ export function FloatingChat() {
                 <div
                   key={msg.id}
                   className={cn(
-                    "flex w-full",
+                    "flex w-full animate-fadeIn",
                     msg.isAi ? "justify-start" : "justify-end"
                   )}
                 >
                   <div
                     className={cn(
-                      "rounded-2xl px-3 py-2 max-w-[85%] shadow-sm",
+                      "rounded-2xl px-3 py-2 max-w-[85%] shadow-sm transition-all duration-300 hover:shadow-md",
                       msg.isAi
-                        ? "bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100"
-                        : "bg-primary text-primary-foreground"
+                        ? "bg-gradient-to-br from-gray-100 to-gray-50 dark:from-gray-800 dark:to-gray-900 text-gray-900 dark:text-gray-100"
+                        : "bg-gradient-to-r from-primary to-secondary text-primary-foreground"
                     )}
                   >
                     <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
@@ -314,7 +307,7 @@ export function FloatingChat() {
             </div>
           </ScrollArea>
 
-          <div className="border-t border-gray-200/50 dark:border-gray-700/50 p-3">
+          <div className="border-t border-gray-200/50 dark:border-gray-700/50 p-3 bg-gradient-to-b from-transparent to-gray-50/50 dark:to-gray-800/50">
             <div className="flex gap-2">
               <Input
                 value={message}
@@ -322,12 +315,12 @@ export function FloatingChat() {
                 onKeyPress={handleKeyPress}
                 placeholder={isLoading ? "AI is thinking..." : "Type a message..."}
                 disabled={isLoading}
-                className="flex-1 bg-gray-50/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700"
+                className="flex-1 bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 transition-all duration-200"
               />
               <Button 
                 onClick={handleSend} 
                 size="icon"
-                className="bg-primary hover:bg-primary/90 h-10 w-10 flex-shrink-0"
+                className="bg-gradient-to-r from-primary to-secondary hover:opacity-90 h-10 w-10 flex-shrink-0 transition-all duration-200 hover:scale-105"
                 disabled={isLoading}
               >
                 <Send className="h-4 w-4" />
