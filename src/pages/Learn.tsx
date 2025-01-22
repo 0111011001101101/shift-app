@@ -47,13 +47,13 @@ export default function Learn() {
         <div className="text-center space-y-4 px-4">
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-primary via-secondary to-accent blur-md opacity-75" />
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#9b87f5] via-[#7E69AB] to-[#D6BCFA] blur-md opacity-75" />
               <div className="relative bg-white dark:bg-gray-800 rounded-full p-3 sm:p-4">
-                <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-primary animate-pulse" />
+                <Brain className="h-6 w-6 sm:h-8 sm:w-8 text-[#9b87f5] animate-pulse" />
               </div>
             </div>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent">
+          <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#9b87f5] via-[#7E69AB] to-[#D6BCFA]">
             Learn & Grow
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto">
@@ -67,7 +67,7 @@ export default function Learn() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
             <Input
               placeholder="Search modules..."
-              className="pl-10 h-11 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-gray-100/50 dark:border-gray-700/50"
+              className="pl-10 h-11 bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border-[#D6BCFA]/30 dark:border-[#9b87f5]/20"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -77,38 +77,15 @@ export default function Learn() {
         {/* Featured Module */}
         {!isLoading && featuredModule && (
           <div className="px-4">
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary/90 to-secondary shadow-xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 backdrop-blur-sm" />
-              <div className="relative p-6 sm:p-8 text-white">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-medium mb-4">
-                  <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  Featured
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-bold mb-2">{featuredModule.title}</h2>
-                <p className="text-white/80 mb-6">{featuredModule.description}</p>
-                <div className="flex items-center gap-4 text-sm mb-6">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded-full bg-white/20" />
-                    {featuredModule.estimated_minutes} mins
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded-full bg-white/20" />
-                    {featuredModule.module_sections?.length} lessons
-                  </div>
-                </div>
-                <div className="space-y-4">
-                  <div className="h-2 rounded-full bg-white/20">
-                    <div 
-                      className="h-full rounded-full bg-white transition-all duration-500" 
-                      style={{ width: `${featuredModule.progress}%` }} 
-                    />
-                  </div>
-                  <button className="w-full py-3 px-6 rounded-xl bg-white text-primary font-medium hover:bg-white/90 transition-colors">
-                    Continue Learning
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ModuleCard
+              key={featuredModule.id}
+              id={featuredModule.id}
+              title={featuredModule.title}
+              description={featuredModule.description}
+              estimatedMinutes={featuredModule.estimated_minutes}
+              progress={Math.round(featuredModule.progress)}
+              featured={true}
+            />
           </div>
         )}
 
