@@ -42,45 +42,45 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         <div className="space-y-6">
           <div className="space-y-2">
             <div className="flex items-baseline gap-3">
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-r from-primary-600 via-secondary-600 to-accent bg-clip-text text-transparent animate-fadeIn">
+              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-br from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent animate-fadeIn">
                 Hi {username}!
               </h1>
-              <Sparkles className="w-6 h-6 text-secondary-500 animate-float" />
+              <Sparkles className="w-6 h-6 text-primary-400 animate-float" />
             </div>
-            <p className="text-lg font-medium tracking-wide text-gray-600 dark:text-gray-300 animate-slideUp">
+            <p className="text-lg font-medium tracking-wide text-secondary-700 animate-slideUp">
               Let's make things happen
             </p>
           </div>
 
           <Button
             onClick={() => setShowStandUp(true)}
-            className="w-full bg-white hover:bg-gray-50/90 text-left p-4 h-auto border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300 rounded-xl group"
+            className="w-full bg-white hover:bg-gray-50/90 text-left p-4 h-auto border border-primary-100/30 shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl group"
           >
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-4">
                 {isLoading ? (
-                  <div className="animate-pulse bg-gray-200 dark:bg-gray-700 h-12 w-12 rounded-xl" />
+                  <div className="animate-pulse bg-primary-50 h-12 w-12 rounded-xl" />
                 ) : todayStandUp?.completed ? (
                   <div className="p-3 bg-emerald-50 rounded-xl group-hover:scale-110 transition-transform">
                     <CheckCircle2 className="w-6 h-6 text-emerald-500" />
                   </div>
                 ) : (
-                  <div className="p-3 bg-secondary-50 rounded-xl group-hover:scale-110 transition-transform">
-                    <XCircle className="w-6 h-6 text-secondary-500" />
+                  <div className="p-3 bg-primary-50 rounded-xl group-hover:scale-110 transition-transform">
+                    <XCircle className="w-6 h-6 text-primary-500" />
                   </div>
                 )}
                 <div className="text-left">
-                  <h3 className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-primary-600 transition-colors">
+                  <h3 className="font-semibold text-secondary-800 group-hover:text-primary-600 transition-colors">
                     Morning Stand-up
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-secondary-600">
                     {todayStandUp?.completed 
                       ? "View today's check-in" 
                       : "Quick 2-min check-in"}
                   </p>
                 </div>
               </div>
-              <div className="text-gray-400 group-hover:text-primary-600 transition-colors">
+              <div className="text-primary-400 group-hover:text-primary-600 transition-colors">
                 <svg
                   className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                   fill="none"

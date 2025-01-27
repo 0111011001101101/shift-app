@@ -32,15 +32,15 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-secondary-100/20 shadow-lg animate-pulse backdrop-blur-lg">
-        <div className="h-20 bg-secondary-100/50 rounded-lg" />
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg animate-pulse backdrop-blur-lg">
+        <div className="h-20 bg-primary-50/50 rounded-lg" />
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-secondary-100/20 shadow-lg backdrop-blur-lg">
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg backdrop-blur-lg">
         <p className="text-destructive">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -48,7 +48,7 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-secondary-100/20 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
         <div className="text-center space-y-4">
           <Target className="w-12 h-12 mx-auto text-primary-600 opacity-50 animate-float" />
           <div>
@@ -67,7 +67,7 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-secondary-100/20 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
+    <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-gradient-to-br from-primary-50 to-primary-100/80 rounded-xl">
@@ -90,13 +90,13 @@ export function GoalsSection() {
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 
-            className="p-4 rounded-xl border border-secondary-100/20 bg-gradient-to-br from-secondary-50/30 to-secondary-50/10 transition-all duration-300 hover:shadow-md hover:border-primary-200/30 group backdrop-blur-sm"
+            className="p-4 rounded-xl border border-primary-100/30 bg-gradient-to-br from-primary-50/30 to-primary-50/10 transition-all duration-300 hover:shadow-md hover:border-primary-200/30 group backdrop-blur-sm"
           >
             <div className="flex justify-between items-start mb-3">
               <div>
                 <h3 className="font-medium text-secondary-800 group-hover:text-primary-600 transition-colors">{goal.title}</h3>
                 {goal.deadline && (
-                  <p className="text-sm text-secondary-500 mt-0.5">
+                  <p className="text-sm text-secondary-600 mt-0.5">
                     Target: {new Date(goal.deadline).toLocaleDateString()}
                   </p>
                 )}
@@ -105,7 +105,7 @@ export function GoalsSection() {
                 {goal.completed ? "100%" : "In Progress"}
               </span>
             </div>
-            <div className="h-2 w-full rounded-full bg-secondary-100/50 overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-primary-100/50 overflow-hidden">
               <div 
                 className="h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-700 ease-in-out" 
                 style={{ width: goal.completed ? "100%" : "65%" }} 
