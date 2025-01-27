@@ -47,28 +47,28 @@ export default function Home() {
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 bg-white/60 backdrop-blur-xl rounded-3xl border border-primary-100/20 shadow-lg overflow-hidden">
+        <div className="space-y-4 bg-gradient-to-br from-white/80 via-white/60 to-primary-50/20 backdrop-blur-2xl rounded-3xl border border-white/20 shadow-xl overflow-hidden">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-4 bg-primary-50/50 border-0 p-1.5">
+            <TabsList className="w-full mb-4 bg-white/40 border-b border-primary-100/20 p-1.5">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 py-2.5 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-md rounded-xl transition-all duration-300"
+                className="flex-1 py-2.5 data-[state=active]:bg-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Today's To-Do
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 py-2.5 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-md rounded-xl transition-all duration-300"
+                className="flex-1 py-2.5 data-[state=active]:bg-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Week's To-Do
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0">
+            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
               <TodoList frequency="daily" />
             </TabsContent>
             
-            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0">
+            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
               <TodoList frequency="weekly" />
             </TabsContent>
           </Tabs>

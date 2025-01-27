@@ -47,25 +47,25 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
               </h1>
               <Sparkles className="w-6 h-6 text-primary-400 animate-float" />
             </div>
-            <p className="text-lg font-medium tracking-wide text-secondary-700 animate-slideUp">
+            <p className="text-lg font-medium tracking-wide text-secondary-700/90 animate-slideUp">
               Let's make things happen
             </p>
           </div>
 
           <Button
             onClick={() => setShowStandUp(true)}
-            className="w-full bg-white hover:bg-gray-50/90 text-left p-6 h-auto border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl group"
+            className="w-full bg-gradient-to-br from-white/90 via-white/80 to-primary-50/20 hover:to-primary-100/30 text-left p-6 h-auto border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl group backdrop-blur-xl"
           >
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-4">
                 {isLoading ? (
                   <div className="animate-pulse bg-primary-50 h-12 w-12 rounded-xl" />
                 ) : todayStandUp?.completed ? (
-                  <div className="p-3 bg-emerald-50 rounded-xl group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-emerald-50/80 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
                     <CheckCircle2 className="w-6 h-6 text-emerald-500" />
                   </div>
                 ) : (
-                  <div className="p-3 bg-primary-50 rounded-xl group-hover:scale-110 transition-transform">
+                  <div className="p-3 bg-primary-50/80 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
                     <XCircle className="w-6 h-6 text-primary-500" />
                   </div>
                 )}
