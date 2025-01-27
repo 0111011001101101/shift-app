@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
+import { TodoFilter, FilterType } from "./TodoFilter";
 
 interface SubGoal {
   id: string;
@@ -45,8 +46,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(
     goalId || null
   );
+  const [filter, setFilter] = useState<FilterType>("all");
 
-  // Fetch goals
   const { data: goals } = useQuery({
     queryKey: ["goals"],
     queryFn: async () => {
@@ -60,9 +61,9 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     },
   });
 
-  // Fetch sub-goals
+  // Fetch sub-goals with enhanced filtering
   const { data: todos, isLoading } = useQuery({
-    queryKey: ["sub-goals", frequency, goalId],
+    queryKey: ["sub-goals", frequency, goalId, filter],
     queryFn: async () => {
       let query = supabase
         .from("sub_goals")
@@ -85,6 +86,12 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         query = query.eq("goal_id", goalId);
       }
 
+      if (filter === "completed") {
+        query = query.eq("completed", true);
+      } else if (filter === "pending") {
+        query = query.eq("completed", false);
+      }
+
       const { data, error } = await query;
 
       if (error) throw error;
@@ -92,7 +99,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     },
   });
 
-  // Add new sub-goal
   const addTodoMutation = useMutation({
     mutationFn: async () => {
       const { data, error } = await supabase
@@ -186,6 +192,12 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     navigate("/goals");
   };
 
+  const filteredTodos = todos?.filter((todo) => {
+    if (filter === "all") return true;
+    if (filter === "completed") return todo.completed;
+    return !todo.completed;
+  });
+
   if (isLoading) {
     return (
       <div className="flex justify-center p-4">
@@ -213,8 +225,15 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
 
   return (
     <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-medium text-muted-foreground">
+          {frequency === "daily" ? "Daily" : "Weekly"} Tasks
+        </h2>
+        <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
+      </div>
+
       <div className="space-y-2">
-        {todos?.map((todo) => (
+        {filteredTodos?.map((todo) => (
           <div
             key={todo.id}
             className="group relative transform transition-all duration-200 hover:scale-[1.02]"
