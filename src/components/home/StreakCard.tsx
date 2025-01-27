@@ -15,8 +15,8 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   
   return (
-    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-white via-gray-50/95 to-white border border-secondary-100/20 shadow-lg hover:shadow-xl transition-all duration-300 group backdrop-blur-lg">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/10 to-secondary-50/5 rounded-3xl" />
+    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-white via-gray-50/95 to-white border border-primary-100/20 shadow-lg hover:shadow-xl transition-all duration-300 group backdrop-blur-lg">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/10 to-primary-100/5 rounded-3xl" />
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -30,10 +30,10 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             )}
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-secondary-600">Current Streak</span>
+            <span className="text-sm font-medium text-secondary-700">Current Streak</span>
             <div className="flex items-baseline gap-2">
               <span className="text-4xl font-black bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">{streak}</span>
-              <span className="text-xs text-secondary-500">days</span>
+              <span className="text-xs text-secondary-600">days</span>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
       </div>
       
       <div className="mt-4 flex flex-col gap-2">
-        <p className="text-xs text-secondary-600 flex items-center gap-1.5 justify-center bg-gradient-to-r from-secondary-50/80 to-secondary-50/40 py-2.5 px-4 rounded-xl backdrop-blur-sm">
+        <p className="text-xs text-secondary-700 flex items-center gap-1.5 justify-center bg-gradient-to-r from-primary-50/80 to-primary-50/40 py-2.5 px-4 rounded-xl backdrop-blur-sm">
           <Clock className="w-3.5 h-3.5 text-primary-600" />
           Next stand-up: Tomorrow, {formattedTime}
         </p>
@@ -49,7 +49,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
         <Button 
           variant="ghost" 
           size="sm" 
-          className="w-full text-xs hover:bg-primary-50/80 flex items-center gap-2 justify-center group/btn backdrop-blur-sm active:scale-95 transition-all duration-200"
+          className="w-full text-xs hover:bg-primary-50/80 flex items-center gap-2 justify-center group/btn backdrop-blur-sm active:scale-95 transition-all duration-200 text-secondary-700"
           onClick={() => navigate("/settings")}
         >
           <Calendar className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform text-primary-600" />
