@@ -33,13 +33,13 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-gradient-to-br from-white via-gray-50/95 to-white border border-secondary-100/20 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl"
+      className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 bg-gradient-to-br from-white via-gray-50/95 to-white border border-secondary-100/20 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-3xl h-auto py-4"
       onClick={() => navigate("/hurdles")}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-secondary-50/10 to-secondary-50/5 rounded-2xl" />
+      <div className="absolute inset-0 bg-gradient-to-br from-secondary-50/10 to-secondary-50/5 rounded-3xl" />
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-1.5 bg-gradient-to-br from-secondary-50 to-secondary-100/80 rounded-lg group-hover:scale-110 transition-transform">
+          <div className="p-2 bg-gradient-to-br from-secondary-50 to-secondary-100/80 rounded-xl group-hover:scale-110 transition-transform duration-500">
             <AlertCircle className="w-4 h-4 text-secondary-600" />
           </div>
           <div className="flex flex-col items-start">
@@ -51,7 +51,7 @@ export function HurdlesButton() {
             )}
           </div>
         </div>
-        <ChevronRight className="w-4 h-4 text-secondary-600 group-hover:translate-x-1 transition-transform" />
+        <ChevronRight className="w-4 h-4 text-secondary-600 group-hover:translate-x-1 transition-transform duration-500" />
       </div>
     </Button>
   );
