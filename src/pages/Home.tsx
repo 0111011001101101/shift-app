@@ -47,18 +47,18 @@ export default function Home() {
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+        <div className="space-y-4 bg-white p-6 rounded-xl border border-gray-200/60 shadow-sm">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-4 bg-gray-50 dark:bg-gray-900/50 border border-gray-200/20 dark:border-gray-700/20">
+            <TabsList className="w-full mb-4 bg-gray-50 border border-gray-200/20">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600"
               >
                 Today's To-Do
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+                className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600"
               >
                 Week's To-Do
               </TabsTrigger>

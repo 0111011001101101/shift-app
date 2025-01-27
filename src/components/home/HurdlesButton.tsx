@@ -33,16 +33,16 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-white dark:bg-gray-800 border-secondary/20 dark:border-gray-700 shadow-sm hover:shadow-md"
+      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-white border-gray-200/60 shadow-sm hover:shadow-md"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-1.5 bg-secondary/10 rounded-lg group-hover:scale-110 transition-transform">
-            <AlertCircle className="w-4 h-4 text-secondary" />
+          <div className="p-1.5 bg-secondary-50 rounded-lg group-hover:scale-110 transition-transform">
+            <AlertCircle className="w-4 h-4 text-secondary-600" />
           </div>
           <div className="flex flex-col items-start">
-            <span className="text-secondary font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
+            <span className="text-secondary-600 font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
             {activeHurdles && activeHurdles.length > 0 && (
               <span className="text-xs text-gray-500">
                 {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'}
@@ -50,7 +50,7 @@ export function HurdlesButton() {
             )}
           </div>
         </div>
-        <ChevronRight className="w-4 h-4 text-secondary group-hover:translate-x-1 transition-transform" />
+        <ChevronRight className="w-4 h-4 text-secondary-600 group-hover:translate-x-1 transition-transform" />
       </div>
     </Button>
   );
