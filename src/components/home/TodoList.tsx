@@ -226,7 +226,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   return (
     <div className="space-y-6 animate-fadeIn">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-medium text-gray-600">
+        <h2 className="text-sm font-semibold text-secondary-800">
           {frequency === "daily" ? "Daily" : "Weekly"} Tasks
         </h2>
         <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
@@ -238,15 +238,15 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             key={todo.id}
             className="group relative transform transition-all duration-300 hover:scale-[1.01]"
           >
-            <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-white via-gray-50/95 to-white border border-gray-100/80 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-white via-gray-50/95 to-white border border-secondary-100/10 shadow-sm hover:shadow-md transition-all duration-300">
               <div className="flex items-center gap-3 flex-1">
                 <Button
                   size="sm"
                   variant="ghost"
                   className={`p-0 h-auto hover:bg-transparent ${
                     todo.completed 
-                      ? "text-primary" 
-                      : "text-gray-400 hover:text-gray-600"
+                      ? "text-primary-600" 
+                      : "text-secondary-300 hover:text-secondary-400"
                   }`}
                   onClick={() => handleToggleTodo(todo.id, todo.completed)}
                 >
@@ -260,8 +260,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   <span
                     className={`block truncate ${
                       todo.completed
-                        ? "line-through text-gray-400"
-                        : "text-gray-700"
+                        ? "line-through text-secondary-400"
+                        : "text-secondary-800"
                     }`}
                   >
                     {todo.title}
@@ -271,8 +271,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                       className="flex items-center gap-1 mt-1 cursor-pointer group/goal"
                       onClick={() => navigateToGoals()}
                     >
-                      <Target className="w-3 h-3 text-primary/60 group-hover/goal:text-primary transition-colors duration-200" />
-                      <span className="text-xs text-primary/60 group-hover/goal:text-primary transition-colors duration-200">
+                      <Target className="w-3 h-3 text-primary-600/60 group-hover/goal:text-primary-600 transition-colors duration-200" />
+                      <span className="text-xs text-primary-600/60 group-hover/goal:text-primary-600 transition-colors duration-200">
                         {todo.goal.title}
                       </span>
                     </div>
@@ -286,7 +286,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                   onClick={() => handleEditTodo(todo.id, todo.title)}
                 >
-                  <Pencil className="w-3.5 h-3.5 text-gray-400 hover:text-gray-600 transition-colors" />
+                  <Pencil className="w-3.5 h-3.5 text-secondary-400 hover:text-secondary-600 transition-colors" />
                 </Button>
               </div>
             </div>
@@ -300,18 +300,18 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             value={selectedGoalId || ""}
             onValueChange={(value) => setSelectedGoalId(value || null)}
           >
-            <SelectTrigger className="w-full bg-white/95 border-gray-100/80 shadow-sm hover:border-gray-200/80 focus:ring-2 focus:ring-primary/20 rounded-xl text-sm">
+            <SelectTrigger className="w-full bg-white/95 border-secondary-100/10 shadow-sm hover:border-secondary-200/20 focus:ring-2 focus:ring-primary-600/20 rounded-xl text-sm">
               <SelectValue placeholder="Select a goal (optional)" />
             </SelectTrigger>
-            <SelectContent className="bg-white/95 backdrop-blur-sm border-gray-100 shadow-lg">
+            <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-100 shadow-lg">
               {goals?.map((goal) => (
                 <SelectItem 
                   key={goal.id} 
                   value={goal.id}
-                  className="focus:bg-primary/5"
+                  className="focus:bg-primary-50"
                 >
                   <div className="flex items-center gap-2">
-                    <Target className="w-3.5 h-3.5 text-primary/70" />
+                    <Target className="w-3.5 h-3.5 text-primary-600/70" />
                     <span className="font-medium">{goal.title}</span>
                   </div>
                 </SelectItem>
@@ -325,13 +325,13 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             value={newTodoText}
             onChange={(e) => setNewTodoText(e.target.value)}
             placeholder="Add a new task..."
-            className="flex-1 pr-12 bg-white/95 border-gray-100/80 shadow-sm hover:border-gray-200/80 focus:ring-2 focus:ring-primary/20 rounded-xl text-sm placeholder:text-gray-400"
+            className="flex-1 pr-12 bg-white/95 border-secondary-100/10 shadow-sm hover:border-secondary-200/20 focus:ring-2 focus:ring-primary-600/20 rounded-xl text-sm placeholder:text-secondary-400"
             onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
           />
           <Button
             onClick={handleAddTodo}
             size="icon"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-600 hover:bg-primary-700 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
           >
             <Plus className="h-4 w-4" />
           </Button>
@@ -339,15 +339,15 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
       </div>
 
       {!hasGoals && !goalId && (
-        <div className="bg-primary/5 p-4 rounded-xl space-y-3 animate-fadeIn">
-          <h3 className="text-sm font-medium text-primary">Get Started</h3>
-          <p className="text-sm text-gray-600">
+        <div className="bg-secondary-50/50 p-4 rounded-xl space-y-3 animate-fadeIn border border-secondary-100/20">
+          <h3 className="text-sm font-medium text-secondary-800">Get Started</h3>
+          <p className="text-sm text-secondary-600">
             Create your first goal to start organizing your tasks effectively.
           </p>
           <Button 
             size="sm" 
             onClick={navigateToGoals}
-            className="w-full bg-white hover:bg-gray-50 text-primary shadow-sm"
+            className="w-full bg-white hover:bg-secondary-50 text-secondary-800 shadow-sm border border-secondary-200/20"
           >
             Create Your First Goal
             <ChevronRight className="w-4 h-4 ml-1" />

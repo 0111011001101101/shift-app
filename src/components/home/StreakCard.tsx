@@ -15,7 +15,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   
   return (
-    <div className="p-6 rounded-xl bg-white border border-gray-200/60 shadow-sm hover:shadow-md transition-all duration-300 group backdrop-blur-sm">
+    <div className="p-6 rounded-xl bg-white border border-secondary-100/10 shadow-sm hover:shadow-md transition-all duration-300 group backdrop-blur-sm">
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -24,18 +24,18 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             </div>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-600">Current Streak</span>
+            <span className="text-sm font-medium text-secondary-600">Current Streak</span>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">{streak}</span>
-              <span className="text-xs text-gray-500">days</span>
+              <span className="text-4xl font-black bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">{streak}</span>
+              <span className="text-xs text-secondary-500">days</span>
             </div>
           </div>
         </div>
-        <Star className="w-5 h-5 text-amber-400 animate-pulse opacity-75" />
+        <Star className="w-5 h-5 text-accent animate-pulse opacity-75" />
       </div>
       
       <div className="mt-4 flex flex-col gap-2">
-        <p className="text-xs text-gray-600 flex items-center gap-1.5 justify-center bg-gray-50 py-2 px-3 rounded-lg">
+        <p className="text-xs text-secondary-600 flex items-center gap-1.5 justify-center bg-secondary-50/50 py-2 px-3 rounded-lg">
           <Clock className="w-3.5 h-3.5 text-primary-600" />
           Next stand-up: Tomorrow, {formattedTime}
         </p>
