@@ -54,7 +54,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
           <Button
             onClick={() => setShowStandUp(true)}
-            className="w-full bg-white hover:bg-gray-50/90 text-left p-4 h-auto border border-primary-100/30 shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl group"
+            className="w-full bg-white hover:bg-gray-50/90 text-left p-6 h-auto border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl group"
           >
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-4">

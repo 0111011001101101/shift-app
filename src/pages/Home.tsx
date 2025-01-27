@@ -40,16 +40,16 @@ export default function Home() {
 
   return (
     <PageContainer className="max-w-3xl mx-auto space-y-8 px-4 sm:px-6 pb-safe-area-inset-bottom">
-      <div className="space-y-8 animate-fadeIn">
+      <div className="space-y-6 animate-fadeIn">
         <WelcomeHeader username={profile?.first_name} />
         
-        <div className="sticky -top-2 z-10 pt-4 pb-2 bg-gradient-to-b from-white via-white/95 to-transparent backdrop-blur-lg">
+        <div className="sticky -top-2 z-10 pt-4 pb-2">
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 glass rounded-3xl border-0 overflow-hidden">
+        <div className="space-y-4 bg-white/60 backdrop-blur-xl rounded-3xl border border-primary-100/20 shadow-lg overflow-hidden">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-6 bg-secondary-50/50 border-0 p-1.5">
+            <TabsList className="w-full mb-4 bg-primary-50/50 border-0 p-1.5">
               <TabsTrigger 
                 value="today" 
                 className="flex-1 py-2.5 data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-md rounded-xl transition-all duration-300"

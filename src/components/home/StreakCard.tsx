@@ -15,7 +15,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   
   return (
-    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-white via-gray-50/95 to-white border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 group backdrop-blur-lg">
+    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-white via-primary-50/5 to-primary-50/10 border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 group backdrop-blur-xl">
       <div className="absolute inset-0 bg-gradient-to-br from-primary-50/20 via-primary-100/10 to-transparent rounded-3xl opacity-50" />
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-4">
