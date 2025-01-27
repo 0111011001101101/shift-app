@@ -224,107 +224,95 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 animate-fadeIn">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-medium text-muted-foreground">
+        <h2 className="text-sm font-medium text-gray-600">
           {frequency === "daily" ? "Daily" : "Weekly"} Tasks
         </h2>
         <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-3">
         {filteredTodos?.map((todo) => (
           <div
             key={todo.id}
-            className="group relative transform transition-all duration-200 hover:scale-[1.02]"
+            className="group relative transform transition-all duration-300 hover:scale-[1.01]"
           >
-            <div className="flex items-center justify-between text-sm p-3 rounded-lg bg-gradient-to-r from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-800/80 dark:to-gray-900 shadow-sm border border-gray-200/50 dark:border-gray-700/50 backdrop-blur-sm">
-              {editingTodoId === todo.id ? (
-                <div className="flex items-center gap-2 w-full">
-                  <Input
-                    value={editedTodoText}
-                    onChange={(e) => setEditedTodoText(e.target.value)}
-                    className="flex-1"
-                    autoFocus
-                  />
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleSaveTodo(todo.id)}
+            <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-white via-gray-50/95 to-white border border-gray-100/80 shadow-sm hover:shadow-md transition-all duration-300">
+              <div className="flex items-center gap-3 flex-1">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className={`p-0 h-auto hover:bg-transparent ${
+                    todo.completed 
+                      ? "text-primary" 
+                      : "text-gray-400 hover:text-gray-600"
+                  }`}
+                  onClick={() => handleToggleTodo(todo.id, todo.completed)}
+                >
+                  <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center transition-colors duration-200">
+                    {todo.completed && (
+                      <Check className="w-3 h-3 animate-scale-in" />
+                    )}
+                  </div>
+                </Button>
+                <div className="flex-1 min-w-0">
+                  <span
+                    className={`block truncate ${
+                      todo.completed
+                        ? "line-through text-gray-400"
+                        : "text-gray-700"
+                    }`}
                   >
-                    <Check className="w-4 h-4" />
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center gap-3 flex-1">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className={`p-0 h-auto hover:bg-transparent ${
-                        todo.completed ? "text-primary" : "text-muted-foreground"
-                      }`}
-                      onClick={() => handleToggleTodo(todo.id, todo.completed)}
+                    {todo.title}
+                  </span>
+                  {todo.goal && !goalId && (
+                    <div
+                      className="flex items-center gap-1 mt-1 cursor-pointer group/goal"
+                      onClick={() => navigateToGoals()}
                     >
-                      <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center">
-                        {todo.completed && <Check className="w-3 h-3" />}
-                      </div>
-                    </Button>
-                    <div>
-                      <span
-                        className={`${
-                          todo.completed
-                            ? "line-through text-muted-foreground"
-                            : ""
-                        }`}
-                      >
-                        {todo.title}
+                      <Target className="w-3 h-3 text-primary/60 group-hover/goal:text-primary transition-colors duration-200" />
+                      <span className="text-xs text-primary/60 group-hover/goal:text-primary transition-colors duration-200">
+                        {todo.goal.title}
                       </span>
-                      {todo.goal && !goalId && (
-                        <div
-                          className="flex items-center gap-1 mt-0.5 cursor-pointer hover:text-primary transition-colors"
-                          onClick={() => navigateToGoals()}
-                        >
-                          <Target className="w-3 h-3 text-primary/60" />
-                          <span className="text-xs text-primary/60">
-                            {todo.goal.title}
-                          </span>
-                        </div>
-                      )}
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
-                      onClick={() => handleEditTodo(todo.id, todo.title)}
-                    >
-                      <Pencil className="w-3.5 h-3.5 text-muted-foreground" />
-                    </Button>
-                  </div>
-                </>
-              )}
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                  onClick={() => handleEditTodo(todo.id, todo.title)}
+                >
+                  <Pencil className="w-3.5 h-3.5 text-gray-400 hover:text-gray-600 transition-colors" />
+                </Button>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="relative mt-6 space-y-2">
+      <div className="relative space-y-3 pt-4">
         {!goalId && (
           <Select
             value={selectedGoalId || ""}
             onValueChange={(value) => setSelectedGoalId(value || null)}
           >
-            <SelectTrigger className="w-full bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-lg text-xs">
+            <SelectTrigger className="w-full bg-white/95 border-gray-100/80 shadow-sm hover:border-gray-200/80 focus:ring-2 focus:ring-primary/20 rounded-xl text-sm">
               <SelectValue placeholder="Select a goal (optional)" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="bg-white/95 backdrop-blur-sm border-gray-100 shadow-lg">
               {goals?.map((goal) => (
-                <SelectItem key={goal.id} value={goal.id}>
+                <SelectItem 
+                  key={goal.id} 
+                  value={goal.id}
+                  className="focus:bg-primary/5"
+                >
                   <div className="flex items-center gap-2">
-                    <Target className="w-3 h-3" />
-                    {goal.title}
+                    <Target className="w-3.5 h-3.5 text-primary/70" />
+                    <span className="font-medium">{goal.title}</span>
                   </div>
                 </SelectItem>
               ))}
@@ -336,8 +324,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           <Input
             value={newTodoText}
             onChange={(e) => setNewTodoText(e.target.value)}
-            placeholder="Add a new todo..."
-            className="flex-1 pr-12 bg-white dark:bg-gray-800 border-none shadow-sm focus:ring-2 focus:ring-primary/20 rounded-full text-xs"
+            placeholder="Add a new task..."
+            className="flex-1 pr-12 bg-white/95 border-gray-100/80 shadow-sm hover:border-gray-200/80 focus:ring-2 focus:ring-primary/20 rounded-xl text-sm placeholder:text-gray-400"
             onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
           />
           <Button
@@ -349,6 +337,23 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           </Button>
         </div>
       </div>
+
+      {!hasGoals && !goalId && (
+        <div className="bg-primary/5 p-4 rounded-xl space-y-3 animate-fadeIn">
+          <h3 className="text-sm font-medium text-primary">Get Started</h3>
+          <p className="text-sm text-gray-600">
+            Create your first goal to start organizing your tasks effectively.
+          </p>
+          <Button 
+            size="sm" 
+            onClick={navigateToGoals}
+            className="w-full bg-white hover:bg-gray-50 text-primary shadow-sm"
+          >
+            Create Your First Goal
+            <ChevronRight className="w-4 h-4 ml-1" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
