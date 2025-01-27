@@ -32,7 +32,7 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-white p-6 rounded-xl border border-secondary-100/10 shadow-sm animate-pulse">
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-xl border border-secondary-100/10 shadow-sm animate-pulse">
         <div className="h-20 bg-secondary-100/50 rounded-lg" />
       </section>
     );
@@ -40,7 +40,7 @@ export function GoalsSection() {
 
   if (error) {
     return (
-      <section className="space-y-4 bg-white p-6 rounded-xl border border-secondary-100/10 shadow-sm">
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-xl border border-secondary-100/10 shadow-sm">
         <p className="text-destructive">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -48,7 +48,7 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-white p-6 rounded-xl border border-secondary-100/10 shadow-sm hover:shadow-md transition-all duration-300">
+      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-xl border border-secondary-100/10 shadow-sm hover:shadow-md transition-all duration-300">
         <div className="text-center space-y-4">
           <Target className="w-12 h-12 mx-auto text-primary-600 opacity-50 animate-float" />
           <div>
@@ -64,7 +64,7 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-4 bg-white p-6 rounded-xl border border-secondary-100/10 shadow-sm hover:shadow-md transition-all duration-300">
+    <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-xl border border-secondary-100/10 shadow-sm hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="p-2 bg-primary-50 rounded-xl">

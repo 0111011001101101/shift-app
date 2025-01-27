@@ -33,7 +33,7 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-white border-gray-200/60 shadow-sm hover:shadow-md"
+      className="w-full group relative overflow-hidden hover:scale-[1.01] transition-all duration-300 bg-gradient-to-br from-white via-gray-50/95 to-white border-secondary-100/10 shadow-sm hover:shadow-md"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">

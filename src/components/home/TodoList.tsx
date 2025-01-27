@@ -61,7 +61,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     },
   });
 
-  // Fetch sub-goals with enhanced filtering
   const { data: todos, isLoading } = useQuery({
     queryKey: ["sub-goals", frequency, goalId, filter],
     queryFn: async () => {
@@ -128,7 +127,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     },
   });
 
-  // Update sub-goal
   const updateTodoMutation = useMutation({
     mutationFn: async (id: string) => {
       const { data, error } = await supabase
@@ -150,7 +148,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     },
   });
 
-  // Toggle completion status
   const toggleTodoMutation = useMutation({
     mutationFn: async ({ id, completed }: { id: string; completed: boolean }) => {
       const { data, error } = await supabase
