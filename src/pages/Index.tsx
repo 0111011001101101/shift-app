@@ -114,9 +114,17 @@ const Index = () => {
           transition={{ delay: 0.8 }}
           className="text-center space-y-4"
         >
-          <p className="text-sm text-black/60 font-medium">
-            Join our growing community of high achievers, entrepreneurs and leaders
-          </p>
+          <div className="flex items-center gap-2 justify-center">
+            <div className="flex -space-x-2">
+              <div className="w-8 h-8 rounded-full bg-primary-200 flex items-center justify-center text-xs font-medium">A</div>
+              <div className="w-8 h-8 rounded-full bg-primary-300 flex items-center justify-center text-xs font-medium">B</div>
+              <div className="w-8 h-8 rounded-full bg-primary-400 flex items-center justify-center text-xs font-medium">C</div>
+            </div>
+            <p className="text-sm text-black/60 font-medium flex items-center gap-2">
+              Join 10,000+ leaders
+              <ArrowRight className="w-4 h-4" />
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>
