@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, ArrowUp, Brain, Target, Shield, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowUp, Brain, Target, Shield, Sparkles, Rocket, BrainCog, ClipboardCheck, Activity } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -28,20 +28,20 @@ const Index = () => {
         </button>
       </motion.nav>
 
-      <div className="px-6 pt-28 pb-12 max-w-lg mx-auto space-y-16">
+      <div className="px-6 pt-28 pb-12 max-w-lg mx-auto space-y-20">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-center space-y-8"
+          className="text-center space-y-10"
         >
           <h1 className="text-5xl sm:text-6xl font-bold leading-[1.1] tracking-tight">
             Your pocket psychologist for{" "}
             <span className="text-accent">high achievers</span>
           </h1>
           <p className="text-lg sm:text-xl text-black/70 max-w-md mx-auto font-medium leading-relaxed">
-            Daily mental wellness tools designed for entrepreneurs who never stand still
+            Mental wellness and productivity tools for ambitious minds who want to thrive, not just survive
           </p>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
@@ -66,31 +66,31 @@ const Index = () => {
         >
           {[
             {
-              icon: <Brain className="w-6 h-6" />,
-              title: "AI Coach",
-              description: "24/7 personalized guidance that adapts to your needs"
+              icon: <BrainCog className="w-6 h-6" />,
+              title: "Smart AI Coach",
+              description: "24/7 personalized guidance that evolves with you"
             },
             {
-              icon: <Target className="w-6 h-6" />,
-              title: "Daily Growth",
-              description: "Track progress with 5-min morning check-ins"
+              icon: <Activity className="w-6 h-6" />,
+              title: "Growth Tracking",
+              description: "Quick daily check-ins to maintain momentum"
             },
             {
-              icon: <Shield className="w-6 h-6" />,
-              title: "Hurdle Management",
-              description: "Transform challenges into stepping stones"
+              icon: <Rocket className="w-6 h-6" />,
+              title: "Obstacle Navigator",
+              description: "Turn challenges into opportunities"
             },
             {
-              icon: <Sparkles className="w-6 h-6" />,
-              title: "Progress Tracking",
-              description: "Visualize your mental wellness journey"
+              icon: <ClipboardCheck className="w-6 h-6" />,
+              title: "Progress Dashboard",
+              description: "Track your journey with clear metrics"
             }
           ].map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 + (index * 0.1) }}
+              transition={{ delay: 0.8 + (index * 0.1) }}
               className="p-6 rounded-2xl border border-black/[0.08] hover:border-black/[0.16] 
                        hover:shadow-lg transition-all duration-300 group bg-white"
             >
@@ -116,7 +116,7 @@ const Index = () => {
           className="text-center space-y-4"
         >
           <p className="text-sm text-black/60 font-medium">
-            Start your mental wellness journey today
+            Join our growing community of high achievers, entrepreneurs and leaders
           </p>
         </motion.div>
       </div>
