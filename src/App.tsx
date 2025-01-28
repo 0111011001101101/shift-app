@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { BottomNav } from "./components/layout/BottomNav";
 import { FloatingChat } from "./components/chat/FloatingChat";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import Index from "./pages/Index";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
@@ -28,7 +29,8 @@ function AppContent() {
         <Toaster />
         <Sonner />
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/welcome" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
           <Route
             path="/onboarding"
