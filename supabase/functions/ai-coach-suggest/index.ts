@@ -15,7 +15,7 @@ serve(async (req) => {
 
   try {
     console.log('Received request to ai-coach-suggest');
-    const { goals, userId } = await req.json();
+    const { userId, lastSuggestionTime } = await req.json();
     
     if (!userId) {
       console.error('No user ID provided');
@@ -88,8 +88,7 @@ serve(async (req) => {
       activeHurdles: activeHurdles?.map(h => ({
         title: h.title,
         solutions: h.solutions
-      })),
-      proposedGoals: goals
+      }))
     };
 
     console.log('Constructed AI context:', JSON.stringify(context, null, 2));
@@ -102,7 +101,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4-turbo-preview',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
@@ -118,18 +117,14 @@ serve(async (req) => {
             ${context.activeHurdles?.map(h => `- ${h.title}`).join('\n') || 'No active hurdles'}
             
             Your task is to:
-            1. Analyze their proposed goals
-            2. Suggest improvements or adjustments
-            3. Provide actionable next steps
-            4. Consider their current mental state and hurdles
+            1. Analyze their current state
+            2. Provide actionable suggestions
+            3. Keep responses concise and encouraging
+            4. Consider their current mental state
             
             Keep responses concise, practical, and encouraging. If their recent mood is below 6,
             show extra empathy and suggest manageable steps. Reference their specific situation
             and recent wins to provide personalized advice.`
-          },
-          {
-            role: 'user',
-            content: `Please review these goals and provide suggestions: ${JSON.stringify(context.proposedGoals)}`
           }
         ],
         temperature: 0.7,
@@ -150,7 +145,7 @@ serve(async (req) => {
     
     return new Response(
       JSON.stringify({
-        suggestions: data.choices[0].message.content,
+        suggestion: data.choices[0].message.content,
         context
       }),
       { 
