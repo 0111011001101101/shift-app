@@ -14,75 +14,87 @@ serve(async (req) => {
   }
 
   try {
-    const { userId, lastSuggestionTime } = await req.json();
+    console.log('Received request to ai-coach-suggest');
+    const { goals, userId } = await req.json();
     
     if (!userId) {
+      console.error('No user ID provided');
       throw new Error('User ID is required');
     }
 
-    // If last suggestion was less than 30 minutes ago, don't suggest
-    if (lastSuggestionTime) {
-      const timeSinceLastSuggestion = Date.now() - new Date(lastSuggestionTime).getTime();
-      if (timeSinceLastSuggestion < 30 * 60 * 1000) {
-        return new Response(
-          JSON.stringify({ suggestion: null }),
-          { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
-      }
+    // Initialize Supabase client with better error handling
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
+    if (!supabaseUrl || !supabaseKey) {
+      console.error('Missing Supabase configuration');
+      throw new Error('Server configuration error');
     }
 
-    const supabaseClient = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
-    );
+    const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch comprehensive user context
-    const [
-      { data: goals },
-      { data: hurdles },
-      { data: standUps },
-      { data: profile }
-    ] = await Promise.all([
-      supabaseClient
-        .from('goals')
-        .select('*, sub_goals(*)')
-        .eq('user_id', userId)
-        .eq('completed', false)
-        .order('created_at', { ascending: false })
-        .limit(3),
-      supabaseClient
-        .from('hurdles')
-        .select('*, solutions(*)')
-        .eq('user_id', userId)
-        .eq('completed', false)
-        .order('created_at', { ascending: false })
-        .limit(3),
-      supabaseClient
-        .from('stand_ups')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(5),
-      supabaseClient
-        .from('profiles')
-        .select('*')
-        .eq('id', userId)
-        .single()
-    ]);
+    // Fetch user's profile for personalization
+    console.log('Fetching user profile...');
+    const { data: profile, error: profileError } = await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single();
 
-    // Analyze patterns and determine most relevant suggestion
+    if (profileError) {
+      console.error('Error fetching profile:', profileError);
+      throw profileError;
+    }
+
+    // Fetch recent stand-ups for context
+    console.log('Fetching recent stand-ups...');
+    const { data: recentStandUps, error: standUpsError } = await supabaseClient
+      .from('stand_ups')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(3);
+
+    if (standUpsError) {
+      console.error('Error fetching stand-ups:', standUpsError);
+      throw standUpsError;
+    }
+
+    // Fetch active hurdles for additional context
+    console.log('Fetching active hurdles...');
+    const { data: activeHurdles, error: hurdlesError } = await supabaseClient
+      .from('hurdles')
+      .select(`
+        *,
+        solutions (*)
+      `)
+      .eq('user_id', userId)
+      .eq('completed', false);
+
+    if (hurdlesError) {
+      console.error('Error fetching hurdles:', hurdlesError);
+      throw hurdlesError;
+    }
+
+    // Construct rich context for AI
     const context = {
-      stagnantGoals: goals?.filter(g => 
-        g.sub_goals?.every(sg => !sg.completed) && 
-        new Date(g.created_at) < new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-      ) || [],
-      unaddressedHurdles: hurdles?.filter(h => !h.solutions?.length) || [],
-      recentMoodTrend: standUps?.map(s => s.mental_health) || [],
-      streak: profile?.streak || 0,
-      lastStandUp: profile?.last_stand_up,
+      userProfile: {
+        firstName: profile?.first_name,
+        preferences: profile?.ai_preferences || {},
+      },
+      recentMood: recentStandUps?.[0]?.mental_health,
+      recentWins: recentStandUps?.[0]?.wins,
+      currentFocus: recentStandUps?.[0]?.focus,
+      activeHurdles: activeHurdles?.map(h => ({
+        title: h.title,
+        solutions: h.solutions
+      })),
+      proposedGoals: goals
     };
 
-    // Call OpenAI API with rich context
+    console.log('Constructed AI context:', JSON.stringify(context, null, 2));
+
+    // Call OpenAI API with enhanced configuration
     const openAiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -90,27 +102,40 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4',
+        model: 'gpt-4-turbo-preview',
         messages: [
           {
             role: 'system',
-            content: `You are a proactive executive coach for ambitious professionals. 
-            Your suggestions should be specific, actionable, and tied to the user's current context.
-            Focus on one clear next step or insight rather than general advice.
-            Be concise but impactful. Limit response to 2-3 sentences.
+            content: `You are an AI coach specializing in helping ambitious professionals achieve their goals while maintaining mental well-being. 
             
-            Current context:
-            - Stagnant goals: ${context.stagnantGoals.map(g => g.title).join(', ')}
-            - Unaddressed hurdles: ${context.unaddressedHurdles.map(h => h.title).join(', ')}
-            - Recent mood trend: ${context.recentMoodTrend.join(', ')}
-            - Current streak: ${context.streak}
-            - Last stand-up: ${context.lastStandUp}
+            Current context about the user:
+            - Name: ${context.userProfile.firstName || 'User'}
+            - Recent mood: ${context.recentMood}/10
+            - Recent wins: ${context.recentWins}
+            - Current focus: ${context.currentFocus}
             
-            Only provide a suggestion if there's a clear opportunity for impact.`
+            Active hurdles they're facing:
+            ${context.activeHurdles?.map(h => `- ${h.title}`).join('\n') || 'No active hurdles'}
+            
+            Your task is to:
+            1. Analyze their proposed goals
+            2. Suggest improvements or adjustments
+            3. Provide actionable next steps
+            4. Consider their current mental state and hurdles
+            
+            Keep responses concise, practical, and encouraging. If their recent mood is below 6,
+            show extra empathy and suggest manageable steps. Reference their specific situation
+            and recent wins to provide personalized advice.`
+          },
+          {
+            role: 'user',
+            content: `Please review these goals and provide suggestions: ${JSON.stringify(context.proposedGoals)}`
           }
         ],
         temperature: 0.7,
-        max_tokens: 150,
+        max_tokens: 500,
+        presence_penalty: 0.3,
+        frequency_penalty: 0.5,
       }),
     });
 
@@ -121,25 +146,34 @@ serve(async (req) => {
     }
 
     const data = await openAiResponse.json();
+    console.log('Successfully received OpenAI response');
     
     return new Response(
-      JSON.stringify({ 
-        suggestion: data.choices[0].message.content,
-        context 
+      JSON.stringify({
+        suggestions: data.choices[0].message.content,
+        context
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { 
+        headers: { 
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        } 
+      }
     );
 
   } catch (error) {
     console.error('Error in ai-coach-suggest function:', error);
     return new Response(
-      JSON.stringify({ 
+      JSON.stringify({
         error: error.message,
         details: error.toString()
       }),
       { 
         status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { 
+          ...corsHeaders,
+          'Content-Type': 'application/json'
+        }
       }
     );
   }
