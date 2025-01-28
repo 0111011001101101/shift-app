@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight, Star, MessageSquare, Search, Sparkles } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function Welcome() {
         className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
       >
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
+          <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent">
             <Star className="w-5 h-5 text-white" />
           </div>
           <span className="font-light tracking-tight text-black">SHIFT</span>
@@ -36,9 +36,9 @@ export default function Welcome() {
           transition={{ delay: 0.2 }}
           className="space-y-4"
         >
-          <h1 className="text-[2.5rem] leading-[1.1] font-light tracking-tight text-black">
+          <h1 className="text-[2.5rem] leading-[1.1] font-extralight tracking-tight text-black">
             Your mind,{" "}
-            <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary-500 via-primary-400 to-accent bg-clip-text text-transparent font-light">
               unleashed
             </span>
           </h1>
@@ -54,30 +54,33 @@ export default function Welcome() {
           transition={{ delay: 0.4 }}
           className="grid grid-cols-2 gap-4"
         >
-          {[
-            { 
-              icon: <Star className="w-5 h-5" />, 
-              label: "AI Coach",
-              bgClass: "bg-gradient-to-br from-primary-500/10 via-primary-400/5 to-transparent"
-            },
-            { 
-              icon: <ArrowRight className="w-5 h-5" />, 
-              label: "Daily Growth",
-              bgClass: "bg-gradient-to-br from-accent/10 via-accent/5 to-transparent"
-            },
-          ].map((feature) => (
-            <div
-              key={feature.label}
-              className={`p-6 rounded-2xl ${feature.bgClass} hover:shadow-lg transition-all duration-300
-                       border border-black/[0.03] flex flex-col items-center gap-3 group`}
-            >
-              <div className="w-10 h-10 rounded-xl bg-black flex items-center justify-center 
+          <div className="p-8 rounded-2xl bg-gradient-to-br from-primary-500/90 via-primary-400/80 to-primary-300/70 
+                         hover:shadow-lg transition-all duration-300 group">
+            <div className="flex flex-col items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center 
                             group-hover:scale-110 transition-transform duration-300">
-                <div className="text-white">{feature.icon}</div>
+                <MessageSquare className="w-6 h-6 text-white" />
               </div>
-              <span className="text-sm font-light text-black/80">{feature.label}</span>
+              <div className="space-y-1">
+                <span className="text-lg font-medium text-white">AI Coach</span>
+                <p className="text-sm font-light text-white/90">24/7 guidance & support</p>
+              </div>
             </div>
-          ))}
+          </div>
+
+          <div className="p-8 rounded-2xl bg-gradient-to-br from-accent/90 via-accent/80 to-accent/70
+                         hover:shadow-lg transition-all duration-300 group">
+            <div className="flex flex-col items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center 
+                            group-hover:scale-110 transition-transform duration-300">
+                <Sparkles className="w-6 h-6 text-white" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-lg font-medium text-white">Daily Growth</span>
+                <p className="text-sm font-light text-white/90">Track your progress</p>
+              </div>
+            </div>
+          </div>
         </motion.div>
 
         {/* CTA Section */}
@@ -114,19 +117,19 @@ export default function Welcome() {
           transition={{ delay: 0.8 }}
           className="pt-8"
         >
-          <div className="flex items-center justify-between px-5 py-4 rounded-2xl 
-                        bg-gradient-to-br from-primary-500/5 via-transparent to-accent/5
-                        border border-black/[0.03] hover:shadow-lg
+          <div className="flex items-center justify-between px-6 py-5 rounded-2xl 
+                        bg-gradient-to-br from-primary-500/10 via-primary-400/5 to-accent/10
+                        border border-primary-200/20 hover:shadow-lg
                         transition-all duration-300 cursor-pointer group"
           >
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
+            <div className="flex items-center gap-4">
+              <div className="flex -space-x-3">
                 {[...Array(3)].map((_, i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full border-2 border-white 
+                    className="w-10 h-10 rounded-full border-2 border-white 
                              bg-gradient-to-br from-primary-500 to-accent
-                             flex items-center justify-center text-xs font-light text-white
+                             flex items-center justify-center text-sm font-light text-white
                              shadow-sm group-hover:scale-105 transition-transform duration-300"
                   >
                     {String.fromCharCode(65 + i)}
