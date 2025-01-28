@@ -23,8 +23,8 @@ const App = () => (
     <TooltipProvider>
       <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
         <div className="mx-auto max-w-lg min-h-screen relative pb-20">
-          <div className="fixed inset-x-0 top-0 h-32 bg-gradient-to-b from-white via-white to-transparent pointer-events-none z-10" />
-          <div className="fixed inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white to-transparent pointer-events-none z-10" />
+          <div className="fixed inset-x-0 top-0 h-32 bg-gradient-to-b from-primary-50/80 via-white/60 to-transparent pointer-events-none z-10" />
+          <div className="fixed inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-10" />
           <Toaster />
           <Sonner />
           <BrowserRouter>
