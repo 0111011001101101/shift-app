@@ -115,7 +115,7 @@ const Index = () => {
           className="text-center space-y-4"
         >
           <p className="text-sm text-black/60 font-medium">
-            Join thousands of ambitious leaders and entrepreneurs who are transforming their mindset
+            Join our growing community of high achievers, entrepreneurs and leaders
           </p>
         </motion.div>
       </div>
