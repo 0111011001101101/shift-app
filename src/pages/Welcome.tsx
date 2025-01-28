@@ -133,40 +133,6 @@ export default function Welcome() {
             Learn more
           </button>
         </motion.div>
-
-        {/* Social Proof */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="pt-8"
-        >
-          <div className="flex items-center justify-between px-5 py-4 rounded-2xl 
-                        bg-gradient-to-br from-primary-500/10 via-transparent to-accent/10
-                        border border-black/[0.03] hover:shadow-lg
-                        transition-all duration-300 cursor-pointer group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="flex -space-x-2">
-                {[...Array(3)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-8 h-8 rounded-full border-2 border-white 
-                             bg-gradient-to-br from-primary-500 to-accent
-                             flex items-center justify-center text-xs font-medium text-white
-                             shadow-sm group-hover:scale-105 transition-transform duration-300"
-                  >
-                    {String.fromCharCode(65 + i)}
-                  </div>
-                ))}
-              </div>
-              <p className="text-sm text-black/60 font-medium">
-                Join <span className="font-semibold text-black">10,000+</span> leaders
-              </p>
-            </div>
-            <ArrowRight className="w-4 h-4 text-black/40 group-hover:translate-x-1 transition-transform duration-300" />
-          </div>
-        </motion.div>
       </div>
     </div>
   );
