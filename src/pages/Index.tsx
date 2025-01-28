@@ -37,11 +37,10 @@ const Index = () => {
           className="text-center space-y-10"
         >
           <h1 className="text-5xl sm:text-6xl font-bold leading-[1.1] tracking-tight">
-            Your pocket psychologist for{" "}
-            <span className="text-accent">high achievers</span>
+            Shift your <span className="text-accent">mind</span>
           </h1>
           <p className="text-lg sm:text-xl text-black/70 max-w-md mx-auto font-medium leading-relaxed">
-            Mental wellness and productivity tools for ambitious minds who want to thrive, not just survive
+            Productivity and mental wellness tools crafted for high achievers who are always on the go but strive for a healthier path forward
           </p>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
