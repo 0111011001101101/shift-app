@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, Brain, Target, Sparkles, Shield } from "lucide-react";
+import { ArrowRight, Star, Brain, Target, Sparkles, Shield, Heart } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/30 to-white">
       {/* Navigation */}
       <motion.nav 
         initial={{ opacity: 0, y: -20 }}
@@ -38,7 +38,7 @@ export default function Welcome() {
         >
           <h1 className="text-[2.5rem] leading-[1.1] font-medium tracking-tight text-black">
             Your mind,{" "}
-            <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">
               unleashed
             </span>
           </h1>
@@ -59,28 +59,36 @@ export default function Welcome() {
               icon: <Brain className="w-6 h-6" />,
               label: "AI Coach",
               description: "24/7 personalized guidance",
-              bgClass: "from-primary-500 to-primary-400",
+              bgClass: "from-primary-500/90 to-primary-600",
+              iconBgClass: "from-primary-100 to-primary-50",
+              iconColor: "text-primary-600",
               textColor: "text-white"
             },
             { 
-              icon: <Target className="w-6 h-6" />,
+              icon: <Heart className="w-6 h-6" />,
               label: "Daily Growth",
               description: "Track progress effortlessly",
-              bgClass: "from-accent to-orange-400",
+              bgClass: "from-accent/90 to-accent",
+              iconBgClass: "from-orange-100 to-orange-50",
+              iconColor: "text-accent",
               textColor: "text-white"
             },
             { 
               icon: <Sparkles className="w-6 h-6" />,
               label: "Quick Check-ins",
               description: "5-min morning stand-ups",
-              bgClass: "from-purple-500 to-purple-400",
+              bgClass: "from-secondary-500/90 to-secondary-600",
+              iconBgClass: "from-secondary-100 to-secondary-50",
+              iconColor: "text-secondary-600",
               textColor: "text-white"
             },
             { 
               icon: <Shield className="w-6 h-6" />,
               label: "Hurdle Management",
               description: "Turn blocks into stepping stones",
-              bgClass: "from-emerald-500 to-emerald-400",
+              bgClass: "from-primary-600/90 to-primary-700",
+              iconBgClass: "from-primary-200 to-primary-100",
+              iconColor: "text-primary-700",
               textColor: "text-white"
             },
           ].map((feature, index) => (
@@ -91,12 +99,15 @@ export default function Welcome() {
               transition={{ delay: 0.2 + (index * 0.1) }}
               className={`p-6 rounded-2xl bg-gradient-to-br ${feature.bgClass}
                        hover:shadow-lg transition-all duration-300 group
-                       hover:-translate-y-1`}
+                       hover:-translate-y-1 relative overflow-hidden`}
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center 
-                              group-hover:scale-110 transition-transform duration-300 backdrop-blur-sm">
-                  <div className={`${feature.textColor}`}>{feature.icon}</div>
+              <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="relative flex items-center gap-4">
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBgClass} 
+                              flex items-center justify-center group-hover:scale-110 
+                              transition-transform duration-300 backdrop-blur-sm
+                              shadow-sm group-hover:shadow-md`}>
+                  <div className={`${feature.iconColor}`}>{feature.icon}</div>
                 </div>
                 <div className="flex flex-col">
                   <span className={`text-lg font-medium ${feature.textColor}`}>{feature.label}</span>
@@ -116,9 +127,10 @@ export default function Welcome() {
         >
           <button
             onClick={() => navigate("/auth")}
-            className="w-full h-14 rounded-2xl bg-black text-white font-medium 
+            className="w-full h-14 rounded-2xl bg-gradient-to-r from-primary-600 to-primary-500 text-white font-medium 
                      flex items-center justify-center gap-2 
-                     hover:bg-black/90 active:bg-black/95 transition-colors"
+                     hover:from-primary-700 hover:to-primary-600 active:from-primary-800 active:to-primary-700 
+                     transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Get started
             <ArrowRight className="w-5 h-5" />
@@ -127,8 +139,8 @@ export default function Welcome() {
           <button
             onClick={() => navigate("/auth")}
             className="w-full h-14 rounded-2xl border border-black/[0.08] font-medium 
-                     text-black/80 hover:text-black
-                     hover:bg-black/[0.02] active:bg-black/[0.05] transition-colors"
+                     text-black/80 hover:text-black bg-white/50 backdrop-blur-sm
+                     hover:bg-white/80 active:bg-white/90 transition-all duration-300"
           >
             Learn more
           </button>
@@ -142,7 +154,7 @@ export default function Welcome() {
           className="pt-8"
         >
           <div className="flex items-center justify-between px-5 py-4 rounded-2xl 
-                        bg-gradient-to-br from-primary-500/10 via-transparent to-accent/10
+                        bg-gradient-to-br from-primary-500/5 via-transparent to-accent/5
                         border border-black/[0.03] hover:shadow-lg
                         transition-all duration-300 cursor-pointer group"
           >
