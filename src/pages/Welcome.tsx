@@ -1,80 +1,116 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Brain, Target, Shield, Sparkles, Rocket } from "lucide-react";
+import { ArrowRight, Brain, Target, Shield, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+
+const MotionDiv = motion.div;
 
 export default function Welcome() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
-      <div className="flex-1 flex flex-col items-center justify-center p-4 space-y-12">
+    <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
+      <div className="flex flex-col items-center justify-between min-h-screen">
         {/* Hero Section */}
-        <div className="text-center space-y-8 max-w-2xl mx-auto">
-          <div className="inline-flex items-center justify-center p-3 bg-primary-500/10 rounded-2xl mb-4 animate-float">
-            <Brain className="w-8 h-8 text-primary-500" />
-          </div>
-          
-          <div className="space-y-6">
-            <h1 className="text-5xl sm:text-6xl font-bold tracking-tight">
-              Welcome to <span className="bg-gradient-to-r from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">SHIFT</span>
+        <div className="flex-1 flex flex-col items-center justify-center w-full px-6 py-12">
+          {/* Animated Logo */}
+          <MotionDiv
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="mb-12"
+          >
+            <div className="relative">
+              {/* Stacked cards effect */}
+              <div className="absolute top-2 -left-2 w-16 h-16 bg-primary-200 rounded-2xl rotate-6 opacity-20" />
+              <div className="absolute top-1 -left-1 w-16 h-16 bg-primary-300 rounded-2xl rotate-3 opacity-40" />
+              <div className="relative w-16 h-16 bg-primary-500 rounded-2xl flex items-center justify-center shadow-lg">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+            </div>
+          </MotionDiv>
+
+          {/* Text Content */}
+          <MotionDiv
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center space-y-6 max-w-sm"
+          >
+            <h1 className="text-4xl font-bold tracking-tight">
+              Welcome to <span className="text-gradient">SHIFT</span>
             </h1>
-            <p className="text-xl text-secondary-600 max-w-md mx-auto leading-relaxed">
-              Your AI-powered companion for peak performance and mental clarity
+            <p className="text-lg text-secondary-600">
+              Your pocket psychologist for peak performance
             </p>
-          </div>
+          </MotionDiv>
 
           {/* Feature Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto px-4">
-            <div className="card p-6 space-y-3">
-              <div className="inline-flex items-center justify-center p-2 bg-primary-100 rounded-xl">
-                <Target className="w-5 h-5 text-primary-600" />
+          <MotionDiv
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="grid grid-cols-2 gap-4 mt-12 w-full max-w-sm"
+          >
+            <div className="glass p-4 space-y-2">
+              <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center">
+                <Target className="w-4 h-4 text-primary-600" />
               </div>
-              <h3 className="font-semibold text-secondary-800">Daily Stand-ups</h3>
-              <p className="text-sm text-secondary-600">Track your progress and stay accountable</p>
+              <h3 className="text-sm font-semibold">Daily Goals</h3>
+              <p className="text-xs text-secondary-600">Track your progress</p>
             </div>
 
-            <div className="card p-6 space-y-3">
-              <div className="inline-flex items-center justify-center p-2 bg-secondary-100 rounded-xl">
-                <Shield className="w-5 h-5 text-secondary-600" />
+            <div className="glass p-4 space-y-2">
+              <div className="w-8 h-8 rounded-full bg-secondary-100 flex items-center justify-center">
+                <Shield className="w-4 h-4 text-secondary-600" />
               </div>
-              <h3 className="font-semibold text-secondary-800">Goal Tracking</h3>
-              <p className="text-sm text-secondary-600">Set and achieve meaningful milestones</p>
+              <h3 className="text-sm font-semibold">Mental Health</h3>
+              <p className="text-xs text-secondary-600">Stay resilient</p>
             </div>
+          </MotionDiv>
 
-            <div className="card p-6 space-y-3">
-              <div className="inline-flex items-center justify-center p-2 bg-accent/10 rounded-xl">
-                <Sparkles className="w-5 h-5 text-accent" />
-              </div>
-              <h3 className="font-semibold text-secondary-800">AI Coaching</h3>
-              <p className="text-sm text-secondary-600">Get personalized guidance 24/7</p>
-            </div>
-          </div>
-
-          <div className="space-y-6 pt-4">
+          {/* CTA Buttons */}
+          <MotionDiv
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-12 space-y-4 w-full max-w-sm px-6"
+          >
             <Button 
               onClick={() => navigate("/auth")} 
-              className="px-8 py-6 text-lg rounded-full bg-gradient-to-r from-primary-600 to-primary-500 hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl group"
+              className="w-full h-12 rounded-2xl bg-primary-500 hover:bg-primary-600 text-white font-medium"
             >
               Get Started
-              <Rocket className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
+            
+            <button
+              onClick={() => navigate("/auth")}
+              className="w-full text-sm text-secondary-600 hover:text-secondary-800 transition-colors"
+            >
+              I Already Have an Account
+            </button>
+          </MotionDiv>
+        </div>
 
-            <p className="text-sm text-secondary-500">
-              Join ambitious leaders who use SHIFT to stay focused and resilient
+        {/* Footer */}
+        <MotionDiv
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="w-full py-6 bg-white/50 backdrop-blur-sm border-t border-primary-100/20"
+        >
+          <div className="max-w-sm mx-auto px-6 text-center">
+            <div className="inline-flex items-center justify-center gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-primary-500" />
+              <span className="text-sm font-medium text-primary-700">Used by 10k+ leaders</span>
+            </div>
+            <p className="text-xs text-secondary-500">
+              "The only way to do great work is to love what you do"
             </p>
           </div>
-        </div>
+        </MotionDiv>
       </div>
-
-      {/* Footer */}
-      <footer className="text-center p-8 bg-white/50 backdrop-blur-sm border-t border-primary-100/20">
-        <div className="max-w-2xl mx-auto">
-          <p className="text-sm font-medium text-secondary-600">
-            "The only way to do great work is to love what you do." - Steve Jobs
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
