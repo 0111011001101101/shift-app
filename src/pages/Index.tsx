@@ -28,20 +28,20 @@ const Index = () => {
         </button>
       </motion.nav>
 
-      <div className="px-6 pt-24 pb-12 max-w-lg mx-auto space-y-12">
+      <div className="px-6 pt-28 pb-12 max-w-lg mx-auto space-y-16">
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-center space-y-6"
+          className="text-center space-y-8"
         >
-          <h1 className="text-4xl sm:text-5xl font-bold leading-tight">
+          <h1 className="text-5xl sm:text-6xl font-bold leading-[1.1] tracking-tight">
             Your pocket psychologist for{" "}
             <span className="text-accent">high achievers</span>
           </h1>
-          <p className="text-lg text-black/70 max-w-md mx-auto">
-            Daily mental wellness and growth tools designed for entrepreneurs and leaders who never stand still.
+          <p className="text-lg sm:text-xl text-black/70 max-w-md mx-auto font-medium leading-relaxed">
+            Daily mental wellness tools designed for entrepreneurs who never stand still
           </p>
           <motion.button
             initial={{ opacity: 0, y: 20 }}
@@ -50,7 +50,7 @@ const Index = () => {
             onClick={() => navigate("/auth")}
             className="px-8 py-4 bg-accent text-white rounded-xl font-medium 
                      hover:bg-accent/90 active:bg-accent/95 transition-colors
-                     flex items-center gap-2 mx-auto"
+                     flex items-center gap-2 mx-auto shadow-lg shadow-accent/20"
           >
             Get started
             <ArrowRight className="w-5 h-5" />
@@ -59,8 +59,8 @@ const Index = () => {
 
         {/* Features Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
           className="grid grid-cols-1 sm:grid-cols-2 gap-4"
         >
@@ -68,22 +68,22 @@ const Index = () => {
             {
               icon: <Brain className="w-6 h-6" />,
               title: "AI Coach",
-              description: "24/7 personalized guidance"
+              description: "24/7 personalized guidance that adapts to your needs"
             },
             {
               icon: <Target className="w-6 h-6" />,
-              title: "Quick Stand-ups",
-              description: "5-min daily check-ins"
+              title: "Daily Growth",
+              description: "Track progress with 5-min morning check-ins"
             },
             {
               icon: <Shield className="w-6 h-6" />,
               title: "Hurdle Management",
-              description: "Turn blocks into progress"
+              description: "Transform challenges into stepping stones"
             },
             {
               icon: <Sparkles className="w-6 h-6" />,
-              title: "Growth Tracking",
-              description: "Monitor your journey"
+              title: "Progress Tracking",
+              description: "Visualize your mental wellness journey"
             }
           ].map((feature, index) => (
             <motion.div
@@ -115,22 +115,9 @@ const Index = () => {
           transition={{ delay: 0.8 }}
           className="text-center space-y-4"
         >
-          <div className="flex items-center justify-center gap-3">
-            <div className="flex -space-x-2">
-              {[...Array(3)].map((_, i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white bg-accent
-                           flex items-center justify-center text-xs font-medium text-white"
-                >
-                  {String.fromCharCode(65 + i)}
-                </div>
-              ))}
-            </div>
-            <p className="text-sm text-black/60">
-              Join <span className="font-semibold text-black">10,000+</span> leaders
-            </p>
-          </div>
+          <p className="text-sm text-black/60 font-medium">
+            Start your mental wellness journey today
+          </p>
         </motion.div>
       </div>
     </div>
