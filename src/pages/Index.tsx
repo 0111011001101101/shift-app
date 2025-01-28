@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Keyboard } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Index = () => {
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
-            <Keyboard className="w-5 h-5 text-white" />
+            <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
           <span className="font-medium tracking-tight text-black">SHIFT</span>
         </div>
