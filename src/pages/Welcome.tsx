@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Star, Brain, Target, Sparkles, Shield } from "lucide-react";
+import { ArrowRight, Keyboard, Brain, Target, Sparkles, Shield } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export default function Welcome() {
       >
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
-            <Star className="w-5 h-5 text-white" />
+            <Keyboard className="w-5 h-5 text-white" />
           </div>
           <span className="font-medium tracking-tight text-black">SHIFT</span>
         </div>
