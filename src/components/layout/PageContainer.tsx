@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { motion } from "framer-motion";
 
 interface PageContainerProps {
   children: ReactNode;
@@ -7,17 +8,22 @@ interface PageContainerProps {
 
 export function PageContainer({ children, className = "" }: PageContainerProps) {
   return (
-    <main className={`mx-auto px-4 py-6 min-h-[calc(100vh-5rem)] animate-fadeIn ${className}`}>
-      <div className="relative max-w-5xl mx-auto">
+    <div className="min-h-screen bg-white">
+      <motion.main 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className={`px-6 pt-24 pb-12 max-w-lg mx-auto space-y-12 ${className}`}
+      >
         {/* Decorative background elements */}
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-400/10 via-transparent to-transparent pointer-events-none" />
-        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-secondary-400/10 via-transparent to-transparent pointer-events-none" />
+        <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent pointer-events-none" />
         
         {/* Content */}
         <div className="relative">
           {children}
         </div>
-      </div>
-    </main>
+      </motion.main>
+    </div>
   );
 }
