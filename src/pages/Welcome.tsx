@@ -123,6 +123,16 @@ export default function Welcome() {
             Get started
             <ArrowRight className="w-5 h-5" />
           </button>
+          
+          {/* Social Proof */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="text-center text-sm text-black/60 font-medium px-4"
+          >
+            Join our growing community of high achievers, entrepreneurs and leaders
+          </motion.p>
         </motion.div>
       </div>
     </div>
