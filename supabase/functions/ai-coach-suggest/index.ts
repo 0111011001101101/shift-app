@@ -109,6 +109,7 @@ serve(async (req) => {
     }
 
     // Call OpenAI API
+    console.log('Calling OpenAI API...');
     const openAiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -116,7 +117,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4-mini',
+        model: 'gpt-4-turbo-preview',
         messages: [
           {
             role: 'system',
