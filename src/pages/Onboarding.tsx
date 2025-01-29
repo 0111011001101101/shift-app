@@ -106,13 +106,13 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen p-4 sm:p-6 flex flex-col"
+          className="min-h-screen p-4 flex flex-col"
         >
           <div className="w-full max-w-md mx-auto flex-1 flex flex-col">
             {/* Logo Section */}
             <motion.div 
               variants={itemVariants}
-              className="flex items-center justify-center mb-6 sm:mb-8"
+              className="flex items-center justify-center mb-8"
             >
               <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-600 via-primary-500 to-accent 
                             shadow-lg hover:shadow-xl transition-all duration-300 
@@ -120,25 +120,25 @@ export default function Onboarding() {
                 <ArrowUp className="w-5 h-5 text-white transition-transform duration-300 
                                   group-hover:scale-110" strokeWidth={2.5} />
               </div>
-              <span className="ml-2.5 font-medium tracking-tight text-black/90">SHIFT</span>
+              <span className="ml-2.5 text-lg font-medium tracking-tight text-black/90">SHIFT</span>
             </motion.div>
 
             {/* Header Section */}
             <motion.div 
               variants={itemVariants}
-              className="text-center space-y-2.5 mb-6 sm:mb-8"
+              className="text-center space-y-3 mb-8"
             >
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight bg-clip-text text-transparent 
+              <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent 
                            bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                 {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
               </h1>
-              <p className="text-base sm:text-lg text-secondary-600 font-medium">
+              <p className="text-lg font-medium text-secondary-800">
                 {step === "name" 
                   ? "Let's start with your name"
                   : "Help us personalize your experience"}
               </p>
               {step === "personalization" && (
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-secondary-600">
                   All fields are optional and can be updated later in Settings
                 </p>
               )}
@@ -149,7 +149,7 @@ export default function Onboarding() {
               <form onSubmit={(e) => e.preventDefault()} className="flex-1 flex flex-col">
                 <motion.div
                   variants={itemVariants}
-                  className="flex-1 bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-5 sm:p-8 
+                  className="flex-1 bg-white/80 backdrop-blur-xl rounded-2xl p-6 
                            shadow-lg border border-primary-100/20 hover:shadow-xl transition-all duration-300"
                 >
                   {step === "name" ? (
@@ -172,19 +172,19 @@ export default function Onboarding() {
                       )}
                     />
                   ) : (
-                    <div className="space-y-5">
+                    <div className="space-y-6">
                       <FormField
                         control={form.control}
                         name="aiPreferences.age"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Age</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Age</FormLabel>
                             <FormControl>
                               <Input 
                                 type="number" 
                                 placeholder="Your age" 
                                 {...field}
-                                className="h-12 bg-white/50 rounded-xl"
+                                className="h-12 text-base bg-white/50 rounded-xl"
                               />
                             </FormControl>
                           </FormItem>
@@ -196,13 +196,15 @@ export default function Onboarding() {
                         name="aiPreferences.religion"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Religion/Spirituality</FormLabel>
-                            <FormDescription>Share your beliefs or spiritual practices</FormDescription>
+                            <FormLabel className="text-base font-medium text-secondary-800">Religion/Spirituality</FormLabel>
+                            <FormDescription className="text-sm text-secondary-600">
+                              Share your beliefs or spiritual practices
+                            </FormDescription>
                             <FormControl>
                               <Input 
                                 placeholder="E.g., Christianity, Buddhism, Spiritual but not religious..." 
                                 {...field}
-                                className="h-12 bg-white/50 rounded-xl"
+                                className="h-12 text-base bg-white/50 rounded-xl"
                               />
                             </FormControl>
                           </FormItem>
@@ -214,12 +216,12 @@ export default function Onboarding() {
                         name="aiPreferences.ethnicity"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Ethnicity</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Ethnicity</FormLabel>
                             <FormControl>
                               <Input 
                                 placeholder="Your ethnicity" 
                                 {...field}
-                                className="h-12 bg-white/50 rounded-xl"
+                                className="h-12 text-base bg-white/50 rounded-xl"
                               />
                             </FormControl>
                           </FormItem>
@@ -231,12 +233,12 @@ export default function Onboarding() {
                         name="aiPreferences.gender"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Gender</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Gender</FormLabel>
                             <FormControl>
                               <Input 
                                 placeholder="Your gender identity" 
                                 {...field}
-                                className="h-12 bg-white/50 rounded-xl"
+                                className="h-12 text-base bg-white/50 rounded-xl"
                               />
                             </FormControl>
                           </FormItem>
@@ -248,13 +250,13 @@ export default function Onboarding() {
                         name="aiPreferences.occupation"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Occupation</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Occupation</FormLabel>
                             <FormDescription>Your current role or position</FormDescription>
                             <FormControl>
                               <Input 
                                 placeholder="E.g., Entrepreneur, Manager, Developer..." 
                                 {...field}
-                                className="h-12 bg-white/50 rounded-xl"
+                                className="h-12 text-base bg-white/50 rounded-xl"
                               />
                             </FormControl>
                           </FormItem>
@@ -266,13 +268,13 @@ export default function Onboarding() {
                         name="aiPreferences.fieldOfWork"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Field of Work</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Field of Work</FormLabel>
                             <FormDescription>Your industry or area of expertise</FormDescription>
                             <FormControl>
                               <Input 
                                 placeholder="E.g., Technology, Healthcare, Education..." 
                                 {...field}
-                                className="h-12 bg-white/50 rounded-xl"
+                                className="h-12 text-base bg-white/50 rounded-xl"
                               />
                             </FormControl>
                           </FormItem>
@@ -284,7 +286,7 @@ export default function Onboarding() {
                         name="aiPreferences.workStyle"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">How do you prefer to work?</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">How do you prefer to work?</FormLabel>
                             <FormDescription>This helps us tailor our suggestions</FormDescription>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
@@ -309,7 +311,7 @@ export default function Onboarding() {
                         name="aiPreferences.primaryGoal"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">What's your primary goal?</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">What's your primary goal?</FormLabel>
                             <FormDescription>This helps us focus on what matters most to you</FormDescription>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
@@ -336,7 +338,7 @@ export default function Onboarding() {
                         name="aiPreferences.communicationStyle"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Preferred communication style</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Preferred communication style</FormLabel>
                             <FormDescription>How would you like SHIFT to communicate with you?</FormDescription>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
@@ -362,7 +364,7 @@ export default function Onboarding() {
                         name="aiPreferences.description"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Tell more about yourself</FormLabel>
+                            <FormLabel className="text-base font-medium text-secondary-800">Tell more about yourself</FormLabel>
                             <FormDescription>
                               Share anything that would help us understand you better
                             </FormDescription>
@@ -383,16 +385,14 @@ export default function Onboarding() {
                 {/* Navigation Buttons */}
                 <motion.div 
                   variants={itemVariants}
-                  className="mt-4 sm:mt-6 flex justify-between gap-3 sticky bottom-0 
-                           bg-gradient-to-t from-white via-white to-transparent 
-                           pb-4 pt-6 -mx-4 px-4 sm:-mx-6 sm:px-6"
+                  className="mt-6 flex gap-3 sticky bottom-4 w-full"
                 >
                   {step !== "name" && (
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setStep("name")}
-                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium"
+                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium flex-1"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back
@@ -403,7 +403,7 @@ export default function Onboarding() {
                       type="button"
                       variant="outline"
                       onClick={skipPersonalization}
-                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium"
+                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium flex-1"
                     >
                       Skip for now
                     </Button>
@@ -411,7 +411,7 @@ export default function Onboarding() {
                   <Button
                     type="button"
                     onClick={nextStep}
-                    className={`${step === "name" ? "w-full" : ""} h-12 px-6 text-base font-medium
+                    className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-6 text-base font-medium
                               bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 
                               hover:to-primary-400 active:from-primary-700 active:to-primary-600 
                               transition-all duration-300`}
