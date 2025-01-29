@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUp, Brain, Target, Sparkles, Shield } from "lucide-react";
+import { ArrowRight, ArrowUp, Brain, Target, Shield, Sparkles, BrainCog, Activity } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -56,32 +56,32 @@ export default function Welcome() {
         >
           {[
             { 
-              icon: <Brain className="w-6 h-6" />,
+              icon: <BrainCog className="w-6 h-6 stroke-[1.5]" />,
               label: "AI Coach",
               description: "24/7 personalized guidance",
-              bgClass: "from-primary-500 to-primary-400",
-              textColor: "text-white"
+              bgClass: "from-primary-500/90 to-primary-600",
+              iconBgClass: "from-white/20 to-white/5"
             },
             { 
-              icon: <Target className="w-6 h-6" />,
+              icon: <Activity className="w-6 h-6 stroke-[1.5]" />,
               label: "Daily Growth",
               description: "Track progress effortlessly",
-              bgClass: "from-accent to-orange-400",
-              textColor: "text-white"
+              bgClass: "from-accent/90 to-accent",
+              iconBgClass: "from-white/20 to-white/5"
             },
             { 
-              icon: <Sparkles className="w-6 h-6" />,
+              icon: <Sparkles className="w-6 h-6 stroke-[1.5]" />,
               label: "Quick Check-ins",
               description: "5-min morning stand-ups",
-              bgClass: "from-purple-500 to-purple-400",
-              textColor: "text-white"
+              bgClass: "from-purple-500/90 to-purple-500",
+              iconBgClass: "from-white/20 to-white/5"
             },
             { 
-              icon: <Shield className="w-6 h-6" />,
+              icon: <Shield className="w-6 h-6 stroke-[1.5]" />,
               label: "Hurdle Management",
               description: "Turn blocks into stepping stones",
-              bgClass: "from-emerald-500 to-emerald-400",
-              textColor: "text-white"
+              bgClass: "from-emerald-500/90 to-emerald-500",
+              iconBgClass: "from-white/20 to-white/5"
             },
           ].map((feature, index) => (
             <motion.div
@@ -94,13 +94,14 @@ export default function Welcome() {
                        hover:-translate-y-1`}
             >
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center 
-                              group-hover:scale-110 transition-transform duration-300 backdrop-blur-sm">
-                  <div className={`${feature.textColor}`}>{feature.icon}</div>
+                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.iconBgClass} 
+                              flex items-center justify-center backdrop-blur-sm
+                              group-hover:scale-110 transition-transform duration-300`}>
+                  <div className="text-white">{feature.icon}</div>
                 </div>
                 <div className="flex flex-col">
-                  <span className={`text-lg font-medium ${feature.textColor}`}>{feature.label}</span>
-                  <span className={`text-sm ${feature.textColor}/90`}>{feature.description}</span>
+                  <span className="text-lg font-medium text-white">{feature.label}</span>
+                  <span className="text-sm text-white/90">{feature.description}</span>
                 </div>
               </div>
             </motion.div>
