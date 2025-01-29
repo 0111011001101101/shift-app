@@ -35,13 +35,13 @@ export default function Welcome() {
           className="space-y-4"
         >
           <h1 className="text-[2.5rem] leading-[1.1] font-medium tracking-tight text-black">
-            Perform at Your Best,{" "}
+            Peak Performance,{" "}
             <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
-              Without Burning Out
+              Zero Burnout
             </span>
           </h1>
           <p className="text-black/70 text-lg leading-relaxed font-medium">
-            For entrepreneurs, leaders, and high achievers who want to stay sharp, focused, and resilient—without sacrificing mental well-being.
+            Stay sharp and resilient while achieving your goals—designed for ambitious leaders.
           </p>
         </motion.div>
 
