@@ -106,30 +106,33 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen p-6 flex flex-col"
+          className="min-h-screen p-4 sm:p-6 flex flex-col"
         >
           <div className="w-full max-w-md mx-auto flex-1 flex flex-col">
+            {/* Logo Section */}
             <motion.div 
               variants={itemVariants}
-              className="flex items-center justify-center mb-8"
+              className="flex items-center justify-center mb-6 sm:mb-8"
             >
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-600 via-primary-500 to-accent shadow-xl
-                            hover:shadow-2xl transition-all duration-300 hover:-translate-y-0.5 group">
-                <ArrowUp className="w-5 h-5 text-white transition-transform duration-300 group-hover:scale-110" 
-                        strokeWidth={2.5} />
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-600 via-primary-500 to-accent 
+                            shadow-lg hover:shadow-xl transition-all duration-300 
+                            hover:-translate-y-0.5 group">
+                <ArrowUp className="w-5 h-5 text-white transition-transform duration-300 
+                                  group-hover:scale-110" strokeWidth={2.5} />
               </div>
-              <span className="ml-2 font-medium tracking-tight text-black">SHIFT</span>
+              <span className="ml-2.5 font-medium tracking-tight text-black/90">SHIFT</span>
             </motion.div>
 
+            {/* Header Section */}
             <motion.div 
               variants={itemVariants}
-              className="text-center space-y-3 mb-8"
+              className="text-center space-y-2.5 mb-6 sm:mb-8"
             >
-              <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent 
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight bg-clip-text text-transparent 
                            bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                 {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
               </h1>
-              <p className="text-secondary-600 text-lg">
+              <p className="text-base sm:text-lg text-secondary-600 font-medium">
                 {step === "name" 
                   ? "Let's start with your name"
                   : "Help us personalize your experience"}
@@ -141,12 +144,13 @@ export default function Onboarding() {
               )}
             </motion.div>
 
+            {/* Form Section */}
             <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="flex-1 flex flex-col">
                 <motion.div
                   variants={itemVariants}
-                  className="flex-1 bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-primary-100/20
-                           hover:shadow-xl transition-all duration-300"
+                  className="flex-1 bg-white/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-5 sm:p-8 
+                           shadow-lg border border-primary-100/20 hover:shadow-xl transition-all duration-300"
                 >
                   {step === "name" ? (
                     <FormField
@@ -155,12 +159,12 @@ export default function Onboarding() {
                       rules={{ required: "Please enter your name" }}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-lg font-medium text-secondary-800">Name</FormLabel>
+                          <FormLabel className="text-base font-medium text-secondary-800">Name</FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="Enter your name" 
                               {...field}
-                              className="h-14 text-lg bg-white/50 rounded-xl"
+                              className="h-12 text-base bg-white/50 rounded-xl"
                             />
                           </FormControl>
                           <FormMessage />
@@ -168,7 +172,7 @@ export default function Onboarding() {
                       )}
                     />
                   ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-5">
                       <FormField
                         control={form.control}
                         name="aiPreferences.age"
@@ -376,16 +380,19 @@ export default function Onboarding() {
                   )}
                 </motion.div>
 
+                {/* Navigation Buttons */}
                 <motion.div 
                   variants={itemVariants}
-                  className="mt-6 flex justify-between gap-4 sticky bottom-0 bg-gradient-to-t from-white via-white to-transparent pb-4 pt-8 -mx-6 px-6"
+                  className="mt-4 sm:mt-6 flex justify-between gap-3 sticky bottom-0 
+                           bg-gradient-to-t from-white via-white to-transparent 
+                           pb-4 pt-6 -mx-4 px-4 sm:-mx-6 sm:px-6"
                 >
                   {step !== "name" && (
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setStep("name")}
-                      className="bg-white/80 hover:bg-white h-12"
+                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back
@@ -396,7 +403,7 @@ export default function Onboarding() {
                       type="button"
                       variant="outline"
                       onClick={skipPersonalization}
-                      className="bg-white/80 hover:bg-white h-12"
+                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium"
                     >
                       Skip for now
                     </Button>
@@ -404,7 +411,10 @@ export default function Onboarding() {
                   <Button
                     type="button"
                     onClick={nextStep}
-                    className={`${step === "name" ? "w-full" : ""} h-12`}
+                    className={`${step === "name" ? "w-full" : ""} h-12 px-6 text-base font-medium
+                              bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 
+                              hover:to-primary-400 active:from-primary-700 active:to-primary-600 
+                              transition-all duration-300`}
                   >
                     {step === "name" ? "Continue" : "Complete Setup"}
                     <ArrowRight className="ml-2 h-4 w-4" />
