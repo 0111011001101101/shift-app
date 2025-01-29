@@ -28,6 +28,26 @@ interface OnboardingForm {
   };
 }
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: "spring", stiffness: 100 }
+  }
+};
+
 export default function Onboarding() {
   const [step, setStep] = useState<OnboardingStep>("name");
   const navigate = useNavigate();
@@ -81,34 +101,32 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
-      <div className="min-h-screen flex flex-col items-center justify-center p-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full max-w-md space-y-8"
-        >
+    <div className="fixed inset-0 bg-gradient-to-br from-primary-50 via-white to-primary-50/80">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="min-h-screen flex flex-col items-center justify-center p-6"
+      >
+        <div className="w-full max-w-md space-y-8">
           {/* Logo */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            variants={itemVariants}
             className="flex items-center justify-center gap-3"
           >
-            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl">
-              <ArrowUp className="w-6 h-6 text-white" strokeWidth={2.5} />
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl
+                          hover:shadow-2xl transition-all duration-300 hover:-translate-y-0.5">
+              <ArrowUp className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>
-            <span className="text-2xl font-semibold tracking-tight text-secondary-800">SHIFT</span>
+            <span className="text-3xl font-semibold tracking-tight text-secondary-800">SHIFT</span>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            variants={itemVariants}
             className="text-center space-y-3"
           >
-            <h1 className="text-3xl font-bold tracking-tight">
+            <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent 
+                         bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
               {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
             </h1>
             <p className="text-secondary-600 text-lg">
@@ -121,10 +139,9 @@ export default function Onboarding() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <motion.div
-                initial={{ opacity: 0, x: step === "name" ? -20 : 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-primary-100/20"
+                variants={itemVariants}
+                className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-primary-100/20
+                         hover:shadow-xl transition-all duration-300"
               >
                 {step === "name" ? (
                   <FormField
@@ -138,7 +155,7 @@ export default function Onboarding() {
                           <Input 
                             placeholder="Enter your name" 
                             {...field}
-                            className="h-14 text-lg bg-white/50"
+                            className="h-14 text-lg bg-white/50 rounded-xl"
                           />
                         </FormControl>
                         <FormMessage />
@@ -157,7 +174,7 @@ export default function Onboarding() {
                             <Input 
                               placeholder="Your country" 
                               {...field}
-                              className="h-12 bg-white/50"
+                              className="h-12 bg-white/50 rounded-xl"
                             />
                           </FormControl>
                         </FormItem>
@@ -174,7 +191,7 @@ export default function Onboarding() {
                             <Input 
                               placeholder="e.g., 25-34" 
                               {...field}
-                              className="h-12 bg-white/50"
+                              className="h-12 bg-white/50 rounded-xl"
                             />
                           </FormControl>
                         </FormItem>
@@ -191,7 +208,7 @@ export default function Onboarding() {
                             <Input 
                               placeholder="Your background" 
                               {...field}
-                              className="h-12 bg-white/50"
+                              className="h-12 bg-white/50 rounded-xl"
                             />
                           </FormControl>
                         </FormItem>
@@ -206,9 +223,7 @@ export default function Onboarding() {
               </motion.div>
 
               <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.6 }}
+                variants={itemVariants}
                 className="flex justify-between pt-4"
               >
                 {step !== "name" && (
@@ -233,8 +248,8 @@ export default function Onboarding() {
               </motion.div>
             </form>
           </Form>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
