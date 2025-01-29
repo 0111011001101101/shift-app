@@ -41,7 +41,7 @@ export default function Welcome() {
             </span>
           </h1>
           <p className="text-black/70 text-lg leading-relaxed font-medium">
-            Experience success without sacrificing well-being.
+            A mental health & productivity app, in one.
           </p>
           <p className="text-secondary-400 font-medium text-sm tracking-wide uppercase">
             Make the shift
