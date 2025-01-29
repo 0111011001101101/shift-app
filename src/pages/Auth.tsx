@@ -50,12 +50,17 @@ export default function Auth() {
             }
           }}
           providers={[]}
-          onError={(error) => {
-            toast({
-              title: "Authentication Error",
-              description: error.message,
-              variant: "destructive",
-            });
+          localization={{
+            variables: {
+              sign_in: {
+                email_label: 'Email',
+                password_label: 'Password',
+              },
+              sign_up: {
+                email_label: 'Email',
+                password_label: 'Password',
+              },
+            },
           }}
         />
       </div>
