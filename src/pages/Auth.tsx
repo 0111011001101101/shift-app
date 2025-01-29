@@ -4,9 +4,12 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
+import { useSearchParams } from "react-router-dom";
 
 export default function Auth() {
   const [isLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const view = searchParams.get("view") || "sign_in";
 
   return (
     <div className="min-h-screen bg-white">
@@ -27,7 +30,7 @@ export default function Auth() {
       <div className="px-6 pt-28 pb-12 max-w-sm mx-auto">
         <SupabaseAuth 
           supabaseClient={supabase}
-          view="sign_in"
+          view={view as "sign_in" | "sign_up"}
           appearance={{
             theme: ThemeSupa,
             variables: {
