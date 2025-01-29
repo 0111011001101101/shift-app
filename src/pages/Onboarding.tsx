@@ -98,7 +98,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-primary-50/90 via-white to-primary-50/80">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50/90 via-white to-primary-50/80 overflow-auto">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -106,9 +106,9 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen flex flex-col items-center justify-center p-6"
+          className="min-h-screen py-12 px-6"
         >
-          <div className="w-full max-w-md space-y-8">
+          <div className="w-full max-w-md mx-auto space-y-8">
             {/* Logo */}
             <motion.div 
               variants={itemVariants}
@@ -164,7 +164,7 @@ export default function Onboarding() {
                       )}
                     />
                   ) : (
-                    <div className="space-y-6">
+                    <div className="space-y-6 max-h-[60vh] overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-primary-200 scrollbar-track-transparent">
                       <FormField
                         control={form.control}
                         name="aiPreferences.age"
@@ -376,7 +376,7 @@ export default function Onboarding() {
 
                 <motion.div 
                   variants={itemVariants}
-                  className="flex justify-between pt-4 gap-4"
+                  className="flex justify-between pt-4 gap-4 sticky bottom-0 bg-gradient-to-t from-primary-50/90 to-transparent py-4"
                 >
                   {step !== "name" && (
                     <Button
