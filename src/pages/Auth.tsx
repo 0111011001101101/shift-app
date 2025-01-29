@@ -4,11 +4,12 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const [isLoading] = useState(false);
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const view = searchParams.get("view") || "sign_in";
 
   return (
@@ -19,7 +20,10 @@ export default function Auth() {
         transition={{ duration: 0.5 }}
         className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
       >
-        <div className="flex items-center gap-2">
+        <div 
+          className="flex items-center gap-2 cursor-pointer" 
+          onClick={() => navigate("/")}
+        >
           <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
             <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
           </div>
@@ -27,7 +31,7 @@ export default function Auth() {
         </div>
       </motion.nav>
 
-      <div className="px-6 pt-28 pb-12 max-w-sm mx-auto">
+      <div className="px-6 pt-20 pb-12 max-w-sm mx-auto">
         <SupabaseAuth 
           supabaseClient={supabase}
           view={view as "sign_in" | "sign_up"}
