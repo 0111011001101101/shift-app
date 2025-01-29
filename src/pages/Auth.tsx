@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Auth as SupabaseAuth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
+import { useSearchParams } from "react-router-dom";
 
 export default function Auth() {
   const [isLoading] = useState(false);
   const { toast } = useToast();
+  const [searchParams] = useSearchParams();
+  const mode = searchParams.get("mode");
 
   return (
     <div className="min-h-screen bg-white">
@@ -29,6 +32,7 @@ export default function Auth() {
       <div className="px-6 pt-28 pb-12 max-w-sm mx-auto">
         <SupabaseAuth 
           supabaseClient={supabase}
+          view={mode === "sign-up" ? "sign_up" : "sign_in"}
           appearance={{
             theme: ThemeSupa,
             variables: {
