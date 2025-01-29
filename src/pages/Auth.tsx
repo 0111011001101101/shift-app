@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { AuthError } from "@supabase/supabase-js";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
 
 const Auth = () => {
@@ -63,25 +63,40 @@ const Auth = () => {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.3 }}
           onClick={() => navigate("/")}
-          className="group flex items-center gap-2 text-secondary-600 hover:text-secondary-800 transition-colors mb-8"
+          className="group flex items-center gap-2 text-secondary-600 hover:text-secondary-800 transition-colors"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back
         </motion.button>
 
+        {/* Logo */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mt-8 mb-12 flex items-center justify-center"
+        >
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-xl bg-accent">
+              <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
+            </div>
+            <span className="font-medium tracking-tight text-black text-xl">SHIFT</span>
+          </div>
+        </motion.div>
+
         {/* Auth Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex-1 flex flex-col justify-center -mt-20"
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="flex-1 flex flex-col justify-center -mt-12"
         >
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold tracking-tight mb-3">
-              Welcome to <span className="text-accent">SHIFT</span>
+            <h1 className="text-4xl font-bold tracking-tight mb-3 bg-gradient-to-br from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">
+              Welcome back
             </h1>
-            <p className="text-secondary-600 font-medium">
-              Sign in or create an account to continue
+            <p className="text-lg text-secondary-600/90 font-medium">
+              Continue your growth journey
             </p>
           </div>
 
