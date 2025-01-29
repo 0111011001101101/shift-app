@@ -78,119 +78,151 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primary-50 via-white to-primary-50/80 p-4">
-      <div className="w-full max-w-md space-y-8">
+    <div className="fixed inset-0 bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
+      <div className="min-h-screen flex items-center justify-center p-4 max-w-md mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center space-y-4"
+          className="w-full space-y-8"
         >
-          <div className="mx-auto w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-sm flex items-center justify-center">
-            <User className="w-6 h-6 text-white" strokeWidth={2.5} />
-          </div>
-          <h2 className="text-3xl font-bold tracking-tight text-secondary-800">
-            {step === "name" ? "Welcome!" : "Personalize your experience"}
-          </h2>
-          <p className="text-secondary-600">
-            {step === "name" 
-              ? "Let's get to know you better"
-              : "Optional: Help us tailor SHIFT to your needs"}
-          </p>
-        </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-center space-y-6"
+          >
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent flex items-center justify-center shadow-xl">
+              <User className="w-8 h-8 text-white" strokeWidth={2} />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-3xl font-bold tracking-tight text-secondary-800">
+                {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
+              </h1>
+              <p className="text-secondary-600 text-lg">
+                {step === "name" 
+                  ? "Let's get to know you better"
+                  : "Help us tailor SHIFT to your needs"}
+              </p>
+            </div>
+          </motion.div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <motion.div
-              initial={{ opacity: 0, x: step === "name" ? -20 : 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {step === "name" ? (
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  rules={{ required: "Please enter your name" }}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter your name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                <div className="space-y-6">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <motion.div
+                initial={{ opacity: 0, x: step === "name" ? -20 : 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-primary-100/20"
+              >
+                {step === "name" ? (
                   <FormField
                     control={form.control}
-                    name="aiPreferences.country"
+                    name="firstName"
+                    rules={{ required: "Please enter your name" }}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Country</FormLabel>
+                        <FormLabel className="text-lg font-medium text-secondary-800">Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Your country (optional)" {...field} />
+                          <Input 
+                            placeholder="Enter your name" 
+                            {...field}
+                            className="h-12 text-lg bg-white/50"
+                          />
                         </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
-                  
-                  <FormField
-                    control={form.control}
-                    name="aiPreferences.age"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Age Range</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g., 25-34 (optional)" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                ) : (
+                  <div className="space-y-6">
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.country"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-secondary-800">Country</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Your country" 
+                              {...field}
+                              className="h-12 bg-white/50"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.age"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-secondary-800">Age Range</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="e.g., 25-34" 
+                              {...field}
+                              className="h-12 bg-white/50"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormField
-                    control={form.control}
-                    name="aiPreferences.religion"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Religious/Spiritual Background</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Your background (optional)" {...field} />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.religion"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-secondary-800">Religious/Spiritual Background</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Your background" 
+                              {...field}
+                              className="h-12 bg-white/50"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
 
-                  <FormDescription className="text-sm text-secondary-600">
-                    You can always update these preferences later in your settings.
-                  </FormDescription>
-                </div>
-              )}
-            </motion.div>
+                    <FormDescription className="text-sm text-secondary-600 bg-primary-50/50 p-4 rounded-xl">
+                      All fields except name are optional. You can always update these preferences later in your settings.
+                    </FormDescription>
+                  </div>
+                )}
+              </motion.div>
 
-            <div className="flex justify-between pt-4">
-              {step !== "name" && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+                className="flex justify-between pt-4"
+              >
+                {step !== "name" && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setStep("name")}
+                    className="bg-white/80 hover:bg-white"
+                  >
+                    <ArrowLeft className="mr-2 h-4 w-4" />
+                    Back
+                  </Button>
+                )}
                 <Button
                   type="button"
-                  variant="outline"
-                  onClick={() => setStep("name")}
+                  className={`${step === "name" ? "w-full" : "ml-auto"} h-12 text-lg`}
+                  onClick={nextStep}
                 >
-                  <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back
+                  {step === "name" ? "Continue" : "Complete Setup"}
+                  <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
-              )}
-              <Button
-                type="button"
-                className={step === "name" ? "w-full" : "ml-auto"}
-                onClick={nextStep}
-              >
-                {step === "name" ? "Continue" : "Complete"}
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
-          </form>
-        </Form>
+              </motion.div>
+            </form>
+          </Form>
+        </motion.div>
       </div>
     </div>
   );
