@@ -26,26 +26,71 @@ export default function Auth() {
       </motion.nav>
 
       <div className="px-6 pt-28 pb-12 max-w-sm mx-auto">
-        <SupabaseAuth 
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: '#0EA5E9',
-                  brandAccent: '#0284C7',
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-center mb-8 space-y-3"
+        >
+          <h1 className="text-2xl font-bold">Welcome to SHIFT</h1>
+          <p className="text-secondary-600">
+            Your personal space for growth and mental well-being. Join our community of entrepreneurs and leaders.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="bg-white/50 backdrop-blur-lg rounded-2xl p-6 shadow-lg border border-gray-100"
+        >
+          <SupabaseAuth 
+            supabaseClient={supabase}
+            appearance={{
+              theme: ThemeSupa,
+              variables: {
+                default: {
+                  colors: {
+                    brand: '#0EA5E9',
+                    brandAccent: '#0284C7',
+                  }
+                }
+              },
+              className: {
+                container: 'w-full space-y-4',
+                button: '!p-3 !rounded-xl !font-medium',
+                input: '!p-3 !rounded-xl !bg-white',
+                divider: '!my-6',
+                message: 'text-sm text-secondary-600 mb-4',
+                label: '!font-medium !text-secondary-700',
+              }
+            }}
+            providers={[]}
+            localization={{
+              variables: {
+                sign_in: {
+                  email_label: 'Email address',
+                  password_label: 'Your password',
+                  button_label: 'Sign in to your account',
+                },
+                sign_up: {
+                  email_label: 'Email address',
+                  password_label: 'Create a password',
+                  button_label: 'Create your account',
                 }
               }
-            },
-            className: {
-              container: 'w-full',
-              button: '!p-3 !rounded-xl',
-              input: '!p-3 !rounded-xl',
-            }
-          }}
-          providers={[]}
-        />
+            }}
+          />
+        </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="text-center mt-6 text-sm text-secondary-500"
+        >
+          By signing up, you agree to our Terms of Service and Privacy Policy
+        </motion.p>
       </div>
 
       {isLoading && (
