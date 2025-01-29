@@ -21,7 +21,10 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   const location = useLocation();
-  const isPublicRoute = location.pathname === "/" || location.pathname === "/auth" || location.pathname === "/signup";
+  const isPublicRoute = location.pathname === "/" || 
+                       location.pathname === "/auth" || 
+                       location.pathname === "/signup" ||
+                       location.pathname === "/onboarding";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
