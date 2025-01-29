@@ -14,7 +14,7 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, ArrowLeft, User } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -25,7 +25,6 @@ interface OnboardingForm {
     age?: string;
     religion?: string;
     country?: string;
-    culture?: string;
   };
 }
 
@@ -71,6 +70,10 @@ export default function Onboarding() {
 
   const nextStep = () => {
     if (step === "name") {
+      if (!form.getValues("firstName")) {
+        form.setError("firstName", { message: "Please enter your name" });
+        return;
+      }
       setStep("personalization");
     } else {
       form.handleSubmit(onSubmit)();
@@ -79,32 +82,40 @@ export default function Onboarding() {
 
   return (
     <div className="fixed inset-0 bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
-      <div className="min-h-screen flex items-center justify-center p-4 max-w-md mx-auto">
+      <div className="min-h-screen flex flex-col items-center justify-center p-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full space-y-8"
+          className="w-full max-w-md space-y-8"
         >
+          {/* Logo */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center space-y-6"
+            className="flex items-center justify-center gap-3"
           >
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent flex items-center justify-center shadow-xl">
-              <User className="w-8 h-8 text-white" strokeWidth={2} />
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl">
+              <ArrowUp className="w-6 h-6 text-white" strokeWidth={2.5} />
             </div>
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight text-secondary-800">
-                {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
-              </h1>
-              <p className="text-secondary-600 text-lg">
-                {step === "name" 
-                  ? "Let's get to know you better"
-                  : "Help us tailor SHIFT to your needs"}
-              </p>
-            </div>
+            <span className="text-2xl font-semibold tracking-tight text-secondary-800">SHIFT</span>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="text-center space-y-3"
+          >
+            <h1 className="text-3xl font-bold tracking-tight">
+              {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
+            </h1>
+            <p className="text-secondary-600 text-lg">
+              {step === "name" 
+                ? "Let's start with your name"
+                : "Help us tailor SHIFT to your needs (optional)"}
+            </p>
           </motion.div>
 
           <Form {...form}>
@@ -113,7 +124,7 @@ export default function Onboarding() {
                 initial={{ opacity: 0, x: step === "name" ? -20 : 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="bg-white/80 backdrop-blur-xl rounded-3xl p-6 shadow-lg border border-primary-100/20"
+                className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-primary-100/20"
               >
                 {step === "name" ? (
                   <FormField
@@ -127,7 +138,7 @@ export default function Onboarding() {
                           <Input 
                             placeholder="Enter your name" 
                             {...field}
-                            className="h-12 text-lg bg-white/50"
+                            className="h-14 text-lg bg-white/50"
                           />
                         </FormControl>
                         <FormMessage />
