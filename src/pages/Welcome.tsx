@@ -40,8 +40,8 @@ export default function Welcome() {
               Zero Burnout
             </span>
           </h1>
-          <div className="space-y-2">
-            <p className="text-black/70 text-base leading-relaxed font-medium">
+          <div>
+            <p className="text-base leading-relaxed font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
               A mental health and productivity app in one
             </p>
           </div>
