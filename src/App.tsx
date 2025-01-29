@@ -12,6 +12,7 @@ import StandUp from "./pages/StandUp";
 import Hurdles from "./pages/Hurdles";
 import Settings from "./pages/Settings";
 import Auth from "./pages/Auth";
+import SignUp from "./pages/SignUp";
 import Learn from "./pages/Learn";
 import Welcome from "./pages/Welcome";
 import Onboarding from "./pages/Onboarding";
@@ -20,7 +21,7 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   const location = useLocation();
-  const isPublicRoute = location.pathname === "/" || location.pathname === "/auth";
+  const isPublicRoute = location.pathname === "/" || location.pathname === "/auth" || location.pathname === "/signup";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
@@ -30,6 +31,7 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/onboarding"
             element={

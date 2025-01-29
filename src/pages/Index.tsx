@@ -7,7 +7,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
       <motion.nav 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -29,14 +28,12 @@ const Index = () => {
       </motion.nav>
 
       <div className="px-6 pt-28 pb-12 max-w-lg mx-auto space-y-20">
-        {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
           className="text-center space-y-10"
         >
-          {/* Logo circles */}
           <div className="flex justify-center gap-1 mb-8">
             <div className="w-10 h-10 rounded-full bg-blue-200 flex items-center justify-center text-blue-600 font-medium">
               E
