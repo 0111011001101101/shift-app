@@ -6,6 +6,11 @@ import { Tables } from "@/integrations/supabase/types";
 import { Loader2 } from "lucide-react";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  // Temporarily bypass auth checks for design work
+  return <>{children}</>;
+
+  // Original code commented out for later restoration
+  /*
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
@@ -115,6 +120,5 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   if (!session) {
     return null;
   }
-
-  return <>{children}</>;
+  */
 };
