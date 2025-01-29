@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Tables } from "@/integrations/supabase/types";
+import { Loader2 } from "lucide-react";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -102,8 +103,11 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse text-primary">Loading...</div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-primary-50/90 via-white to-primary-50/80">
+        <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl mb-4">
+          <Loader2 className="w-7 h-7 text-white animate-spin" strokeWidth={2.5} />
+        </div>
+        <p className="text-secondary-600 animate-pulse">Loading your profile...</p>
       </div>
     );
   }
