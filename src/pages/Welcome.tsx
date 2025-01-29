@@ -41,7 +41,10 @@ export default function Welcome() {
             </span>
           </h1>
           <p className="text-black/70 text-lg leading-relaxed font-medium">
-            Stay sharp and resilient while achieving your goals—designed for ambitious leaders.
+            Achieve big goals while staying sharp, focused, and mentally strong. Built for high achievers who value both success and well-being.
+          </p>
+          <p className="text-accent font-medium text-lg">
+            Make the shift.
           </p>
         </motion.div>
 
