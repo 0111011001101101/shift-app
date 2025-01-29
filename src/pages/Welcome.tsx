@@ -41,9 +41,9 @@ export default function Welcome() {
             </span>
           </h1>
           <p className="text-black/70 text-lg leading-relaxed font-medium">
-            Success without sacrificing well-being
+            Experience success without sacrificing well-being
           </p>
-          <p className="text-accent font-medium text-lg">
+          <p className="text-secondary-400 font-medium text-sm tracking-wide uppercase">
             Make the shift
           </p>
         </motion.div>
