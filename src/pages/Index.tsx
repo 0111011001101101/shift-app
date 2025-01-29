@@ -21,7 +21,7 @@ const Index = () => {
           <span className="font-medium tracking-tight text-black">SHIFT</span>
         </div>
         <button 
-          onClick={() => navigate("/auth?mode=sign-in")}
+          onClick={() => navigate("/auth")}
           className="text-sm font-medium px-4 py-2 rounded-lg text-black/70 hover:text-black transition-colors"
         >
           Sign in
@@ -57,7 +57,7 @@ const Index = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            onClick={() => navigate("/auth?mode=sign-up")}
+            onClick={() => navigate("/signup")}
             className="px-8 py-4 bg-accent text-white rounded-xl font-medium 
                      hover:bg-accent/90 active:bg-accent/95 transition-colors
                      flex items-center gap-2 mx-auto shadow-lg shadow-accent/20"

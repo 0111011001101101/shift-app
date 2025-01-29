@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { ArrowUp } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function Auth() {
+export default function SignUp() {
   const [isLoading] = useState(false);
 
   return (
@@ -27,7 +27,7 @@ export default function Auth() {
       <div className="px-6 pt-28 pb-12 max-w-sm mx-auto">
         <SupabaseAuth 
           supabaseClient={supabase}
-          view="sign_in"
+          view="sign_up"
           appearance={{
             theme: ThemeSupa,
             variables: {
@@ -47,7 +47,7 @@ export default function Auth() {
           providers={[]}
           localization={{
             variables: {
-              sign_in: {
+              sign_up: {
                 email_label: 'Email',
                 password_label: 'Password',
               },
