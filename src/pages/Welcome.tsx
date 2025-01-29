@@ -112,7 +112,7 @@ export default function Welcome() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
-          className="space-y-4"
+          className="space-y-6"
         >
           <button
             onClick={() => navigate("/auth")}
@@ -125,14 +125,28 @@ export default function Welcome() {
           </button>
           
           {/* Social Proof */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
-            className="text-center text-sm text-black/60 font-medium px-4"
+            className="relative py-4"
           >
-            Join our growing community of high achievers, entrepreneurs and leaders
-          </motion.p>
+            {/* Decorative elements */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/[0.02] to-transparent" />
+            
+            <div className="relative flex flex-col items-center gap-3">
+              {/* Avatar stack */}
+              <div className="flex -space-x-1.5">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center text-xs font-medium text-primary-700 ring-2 ring-white">E</div>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent/10 to-accent/20 flex items-center justify-center text-xs font-medium text-accent ring-2 ring-white">L</div>
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-xs font-medium text-purple-700 ring-2 ring-white">H</div>
+              </div>
+              
+              <p className="text-center text-sm text-black/60 font-medium px-4 leading-relaxed">
+                Join our growing community of high achievers, entrepreneurs and leaders
+              </p>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>
