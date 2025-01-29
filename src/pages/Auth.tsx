@@ -74,14 +74,14 @@ const Auth = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex-1 flex flex-col"
+          className="flex-1 flex flex-col justify-center -mt-20"
         >
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold tracking-tight mb-3">
               Welcome to <span className="text-accent">SHIFT</span>
             </h1>
-            <p className="text-secondary-600">
-              Sign in or create an account to continue your journey
+            <p className="text-secondary-600 font-medium">
+              Sign in or create an account to continue
             </p>
           </div>
 
@@ -101,8 +101,8 @@ const Auth = () => {
                 variables: {
                   default: {
                     colors: {
-                      brand: 'hsl(var(--primary))',
-                      brandAccent: 'hsl(var(--primary))',
+                      brand: '#F97316',
+                      brandAccent: '#F97316',
                       brandButtonText: 'white',
                     },
                     radii: {
@@ -110,15 +110,22 @@ const Auth = () => {
                       buttonBorderRadius: '0.75rem',
                       inputBorderRadius: '0.75rem',
                     },
+                    fonts: {
+                      bodyFontFamily: `'Inter', system-ui, sans-serif`,
+                      buttonFontFamily: `'Inter', system-ui, sans-serif`,
+                      inputFontFamily: `'Inter', system-ui, sans-serif`,
+                      labelFontFamily: `'Inter', system-ui, sans-serif`,
+                    },
                   },
                 },
                 className: {
                   container: 'w-full',
-                  button: 'w-full px-4 py-3 rounded-xl font-medium transition-colors duration-200',
-                  input: 'w-full px-4 py-3 rounded-xl border border-black/[0.08] focus:ring-2 focus:ring-primary/20 bg-white',
+                  button: 'w-full h-12 rounded-xl font-medium transition-colors duration-200',
+                  input: 'w-full h-12 px-4 rounded-xl border border-black/[0.08] focus:ring-2 focus:ring-accent/20 bg-white/80',
                   message: 'text-sm text-red-500 mt-1',
                   divider: 'bg-black/[0.08]',
                   label: 'text-secondary-800 font-medium',
+                  anchor: 'text-accent hover:text-accent/90 font-medium',
                 },
               }}
               theme="light"
