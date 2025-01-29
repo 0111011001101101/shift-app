@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,7 +12,6 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { useToast } from "@/hooks/use-toast";
 import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -59,7 +57,6 @@ const itemVariants = {
 export default function Onboarding() {
   const [step, setStep] = useState<OnboardingStep>("name");
   const navigate = useNavigate();
-  const { toast } = useToast();
   
   const form = useForm<OnboardingForm>({
     defaultValues: {
@@ -67,34 +64,6 @@ export default function Onboarding() {
       aiPreferences: {},
     },
   });
-
-  const onSubmit = async (data: OnboardingForm) => {
-    try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          first_name: data.firstName,
-          ai_preferences: data.aiPreferences,
-          onboarding_completed: true,
-        })
-        .eq("id", (await supabase.auth.getUser()).data.user?.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Welcome to SHIFT!",
-        description: "Your preferences have been saved.",
-      });
-
-      navigate("/home");
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to save your preferences. Please try again.",
-      });
-    }
-  };
 
   const nextStep = () => {
     if (step === "name") {
@@ -104,7 +73,8 @@ export default function Onboarding() {
       }
       setStep("personalization");
     } else {
-      form.handleSubmit(onSubmit)();
+      // Temporarily just navigate to home without saving
+      navigate("/home");
     }
   };
 
@@ -148,7 +118,7 @@ export default function Onboarding() {
             </motion.div>
 
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
                 <motion.div
                   variants={itemVariants}
                   className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-primary-100/20
