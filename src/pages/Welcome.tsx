@@ -42,7 +42,7 @@ export default function Welcome() {
           </h1>
           <div>
             <p className="text-base leading-relaxed font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
-              A mental health and productivity app in one
+              A mental health &amp; productivity app in one
             </p>
           </div>
         </motion.div>
