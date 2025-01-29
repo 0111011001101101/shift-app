@@ -6,7 +6,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { AuthError, AuthApiError } from "@supabase/supabase-js";
-import { ArrowRight, Lock } from "lucide-react";
+import { ArrowRight, Lock, Sparkles, Target, Shield } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -69,43 +70,82 @@ const Auth = () => {
     return error.message;
   };
 
+  const features = [
+    {
+      icon: <Target className="w-5 h-5" />,
+      title: "Goal Tracking",
+      description: "Set and achieve your ambitious goals"
+    },
+    {
+      icon: <Shield className="w-5 h-5" />,
+      title: "Mental Clarity",
+      description: "Stay focused and resilient"
+    },
+    {
+      icon: <Sparkles className="w-5 h-5" />,
+      title: "AI Coaching",
+      description: "24/7 personalized guidance"
+    }
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-white via-gray-50 to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
       <div className="flex-1 flex flex-col items-center justify-center p-4 space-y-8">
         {/* Hero Section */}
-        <div className="text-center space-y-6 max-w-2xl mx-auto animate-fadeIn">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="text-center space-y-6 max-w-2xl mx-auto animate-fadeIn"
+        >
           <div className="inline-flex items-center justify-center p-2 bg-primary/5 rounded-full mb-4">
             <Lock className="w-6 h-6 text-primary" />
           </div>
           
           <div className="space-y-4">
-            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-              Welcome to SHIFT
+            <h1 className="text-4xl sm:text-5xl font-bold tracking-tight">
+              Welcome to <span className="gradient-text">SHIFT</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-md mx-auto leading-relaxed">
+            <p className="text-xl text-secondary-600 max-w-md mx-auto leading-relaxed">
               Your AI-powered companion for peak performance and mental clarity
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4" />
-              <span>Daily Stand-ups</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4" />
-              <span>Goal Tracking</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ArrowRight className="w-4 h-4" />
-              <span>AI Coaching</span>
-            </div>
-          </div>
-        </div>
+          {/* Feature Grid */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8"
+          >
+            {features.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 + (index * 0.1) }}
+                className="card-container"
+              >
+                <div className="flex flex-col items-center gap-3 text-center">
+                  <div className="icon-container">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-medium text-secondary-800">{feature.title}</h3>
+                  <p className="text-sm text-secondary-600">{feature.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
 
         {/* Auth Form */}
-        <div className="w-full max-w-md">
-          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-2xl p-8 shadow-xl border border-gray-200/50 dark:border-gray-700/50 animate-slideUp">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="w-full max-w-md animate-slideUp"
+        >
+          <div className="section-container">
             {errorMessage && (
               <Alert variant="destructive" className="mb-4">
                 <AlertDescription>{errorMessage}</AlertDescription>
@@ -119,20 +159,21 @@ const Auth = () => {
                 variables: {
                   default: {
                     colors: {
-                      brand: '#0A2463',
-                      brandAccent: '#7E72F2',
+                      brand: 'hsl(var(--primary))',
+                      brandAccent: 'hsl(var(--primary))',
+                      brandButtonText: 'white',
                     },
                     radii: {
-                      borderRadiusButton: '0.75rem',
-                      buttonBorderRadius: '0.75rem',
-                      inputBorderRadius: '0.75rem',
+                      borderRadiusButton: '1rem',
+                      buttonBorderRadius: '1rem',
+                      inputBorderRadius: '1rem',
                     },
                   },
                 },
                 className: {
                   container: 'w-full',
-                  button: 'w-full px-4 py-3 rounded-lg font-medium transition-colors duration-200 shadow-sm',
-                  input: 'w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 bg-white dark:bg-gray-800',
+                  button: 'w-full px-4 py-3 rounded-xl font-medium transition-colors duration-200',
+                  input: 'w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary/20',
                   message: 'text-sm text-red-500 mt-1',
                 },
               }}
@@ -140,14 +181,19 @@ const Auth = () => {
               providers={[]}
             />
           </div>
-        </div>
-      </div>
+        </motion.div>
 
-      {/* Footer */}
-      <div className="text-center p-6">
-        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-          Join ambitious leaders who use SHIFT to stay focused and resilient
-        </p>
+        {/* Footer */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="text-center p-6"
+        >
+          <p className="text-sm font-medium text-secondary-600">
+            Join ambitious leaders who use SHIFT to stay focused and resilient
+          </p>
+        </motion.div>
       </div>
     </div>
   );
