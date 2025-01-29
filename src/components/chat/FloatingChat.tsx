@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -19,6 +20,8 @@ interface Message {
 }
 
 export function FloatingChat() {
+  const location = useLocation();
+  const isOnboarding = location.pathname === "/onboarding";
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [message, setMessage] = useState("");
@@ -38,6 +41,9 @@ export function FloatingChat() {
 
   useEffect(() => {
     const checkForSuggestions = async () => {
+      // Don't show suggestions during onboarding
+      if (isOnboarding) return;
+      
       try {
         if (lastSuggestionRef.current) {
           const timeSinceLastSuggestion = Date.now() - lastSuggestionRef.current.getTime();
@@ -163,7 +169,6 @@ export function FloatingChat() {
             });
           }
         }
-
       } catch (error) {
         console.error('Error checking for AI suggestions:', error);
       }
@@ -173,7 +178,7 @@ export function FloatingChat() {
     checkForSuggestions();
 
     return () => clearInterval(interval);
-  }, [isOpen, toast]);
+  }, [isOpen, toast, isOnboarding]);
 
   const handleSend = async () => {
     if (!message.trim() || isLoading) return;
