@@ -89,7 +89,6 @@ export default function Onboarding() {
       }
       setStep("personalization");
     } else {
-      // Save and navigate
       navigate("/home");
     }
   };
@@ -133,8 +132,13 @@ export default function Onboarding() {
               <p className="text-secondary-600 text-lg">
                 {step === "name" 
                   ? "Let's start with your name"
-                  : "Help us personalize your experience"}
+                  : "Help us personalize your experience (optional)"}
               </p>
+              {step === "personalization" && (
+                <p className="text-sm text-muted-foreground">
+                  You can skip this step or update these preferences later in Settings
+                </p>
+              )}
             </motion.div>
 
             <Form {...form}>
@@ -171,6 +175,7 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Age</FormLabel>
+                            <FormDescription>Optional</FormDescription>
                             <FormControl>
                               <Input 
                                 type="number" 
@@ -189,9 +194,10 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Religion/Spirituality</FormLabel>
+                            <FormDescription>Optional - Share your beliefs or spiritual practices</FormDescription>
                             <FormControl>
                               <Input 
-                                placeholder="Share your beliefs or spiritual practices" 
+                                placeholder="E.g., Christianity, Buddhism, Spiritual but not religious..." 
                                 {...field}
                                 className="h-12 bg-white/50 rounded-xl"
                               />
@@ -206,6 +212,7 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Ethnicity</FormLabel>
+                            <FormDescription>Optional</FormDescription>
                             <FormControl>
                               <Input 
                                 placeholder="Your ethnicity" 
@@ -223,9 +230,10 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Gender</FormLabel>
+                            <FormDescription>Optional</FormDescription>
                             <FormControl>
                               <Input 
-                                placeholder="Your gender" 
+                                placeholder="Your gender identity" 
                                 {...field}
                                 className="h-12 bg-white/50 rounded-xl"
                               />
@@ -240,9 +248,10 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Occupation</FormLabel>
+                            <FormDescription>Optional - Your current role or position</FormDescription>
                             <FormControl>
                               <Input 
-                                placeholder="Your current role" 
+                                placeholder="E.g., Entrepreneur, Manager, Developer..." 
                                 {...field}
                                 className="h-12 bg-white/50 rounded-xl"
                               />
@@ -257,9 +266,10 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Field of Work</FormLabel>
+                            <FormDescription>Optional - Your industry or area of expertise</FormDescription>
                             <FormControl>
                               <Input 
-                                placeholder="Your industry or field (e.g., Technology, Healthcare)" 
+                                placeholder="E.g., Technology, Healthcare, Education..." 
                                 {...field}
                                 className="h-12 bg-white/50 rounded-xl"
                               />
@@ -274,6 +284,7 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">How do you prefer to work?</FormLabel>
+                            <FormDescription>Optional - This helps us tailor our suggestions</FormDescription>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger className="h-12 bg-white rounded-xl">
@@ -298,6 +309,7 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">What's your primary goal?</FormLabel>
+                            <FormDescription>Optional - This helps us focus on what matters most to you</FormDescription>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger className="h-12 bg-white rounded-xl">
@@ -324,6 +336,7 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Preferred communication style</FormLabel>
+                            <FormDescription>Optional - How would you like SHIFT to communicate with you?</FormDescription>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger className="h-12 bg-white rounded-xl">
@@ -349,16 +362,16 @@ export default function Onboarding() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="text-secondary-800">Tell more about yourself</FormLabel>
+                            <FormDescription>
+                              Optional - Share anything that would help us understand you better. You can always update this later.
+                            </FormDescription>
                             <FormControl>
                               <Textarea 
-                                placeholder="Share anything that would help us understand you better..." 
+                                placeholder="Share your story, goals, challenges, or anything else..." 
                                 {...field}
                                 className="min-h-[100px] bg-white/50 rounded-xl resize-none"
                               />
                             </FormControl>
-                            <FormDescription>
-                              This helps us personalize your experience
-                            </FormDescription>
                           </FormItem>
                         )}
                       />
@@ -388,7 +401,7 @@ export default function Onboarding() {
                       onClick={skipPersonalization}
                       className="bg-white/80 hover:bg-white"
                     >
-                      Skip
+                      Skip for now
                     </Button>
                   )}
                   <Button
