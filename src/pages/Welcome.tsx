@@ -34,7 +34,7 @@ export default function Welcome() {
           transition={{ delay: 0.2 }}
           className="space-y-4"
         >
-          <h1 className="text-[2.5rem] leading-[1.1] font-medium tracking-tight text-black">
+          <h1 className="text-[2rem] leading-[1.1] font-medium tracking-tight text-black">
             Peak Performance,{" "}
             <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
               Zero Burnout
@@ -43,7 +43,7 @@ export default function Welcome() {
           <p className="text-black/70 text-lg leading-relaxed font-medium">
             Experience success without sacrificing well-being
           </p>
-          <p className="text-secondary-400 font-medium text-sm tracking-wide uppercase">
+          <p className="text-secondary-400 font-medium text-sm tracking-wide uppercase border border-secondary-200/50 rounded-lg px-3 py-1.5 inline-block">
             Make the shift
           </p>
         </motion.div>
