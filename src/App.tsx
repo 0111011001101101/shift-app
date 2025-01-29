@@ -12,7 +12,30 @@ import StandUp from "./pages/StandUp";
 import Hurdles from "./pages/Hurdles";
 import Settings from "./pages/Settings";
 import Auth from "./pages/Auth";
-import SignUp from "./pages/SignUp";
+import Learn from "./pages/Learn";
+import Welcome from "./pages/Welcome";
+import Onboarding from "./pages
+
+Let's clean up the signup flow by removing the standalone `/signup` page and keeping only the signup functionality within the Auth component. This will make the flow more consistent.
+
+<lov-code>
+First, let's update App.tsx to remove the /signup route and update the navigation in Welcome.tsx to point to /auth:
+
+<lov-write file_path="src/App.tsx">
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BottomNav } from "./components/layout/BottomNav";
+import { FloatingChat } from "./components/chat/FloatingChat";
+import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import Home from "./pages/Home";
+import Goals from "./pages/Goals";
+import StandUp from "./pages/StandUp";
+import Hurdles from "./pages/Hurdles";
+import Settings from "./pages/Settings";
+import Auth from "./pages/Auth";
 import Learn from "./pages/Learn";
 import Welcome from "./pages/Welcome";
 import Onboarding from "./pages/Onboarding";
@@ -23,7 +46,6 @@ function AppContent() {
   const location = useLocation();
   const isPublicRoute = location.pathname === "/" || 
                        location.pathname === "/auth" || 
-                       location.pathname === "/signup" ||
                        location.pathname === "/onboarding";
 
   return (
@@ -34,7 +56,6 @@ function AppContent() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="/signup" element={<SignUp />} />
           <Route
             path="/onboarding"
             element={

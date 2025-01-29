@@ -118,7 +118,7 @@ export default function Welcome() {
           </p>
           
           <button
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/auth")}
             className="w-full h-14 rounded-2xl bg-black text-white font-medium 
                      flex items-center justify-center gap-2 
                      hover:bg-black/90 active:bg-black/95 transition-colors"
