@@ -27,7 +27,7 @@ export default function Welcome() {
         </button>
       </motion.nav>
 
-      <div className="px-6 pt-24 pb-12 max-w-md mx-auto space-y-12">
+      <div className="px-6 pt-24 pb-12 max-w-md mx-auto space-y-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -41,8 +41,8 @@ export default function Welcome() {
             </span>
           </h1>
           <div className="space-y-2">
-            <p className="text-black/70 text-lg leading-relaxed font-medium">
-              A mental health & productivity app, in one.
+            <p className="text-black/70 text-base leading-relaxed font-medium">
+              A mental health and productivity app in one
             </p>
           </div>
         </motion.div>
