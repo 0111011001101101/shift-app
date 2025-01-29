@@ -35,13 +35,13 @@ export default function Welcome() {
           className="space-y-4"
         >
           <h1 className="text-[2.5rem] leading-[1.1] font-medium tracking-tight text-black">
-            Your mind,{" "}
+            Perform at Your Best,{" "}
             <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
-              unleashed
+              Without Burning Out
             </span>
           </h1>
           <p className="text-black/70 text-lg leading-relaxed font-medium">
-            Take control of your mental well-being with a pocket psychologist designed for high achievers.
+            For entrepreneurs, leaders, and high achievers who want to stay sharp, focused, and resilient—without sacrificing mental well-being.
           </p>
         </motion.div>
 
