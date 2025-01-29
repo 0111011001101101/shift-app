@@ -12,6 +12,13 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -23,6 +30,9 @@ interface OnboardingForm {
     age?: string;
     religion?: string;
     country?: string;
+    workStyle?: string;
+    communicationStyle?: string;
+    primaryGoal?: string;
   };
 }
 
@@ -95,11 +105,12 @@ export default function Onboarding() {
               variants={itemVariants}
               className="flex items-center justify-center"
             >
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl
                             hover:shadow-2xl transition-all duration-300 hover:-translate-y-0.5 group">
-                <ArrowUp className="w-7 h-7 text-white transition-transform duration-300 group-hover:scale-110" 
+                <ArrowUp className="w-5 h-5 text-white transition-transform duration-300 group-hover:scale-110" 
                         strokeWidth={2.5} />
               </div>
+              <span className="ml-2 font-medium tracking-tight text-black">SHIFT</span>
             </motion.div>
 
             <motion.div 
@@ -108,12 +119,12 @@ export default function Onboarding() {
             >
               <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent 
                            bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
-                {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
+                {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
               </h1>
               <p className="text-secondary-600 text-lg">
                 {step === "name" 
                   ? "Let's start with your name"
-                  : "Help us tailor SHIFT to your needs (optional)"}
+                  : "Help us personalize your experience"}
               </p>
             </motion.div>
 
@@ -147,57 +158,74 @@ export default function Onboarding() {
                     <div className="space-y-6">
                       <FormField
                         control={form.control}
-                        name="aiPreferences.country"
+                        name="aiPreferences.workStyle"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Country</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Your country" 
-                                {...field}
-                                className="h-12 bg-white/50 rounded-xl"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.age"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-secondary-800">Age Range</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="e.g., 25-34" 
-                                {...field}
-                                className="h-12 bg-white/50 rounded-xl"
-                              />
-                            </FormControl>
+                            <FormLabel className="text-secondary-800">How do you prefer to work?</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="h-12 bg-white/50 rounded-xl">
+                                  <SelectValue placeholder="Select your work style" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="structured">I like structure and planning</SelectItem>
+                                <SelectItem value="flexible">I prefer flexibility and adaptability</SelectItem>
+                                <SelectItem value="balanced">I aim for a balance of both</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </FormItem>
                         )}
                       />
 
                       <FormField
                         control={form.control}
-                        name="aiPreferences.religion"
+                        name="aiPreferences.primaryGoal"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-secondary-800">Religious/Spiritual Background</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Your background" 
-                                {...field}
-                                className="h-12 bg-white/50 rounded-xl"
-                              />
-                            </FormControl>
+                            <FormLabel className="text-secondary-800">What's your primary goal?</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="h-12 bg-white/50 rounded-xl">
+                                  <SelectValue placeholder="Select your main goal" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="productivity">Improve productivity</SelectItem>
+                                <SelectItem value="balance">Better work-life balance</SelectItem>
+                                <SelectItem value="growth">Personal/Professional growth</SelectItem>
+                                <SelectItem value="stress">Stress management</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="aiPreferences.communicationStyle"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-secondary-800">Preferred communication style</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger className="h-12 bg-white/50 rounded-xl">
+                                  <SelectValue placeholder="Select communication style" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="direct">Direct and concise</SelectItem>
+                                <SelectItem value="detailed">Detailed and thorough</SelectItem>
+                                <SelectItem value="casual">Casual and friendly</SelectItem>
+                                <SelectItem value="motivational">Motivational and encouraging</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </FormItem>
                         )}
                       />
 
                       <FormDescription className="text-sm text-secondary-600 bg-primary-50/50 p-4 rounded-xl">
-                        All fields except name are optional. You can always update these preferences later in your settings.
+                        These preferences help us tailor SHIFT to your needs. You can always update them later in settings.
                       </FormDescription>
                     </div>
                   )}
