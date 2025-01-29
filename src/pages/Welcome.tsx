@@ -123,15 +123,6 @@ export default function Welcome() {
             Get started
             <ArrowRight className="w-5 h-5" />
           </button>
-          
-          <button
-            onClick={() => navigate("/auth")}
-            className="w-full h-14 rounded-2xl border border-black/[0.08] font-medium 
-                     text-black/80 hover:text-black
-                     hover:bg-black/[0.02] active:bg-black/[0.05] transition-colors"
-          >
-            Learn more
-          </button>
         </motion.div>
       </div>
     </div>
