@@ -44,7 +44,7 @@ export default function Welcome() {
             Experience success without sacrificing well-being.
           </p>
           <p className="text-secondary-400 font-medium text-sm tracking-wide uppercase">
-            Make the shift with:
+            Make the shift
           </p>
         </motion.div>
 
