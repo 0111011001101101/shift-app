@@ -98,7 +98,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50/90 via-white to-primary-50/80">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-50/80">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -106,73 +106,74 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen p-4 flex flex-col"
+          className="min-h-screen px-4 py-6 flex flex-col max-w-md mx-auto relative"
         >
-          <div className="w-full max-w-md mx-auto flex-1 flex flex-col">
-            {/* Logo Section */}
-            <motion.div 
-              variants={itemVariants}
-              className="flex items-center justify-center mb-8"
-            >
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-600 via-primary-500 to-accent 
-                            shadow-lg hover:shadow-xl transition-all duration-300 
-                            hover:-translate-y-0.5 group">
-                <ArrowUp className="w-5 h-5 text-white transition-transform duration-300 
-                                  group-hover:scale-110" strokeWidth={2.5} />
-              </div>
-              <span className="ml-2.5 text-lg font-medium tracking-tight text-black/90">SHIFT</span>
-            </motion.div>
+          {/* Logo Section */}
+          <motion.div 
+            variants={itemVariants}
+            className="flex items-center justify-center mb-8"
+          >
+            <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-600 via-primary-500 to-accent 
+                          shadow-lg hover:shadow-xl transition-all duration-300 
+                          hover:-translate-y-0.5 group">
+              <ArrowUp className="w-5 h-5 text-white transition-transform duration-300 
+                                group-hover:scale-110" strokeWidth={2.5} />
+            </div>
+            <span className="ml-2.5 text-lg font-medium tracking-tight text-black/90">SHIFT</span>
+          </motion.div>
 
-            {/* Header Section */}
-            <motion.div 
-              variants={itemVariants}
-              className="text-center space-y-3 mb-8"
-            >
-              <h1 className="text-2xl font-bold tracking-tight bg-clip-text text-transparent 
-                           bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
-                {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
-              </h1>
-              <p className="text-lg font-medium text-secondary-800">
-                {step === "name" 
-                  ? "Let's start with your name"
-                  : "Help us personalize your experience"}
+          {/* Header Section */}
+          <motion.div 
+            variants={itemVariants}
+            className="text-center space-y-2 mb-6"
+          >
+            <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent 
+                         bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+              {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
+            </h1>
+            <p className="text-base font-medium text-secondary-600">
+              {step === "name" 
+                ? "Let's start with your name"
+                : "Help us personalize your experience"}
+            </p>
+            {step === "personalization" && (
+              <p className="text-sm text-secondary-500">
+                All fields are optional and can be updated later in Settings
               </p>
-              {step === "personalization" && (
-                <p className="text-sm text-secondary-600">
-                  All fields are optional and can be updated later in Settings
-                </p>
-              )}
-            </motion.div>
+            )}
+          </motion.div>
 
-            {/* Form Section */}
-            <Form {...form}>
-              <form onSubmit={(e) => e.preventDefault()} className="flex-1 flex flex-col">
-                <motion.div
-                  variants={itemVariants}
-                  className="flex-1 bg-white/80 backdrop-blur-xl rounded-2xl p-6 
-                           shadow-lg border border-primary-100/20 hover:shadow-xl transition-all duration-300"
-                >
-                  {step === "name" ? (
-                    <FormField
-                      control={form.control}
-                      name="firstName"
-                      rules={{ required: "Please enter your name" }}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-base font-medium text-secondary-800">Name</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Enter your name" 
-                              {...field}
-                              className="h-12 text-base bg-white/50 rounded-xl"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  ) : (
-                    <div className="space-y-6">
+          {/* Form Section */}
+          <Form {...form}>
+            <form onSubmit={(e) => e.preventDefault()} className="flex-1 flex flex-col">
+              <motion.div
+                variants={itemVariants}
+                className="flex-1 bg-white/80 backdrop-blur-xl rounded-2xl p-6 
+                         shadow-lg border border-primary-100/20 hover:shadow-xl 
+                         transition-all duration-300 space-y-6 mb-6"
+              >
+                {step === "name" ? (
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    rules={{ required: "Please enter your name" }}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-base font-medium text-secondary-700">Name</FormLabel>
+                        <FormControl>
+                          <Input 
+                            placeholder="Enter your name" 
+                            {...field}
+                            className="h-12 text-base bg-white/50 rounded-xl border-secondary-200
+                                     focus:border-primary-400 focus:ring-primary-400/20"
+                          />
+                        </FormControl>
+                        <FormMessage className="text-sm" />
+                      </FormItem>
+                    )}
+                  />
+                ) : (
+                  <div className="space-y-6">
                       <FormField
                         control={form.control}
                         name="aiPreferences.age"
@@ -378,34 +379,27 @@ export default function Onboarding() {
                           </FormItem>
                         )}
                       />
-                    </div>
-                  )}
-                </motion.div>
+                  </div>
+                )}
+              </motion.div>
 
-                {/* Navigation Buttons */}
-                <motion.div 
-                  variants={itemVariants}
-                  className="mt-6 flex gap-3 sticky bottom-4 w-full"
-                >
+              {/* Navigation Buttons - Fixed at bottom */}
+              <motion.div 
+                variants={itemVariants}
+                className="sticky bottom-6 w-full space-y-3 bg-white/80 backdrop-blur-xl 
+                         rounded-2xl p-3 border border-primary-100/20 shadow-lg"
+              >
+                <div className="flex gap-3">
                   {step !== "name" && (
                     <Button
                       type="button"
                       variant="outline"
                       onClick={() => setStep("name")}
-                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium flex-1"
+                      className="h-12 px-4 bg-white hover:bg-white/90 text-base font-medium flex-1
+                               border-secondary-200 hover:border-secondary-300"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back
-                    </Button>
-                  )}
-                  {step === "personalization" && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={skipPersonalization}
-                      className="h-12 px-4 bg-white/80 hover:bg-white text-base font-medium flex-1"
-                    >
-                      Skip for now
                     </Button>
                   )}
                   <Button
@@ -414,15 +408,27 @@ export default function Onboarding() {
                     className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-6 text-base font-medium
                               bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 
                               hover:to-primary-400 active:from-primary-700 active:to-primary-600 
-                              transition-all duration-300`}
+                              transition-all duration-300 text-white shadow-md hover:shadow-lg
+                              rounded-xl`}
                   >
                     {step === "name" ? "Continue" : "Complete Setup"}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </motion.div>
-              </form>
-            </Form>
-          </div>
+                </div>
+                {step === "personalization" && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={skipPersonalization}
+                    className="w-full h-12 px-4 bg-transparent hover:bg-white/50 text-base 
+                             font-medium border-none text-secondary-600 hover:text-secondary-700"
+                  >
+                    Skip for now
+                  </Button>
+                )}
+              </motion.div>
+            </form>
+          </Form>
         </motion.div>
       </AnimatePresence>
     </div>
