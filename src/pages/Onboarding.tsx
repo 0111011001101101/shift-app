@@ -30,14 +30,15 @@ interface OnboardingForm {
   aiPreferences?: {
     age?: string;
     religion?: string;
+    ethnicity?: string;
+    gender?: string;
     country?: string;
     workStyle?: string;
     communicationStyle?: string;
     primaryGoal?: string;
     description?: string;
     occupation?: string;
-    workHours?: string;
-    stressLevel?: string;
+    fieldOfWork?: string;
   };
 }
 
@@ -109,7 +110,6 @@ export default function Onboarding() {
           className="min-h-screen p-6 flex flex-col"
         >
           <div className="w-full max-w-md mx-auto flex-1 flex flex-col">
-            {/* Logo */}
             <motion.div 
               variants={itemVariants}
               className="flex items-center justify-center mb-8"
@@ -142,7 +142,7 @@ export default function Onboarding() {
                 <motion.div
                   variants={itemVariants}
                   className="flex-1 bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-lg border border-primary-100/20
-                           hover:shadow-xl transition-all duration-300 overflow-hidden"
+                           hover:shadow-xl transition-all duration-300"
                 >
                   <div className="h-full flex flex-col">
                     {step === "name" ? (
@@ -165,7 +165,7 @@ export default function Onboarding() {
                         )}
                       />
                     ) : (
-                      <div className="flex-1 overflow-y-auto pr-4 space-y-6">
+                      <div className="space-y-6 overflow-y-auto max-h-[calc(100vh-20rem)] pr-4">
                         <FormField
                           control={form.control}
                           name="aiPreferences.age"
@@ -190,25 +190,47 @@ export default function Onboarding() {
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="text-secondary-800">Religion/Spirituality</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="h-12 bg-white rounded-xl">
-                                    <SelectValue placeholder="Select your beliefs" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="bg-white">
-                                  <SelectItem value="christianity">Christianity</SelectItem>
-                                  <SelectItem value="islam">Islam</SelectItem>
-                                  <SelectItem value="hinduism">Hinduism</SelectItem>
-                                  <SelectItem value="buddhism">Buddhism</SelectItem>
-                                  <SelectItem value="judaism">Judaism</SelectItem>
-                                  <SelectItem value="spiritual">Spiritual but not religious</SelectItem>
-                                  <SelectItem value="atheist">Atheist</SelectItem>
-                                  <SelectItem value="agnostic">Agnostic</SelectItem>
-                                  <SelectItem value="other">Other</SelectItem>
-                                  <SelectItem value="prefer-not">Prefer not to say</SelectItem>
-                                </SelectContent>
-                              </Select>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Share your beliefs or spiritual practices" 
+                                  {...field}
+                                  className="h-12 bg-white/50 rounded-xl"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="aiPreferences.ethnicity"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-secondary-800">Ethnicity</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Your ethnicity" 
+                                  {...field}
+                                  className="h-12 bg-white/50 rounded-xl"
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="aiPreferences.gender"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-secondary-800">Gender</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Your gender" 
+                                  {...field}
+                                  className="h-12 bg-white/50 rounded-xl"
+                                />
+                              </FormControl>
                             </FormItem>
                           )}
                         />
@@ -232,67 +254,17 @@ export default function Onboarding() {
 
                         <FormField
                           control={form.control}
-                          name="aiPreferences.workHours"
+                          name="aiPreferences.fieldOfWork"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="text-secondary-800">Typical work hours per week</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="h-12 bg-white rounded-xl">
-                                    <SelectValue placeholder="Select work hours" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="bg-white">
-                                  <SelectItem value="under-40">Less than 40 hours</SelectItem>
-                                  <SelectItem value="40-50">40-50 hours</SelectItem>
-                                  <SelectItem value="50-60">50-60 hours</SelectItem>
-                                  <SelectItem value="60-plus">More than 60 hours</SelectItem>
-                                  <SelectItem value="variable">Variable/Flexible</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="aiPreferences.stressLevel"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-secondary-800">Current stress level</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="h-12 bg-white rounded-xl">
-                                    <SelectValue placeholder="Select stress level" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent className="bg-white">
-                                  <SelectItem value="low">Low - Managing well</SelectItem>
-                                  <SelectItem value="moderate">Moderate - Some challenges</SelectItem>
-                                  <SelectItem value="high">High - Feeling pressured</SelectItem>
-                                  <SelectItem value="very-high">Very High - Struggling</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="aiPreferences.description"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="text-secondary-800">Tell us about yourself</FormLabel>
+                              <FormLabel className="text-secondary-800">Field of Work</FormLabel>
                               <FormControl>
-                                <Textarea 
-                                  placeholder="Share anything that would help us understand you better..." 
+                                <Input 
+                                  placeholder="Your industry or field (e.g., Technology, Healthcare)" 
                                   {...field}
-                                  className="min-h-[100px] bg-white/50 rounded-xl resize-none"
+                                  className="h-12 bg-white/50 rounded-xl"
                                 />
                               </FormControl>
-                              <FormDescription>
-                                This helps us personalize your experience
-                              </FormDescription>
                             </FormItem>
                           )}
                         />
@@ -371,6 +343,26 @@ export default function Onboarding() {
                             </FormItem>
                           )}
                         />
+
+                        <FormField
+                          control={form.control}
+                          name="aiPreferences.description"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-secondary-800">Tell more about yourself</FormLabel>
+                              <FormControl>
+                                <Textarea 
+                                  placeholder="Share anything that would help us understand you better..." 
+                                  {...field}
+                                  className="min-h-[100px] bg-white/50 rounded-xl resize-none"
+                                />
+                              </FormControl>
+                              <FormDescription>
+                                This helps us personalize your experience
+                              </FormDescription>
+                            </FormItem>
+                          )}
+                        />
                       </div>
                     )}
                   </div>
@@ -378,7 +370,7 @@ export default function Onboarding() {
 
                 <motion.div 
                   variants={itemVariants}
-                  className="mt-6 flex justify-between gap-4"
+                  className="mt-6 flex justify-between gap-4 sticky bottom-0 bg-gradient-to-t from-white via-white to-transparent pb-4 pt-8 -mx-6 px-6"
                 >
                   {step !== "name" && (
                     <Button
