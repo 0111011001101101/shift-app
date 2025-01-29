@@ -22,7 +22,7 @@ serve(async (req) => {
       throw new Error('User ID is required');
     }
 
-    // Initialize Supabase client with better error handling
+    // Initialize Supabase client
     const supabaseUrl = Deno.env.get('SUPABASE_URL');
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     
@@ -33,20 +33,25 @@ serve(async (req) => {
 
     const supabaseClient = createClient(supabaseUrl, supabaseKey);
 
-    // Fetch user's profile for personalization
+    // Fetch user's profile
     console.log('Fetching user profile...');
     const { data: profile, error: profileError } = await supabaseClient
       .from('profiles')
       .select('*')
       .eq('id', userId)
-      .single();
+      .maybeSingle();
 
     if (profileError) {
       console.error('Error fetching profile:', profileError);
       throw profileError;
     }
 
-    // Fetch recent stand-ups for context
+    if (!profile) {
+      console.error('Profile not found');
+      throw new Error('Profile not found');
+    }
+
+    // Fetch recent stand-ups
     console.log('Fetching recent stand-ups...');
     const { data: recentStandUps, error: standUpsError } = await supabaseClient
       .from('stand_ups')
@@ -60,7 +65,7 @@ serve(async (req) => {
       throw standUpsError;
     }
 
-    // Fetch active hurdles for additional context
+    // Fetch active hurdles
     console.log('Fetching active hurdles...');
     const { data: activeHurdles, error: hurdlesError } = await supabaseClient
       .from('hurdles')
@@ -76,7 +81,7 @@ serve(async (req) => {
       throw hurdlesError;
     }
 
-    // Construct rich context for AI
+    // Construct context for AI
     const context = {
       userProfile: {
         firstName: profile?.first_name,
@@ -93,11 +98,17 @@ serve(async (req) => {
 
     console.log('Constructed AI context:', JSON.stringify(context, null, 2));
 
-    // Call OpenAI API with enhanced configuration
+    const openAiKey = Deno.env.get('OPENAI_API_KEY');
+    if (!openAiKey) {
+      console.error('OpenAI API key not configured');
+      throw new Error('OpenAI API key not configured');
+    }
+
+    // Call OpenAI API
     const openAiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${Deno.env.get('OPENAI_API_KEY')}`,
+        'Authorization': `Bearer ${openAiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
