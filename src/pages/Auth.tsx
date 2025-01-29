@@ -46,7 +46,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
+    <div className="min-h-screen bg-white">
       <div className="mx-auto max-w-md px-6 py-12 min-h-screen">
         {/* Back Button */}
         <motion.button
@@ -68,7 +68,7 @@ const Auth = () => {
           className="mt-8 mb-12 flex items-center justify-center"
         >
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-accent">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-sm">
               <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
             <span className="font-medium tracking-tight text-black text-xl">SHIFT</span>
