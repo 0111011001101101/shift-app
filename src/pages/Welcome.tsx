@@ -40,9 +40,14 @@ export default function Welcome() {
               Zero Burnout
             </span>
           </h1>
-          <p className="text-black/70 text-lg leading-relaxed font-medium">
-            A mental health & productivity app, in one.
-          </p>
+          <div className="space-y-2">
+            <p className="text-black/70 text-lg leading-relaxed font-medium">
+              A mental health & productivity app, in one.
+            </p>
+            <p className="text-secondary-400 text-sm leading-relaxed">
+              Experience success without sacrificing well-being, make the shift.
+            </p>
+          </div>
           <p className="text-secondary-400 font-medium text-sm tracking-wide uppercase">
             Make the shift
           </p>
