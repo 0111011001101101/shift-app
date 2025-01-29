@@ -41,8 +41,8 @@ export default function Welcome() {
             </span>
           </h1>
           <div>
-            <p className="text-base leading-relaxed font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
-              A mental health &amp; productivity app in one
+            <p className="text-lg sm:text-xl leading-tight font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
+              A Mental Health &amp;<br className="sm:hidden" /> Productivity App In One.
             </p>
           </div>
         </motion.div>
