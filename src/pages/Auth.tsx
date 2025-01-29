@@ -14,7 +14,7 @@ export default function Auth() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, [view]); // Now triggers when view changes
 
   return (
     <div className="min-h-screen bg-white">
