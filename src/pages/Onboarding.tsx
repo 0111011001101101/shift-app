@@ -123,14 +123,13 @@ export default function Onboarding() {
             {/* Logo */}
             <motion.div 
               variants={itemVariants}
-              className="flex items-center justify-center gap-3"
+              className="flex items-center justify-center"
             >
               <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-xl
                             hover:shadow-2xl transition-all duration-300 hover:-translate-y-0.5 group">
                 <ArrowUp className="w-7 h-7 text-white transition-transform duration-300 group-hover:scale-110" 
                         strokeWidth={2.5} />
               </div>
-              <span className="text-3xl font-semibold tracking-tight text-secondary-800">SHIFT</span>
             </motion.div>
 
             <motion.div 
