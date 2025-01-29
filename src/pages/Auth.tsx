@@ -12,9 +12,14 @@ export default function Auth() {
   const navigate = useNavigate();
   const view = searchParams.get("view") || "sign_in";
 
+  // Force scroll to top whenever the view changes
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [view]); // Now triggers when view changes
+    const element = document.documentElement;
+    element.scrollTo({
+      top: 0,
+      behavior: "instant"
+    });
+  }, [view]);
 
   return (
     <div className="min-h-screen bg-white">
