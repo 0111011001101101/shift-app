@@ -87,13 +87,17 @@ serve(async (req) => {
         firstName: profile?.first_name,
         preferences: profile?.ai_preferences || {},
       },
-      recentMood: recentStandUps?.[0]?.mental_health,
-      recentWins: recentStandUps?.[0]?.wins,
-      currentFocus: recentStandUps?.[0]?.focus,
-      activeHurdles: activeHurdles?.map(h => ({
+      recentMood: recentStandUps?.[0]?.mental_health || null,
+      recentWins: recentStandUps?.[0]?.wins || null,
+      currentFocus: recentStandUps?.[0]?.focus || null,
+      hurdles: activeHurdles?.map(h => ({
         title: h.title,
-        solutions: h.solutions
-      }))
+        solutions: h.solutions?.map(s => ({
+          title: s.title,
+          frequency: s.frequency,
+          completed: s.completed
+        })) || []
+      })) || []
     };
 
     console.log('Constructed AI context:', JSON.stringify(context, null, 2));
@@ -112,7 +116,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4-mini',
         messages: [
           {
             role: 'system',
@@ -125,7 +129,7 @@ serve(async (req) => {
             - Current focus: ${context.currentFocus}
             
             Active hurdles they're facing:
-            ${context.activeHurdles?.map(h => `- ${h.title}`).join('\n') || 'No active hurdles'}
+            ${context.hurdles?.map(h => `- ${h.title}`).join('\n') || 'No active hurdles'}
             
             Your task is to:
             1. Analyze their current state
