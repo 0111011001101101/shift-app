@@ -14,7 +14,7 @@ import {
   FormDescription,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowRight, ArrowLeft, User } from "lucide-react";
+import { ArrowRight, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -71,6 +71,10 @@ export default function Onboarding() {
 
   const nextStep = () => {
     if (step === "name") {
+      if (!form.getValues("firstName")) {
+        form.setError("firstName", { message: "Please enter your name" });
+        return;
+      }
       setStep("personalization");
     } else {
       form.handleSubmit(onSubmit)();
@@ -79,36 +83,38 @@ export default function Onboarding() {
 
   return (
     <div className="fixed inset-0 bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
-      <div className="min-h-screen flex items-center justify-center p-4 max-w-md mx-auto">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="w-full space-y-8"
-        >
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="min-h-screen flex flex-col items-center justify-center p-6"
+      >
+        <div className="w-full max-w-md space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-center space-y-6"
+            className="text-center space-y-4"
           >
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent flex items-center justify-center shadow-xl">
-              <User className="w-8 h-8 text-white" strokeWidth={2} />
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-500 flex items-center justify-center shadow-xl">
+              <img 
+                src="/lovable-uploads/d40a0a4a-84be-4a3e-ae67-e6b39fcbbcf2.png" 
+                alt="SHIFT Logo" 
+                className="w-12 h-12"
+              />
             </div>
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight text-secondary-800">
-                {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
-              </h1>
-              <p className="text-secondary-600 text-lg">
-                {step === "name" 
-                  ? "Let's get to know you better"
-                  : "Help us tailor SHIFT to your needs"}
-              </p>
-            </div>
+            <h1 className="text-2xl font-bold text-secondary-800">
+              {step === "name" ? "Welcome to SHIFT" : "Personalize your experience"}
+            </h1>
+            <p className="text-secondary-600">
+              {step === "name" 
+                ? "Let's get to know you better"
+                : "Help us tailor SHIFT to your needs"}
+            </p>
           </motion.div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, x: step === "name" ? -20 : 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -127,7 +133,7 @@ export default function Onboarding() {
                           <Input 
                             placeholder="Enter your name" 
                             {...field}
-                            className="h-12 text-lg bg-white/50"
+                            className="h-12 text-lg bg-white/50 rounded-xl"
                           />
                         </FormControl>
                         <FormMessage />
@@ -146,7 +152,7 @@ export default function Onboarding() {
                             <Input 
                               placeholder="Your country" 
                               {...field}
-                              className="h-12 bg-white/50"
+                              className="h-12 bg-white/50 rounded-xl"
                             />
                           </FormControl>
                         </FormItem>
@@ -163,7 +169,7 @@ export default function Onboarding() {
                             <Input 
                               placeholder="e.g., 25-34" 
                               {...field}
-                              className="h-12 bg-white/50"
+                              className="h-12 bg-white/50 rounded-xl"
                             />
                           </FormControl>
                         </FormItem>
@@ -180,7 +186,7 @@ export default function Onboarding() {
                             <Input 
                               placeholder="Your background" 
                               {...field}
-                              className="h-12 bg-white/50"
+                              className="h-12 bg-white/50 rounded-xl"
                             />
                           </FormControl>
                         </FormItem>
@@ -188,7 +194,7 @@ export default function Onboarding() {
                     />
 
                     <FormDescription className="text-sm text-secondary-600 bg-primary-50/50 p-4 rounded-xl">
-                      All fields except name are optional. You can always update these preferences later in your settings.
+                      All fields except name are optional. You can always update these preferences later in settings.
                     </FormDescription>
                   </div>
                 )}
@@ -198,14 +204,14 @@ export default function Onboarding() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
-                className="flex justify-between pt-4"
+                className="flex justify-between gap-4"
               >
                 {step !== "name" && (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={() => setStep("name")}
-                    className="bg-white/80 hover:bg-white"
+                    className="flex-1 h-12 bg-white/80 hover:bg-white rounded-xl"
                   >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Back
@@ -213,8 +219,8 @@ export default function Onboarding() {
                 )}
                 <Button
                   type="button"
-                  className={`${step === "name" ? "w-full" : "ml-auto"} h-12 text-lg`}
                   onClick={nextStep}
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-12 bg-primary-500 hover:bg-primary-600 text-white rounded-xl`}
                 >
                   {step === "name" ? "Continue" : "Complete Setup"}
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -222,8 +228,8 @@ export default function Onboarding() {
               </motion.div>
             </form>
           </Form>
-        </motion.div>
-      </div>
+        </div>
+      </motion.div>
     </div>
   );
 }
