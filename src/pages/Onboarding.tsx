@@ -156,11 +156,11 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="w-full max-w-sm mx-auto space-y-6"
+            className="w-full max-w-sm mx-auto space-y-8"
           >
             <div className="flex justify-center">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
-                <User className="w-8 h-8" />
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-400 to-accent shadow-lg">
+                <User className="w-8 h-8 text-white" />
               </div>
             </div>
             <FormField
@@ -168,18 +168,18 @@ export default function Onboarding() {
               name="firstName"
               rules={{ required: "Please enter your name" }}
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-xl font-semibold text-secondary-800">
+                <FormItem className="space-y-4">
+                  <FormLabel className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                     Hey there! What should we call you?
                   </FormLabel>
-                  <FormDescription className="text-secondary-600">
+                  <FormDescription className="text-lg text-secondary-600">
                     We'll use your name to make your experience more personal
                   </FormDescription>
                   <FormControl>
                     <Input 
                       placeholder="Your name" 
                       {...field}
-                      className="h-12 text-lg bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
+                      className="h-14 text-lg bg-white/80 backdrop-blur-sm rounded-2xl border-secondary-200
                                focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
                                placeholder:text-secondary-400 transition-all duration-300"
                     />
@@ -499,7 +499,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50/50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent/5">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -507,14 +507,14 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen flex flex-col relative pb-[120px]"
+          className="min-h-screen flex flex-col relative pb-[100px]"
         >
-          <div className="flex-1 px-6 pt-12 max-w-lg mx-auto w-full">
+          <div className="flex-1 px-6 pt-8 max-w-lg mx-auto w-full">
             <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
             
             <motion.div 
               variants={itemVariants}
-              className="mt-12"
+              className="mt-8"
             >
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
@@ -536,14 +536,14 @@ export default function Onboarding() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
           >
-            <div className="max-w-lg mx-auto px-6 py-4 space-y-2.5">
+            <div className="max-w-lg mx-auto px-6 py-4 space-y-2">
               <div className="flex gap-2">
                 {step !== "name" && (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-10 px-4 bg-white text-sm font-medium flex-1
+                    className="h-11 px-4 bg-white text-sm font-medium flex-1
                              border-secondary-200 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
                              shadow-sm hover:shadow-md transition-all rounded-xl"
@@ -555,7 +555,7 @@ export default function Onboarding() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-10 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-11 px-4 text-sm font-medium
                             bg-gradient-to-r from-primary-600 to-accent text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
