@@ -159,8 +159,8 @@ export default function Onboarding() {
             className="w-full max-w-sm mx-auto space-y-8"
           >
             <div className="flex justify-center">
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
-                          shadow-lg shadow-primary-500/10 animate-float">
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-600 to-accent 
+                          shadow-lg shadow-primary-500/20 animate-float">
                 <User className="w-8 h-8 text-white" />
               </div>
             </div>
@@ -172,11 +172,10 @@ export default function Onboarding() {
                 <FormItem className="space-y-6">
                   <div className="text-center space-y-2">
                     <FormLabel className="text-2xl font-semibold bg-clip-text text-transparent 
-                                        bg-gradient-to-r from-primary-600 via-primary-500 to-accent
-                                        leading-tight tracking-tight">
+                                      bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                       Hey there! What should we call you?
                     </FormLabel>
-                    <FormDescription className="text-base text-secondary-600">
+                    <FormDescription className="text-base text-secondary-600/90">
                       We'll use your name to make your experience more personal
                     </FormDescription>
                   </div>
@@ -184,9 +183,9 @@ export default function Onboarding() {
                     <Input 
                       placeholder="Your name" 
                       {...field}
-                      className="h-12 text-base bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20 shadow-sm
-                               placeholder:text-secondary-400 transition-all duration-300"
+                      className="h-12 text-base bg-secondary-900/5 backdrop-blur-sm rounded-xl 
+                               border-secondary-200/30 focus:border-primary-400 focus:ring-primary-400/20 
+                               shadow-sm placeholder:text-secondary-400/70 transition-all duration-300"
                     />
                   </FormControl>
                   <FormMessage className="text-sm" />
@@ -203,20 +202,21 @@ export default function Onboarding() {
             className="space-y-8"
           >
             <div className="flex justify-center">
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
-                          shadow-lg shadow-primary-500/10 animate-float">
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-600 to-accent 
+                          shadow-lg shadow-primary-500/20 animate-float">
                 <Brain className="w-8 h-8 text-white" />
               </div>
             </div>
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
-                           from-primary-600 via-primary-500 to-accent leading-tight tracking-tight">
+                           from-primary-600 via-primary-500 to-accent">
                 Hi {form.getValues("firstName")}! Tell us about yourself
               </h2>
-              <p className="text-base text-secondary-600">This helps us understand you better</p>
+              <p className="text-base text-secondary-600/90">This helps us understand you better</p>
             </div>
             
-            <div className="space-y-6 rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-sm border border-primary-100/30">
+            <div className="space-y-6 rounded-2xl bg-secondary-900/5 backdrop-blur-sm p-6 
+                           shadow-sm border border-secondary-200/30">
               <FormField
                 control={form.control}
                 name="aiPreferences.age"
@@ -225,12 +225,12 @@ export default function Onboarding() {
                     <FormLabel className="text-base font-medium text-secondary-800">Age Range</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-12 bg-white/90 rounded-xl text-base border-secondary-200
+                        <SelectTrigger className="h-12 bg-white/40 rounded-xl text-base border-secondary-200/30
                                                 focus:border-primary-400 focus:ring-primary-400/20">
                           <SelectValue placeholder="Select your age range" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-200">
+                      <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-200/30">
                         <SelectItem value="18-24">18-24 years</SelectItem>
                         <SelectItem value="25-34">25-34 years</SelectItem>
                         <SelectItem value="35-44">35-44 years</SelectItem>
@@ -509,7 +509,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/30 to-accent/5">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-primary-50/30">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -541,7 +541,8 @@ export default function Onboarding() {
 
           <motion.div 
             variants={itemVariants}
-            className="fixed bottom-0 left-0 right-0 w-full bg-white/70 backdrop-blur-sm border-t border-black/[0.02]"
+            className="fixed bottom-0 left-0 right-0 w-full bg-white/60 backdrop-blur-md 
+                      border-t border-secondary-200/30"
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
@@ -553,8 +554,8 @@ export default function Onboarding() {
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-10 px-4 bg-white text-sm font-medium flex-1
-                             border-secondary-200 hover:bg-secondary-50
+                    className="h-10 px-4 bg-white/80 text-sm font-medium flex-1
+                             border-secondary-200/30 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
                              shadow-sm hover:shadow-md transition-all rounded-xl"
                   >
@@ -580,8 +581,8 @@ export default function Onboarding() {
                   type="button"
                   variant="outline"
                   onClick={skipPersonalization}
-                  className="w-full h-9 px-4 bg-white hover:bg-secondary-50 text-sm 
-                           font-medium border-secondary-200 text-secondary-600 
+                  className="w-full h-9 px-4 bg-white/80 hover:bg-secondary-50 text-sm 
+                           font-medium border-secondary-200/30 text-secondary-600 
                            hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
                            rounded-xl active:scale-[0.98]"
                 >
@@ -589,7 +590,7 @@ export default function Onboarding() {
                 </Button>
               )}
               {step !== "name" && (
-                <p className="text-xs text-center text-secondary-500">
+                <p className="text-xs text-center text-secondary-500/80">
                   You can always update these preferences later in settings
                 </p>
               )}
