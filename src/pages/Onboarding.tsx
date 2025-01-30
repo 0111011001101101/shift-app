@@ -159,7 +159,7 @@ export default function Onboarding() {
             className="w-full max-w-sm mx-auto space-y-6"
           >
             <div className="flex justify-center">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-secondary-50 to-secondary-100/50 text-secondary-600">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
                 <User className="w-8 h-8" />
               </div>
             </div>
@@ -429,30 +429,36 @@ export default function Onboarding() {
         );
       case "goals":
         return (
-          <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+          <div className="space-y-8">
             <div className="flex justify-center">
               <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
                 <Sparkles className="w-8 h-8" />
               </div>
             </div>
             <div className="text-center space-y-2">
-              <h2 className="text-xl font-semibold text-secondary-800">Almost there!</h2>
+              <h2 className="text-xl font-semibold bg-gradient-to-r from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">
+                Almost there!
+              </h2>
               <p className="text-secondary-600">Let's focus on what matters most to you</p>
             </div>
             <FormField
               control={form.control}
               name="aiPreferences.primaryGoal"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">What's your main focus?</FormLabel>
-                  <FormDescription>This helps us prioritize what's important to you</FormDescription>
+                <FormItem className="bg-white/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100/30">
+                  <FormLabel className="text-lg font-semibold text-secondary-800">
+                    What's your main focus?
+                  </FormLabel>
+                  <FormDescription className="text-secondary-600">
+                    This helps us prioritize what's important to you
+                  </FormDescription>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                      <SelectTrigger className="h-12 bg-white rounded-xl border-secondary-200">
                         <SelectValue placeholder="Select your main goal" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                    <SelectContent className="bg-white border-secondary-200">
                       <SelectItem value="productivity">Boost productivity & focus</SelectItem>
                       <SelectItem value="balance">Better work-life harmony</SelectItem>
                       <SelectItem value="growth">Accelerate personal growth</SelectItem>
@@ -469,16 +475,19 @@ export default function Onboarding() {
               control={form.control}
               name="aiPreferences.description"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Anything else we should know?</FormLabel>
-                  <FormDescription>
+                <FormItem className="bg-white/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100/30">
+                  <FormLabel className="text-xl font-semibold bg-gradient-to-r from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">
+                    Other things about you that you want to share?
+                  </FormLabel>
+                  <FormDescription className="text-secondary-600">
                     Share any specific challenges or goals you'd like help with
                   </FormDescription>
                   <FormControl>
                     <Textarea 
                       placeholder="E.g., I want to grow my business while maintaining work-life balance..." 
                       {...field}
-                      className="min-h-[100px] bg-white rounded-xl resize-none"
+                      className="min-h-[120px] bg-white rounded-xl resize-none border-secondary-200
+                               focus:border-primary-400 focus:ring-primary-400/20"
                     />
                   </FormControl>
                 </FormItem>
@@ -490,7 +499,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-50/50">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50/50">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -498,7 +507,7 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen flex flex-col relative pb-[200px]"
+          className="min-h-screen flex flex-col relative pb-[120px]"
         >
           <div className="flex-1 px-6 pt-12 max-w-lg mx-auto w-full">
             <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
@@ -534,10 +543,10 @@ export default function Onboarding() {
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-11 px-4 bg-white text-sm font-medium flex-1
+                    className="h-10 px-4 bg-white text-sm font-medium flex-1
                              border-secondary-200 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
-                             shadow-md hover:shadow-lg transition-all rounded-xl"
+                             shadow-sm hover:shadow-md transition-all rounded-xl"
                   >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Back
@@ -546,10 +555,10 @@ export default function Onboarding() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-11 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-10 px-4 text-sm font-medium
                             bg-gradient-to-r from-primary-600 to-accent text-white 
                             hover:opacity-90 active:opacity-95
-                            transition-all duration-300 shadow-md hover:shadow-lg
+                            transition-all duration-300 shadow-sm hover:shadow-md
                             rounded-xl active:scale-[0.98]`}
                 >
                   {step === "goals" ? "Complete Setup" : "Continue"}
@@ -561,9 +570,9 @@ export default function Onboarding() {
                   type="button"
                   variant="outline"
                   onClick={skipPersonalization}
-                  className="w-full h-11 px-4 bg-white hover:bg-secondary-50 text-sm 
+                  className="w-full h-10 px-4 bg-white hover:bg-secondary-50 text-sm 
                            font-medium border-secondary-200 text-secondary-600 
-                           hover:text-secondary-700 shadow-md hover:shadow-lg transition-all
+                           hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
                            rounded-xl active:scale-[0.98]"
                 >
                   Skip for now
