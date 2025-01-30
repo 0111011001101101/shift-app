@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, Smile, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, User, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = 
@@ -148,8 +148,8 @@ export default function Onboarding() {
             className="w-full max-w-sm mx-auto space-y-6"
           >
             <div className="flex justify-center">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
-                <Smile className="w-8 h-8" />
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-secondary-50 to-secondary-100/50 text-secondary-600">
+                <User className="w-8 h-8" />
               </div>
             </div>
             <FormField
@@ -407,7 +407,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/30 to-accent/10">
+    <div className="min-h-screen bg-gradient-to-br from-secondary-50 via-white to-secondary-50/50">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -422,7 +422,7 @@ export default function Onboarding() {
             className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
           >
             <div className="flex items-center gap-2">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 to-accent text-white shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-secondary-800 to-secondary-900 text-white shadow-lg hover:shadow-xl transition-all duration-300">
                 <ArrowUp className="w-5 h-5" strokeWidth={2} />
               </div>
               <span className="font-medium tracking-tight text-black">SHIFT</span>
