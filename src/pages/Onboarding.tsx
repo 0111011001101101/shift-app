@@ -156,11 +156,12 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="w-full max-w-sm mx-auto space-y-10"
+            className="w-full max-w-sm mx-auto space-y-12"
           >
             <div className="flex justify-center">
-              <div className="p-5 rounded-3xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent shadow-xl">
-                <User className="w-9 h-9 text-white" />
+              <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                            shadow-xl shadow-primary-500/20 animate-float">
+                <User className="w-10 h-10 text-white" />
               </div>
             </div>
             <FormField
@@ -168,13 +169,17 @@ export default function Onboarding() {
               name="firstName"
               rules={{ required: "Please enter your name" }}
               render={({ field }) => (
-                <FormItem className="space-y-6">
-                  <FormLabel className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
-                    Hey there! What should we call you?
-                  </FormLabel>
-                  <FormDescription className="text-xl text-secondary-600">
-                    We'll use your name to make your experience more personal
-                  </FormDescription>
+                <FormItem className="space-y-8">
+                  <div className="text-center space-y-4">
+                    <FormLabel className="text-4xl font-bold bg-clip-text text-transparent 
+                                      bg-gradient-to-r from-primary-600 via-primary-500 to-accent
+                                      leading-tight tracking-tight">
+                      Hey there! What should we call you?
+                    </FormLabel>
+                    <FormDescription className="text-xl text-secondary-600">
+                      We'll use your name to make your experience more personal
+                    </FormDescription>
+                  </div>
                   <FormControl>
                     <Input 
                       placeholder="Your name" 
@@ -190,6 +195,7 @@ export default function Onboarding() {
             />
           </motion.div>
         );
+
       case "basic_info":
         return (
           <motion.div
@@ -197,29 +203,31 @@ export default function Onboarding() {
             className="space-y-10"
           >
             <div className="flex justify-center">
-              <div className="p-5 rounded-3xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent shadow-xl">
-                <Brain className="w-9 h-9 text-white" />
+              <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                            shadow-xl shadow-primary-500/20 animate-float">
+                <Brain className="w-10 h-10 text-white" />
               </div>
             </div>
             <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+              <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r 
+                           from-primary-600 via-primary-500 to-accent leading-tight tracking-tight">
                 Hi {form.getValues("firstName")}! Tell us about yourself
               </h2>
               <p className="text-xl text-secondary-600">This helps us understand you better</p>
             </div>
             
             <div className="space-y-8 rounded-3xl bg-white/80 backdrop-blur-xl p-8 shadow-xl border border-primary-100/30">
-              {/* Age Range */}
               <FormField
                 control={form.control}
                 name="aiPreferences.age"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="text-lg font-semibold text-secondary-800">Age Range</FormLabel>
+                    <FormLabel className="text-xl font-semibold text-secondary-800">Age Range</FormLabel>
                     <FormDescription className="text-secondary-600">Different life stages come with different challenges</FormDescription>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base">
+                        <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base border-secondary-200
+                                                focus:border-primary-400 focus:ring-primary-400/20">
                           <SelectValue placeholder="Select your age range" />
                         </SelectTrigger>
                       </FormControl>
@@ -433,14 +441,16 @@ export default function Onboarding() {
 
       case "goals":
         return (
-          <div className="space-y-10">
+          <div className="space-y-12">
             <div className="flex justify-center">
-              <div className="p-5 rounded-3xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent shadow-xl">
-                <Sparkles className="w-9 h-9 text-white" />
+              <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                            shadow-xl shadow-primary-500/20 animate-float">
+                <Sparkles className="w-10 h-10 text-white" />
               </div>
             </div>
             <div className="text-center space-y-4">
-              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+              <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r 
+                           from-primary-600 via-primary-500 to-accent leading-tight tracking-tight">
                 Almost there!
               </h2>
               <p className="text-xl text-secondary-600">Let's focus on what matters most to you</p>
@@ -449,7 +459,8 @@ export default function Onboarding() {
               control={form.control}
               name="aiPreferences.primaryGoal"
               render={({ field }) => (
-                <FormItem className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-primary-100/30 space-y-6">
+                <FormItem className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl 
+                                   border border-primary-100/30 space-y-6">
                   <FormLabel className="text-2xl font-bold text-secondary-800">
                     What's your main focus?
                   </FormLabel>
@@ -458,7 +469,8 @@ export default function Onboarding() {
                   </FormDescription>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base border-secondary-200">
+                      <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base border-secondary-200
+                                              focus:border-primary-400 focus:ring-primary-400/20">
                         <SelectValue placeholder="Select your main goal" />
                       </SelectTrigger>
                     </FormControl>
@@ -479,8 +491,10 @@ export default function Onboarding() {
               control={form.control}
               name="aiPreferences.description"
               render={({ field }) => (
-                <FormItem className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-primary-100/30 space-y-6">
-                  <FormLabel className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+                <FormItem className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl 
+                                   border border-primary-100/30 space-y-6">
+                  <FormLabel className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r 
+                                      from-primary-600 via-primary-500 to-accent leading-tight tracking-tight">
                     Other things about you that you want to share?
                   </FormLabel>
                   <FormDescription className="text-lg text-secondary-600">
@@ -511,7 +525,7 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen flex flex-col relative pb-[90px]"
+          className="min-h-screen flex flex-col relative pb-[80px]"
         >
           <div className="flex-1 px-6 pt-8 max-w-lg mx-auto w-full">
             <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
@@ -547,7 +561,7 @@ export default function Onboarding() {
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-12 px-4 bg-white text-sm font-medium flex-1
+                    className="h-11 px-4 bg-white text-sm font-medium flex-1
                              border-secondary-200 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
                              shadow-sm hover:shadow-md transition-all rounded-xl"
@@ -559,7 +573,7 @@ export default function Onboarding() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-11 px-4 text-sm font-medium
                             bg-gradient-to-r from-primary-600 to-accent text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
@@ -574,7 +588,7 @@ export default function Onboarding() {
                   type="button"
                   variant="outline"
                   onClick={skipPersonalization}
-                  className="w-full h-10 px-4 bg-white hover:bg-secondary-50 text-sm 
+                  className="w-full h-9 px-4 bg-white hover:bg-secondary-50 text-sm 
                            font-medium border-secondary-200 text-secondary-600 
                            hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
                            rounded-xl active:scale-[0.98]"
