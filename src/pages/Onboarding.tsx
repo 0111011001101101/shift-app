@@ -98,7 +98,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/30 to-accent/10">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -108,30 +108,57 @@ export default function Onboarding() {
           exit="exit"
           className="min-h-screen flex flex-col"
         >
-          {/* Nav Section - Matching Index page style */}
           <motion.nav 
             variants={itemVariants}
             className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
           >
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-sm">
-                <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-lg hover:shadow-xl transition-all duration-300">
+                <ArrowUp className="w-5 h-5 text-white animate-float" strokeWidth={2.5} />
               </div>
               <span className="font-medium tracking-tight text-black">SHIFT</span>
             </div>
           </motion.nav>
 
-          {/* Content Container */}
           <div className="flex-1 px-6 pt-24 pb-32 max-w-lg mx-auto w-full">
-            {/* Header Section */}
             <motion.div 
               variants={itemVariants}
-              className="text-center space-y-3 mb-8"
+              className="text-center space-y-3 mb-12"
             >
-              <h1 className="text-3xl font-bold tracking-tight">
+              <div className="inline-block mb-6">
+                <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 shadow-xl shadow-primary-500/10">
+                  <div className="flex justify-center gap-2">
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.3, duration: 0.5 }}
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-400 flex items-center justify-center text-white font-medium shadow-lg"
+                    >
+                      E
+                    </motion.div>
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.4, duration: 0.5 }}
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-medium shadow-lg"
+                    >
+                      L
+                    </motion.div>
+                    <motion.div 
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.5, duration: 0.5 }}
+                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-400 flex items-center justify-center text-white font-medium shadow-lg"
+                    >
+                      H
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                 {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
               </h1>
-              <p className="text-lg text-secondary-700">
+              <p className="text-lg text-secondary-700 max-w-sm mx-auto">
                 {step === "name" 
                   ? "Let's start with your name"
                   : "Help us personalize your experience"}
@@ -143,7 +170,6 @@ export default function Onboarding() {
               )}
             </motion.div>
 
-            {/* Form Section */}
             <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                 <motion.div
@@ -162,8 +188,8 @@ export default function Onboarding() {
                               placeholder="Enter your name" 
                               {...field}
                               className="h-14 text-base bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
-                                       focus:border-primary-400 focus:ring-primary-400/20
-                                       placeholder:text-secondary-400"
+                                       focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
+                                       placeholder:text-secondary-400 transition-all duration-300"
                             />
                           </FormControl>
                           <FormMessage className="text-sm" />
@@ -171,7 +197,7 @@ export default function Onboarding() {
                       )}
                     />
                   ) : (
-                    <div className="space-y-8">
+                    <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
                       <FormField
                         control={form.control}
                         name="aiPreferences.age"
@@ -395,7 +421,6 @@ export default function Onboarding() {
                   )}
                 </motion.div>
 
-                {/* Navigation Buttons - Matching Index page style */}
                 <motion.div 
                   variants={itemVariants}
                   className="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-xl border-t border-black/[0.02]"
@@ -410,7 +435,7 @@ export default function Onboarding() {
                           className="h-14 px-4 bg-white text-base font-medium flex-1
                                    border-secondary-200 hover:bg-secondary-50
                                    text-secondary-700 hover:text-secondary-800
-                                   shadow-sm hover:shadow-md transition-all rounded-xl"
+                                   shadow-lg hover:shadow-xl transition-all rounded-xl"
                         >
                           <ArrowLeft className="mr-2 h-4 w-4" />
                           Back
@@ -420,8 +445,9 @@ export default function Onboarding() {
                         type="button"
                         onClick={nextStep}
                         className={`${step === "name" ? "w-full" : "flex-1"} h-14 px-6 text-base font-medium
-                                  bg-black text-white hover:bg-black/90 active:bg-black/95
-                                  transition-all duration-300 shadow-md hover:shadow-lg
+                                  bg-gradient-to-r from-primary-600 to-accent text-white 
+                                  hover:opacity-90 active:opacity-95
+                                  transition-all duration-300 shadow-lg hover:shadow-xl
                                   rounded-xl active:scale-[0.98]`}
                       >
                         {step === "name" ? "Continue" : "Complete Setup"}
@@ -435,7 +461,7 @@ export default function Onboarding() {
                         onClick={skipPersonalization}
                         className="w-full h-14 px-4 bg-white hover:bg-secondary-50 text-base 
                                  font-medium border-secondary-200 text-secondary-600 
-                                 hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
+                                 hover:text-secondary-700 shadow-lg hover:shadow-xl transition-all
                                  rounded-xl active:scale-[0.98]"
                       >
                         Skip for now
