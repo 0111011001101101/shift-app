@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -98,7 +98,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-50/80">
+    <div className="min-h-screen bg-white">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -106,7 +106,7 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen px-4 py-6 flex flex-col max-w-md mx-auto"
+          className="min-h-screen px-6 py-8 flex flex-col max-w-md mx-auto"
         >
           {/* Logo Section */}
           <motion.div 
@@ -127,11 +127,10 @@ export default function Onboarding() {
             variants={itemVariants}
             className="text-center space-y-3 mb-8"
           >
-            <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent 
-                         bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+            <h1 className="text-3xl font-bold tracking-tight text-primary-500">
               {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
             </h1>
-            <p className="text-lg font-medium text-secondary-700">
+            <p className="text-lg text-secondary-700">
               {step === "name" 
                 ? "Let's start with your name"
                 : "Help us personalize your experience"}
@@ -148,16 +147,10 @@ export default function Onboarding() {
             <form onSubmit={(e) => e.preventDefault()} className="flex-1 flex flex-col">
               <motion.div
                 variants={itemVariants}
-                className="flex-1 bg-white/95 backdrop-blur-xl rounded-2xl p-6 
-                         shadow-lg border border-primary-100 mb-6 overflow-hidden"
+                className="flex-1"
               >
                 {step === "name" ? (
                   <div className="space-y-6">
-                    <div className="flex justify-center mb-4">
-                      <div className="p-3 rounded-lg bg-gradient-to-br from-primary-100 to-primary-50">
-                        <Sparkles className="w-6 h-6 text-primary-500" />
-                      </div>
-                    </div>
                     <FormField
                       control={form.control}
                       name="firstName"
@@ -178,233 +171,228 @@ export default function Onboarding() {
                         </FormItem>
                       )}
                     />
-                    <p className="text-sm text-center text-secondary-600 mt-4">
-                      Your journey to better productivity starts here
-                    </p>
                   </div>
                 ) : (
-                  <div className="flex flex-col space-y-6 h-[calc(100vh-22rem)] overflow-y-auto">
-                    <div className="space-y-6 pr-2">
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.age"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Age</FormLabel>
+                  <div className="space-y-6 pb-24">
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.age"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Age</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              placeholder="Your age" 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.religion"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
+                          <FormDescription className="text-sm text-secondary-600">
+                            Share your beliefs or spiritual practices
+                          </FormDescription>
+                          <FormControl>
+                            <Input 
+                              placeholder="E.g., Christianity, Buddhism, Spiritual but not religious..." 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.ethnicity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Ethnicity</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Your ethnicity" 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.gender"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Your gender identity" 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.occupation"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Occupation</FormLabel>
+                          <FormDescription>Your current role or position</FormDescription>
+                          <FormControl>
+                            <Input 
+                              placeholder="E.g., Entrepreneur, Manager, Developer..." 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.fieldOfWork"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Field of Work</FormLabel>
+                          <FormDescription>Your industry or area of expertise</FormDescription>
+                          <FormControl>
+                            <Input 
+                              placeholder="E.g., Technology, Healthcare, Education..." 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.workStyle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">How do you prefer to work?</FormLabel>
+                          <FormDescription>This helps us tailor our suggestions</FormDescription>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <Input 
-                                type="number" 
-                                placeholder="Your age" 
-                                {...field}
-                                className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
+                              <SelectTrigger className="h-12 bg-white rounded-xl">
+                                <SelectValue placeholder="Select your work style" />
+                              </SelectTrigger>
                             </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                            <SelectContent className="bg-white">
+                              <SelectItem value="structured">I like structure and planning</SelectItem>
+                              <SelectItem value="flexible">I prefer flexibility and adaptability</SelectItem>
+                              <SelectItem value="balanced">I aim for a balance of both</SelectItem>
+                              <SelectItem value="deadline">I work best under deadlines</SelectItem>
+                              <SelectItem value="creative">I need creative freedom</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
 
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.religion"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
-                            <FormDescription className="text-sm text-secondary-600">
-                              Share your beliefs or spiritual practices
-                            </FormDescription>
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.primaryGoal"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">What's your primary goal?</FormLabel>
+                          <FormDescription>This helps us focus on what matters most to you</FormDescription>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <Input 
-                                placeholder="E.g., Christianity, Buddhism, Spiritual but not religious..." 
-                                {...field}
-                                className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
+                              <SelectTrigger className="h-12 bg-white rounded-xl">
+                                <SelectValue placeholder="Select your main goal" />
+                              </SelectTrigger>
                             </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                            <SelectContent className="bg-white">
+                              <SelectItem value="productivity">Improve productivity</SelectItem>
+                              <SelectItem value="balance">Better work-life balance</SelectItem>
+                              <SelectItem value="growth">Personal/Professional growth</SelectItem>
+                              <SelectItem value="stress">Stress management</SelectItem>
+                              <SelectItem value="leadership">Leadership development</SelectItem>
+                              <SelectItem value="purpose">Finding purpose/meaning</SelectItem>
+                              <SelectItem value="relationships">Improving relationships</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
 
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.ethnicity"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Ethnicity</FormLabel>
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.communicationStyle"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Preferred communication style</FormLabel>
+                          <FormDescription>How would you like SHIFT to communicate with you?</FormDescription>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
-                              <Input 
-                                placeholder="Your ethnicity" 
-                                {...field}
-                                className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
+                              <SelectTrigger className="h-12 bg-white rounded-xl">
+                                <SelectValue placeholder="Select communication style" />
+                              </SelectTrigger>
                             </FormControl>
-                          </FormItem>
-                        )}
-                      />
+                            <SelectContent className="bg-white">
+                              <SelectItem value="direct">Direct and concise</SelectItem>
+                              <SelectItem value="detailed">Detailed and thorough</SelectItem>
+                              <SelectItem value="casual">Casual and friendly</SelectItem>
+                              <SelectItem value="motivational">Motivational and encouraging</SelectItem>
+                              <SelectItem value="analytical">Analytical and logical</SelectItem>
+                              <SelectItem value="empathetic">Empathetic and understanding</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </FormItem>
+                      )}
+                    />
 
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.gender"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Your gender identity" 
-                                {...field}
-                                className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.occupation"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Occupation</FormLabel>
-                            <FormDescription>Your current role or position</FormDescription>
-                            <FormControl>
-                              <Input 
-                                placeholder="E.g., Entrepreneur, Manager, Developer..." 
-                                {...field}
-                                className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.fieldOfWork"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Field of Work</FormLabel>
-                            <FormDescription>Your industry or area of expertise</FormDescription>
-                            <FormControl>
-                              <Input 
-                                placeholder="E.g., Technology, Healthcare, Education..." 
-                                {...field}
-                                className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.workStyle"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">How do you prefer to work?</FormLabel>
-                            <FormDescription>This helps us tailor our suggestions</FormDescription>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="h-12 bg-white rounded-xl">
-                                  <SelectValue placeholder="Select your work style" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-white">
-                                <SelectItem value="structured">I like structure and planning</SelectItem>
-                                <SelectItem value="flexible">I prefer flexibility and adaptability</SelectItem>
-                                <SelectItem value="balanced">I aim for a balance of both</SelectItem>
-                                <SelectItem value="deadline">I work best under deadlines</SelectItem>
-                                <SelectItem value="creative">I need creative freedom</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.primaryGoal"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">What's your primary goal?</FormLabel>
-                            <FormDescription>This helps us focus on what matters most to you</FormDescription>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="h-12 bg-white rounded-xl">
-                                  <SelectValue placeholder="Select your main goal" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-white">
-                                <SelectItem value="productivity">Improve productivity</SelectItem>
-                                <SelectItem value="balance">Better work-life balance</SelectItem>
-                                <SelectItem value="growth">Personal/Professional growth</SelectItem>
-                                <SelectItem value="stress">Stress management</SelectItem>
-                                <SelectItem value="leadership">Leadership development</SelectItem>
-                                <SelectItem value="purpose">Finding purpose/meaning</SelectItem>
-                                <SelectItem value="relationships">Improving relationships</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.communicationStyle"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Preferred communication style</FormLabel>
-                            <FormDescription>How would you like SHIFT to communicate with you?</FormDescription>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger className="h-12 bg-white rounded-xl">
-                                  <SelectValue placeholder="Select communication style" />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent className="bg-white">
-                                <SelectItem value="direct">Direct and concise</SelectItem>
-                                <SelectItem value="detailed">Detailed and thorough</SelectItem>
-                                <SelectItem value="casual">Casual and friendly</SelectItem>
-                                <SelectItem value="motivational">Motivational and encouraging</SelectItem>
-                                <SelectItem value="analytical">Analytical and logical</SelectItem>
-                                <SelectItem value="empathetic">Empathetic and understanding</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="aiPreferences.description"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel className="text-base font-semibold text-secondary-800">Tell more about yourself</FormLabel>
-                            <FormDescription>
-                              Share anything that would help us understand you better
-                            </FormDescription>
-                            <FormControl>
-                              <Textarea 
-                                placeholder="Share your story, goals, challenges, or anything else..." 
-                                {...field}
-                                className="min-h-[100px] bg-white rounded-xl resize-none border-secondary-200
-                                         focus:border-primary-400 focus:ring-primary-400/20
-                                         placeholder:text-secondary-400"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    </div>
+                    <FormField
+                      control={form.control}
+                      name="aiPreferences.description"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Tell more about yourself</FormLabel>
+                          <FormDescription>
+                            Share anything that would help us understand you better
+                          </FormDescription>
+                          <FormControl>
+                            <Textarea 
+                              placeholder="Share your story, goals, challenges, or anything else..." 
+                              {...field}
+                              className="min-h-[100px] bg-white rounded-xl resize-none border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
                   </div>
                 )}
               </motion.div>
@@ -412,48 +400,50 @@ export default function Onboarding() {
               {/* Navigation Buttons */}
               <motion.div 
                 variants={itemVariants}
-                className="sticky bottom-0 w-full space-y-3 bg-white/80 backdrop-blur-xl p-4 rounded-2xl border border-primary-100/50 shadow-lg"
+                className="fixed bottom-0 left-0 right-0 w-full bg-white border-t border-gray-100"
               >
-                <div className="flex gap-3">
-                  {step !== "name" && (
+                <div className="max-w-md mx-auto px-6 py-4 space-y-3">
+                  <div className="flex gap-3">
+                    {step !== "name" && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => setStep("name")}
+                        className="h-12 px-4 bg-white text-base font-medium flex-1
+                                 border-secondary-200 hover:bg-secondary-50
+                                 text-secondary-700 hover:text-secondary-800
+                                 shadow-sm hover:shadow-md transition-all rounded-xl"
+                      >
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Back
+                      </Button>
+                    )}
+                    <Button
+                      type="button"
+                      onClick={nextStep}
+                      className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-6 text-base font-medium
+                                bg-primary-500 hover:bg-primary-600 active:bg-primary-700
+                                transition-all duration-300 text-white shadow-md hover:shadow-lg
+                                rounded-xl`}
+                    >
+                      {step === "name" ? "Continue" : "Complete Setup"}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                  {step === "personalization" && (
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => setStep("name")}
-                      className="h-12 px-4 bg-white text-base font-medium flex-1
-                               border-secondary-200 hover:bg-secondary-50
-                               text-secondary-700 hover:text-secondary-800
-                               shadow-sm hover:shadow-md transition-all"
+                      onClick={skipPersonalization}
+                      className="w-full h-12 px-4 bg-white hover:bg-secondary-50 text-base 
+                               font-medium border-secondary-200 text-secondary-600 
+                               hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
+                               rounded-xl"
                     >
-                      <ArrowLeft className="mr-2 h-4 w-4" />
-                      Back
+                      Skip for now
                     </Button>
                   )}
-                  <Button
-                    type="button"
-                    onClick={nextStep}
-                    className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-6 text-base font-medium
-                              bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-500 
-                              hover:to-primary-400 active:from-primary-700 active:to-primary-600 
-                              transition-all duration-300 text-white shadow-md hover:shadow-lg
-                              rounded-xl`}
-                  >
-                    {step === "name" ? "Continue" : "Complete Setup"}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
                 </div>
-                {step === "personalization" && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={skipPersonalization}
-                    className="w-full h-12 px-4 bg-white hover:bg-secondary-50 text-base 
-                             font-medium border-secondary-200 text-secondary-600 
-                             hover:text-secondary-700 shadow-sm hover:shadow-md transition-all"
-                  >
-                    Skip for now
-                  </Button>
-                )}
               </motion.div>
             </form>
           </Form>
