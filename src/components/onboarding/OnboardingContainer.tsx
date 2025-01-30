@@ -39,8 +39,8 @@ export const OnboardingContainer = ({
           exit="exit"
           className="min-h-screen flex flex-col relative pb-[80px]"
         >
-          <div className="flex-1 px-4 pt-8 max-w-md mx-auto w-full">
-            <div className="mb-10">
+          <div className="flex-1 px-4 pt-6 max-w-md mx-auto w-full">
+            <div className="mb-8">
               <ProgressIndicator 
                 steps={steps} 
                 currentStep={getCurrentStepIndex()} 
@@ -63,7 +63,7 @@ export const OnboardingContainer = ({
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
           >
-            <div className="max-w-md mx-auto px-4 py-4 space-y-3">
+            <div className="max-w-md mx-auto px-4 py-3 space-y-2">
               <div className="flex gap-2">
                 {step !== "name" && (
                   <Button
