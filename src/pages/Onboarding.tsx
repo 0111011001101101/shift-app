@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = 
@@ -391,8 +391,8 @@ export default function Onboarding() {
             className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
           >
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-lg hover:shadow-xl transition-all duration-300">
-                <ArrowUp className="w-5 h-5 text-white animate-float" strokeWidth={2.5} />
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent text-white shadow-sm">
+                <ArrowUp className="w-5 h-5" />
               </div>
               <span className="font-medium tracking-tight text-black">SHIFT</span>
             </div>
@@ -405,44 +405,6 @@ export default function Onboarding() {
               variants={itemVariants}
               className="text-center space-y-3 mb-12"
             >
-              <motion.div 
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-                className="inline-block mb-6"
-              >
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-primary-100/50 via-white to-accent-50/30 shadow-xl backdrop-blur-xl border border-white/50 hover:shadow-2xl transition-all duration-300">
-                  <motion.div
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.3, duration: 0.5 }}
-                    className="relative"
-                  >
-                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-accent flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-all duration-300">
-                      <Sparkles className="w-8 h-8 animate-float" />
-                    </div>
-                    <div className="mt-4 space-y-2">
-                      <motion.p 
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.4 }}
-                        className="text-sm font-medium text-primary-600"
-                      >
-                        Welcome to
-                      </motion.p>
-                      <motion.p 
-                        initial={{ y: 10, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.5 }}
-                        className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent"
-                      >
-                        Your Journey Forward
-                      </motion.p>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                   <motion.div
