@@ -48,14 +48,6 @@ interface OnboardingForm {
   };
 }
 
-const steps = [
-  "Name",
-  "Basic Info",
-  "Work",
-  "Preferences",
-  "Goals"
-];
-
 const containerVariants = {
   hidden: { 
     opacity: 0,
@@ -65,16 +57,16 @@ const containerVariants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.4,
       ease: "easeOut",
-      staggerChildren: 0.1
+      staggerChildren: 0.15
     }
   },
   exit: {
     opacity: 0,
     y: -20,
     transition: { 
-      duration: 0.2,
+      duration: 0.3,
       ease: "easeIn"
     }
   }
@@ -83,17 +75,25 @@ const containerVariants = {
 const itemVariants = {
   hidden: { 
     opacity: 0,
-    y: 10
+    y: 15
   },
   visible: { 
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.3,
+      duration: 0.4,
       ease: "easeOut"
     }
   }
 };
+
+const steps = [
+  "Name",
+  "Basic Info",
+  "Work",
+  "Preferences",
+  "Goals"
+];
 
 export default function Onboarding() {
   const [step, setStep] = useState<OnboardingStep>("name");
@@ -156,11 +156,11 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="w-full max-w-sm mx-auto space-y-8"
+            className="w-full max-w-sm mx-auto space-y-10"
           >
             <div className="flex justify-center">
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-400 to-accent shadow-lg">
-                <User className="w-8 h-8 text-white" />
+              <div className="p-5 rounded-3xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent shadow-xl">
+                <User className="w-9 h-9 text-white" />
               </div>
             </div>
             <FormField
@@ -168,18 +168,18 @@ export default function Onboarding() {
               name="firstName"
               rules={{ required: "Please enter your name" }}
               render={({ field }) => (
-                <FormItem className="space-y-4">
-                  <FormLabel className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+                <FormItem className="space-y-6">
+                  <FormLabel className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                     Hey there! What should we call you?
                   </FormLabel>
-                  <FormDescription className="text-lg text-secondary-600">
+                  <FormDescription className="text-xl text-secondary-600">
                     We'll use your name to make your experience more personal
                   </FormDescription>
                   <FormControl>
                     <Input 
                       placeholder="Your name" 
                       {...field}
-                      className="h-14 text-lg bg-white/80 backdrop-blur-sm rounded-2xl border-secondary-200
+                      className="h-16 text-lg bg-white/90 backdrop-blur-xl rounded-2xl border-secondary-200
                                focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
                                placeholder:text-secondary-400 transition-all duration-300"
                     />
@@ -194,129 +194,132 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="space-y-8"
+            className="space-y-10"
           >
             <div className="flex justify-center">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
-                <Brain className="w-8 h-8" />
+              <div className="p-5 rounded-3xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent shadow-xl">
+                <Brain className="w-9 h-9 text-white" />
               </div>
             </div>
-            <div className="text-center space-y-2">
-              <h2 className="text-xl font-semibold text-secondary-800">
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                 Hi {form.getValues("firstName")}! Tell us about yourself
               </h2>
-              <p className="text-secondary-600">This helps us understand you better</p>
+              <p className="text-xl text-secondary-600">This helps us understand you better</p>
             </div>
             
-            {/* Age Range - First question */}
-            <FormField
-              control={form.control}
-              name="aiPreferences.age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Age Range</FormLabel>
-                  <FormDescription>Different life stages come with different challenges</FormDescription>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
-                        <SelectValue placeholder="Select your age range" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
-                      <SelectItem value="18-24">18-24 years</SelectItem>
-                      <SelectItem value="25-34">25-34 years</SelectItem>
-                      <SelectItem value="35-44">35-44 years</SelectItem>
-                      <SelectItem value="45-54">45-54 years</SelectItem>
-                      <SelectItem value="55+">55+ years</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-
-            {/* Gender */}
-            <FormField
-              control={form.control}
-              name="aiPreferences.gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
-                  <FormDescription>Help us use appropriate pronouns</FormDescription>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
-                        <SelectValue placeholder="Select your gender" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-
-            {/* Location Information Group */}
-            <div className="space-y-6">
+            <div className="space-y-8 rounded-3xl bg-white/80 backdrop-blur-xl p-8 shadow-xl border border-primary-100/30">
+              {/* Age Range */}
               <FormField
                 control={form.control}
-                name="aiPreferences.country"
+                name="aiPreferences.age"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base font-semibold text-secondary-800">Where are you based?</FormLabel>
-                    <FormDescription>Cultural context helps us provide relevant support</FormDescription>
-                    <FormControl>
-                      <Input 
-                        placeholder="Your country" 
-                        {...field}
-                        className="h-12 text-base bg-white rounded-xl"
-                      />
-                    </FormControl>
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-lg font-semibold text-secondary-800">Age Range</FormLabel>
+                    <FormDescription className="text-secondary-600">Different life stages come with different challenges</FormDescription>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base">
+                          <SelectValue placeholder="Select your age range" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                        <SelectItem value="18-24">18-24 years</SelectItem>
+                        <SelectItem value="25-34">25-34 years</SelectItem>
+                        <SelectItem value="35-44">35-44 years</SelectItem>
+                        <SelectItem value="45-54">45-54 years</SelectItem>
+                        <SelectItem value="55+">55+ years</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormItem>
                 )}
               />
 
+              {/* Gender */}
               <FormField
                 control={form.control}
-                name="aiPreferences.ethnicity"
+                name="aiPreferences.gender"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base font-semibold text-secondary-800">Ethnicity</FormLabel>
-                    <FormDescription>For culturally relevant support</FormDescription>
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-lg font-semibold text-secondary-800">Gender</FormLabel>
+                    <FormDescription className="text-secondary-600">Help us use appropriate pronouns</FormDescription>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base">
+                          <SelectValue placeholder="Select your gender" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
+              {/* Location Information */}
+              <div className="space-y-8">
+                <FormField
+                  control={form.control}
+                  name="aiPreferences.country"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="text-lg font-semibold text-secondary-800">Where are you based?</FormLabel>
+                      <FormDescription className="text-secondary-600">Cultural context helps us provide relevant support</FormDescription>
+                      <FormControl>
+                        <Input 
+                          placeholder="Your country" 
+                          {...field}
+                          className="h-14 text-base bg-white/90 rounded-xl"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="aiPreferences.ethnicity"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormLabel className="text-lg font-semibold text-secondary-800">Ethnicity</FormLabel>
+                      <FormDescription className="text-secondary-600">For culturally relevant support</FormDescription>
+                      <FormControl>
+                        <Input 
+                          placeholder="Your ethnicity" 
+                          {...field}
+                          className="h-14 text-base bg-white/90 rounded-xl"
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Religion/Spirituality */}
+              <FormField
+                control={form.control}
+                name="aiPreferences.religion"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel className="text-lg font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
+                    <FormDescription className="text-secondary-600">For value-aligned guidance</FormDescription>
                     <FormControl>
                       <Input 
-                        placeholder="Your ethnicity" 
+                        placeholder="Your religion or spiritual practice" 
                         {...field}
-                        className="h-12 text-base bg-white rounded-xl"
+                        className="h-14 text-base bg-white/90 rounded-xl"
                       />
                     </FormControl>
                   </FormItem>
                 )}
               />
             </div>
-
-            {/* Religion/Spirituality */}
-            <FormField
-              control={form.control}
-              name="aiPreferences.religion"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
-                  <FormDescription>For value-aligned guidance</FormDescription>
-                  <FormControl>
-                    <Input 
-                      placeholder="Your religion or spiritual practice" 
-                      {...field}
-                      className="h-12 text-base bg-white rounded-xl"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
           </motion.div>
         );
+
       case "work_info":
         return (
           <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
@@ -427,38 +430,39 @@ export default function Onboarding() {
             />
           </div>
         );
+
       case "goals":
         return (
-          <div className="space-y-8">
+          <div className="space-y-10">
             <div className="flex justify-center">
-              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
-                <Sparkles className="w-8 h-8" />
+              <div className="p-5 rounded-3xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent shadow-xl">
+                <Sparkles className="w-9 h-9 text-white" />
               </div>
             </div>
-            <div className="text-center space-y-2">
-              <h2 className="text-xl font-semibold bg-gradient-to-r from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">
+            <div className="text-center space-y-4">
+              <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                 Almost there!
               </h2>
-              <p className="text-secondary-600">Let's focus on what matters most to you</p>
+              <p className="text-xl text-secondary-600">Let's focus on what matters most to you</p>
             </div>
             <FormField
               control={form.control}
               name="aiPreferences.primaryGoal"
               render={({ field }) => (
-                <FormItem className="bg-white/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100/30">
-                  <FormLabel className="text-lg font-semibold text-secondary-800">
+                <FormItem className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-primary-100/30 space-y-6">
+                  <FormLabel className="text-2xl font-bold text-secondary-800">
                     What's your main focus?
                   </FormLabel>
-                  <FormDescription className="text-secondary-600">
+                  <FormDescription className="text-lg text-secondary-600">
                     This helps us prioritize what's important to you
                   </FormDescription>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl border-secondary-200">
+                      <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base border-secondary-200">
                         <SelectValue placeholder="Select your main goal" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white border-secondary-200">
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="productivity">Boost productivity & focus</SelectItem>
                       <SelectItem value="balance">Better work-life harmony</SelectItem>
                       <SelectItem value="growth">Accelerate personal growth</SelectItem>
@@ -475,19 +479,19 @@ export default function Onboarding() {
               control={form.control}
               name="aiPreferences.description"
               render={({ field }) => (
-                <FormItem className="bg-white/40 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary-100/30">
-                  <FormLabel className="text-xl font-semibold bg-gradient-to-r from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent">
+                <FormItem className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-primary-100/30 space-y-6">
+                  <FormLabel className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                     Other things about you that you want to share?
                   </FormLabel>
-                  <FormDescription className="text-secondary-600">
+                  <FormDescription className="text-lg text-secondary-600">
                     Share any specific challenges or goals you'd like help with
                   </FormDescription>
                   <FormControl>
                     <Textarea 
                       placeholder="E.g., I want to grow my business while maintaining work-life balance..." 
                       {...field}
-                      className="min-h-[120px] bg-white rounded-xl resize-none border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20"
+                      className="min-h-[140px] bg-white/90 rounded-xl resize-none border-secondary-200
+                               focus:border-primary-400 focus:ring-primary-400/20 text-base"
                     />
                   </FormControl>
                 </FormItem>
@@ -507,14 +511,14 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen flex flex-col relative pb-[100px]"
+          className="min-h-screen flex flex-col relative pb-[90px]"
         >
           <div className="flex-1 px-6 pt-8 max-w-lg mx-auto w-full">
             <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
             
             <motion.div 
               variants={itemVariants}
-              className="mt-8"
+              className="mt-10"
             >
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
@@ -543,7 +547,7 @@ export default function Onboarding() {
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-11 px-4 bg-white text-sm font-medium flex-1
+                    className="h-12 px-4 bg-white text-sm font-medium flex-1
                              border-secondary-200 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
                              shadow-sm hover:shadow-md transition-all rounded-xl"
@@ -555,7 +559,7 @@ export default function Onboarding() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-11 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-4 text-sm font-medium
                             bg-gradient-to-r from-primary-600 to-accent text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
