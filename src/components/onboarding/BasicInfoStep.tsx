@@ -54,80 +54,80 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
           )}
         />
 
-              <FormField
-                control={form.control}
-                name="aiPreferences.gender"
-                render={({ field }) => (
-                  <FormItem className="space-y-2">
-                    <FormLabel className="text-base font-medium text-secondary-800">Gender</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="h-12 bg-white/90 rounded-xl text-base">
-                          <SelectValue placeholder="Select your gender" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-200">
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
+        <FormField
+          control={form.control}
+          name="aiPreferences.gender"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className="text-base font-medium text-secondary-800">Gender</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="h-12 bg-white/90 rounded-xl text-base">
+                    <SelectValue placeholder="Select your gender" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-200">
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                </SelectContent>
+              </Select>
+            </FormItem>
+          )}
+        />
 
-              <div className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="aiPreferences.country"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-base font-medium text-secondary-800">Where are you based?</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Your country" 
-                          {...field}
-                          className="h-12 text-base bg-white/90 rounded-xl"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
+        <div className="space-y-6">
+          <FormField
+            control={form.control}
+            name="aiPreferences.country"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel className="text-base font-medium text-secondary-800">Where are you based?</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="Your country" 
+                    {...field}
+                    className="h-12 text-base bg-white/90 rounded-xl"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="aiPreferences.ethnicity"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel className="text-base font-medium text-secondary-800">Ethnicity</FormLabel>
+                <FormControl>
+                  <Input 
+                    placeholder="Your ethnicity" 
+                    {...field}
+                    className="h-12 text-base bg-white/90 rounded-xl"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <FormField
+          control={form.control}
+          name="aiPreferences.religion"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className="text-base font-medium text-secondary-800">Religion/Spirituality</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Your religion or spiritual practice" 
+                  {...field}
+                  className="h-12 text-base bg-white/90 rounded-xl"
                 />
-
-                <FormField
-                  control={form.control}
-                  name="aiPreferences.ethnicity"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className="text-base font-medium text-secondary-800">Ethnicity</FormLabel>
-                      <FormControl>
-                        <Input 
-                          placeholder="Your ethnicity" 
-                          {...field}
-                          className="h-12 text-base bg-white/90 rounded-xl"
-                        />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={form.control}
-                name="aiPreferences.religion"
-                render={({ field }) => (
-                  <FormItem className="space-y-2">
-                    <FormLabel className="text-base font-medium text-secondary-800">Religion/Spirituality</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Your religion or spiritual practice" 
-                        {...field}
-                        className="h-12 text-base bg-white/90 rounded-xl"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+              </FormControl>
+            </FormItem>
+          )}
+        />
       </div>
     </motion.div>
   );
