@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, User, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = 
@@ -162,7 +162,7 @@ export default function Onboarding() {
                     Hey there! What should we call you?
                   </FormLabel>
                   <FormDescription className="text-secondary-600">
-                    This is the only required field - we'll use your name to make your experience more personal
+                    We'll use your name to make your experience more personal
                   </FormDescription>
                   <FormControl>
                     <Input 
@@ -181,15 +181,15 @@ export default function Onboarding() {
         );
       case "basic_info":
         return (
-          <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+          <div className="space-y-8 rounded-2xl bg-white/90 backdrop-blur-xl p-6 shadow-lg border border-primary-100/30">
             <div className="flex justify-center">
               <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
                 <Brain className="w-8 h-8" />
               </div>
             </div>
             <div className="text-center space-y-2">
-              <h2 className="text-xl font-semibold text-secondary-800">Let's personalize your journey</h2>
-              <p className="text-secondary-600">This helps us understand you better and tailor our support</p>
+              <h2 className="text-xl font-semibold text-secondary-800">Tell us about yourself</h2>
+              <p className="text-secondary-600">This helps us understand you better</p>
             </div>
             <FormField
               control={form.control}
@@ -417,19 +417,7 @@ export default function Onboarding() {
           exit="exit"
           className="min-h-screen flex flex-col"
         >
-          <motion.nav 
-            variants={itemVariants}
-            className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
-          >
-            <div className="flex items-center gap-2">
-              <div className="p-2.5 rounded-xl bg-gradient-to-br from-secondary-800 to-secondary-900 text-white shadow-lg hover:shadow-xl transition-all duration-300">
-                <ArrowUp className="w-5 h-5" strokeWidth={2} />
-              </div>
-              <span className="font-medium tracking-tight text-black">SHIFT</span>
-            </div>
-          </motion.nav>
-
-          <div className="flex-1 px-6 pt-24 pb-32 max-w-lg mx-auto w-full">
+          <div className="flex-1 px-6 pt-12 pb-32 max-w-lg mx-auto w-full">
             <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
             
             <motion.div 
