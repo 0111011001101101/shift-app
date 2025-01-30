@@ -191,89 +191,91 @@ export default function Onboarding() {
               <h2 className="text-xl font-semibold text-secondary-800">Tell us about yourself</h2>
               <p className="text-secondary-600">This helps us understand you better</p>
             </div>
-            <FormField
-              control={form.control}
-              name="aiPreferences.gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
-                  <FormDescription>Help us use appropriate pronouns</FormDescription>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+            
+            {/* Location Information Group */}
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="aiPreferences.country"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold text-secondary-800">Where are you based?</FormLabel>
+                    <FormDescription>Cultural context helps us provide relevant support</FormDescription>
                     <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
-                        <SelectValue placeholder="Select your gender" />
-                      </SelectTrigger>
+                      <Input 
+                        placeholder="Your country" 
+                        {...field}
+                        className="h-12 text-base bg-white rounded-xl"
+                      />
                     </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
-                      <SelectItem value="male">Male</SelectItem>
-                      <SelectItem value="female">Female</SelectItem>
-                      <SelectItem value="non-binary">Non-binary</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="aiPreferences.ethnicity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Ethnicity</FormLabel>
-                  <FormDescription>For culturally relevant support</FormDescription>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="aiPreferences.ethnicity"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold text-secondary-800">Ethnicity</FormLabel>
+                    <FormDescription>For culturally relevant support</FormDescription>
                     <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
-                        <SelectValue placeholder="Select your ethnicity" />
-                      </SelectTrigger>
+                      <Input 
+                        placeholder="Your ethnicity" 
+                        {...field}
+                        className="h-12 text-base bg-white rounded-xl"
+                      />
                     </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
-                      <SelectItem value="asian">Asian</SelectItem>
-                      <SelectItem value="black">Black</SelectItem>
-                      <SelectItem value="hispanic">Hispanic/Latino</SelectItem>
-                      <SelectItem value="middle-eastern">Middle Eastern</SelectItem>
-                      <SelectItem value="native-american">Native American</SelectItem>
-                      <SelectItem value="pacific-islander">Pacific Islander</SelectItem>
-                      <SelectItem value="white">White</SelectItem>
-                      <SelectItem value="mixed">Mixed</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="aiPreferences.religion"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
-                  <FormDescription>For value-aligned guidance</FormDescription>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Identity Information Group */}
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="aiPreferences.gender"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
+                    <FormDescription>Help us use appropriate pronouns</FormDescription>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="h-12 bg-white rounded-xl">
+                          <SelectValue placeholder="Select your gender" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-white border-secondary-200">
+                        <SelectItem value="male">Male</SelectItem>
+                        <SelectItem value="female">Female</SelectItem>
+                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="aiPreferences.religion"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
+                    <FormDescription>For value-aligned guidance</FormDescription>
                     <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
-                        <SelectValue placeholder="Select your religion/spirituality" />
-                      </SelectTrigger>
+                      <Input 
+                        placeholder="Your religion or spiritual practice" 
+                        {...field}
+                        className="h-12 text-base bg-white rounded-xl"
+                      />
                     </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
-                      <SelectItem value="buddhism">Buddhism</SelectItem>
-                      <SelectItem value="christianity">Christianity</SelectItem>
-                      <SelectItem value="hinduism">Hinduism</SelectItem>
-                      <SelectItem value="islam">Islam</SelectItem>
-                      <SelectItem value="judaism">Judaism</SelectItem>
-                      <SelectItem value="sikhism">Sikhism</SelectItem>
-                      <SelectItem value="spiritual">Spiritual but not religious</SelectItem>
-                      <SelectItem value="atheist">Atheist</SelectItem>
-                      <SelectItem value="agnostic">Agnostic</SelectItem>
-                      <SelectItem value="other">Other</SelectItem>
-                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            {/* Age Range - Keeping this separate as it's a different type of demographic info */}
             <FormField
               control={form.control}
               name="aiPreferences.age"
@@ -287,7 +289,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select your age range" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                    <SelectContent className="bg-white border-secondary-200">
                       <SelectItem value="18-24">18-24 years</SelectItem>
                       <SelectItem value="25-34">25-34 years</SelectItem>
                       <SelectItem value="35-44">35-44 years</SelectItem>
@@ -295,23 +297,6 @@ export default function Onboarding() {
                       <SelectItem value="55+">55+ years</SelectItem>
                     </SelectContent>
                   </Select>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="aiPreferences.country"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Where are you based?</FormLabel>
-                  <FormDescription>Cultural context helps us provide relevant support</FormDescription>
-                  <FormControl>
-                    <Input 
-                      placeholder="Your country" 
-                      {...field}
-                      className="h-12 text-base bg-white rounded-xl"
-                    />
-                  </FormControl>
                 </FormItem>
               )}
             />
