@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, Smile } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, Smile, ArrowUp } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = 
