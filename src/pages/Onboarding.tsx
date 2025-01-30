@@ -188,12 +188,64 @@ export default function Onboarding() {
               </div>
             </div>
             <div className="text-center space-y-2">
-              <h2 className="text-xl font-semibold text-secondary-800">Tell us about yourself</h2>
+              <h2 className="text-xl font-semibold text-secondary-800">
+                Hi {form.getValues("firstName")}! Tell us about yourself
+              </h2>
               <p className="text-secondary-600">This helps us understand you better</p>
             </div>
             
+            {/* Age Range - First question */}
+            <FormField
+              control={form.control}
+              name="aiPreferences.age"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Age Range</FormLabel>
+                  <FormDescription>Different life stages come with different challenges</FormDescription>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                        <SelectValue placeholder="Select your age range" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-white border-secondary-200">
+                      <SelectItem value="18-24">18-24 years</SelectItem>
+                      <SelectItem value="25-34">25-34 years</SelectItem>
+                      <SelectItem value="35-44">35-44 years</SelectItem>
+                      <SelectItem value="45-54">45-54 years</SelectItem>
+                      <SelectItem value="55+">55+ years</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            {/* Gender */}
+            <FormField
+              control={form.control}
+              name="aiPreferences.gender"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
+                  <FormDescription>Help us use appropriate pronouns</FormDescription>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                        <SelectValue placeholder="Select your gender" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-white border-secondary-200">
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
             {/* Location Information Group */}
-            <div className="space-y-6">
+            <div className="space-y-6 pt-4 border-t border-secondary-100">
               <FormField
                 control={form.control}
                 name="aiPreferences.country"
@@ -231,31 +283,8 @@ export default function Onboarding() {
               />
             </div>
 
-            {/* Identity Information Group */}
-            <div className="space-y-6">
-              <FormField
-                control={form.control}
-                name="aiPreferences.gender"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
-                    <FormDescription>Help us use appropriate pronouns</FormDescription>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger className="h-12 bg-white rounded-xl">
-                          <SelectValue placeholder="Select your gender" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent className="bg-white border-secondary-200">
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormItem>
-                )}
-              />
-
+            {/* Religion/Spirituality */}
+            <div className="space-y-6 pt-4 border-t border-secondary-100">
               <FormField
                 control={form.control}
                 name="aiPreferences.religion"
@@ -274,32 +303,6 @@ export default function Onboarding() {
                 )}
               />
             </div>
-
-            {/* Age Range - Keeping this separate as it's a different type of demographic info */}
-            <FormField
-              control={form.control}
-              name="aiPreferences.age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Age Range</FormLabel>
-                  <FormDescription>Different life stages come with different challenges</FormDescription>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger className="h-12 bg-white rounded-xl">
-                        <SelectValue placeholder="Select your age range" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="bg-white border-secondary-200">
-                      <SelectItem value="18-24">18-24 years</SelectItem>
-                      <SelectItem value="25-34">25-34 years</SelectItem>
-                      <SelectItem value="35-44">35-44 years</SelectItem>
-                      <SelectItem value="45-54">45-54 years</SelectItem>
-                      <SelectItem value="55+">55+ years</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
           </div>
         );
       case "work_info":
