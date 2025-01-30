@@ -40,9 +40,14 @@ export const OnboardingContainer = ({
           className="min-h-screen flex flex-col relative pb-[80px]"
         >
           <div className="flex-1 px-4 pt-6 max-w-md mx-auto w-full">
-            <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
+            <div className="mb-8">
+              <ProgressIndicator 
+                steps={steps} 
+                currentStep={getCurrentStepIndex()} 
+              />
+            </div>
             
-            <motion.div className="mt-8">
+            <motion.div>
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
                   {children}
@@ -65,10 +70,10 @@ export const OnboardingContainer = ({
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-10 px-4 bg-white/80 text-sm font-medium flex-1
+                    className="h-12 px-4 bg-white/80 text-sm font-medium flex-1
                              border-secondary-200/30 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
-                             shadow-sm hover:shadow-md transition-all rounded-lg"
+                             shadow-sm hover:shadow-md transition-all rounded-xl"
                   >
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Back
@@ -77,33 +82,28 @@ export const OnboardingContainer = ({
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-10 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-4 text-sm font-medium
                             bg-gradient-to-r from-primary-600/90 to-accent/90 text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
-                            rounded-lg active:scale-[0.98]`}
+                            rounded-xl active:scale-[0.98]`}
                 >
                   {step === "goals" ? "Complete Setup" : "Continue"}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
               {step !== "name" && skipPersonalization && (
-                <>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={skipPersonalization}
-                    className="w-full h-9 px-4 bg-white/80 hover:bg-secondary-50 text-sm 
-                             font-medium border-secondary-200/30 text-secondary-600 
-                             hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
-                             rounded-lg active:scale-[0.98]"
-                  >
-                    Skip for now
-                  </Button>
-                  <p className="text-xs text-center text-secondary-500/80">
-                    You can always update these preferences later in settings
-                  </p>
-                </>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={skipPersonalization}
+                  className="w-full h-10 px-4 bg-white/80 hover:bg-secondary-50 text-sm 
+                           font-medium border-secondary-200/30 text-secondary-600 
+                           hover:text-secondary-700 shadow-sm hover:shadow-md transition-all
+                           rounded-xl active:scale-[0.98]"
+                >
+                  Skip for now
+                </Button>
               )}
             </div>
           </motion.div>
