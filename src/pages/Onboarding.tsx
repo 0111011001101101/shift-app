@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp, User, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -106,7 +106,7 @@ export default function Onboarding() {
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen px-4 py-6 flex flex-col max-w-md mx-auto relative"
+          className="min-h-screen px-4 py-6 flex flex-col max-w-md mx-auto"
         >
           {/* Logo Section */}
           <motion.div 
@@ -149,32 +149,42 @@ export default function Onboarding() {
               <motion.div
                 variants={itemVariants}
                 className="flex-1 bg-white/95 backdrop-blur-xl rounded-2xl p-6 
-                         shadow-lg border border-primary-100 mb-6 
-                         space-y-6 overflow-y-auto max-h-[calc(100vh-16rem)]"
+                         shadow-lg border border-primary-100 mb-6"
               >
                 {step === "name" ? (
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    rules={{ required: "Please enter your name" }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base font-semibold text-secondary-800">Name</FormLabel>
-                        <FormControl>
-                          <Input 
-                            placeholder="Enter your name" 
-                            {...field}
-                            className="h-12 text-base bg-white rounded-xl border-secondary-200
-                                     focus:border-primary-400 focus:ring-primary-400/20
-                                     placeholder:text-secondary-400"
-                          />
-                        </FormControl>
-                        <FormMessage className="text-sm" />
-                      </FormItem>
-                    )}
-                  />
-                ) : (
                   <div className="space-y-8">
+                    <div className="flex justify-center mb-8">
+                      <div className="p-8 rounded-full bg-primary-50 text-primary-500">
+                        <User size={48} strokeWidth={1.5} />
+                      </div>
+                    </div>
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      rules={{ required: "Please enter your name" }}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-base font-semibold text-secondary-800">Name</FormLabel>
+                          <FormControl>
+                            <Input 
+                              placeholder="Enter your name" 
+                              {...field}
+                              className="h-12 text-base bg-white rounded-xl border-secondary-200
+                                       focus:border-primary-400 focus:ring-primary-400/20
+                                       placeholder:text-secondary-400"
+                            />
+                          </FormControl>
+                          <FormMessage className="text-sm" />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="flex items-center justify-center text-secondary-600">
+                      <Sparkles className="w-4 h-4 mr-2" />
+                      <span className="text-sm">Your journey to better productivity starts here</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6 max-h-[calc(100vh-20rem)] overflow-y-auto pr-2">
                     <FormField
                       control={form.control}
                       name="aiPreferences.age"
@@ -398,10 +408,10 @@ export default function Onboarding() {
                 )}
               </motion.div>
 
-              {/* Navigation Buttons - Fixed at bottom */}
+              {/* Navigation Buttons */}
               <motion.div 
                 variants={itemVariants}
-                className="sticky bottom-6 w-full space-y-3"
+                className="w-full space-y-3 bg-white/80 backdrop-blur-xl p-4 rounded-2xl border border-primary-100/50 shadow-lg"
               >
                 <div className="flex gap-3">
                   {step !== "name" && (
