@@ -156,12 +156,12 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="w-full max-w-sm mx-auto space-y-12"
+            className="w-full max-w-sm mx-auto space-y-8"
           >
             <div className="flex justify-center">
-              <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
-                            shadow-xl shadow-primary-500/20 animate-float">
-                <User className="w-10 h-10 text-white" />
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                          shadow-lg shadow-primary-500/10 animate-float">
+                <User className="w-8 h-8 text-white" />
               </div>
             </div>
             <FormField
@@ -169,14 +169,14 @@ export default function Onboarding() {
               name="firstName"
               rules={{ required: "Please enter your name" }}
               render={({ field }) => (
-                <FormItem className="space-y-8">
-                  <div className="text-center space-y-4">
-                    <FormLabel className="text-4xl font-bold bg-clip-text text-transparent 
-                                      bg-gradient-to-r from-primary-600 via-primary-500 to-accent
-                                      leading-tight tracking-tight">
+                <FormItem className="space-y-6">
+                  <div className="text-center space-y-2">
+                    <FormLabel className="text-2xl font-semibold bg-clip-text text-transparent 
+                                        bg-gradient-to-r from-primary-600 via-primary-500 to-accent
+                                        leading-tight tracking-tight">
                       Hey there! What should we call you?
                     </FormLabel>
-                    <FormDescription className="text-xl text-secondary-600">
+                    <FormDescription className="text-base text-secondary-600">
                       We'll use your name to make your experience more personal
                     </FormDescription>
                   </div>
@@ -184,8 +184,8 @@ export default function Onboarding() {
                     <Input 
                       placeholder="Your name" 
                       {...field}
-                      className="h-16 text-lg bg-white/90 backdrop-blur-xl rounded-2xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
+                      className="h-12 text-base bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
+                               focus:border-primary-400 focus:ring-primary-400/20 shadow-sm
                                placeholder:text-secondary-400 transition-all duration-300"
                     />
                   </FormControl>
@@ -200,38 +200,37 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="space-y-10"
+            className="space-y-8"
           >
             <div className="flex justify-center">
-              <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
-                            shadow-xl shadow-primary-500/20 animate-float">
-                <Brain className="w-10 h-10 text-white" />
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                          shadow-lg shadow-primary-500/10 animate-float">
+                <Brain className="w-8 h-8 text-white" />
               </div>
             </div>
-            <div className="text-center space-y-4">
-              <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r 
+            <div className="text-center space-y-2">
+              <h2 className="text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r 
                            from-primary-600 via-primary-500 to-accent leading-tight tracking-tight">
                 Hi {form.getValues("firstName")}! Tell us about yourself
               </h2>
-              <p className="text-xl text-secondary-600">This helps us understand you better</p>
+              <p className="text-base text-secondary-600">This helps us understand you better</p>
             </div>
             
-            <div className="space-y-8 rounded-3xl bg-white/80 backdrop-blur-xl p-8 shadow-xl border border-primary-100/30">
+            <div className="space-y-6 rounded-2xl bg-white/80 backdrop-blur-sm p-6 shadow-sm border border-primary-100/30">
               <FormField
                 control={form.control}
                 name="aiPreferences.age"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel className="text-xl font-semibold text-secondary-800">Age Range</FormLabel>
-                    <FormDescription className="text-secondary-600">Different life stages come with different challenges</FormDescription>
+                  <FormItem className="space-y-2">
+                    <FormLabel className="text-base font-medium text-secondary-800">Age Range</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base border-secondary-200
+                        <SelectTrigger className="h-12 bg-white/90 rounded-xl text-base border-secondary-200
                                                 focus:border-primary-400 focus:ring-primary-400/20">
                           <SelectValue placeholder="Select your age range" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                      <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-200">
                         <SelectItem value="18-24">18-24 years</SelectItem>
                         <SelectItem value="25-34">25-34 years</SelectItem>
                         <SelectItem value="35-44">35-44 years</SelectItem>
@@ -243,21 +242,19 @@ export default function Onboarding() {
                 )}
               />
 
-              {/* Gender */}
               <FormField
                 control={form.control}
                 name="aiPreferences.gender"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel className="text-lg font-semibold text-secondary-800">Gender</FormLabel>
-                    <FormDescription className="text-secondary-600">Help us use appropriate pronouns</FormDescription>
+                  <FormItem className="space-y-2">
+                    <FormLabel className="text-base font-medium text-secondary-800">Gender</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
-                        <SelectTrigger className="h-14 bg-white/90 rounded-xl text-base">
+                        <SelectTrigger className="h-12 bg-white/90 rounded-xl text-base">
                           <SelectValue placeholder="Select your gender" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                      <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-200">
                         <SelectItem value="male">Male</SelectItem>
                         <SelectItem value="female">Female</SelectItem>
                         <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
@@ -267,20 +264,18 @@ export default function Onboarding() {
                 )}
               />
 
-              {/* Location Information */}
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <FormField
                   control={form.control}
                   name="aiPreferences.country"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel className="text-lg font-semibold text-secondary-800">Where are you based?</FormLabel>
-                      <FormDescription className="text-secondary-600">Cultural context helps us provide relevant support</FormDescription>
+                    <FormItem className="space-y-2">
+                      <FormLabel className="text-base font-medium text-secondary-800">Where are you based?</FormLabel>
                       <FormControl>
                         <Input 
                           placeholder="Your country" 
                           {...field}
-                          className="h-14 text-base bg-white/90 rounded-xl"
+                          className="h-12 text-base bg-white/90 rounded-xl"
                         />
                       </FormControl>
                     </FormItem>
@@ -291,14 +286,13 @@ export default function Onboarding() {
                   control={form.control}
                   name="aiPreferences.ethnicity"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormLabel className="text-lg font-semibold text-secondary-800">Ethnicity</FormLabel>
-                      <FormDescription className="text-secondary-600">For culturally relevant support</FormDescription>
+                    <FormItem className="space-y-2">
+                      <FormLabel className="text-base font-medium text-secondary-800">Ethnicity</FormLabel>
                       <FormControl>
                         <Input 
                           placeholder="Your ethnicity" 
                           {...field}
-                          className="h-14 text-base bg-white/90 rounded-xl"
+                          className="h-12 text-base bg-white/90 rounded-xl"
                         />
                       </FormControl>
                     </FormItem>
@@ -306,19 +300,17 @@ export default function Onboarding() {
                 />
               </div>
 
-              {/* Religion/Spirituality */}
               <FormField
                 control={form.control}
                 name="aiPreferences.religion"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel className="text-lg font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
-                    <FormDescription className="text-secondary-600">For value-aligned guidance</FormDescription>
+                  <FormItem className="space-y-2">
+                    <FormLabel className="text-base font-medium text-secondary-800">Religion/Spirituality</FormLabel>
                     <FormControl>
                       <Input 
                         placeholder="Your religion or spiritual practice" 
                         {...field}
-                        className="h-14 text-base bg-white/90 rounded-xl"
+                        className="h-12 text-base bg-white/90 rounded-xl"
                       />
                     </FormControl>
                   </FormItem>
@@ -517,7 +509,7 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent/5">
+    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/30 to-accent/5">
       <AnimatePresence mode="wait">
         <motion.div 
           key={step}
@@ -527,18 +519,18 @@ export default function Onboarding() {
           exit="exit"
           className="min-h-screen flex flex-col relative pb-[80px]"
         >
-          <div className="flex-1 px-6 pt-8 max-w-lg mx-auto w-full">
+          <div className="flex-1 px-4 pt-6 max-w-md mx-auto w-full">
             <ProgressIndicator steps={steps} currentStep={getCurrentStepIndex()} />
             
             <motion.div 
               variants={itemVariants}
-              className="mt-10"
+              className="mt-8"
             >
               <Form {...form}>
-                <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+                <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
                   <motion.div
                     variants={itemVariants}
-                    className="space-y-6"
+                    className="space-y-4"
                   >
                     {renderStepContent()}
                   </motion.div>
@@ -549,19 +541,19 @@ export default function Onboarding() {
 
           <motion.div 
             variants={itemVariants}
-            className="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-xl border-t border-black/[0.02]"
+            className="fixed bottom-0 left-0 right-0 w-full bg-white/70 backdrop-blur-sm border-t border-black/[0.02]"
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
           >
-            <div className="max-w-lg mx-auto px-6 py-4 space-y-2">
+            <div className="max-w-md mx-auto px-4 py-3 space-y-2">
               <div className="flex gap-2">
                 {step !== "name" && (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={prevStep}
-                    className="h-11 px-4 bg-white text-sm font-medium flex-1
+                    className="h-10 px-4 bg-white text-sm font-medium flex-1
                              border-secondary-200 hover:bg-secondary-50
                              text-secondary-700 hover:text-secondary-800
                              shadow-sm hover:shadow-md transition-all rounded-xl"
@@ -573,7 +565,7 @@ export default function Onboarding() {
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-11 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-10 px-4 text-sm font-medium
                             bg-gradient-to-r from-primary-600 to-accent text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
