@@ -443,63 +443,65 @@ export default function Onboarding() {
                 </div>
               </motion.div>
 
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-                <motion.div
-                  variants={itemVariants}
-                  className="space-y-6"
-                >
-                  {renderStepContent()}
-                </motion.div>
+              <Form {...form}>
+                <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+                  <motion.div
+                    variants={itemVariants}
+                    className="space-y-6"
+                  >
+                    {renderStepContent()}
+                  </motion.div>
 
-                <motion.div 
-                  variants={itemVariants}
-                  className="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-xl border-t border-black/[0.02]"
-                >
-                  <div className="max-w-lg mx-auto px-6 py-4 space-y-3">
-                    <div className="flex gap-3">
+                  <motion.div 
+                    variants={itemVariants}
+                    className="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-xl border-t border-black/[0.02]"
+                  >
+                    <div className="max-w-lg mx-auto px-6 py-4 space-y-3">
+                      <div className="flex gap-3">
+                        {step !== "name" && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={prevStep}
+                            className="h-14 px-4 bg-white text-base font-medium flex-1
+                                     border-secondary-200 hover:bg-secondary-50
+                                     text-secondary-700 hover:text-secondary-800
+                                     shadow-lg hover:shadow-xl transition-all rounded-xl"
+                          >
+                            <ArrowLeft className="mr-2 h-4 w-4" />
+                            Back
+                          </Button>
+                        )}
+                        <Button
+                          type="button"
+                          onClick={nextStep}
+                          className={`${step === "name" ? "w-full" : "flex-1"} h-14 px-6 text-base font-medium
+                                    bg-gradient-to-r from-primary-600 to-accent text-white 
+                                    hover:opacity-90 active:opacity-95
+                                    transition-all duration-300 shadow-lg hover:shadow-xl
+                                    rounded-xl active:scale-[0.98]`}
+                        >
+                          {step === "goals" ? "Complete Setup" : "Continue"}
+                          <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </div>
                       {step !== "name" && (
                         <Button
                           type="button"
                           variant="outline"
-                          onClick={prevStep}
-                          className="h-14 px-4 bg-white text-base font-medium flex-1
-                                   border-secondary-200 hover:bg-secondary-50
-                                   text-secondary-700 hover:text-secondary-800
-                                   shadow-lg hover:shadow-xl transition-all rounded-xl"
+                          onClick={skipPersonalization}
+                          className="w-full h-14 px-4 bg-white hover:bg-secondary-50 text-base 
+                                   font-medium border-secondary-200 text-secondary-600 
+                                   hover:text-secondary-700 shadow-lg hover:shadow-xl transition-all
+                                   rounded-xl active:scale-[0.98]"
                         >
-                          <ArrowLeft className="mr-2 h-4 w-4" />
-                          Back
+                          Skip for now
                         </Button>
                       )}
-                      <Button
-                        type="button"
-                        onClick={nextStep}
-                        className={`${step === "name" ? "w-full" : "flex-1"} h-14 px-6 text-base font-medium
-                                  bg-gradient-to-r from-primary-600 to-accent text-white 
-                                  hover:opacity-90 active:opacity-95
-                                  transition-all duration-300 shadow-lg hover:shadow-xl
-                                  rounded-xl active:scale-[0.98]`}
-                      >
-                        {step === "goals" ? "Complete Setup" : "Continue"}
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
                     </div>
-                    {step !== "name" && (
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={skipPersonalization}
-                        className="w-full h-14 px-4 bg-white hover:bg-secondary-50 text-base 
-                                 font-medium border-secondary-200 text-secondary-600 
-                                 hover:text-secondary-700 shadow-lg hover:shadow-xl transition-all
-                                 rounded-xl active:scale-[0.98]"
-                      >
-                        Skip for now
-                      </Button>
-                    )}
-                  </div>
-                </motion.div>
-              </form>
+                  </motion.div>
+                </form>
+              </Form>
             </motion.div>
           </div>
         </motion.div>
