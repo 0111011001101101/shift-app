@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp, Sparkles, Target, Brain } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -73,7 +73,6 @@ const itemVariants = {
 export default function Onboarding() {
   const [step, setStep] = useState<OnboardingStep>("name");
   const navigate = useNavigate();
-  
   const form = useForm<OnboardingForm>({
     defaultValues: {
       firstName: "",
@@ -132,25 +131,34 @@ export default function Onboarding() {
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.3, duration: 0.5 }}
-                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-blue-400 flex items-center justify-center text-white font-medium shadow-lg"
+                      className="group"
                     >
-                      E
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-medium shadow-lg group-hover:shadow-xl transition-all duration-300">
+                        <Target className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <p className="text-xs font-medium mt-2 text-primary-700">Entrepreneurs</p>
                     </motion.div>
                     <motion.div 
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.4, duration: 0.5 }}
-                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-medium shadow-lg"
+                      className="group"
                     >
-                      L
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-medium shadow-lg group-hover:shadow-xl transition-all duration-300">
+                        <Brain className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <p className="text-xs font-medium mt-2 text-accent">Leaders</p>
                     </motion.div>
                     <motion.div 
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.5, duration: 0.5 }}
-                      className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-purple-400 flex items-center justify-center text-white font-medium shadow-lg"
+                      className="group"
                     >
-                      H
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-400 flex items-center justify-center text-white font-medium shadow-lg group-hover:shadow-xl transition-all duration-300">
+                        <Sparkles className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <p className="text-xs font-medium mt-2 text-purple-600">High-achievers</p>
                     </motion.div>
                   </div>
                 </div>
@@ -160,7 +168,7 @@ export default function Onboarding() {
               </h1>
               <p className="text-lg text-secondary-700 max-w-sm mx-auto">
                 {step === "name" 
-                  ? "Let's start with your name"
+                  ? "Join our community of ambitious achievers"
                   : "Help us personalize your experience"}
               </p>
               {step === "personalization" && (
