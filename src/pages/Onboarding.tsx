@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowLeft, Sparkles, Rocket, Target, Brain, Smile } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = 
@@ -145,25 +145,30 @@ export default function Onboarding() {
         return (
           <motion.div
             variants={itemVariants}
-            className="w-full max-w-sm mx-auto"
+            className="w-full max-w-sm mx-auto space-y-6"
           >
+            <div className="flex justify-center">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
+                <Smile className="w-8 h-8" />
+              </div>
+            </div>
             <FormField
               control={form.control}
               name="firstName"
               rules={{ required: "Please enter your name" }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-lg font-medium text-secondary-800">
-                    What's your name?
+                  <FormLabel className="text-xl font-semibold text-secondary-800">
+                    Hey there! What should we call you?
                   </FormLabel>
                   <FormDescription className="text-secondary-600">
-                    This helps us personalize your experience
+                    We'll use your name to make your experience more personal
                   </FormDescription>
                   <FormControl>
                     <Input 
-                      placeholder="Enter your name" 
+                      placeholder="Your name" 
                       {...field}
-                      className="h-14 text-base bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
+                      className="h-14 text-lg bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
                                focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
                                placeholder:text-secondary-400 transition-all duration-300"
                     />
@@ -176,41 +181,37 @@ export default function Onboarding() {
         );
       case "basic_info":
         return (
-          <div className="space-y-6 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+          <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+            <div className="flex justify-center">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
+                <Brain className="w-8 h-8" />
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-semibold text-secondary-800">Let's personalize your journey</h2>
+              <p className="text-secondary-600">This helps us understand you better and tailor our support</p>
+            </div>
             <FormField
               control={form.control}
               name="aiPreferences.age"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Age</FormLabel>
-                  <FormControl>
-                    <Input 
-                      type="number" 
-                      placeholder="Your age" 
-                      {...field}
-                      className="h-12 text-base bg-white rounded-xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20
-                               placeholder:text-secondary-400"
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="aiPreferences.gender"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
-                  <FormControl>
-                    <Input 
-                      placeholder="Your gender identity" 
-                      {...field}
-                      className="h-12 text-base bg-white rounded-xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20
-                               placeholder:text-secondary-400"
-                    />
-                  </FormControl>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Age Range</FormLabel>
+                  <FormDescription>Different life stages come with different challenges</FormDescription>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                        <SelectValue placeholder="Select your age range" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="18-24">18-24 years</SelectItem>
+                      <SelectItem value="25-34">25-34 years</SelectItem>
+                      <SelectItem value="35-44">35-44 years</SelectItem>
+                      <SelectItem value="45-54">45-54 years</SelectItem>
+                      <SelectItem value="55+">55+ years</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormItem>
               )}
             />
@@ -219,14 +220,13 @@ export default function Onboarding() {
               name="aiPreferences.country"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Country</FormLabel>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Where are you based?</FormLabel>
+                  <FormDescription>Cultural context helps us provide relevant support</FormDescription>
                   <FormControl>
                     <Input 
                       placeholder="Your country" 
                       {...field}
-                      className="h-12 text-base bg-white rounded-xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20
-                               placeholder:text-secondary-400"
+                      className="h-12 text-base bg-white rounded-xl"
                     />
                   </FormControl>
                 </FormItem>
@@ -236,21 +236,28 @@ export default function Onboarding() {
         );
       case "work_info":
         return (
-          <div className="space-y-6 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+          <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+            <div className="flex justify-center">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
+                <Rocket className="w-8 h-8" />
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-semibold text-secondary-800">Your Professional World</h2>
+              <p className="text-secondary-600">Understanding your work helps us provide relevant strategies</p>
+            </div>
             <FormField
               control={form.control}
               name="aiPreferences.occupation"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Occupation</FormLabel>
-                  <FormDescription>Your current role or position</FormDescription>
+                  <FormLabel className="text-base font-semibold text-secondary-800">What's your role?</FormLabel>
+                  <FormDescription>Each role comes with its unique challenges</FormDescription>
                   <FormControl>
                     <Input 
                       placeholder="E.g., Entrepreneur, Manager, Developer..." 
                       {...field}
-                      className="h-12 text-base bg-white rounded-xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20
-                               placeholder:text-secondary-400"
+                      className="h-12 text-base bg-white rounded-xl"
                     />
                   </FormControl>
                 </FormItem>
@@ -261,15 +268,13 @@ export default function Onboarding() {
               name="aiPreferences.fieldOfWork"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Field of Work</FormLabel>
-                  <FormDescription>Your industry or area of expertise</FormDescription>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Your Industry</FormLabel>
+                  <FormDescription>Different industries face different pressures</FormDescription>
                   <FormControl>
                     <Input 
                       placeholder="E.g., Technology, Healthcare, Education..." 
                       {...field}
-                      className="h-12 text-base bg-white rounded-xl border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20
-                               placeholder:text-secondary-400"
+                      className="h-12 text-base bg-white rounded-xl"
                     />
                   </FormControl>
                 </FormItem>
@@ -279,21 +284,30 @@ export default function Onboarding() {
         );
       case "preferences":
         return (
-          <div className="space-y-6 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+          <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+            <div className="flex justify-center">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
+                <Target className="w-8 h-8" />
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-semibold text-secondary-800">Your Work Style</h2>
+              <p className="text-secondary-600">Help us match our approach to your preferences</p>
+            </div>
             <FormField
               control={form.control}
               name="aiPreferences.workStyle"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-base font-semibold text-secondary-800">How do you prefer to work?</FormLabel>
-                  <FormDescription>This helps us tailor our suggestions</FormDescription>
+                  <FormDescription>We'll adapt our suggestions to match your style</FormDescription>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="h-12 bg-white rounded-xl">
                         <SelectValue placeholder="Select your work style" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white">
+                    <SelectContent>
                       <SelectItem value="structured">I like structure and planning</SelectItem>
                       <SelectItem value="flexible">I prefer flexibility and adaptability</SelectItem>
                       <SelectItem value="balanced">I aim for a balance of both</SelectItem>
@@ -309,21 +323,20 @@ export default function Onboarding() {
               name="aiPreferences.communicationStyle"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Preferred communication style</FormLabel>
-                  <FormDescription>How would you like SHIFT to communicate with you?</FormDescription>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Communication preference</FormLabel>
+                  <FormDescription>How would you like SHIFT to interact with you?</FormDescription>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="h-12 bg-white rounded-xl">
                         <SelectValue placeholder="Select communication style" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white">
+                    <SelectContent>
                       <SelectItem value="direct">Direct and concise</SelectItem>
                       <SelectItem value="detailed">Detailed and thorough</SelectItem>
                       <SelectItem value="casual">Casual and friendly</SelectItem>
                       <SelectItem value="motivational">Motivational and encouraging</SelectItem>
                       <SelectItem value="analytical">Analytical and logical</SelectItem>
-                      <SelectItem value="empathetic">Empathetic and understanding</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
@@ -333,28 +346,37 @@ export default function Onboarding() {
         );
       case "goals":
         return (
-          <div className="space-y-6 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+          <div className="space-y-8 rounded-2xl bg-white/80 backdrop-blur-xl p-6 shadow-xl border border-primary-100/30">
+            <div className="flex justify-center">
+              <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
+                <Sparkles className="w-8 h-8" />
+              </div>
+            </div>
+            <div className="text-center space-y-2">
+              <h2 className="text-xl font-semibold text-secondary-800">Almost there!</h2>
+              <p className="text-secondary-600">Let's focus on what matters most to you</p>
+            </div>
             <FormField
               control={form.control}
               name="aiPreferences.primaryGoal"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">What's your primary goal?</FormLabel>
-                  <FormDescription>This helps us focus on what matters most to you</FormDescription>
+                  <FormLabel className="text-base font-semibold text-secondary-800">What's your main focus?</FormLabel>
+                  <FormDescription>This helps us prioritize what's important to you</FormDescription>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger className="h-12 bg-white rounded-xl">
                         <SelectValue placeholder="Select your main goal" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white">
-                      <SelectItem value="productivity">Improve productivity</SelectItem>
-                      <SelectItem value="balance">Better work-life balance</SelectItem>
-                      <SelectItem value="growth">Personal/Professional growth</SelectItem>
-                      <SelectItem value="stress">Stress management</SelectItem>
-                      <SelectItem value="leadership">Leadership development</SelectItem>
-                      <SelectItem value="purpose">Finding purpose/meaning</SelectItem>
-                      <SelectItem value="relationships">Improving relationships</SelectItem>
+                    <SelectContent>
+                      <SelectItem value="productivity">Boost productivity & focus</SelectItem>
+                      <SelectItem value="balance">Better work-life harmony</SelectItem>
+                      <SelectItem value="growth">Accelerate personal growth</SelectItem>
+                      <SelectItem value="stress">Master stress & energy</SelectItem>
+                      <SelectItem value="leadership">Level up leadership</SelectItem>
+                      <SelectItem value="purpose">Find deeper purpose</SelectItem>
+                      <SelectItem value="relationships">Strengthen relationships</SelectItem>
                     </SelectContent>
                   </Select>
                 </FormItem>
@@ -365,17 +387,15 @@ export default function Onboarding() {
               name="aiPreferences.description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-base font-semibold text-secondary-800">Tell more about yourself</FormLabel>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Anything else we should know?</FormLabel>
                   <FormDescription>
-                    Share anything that would help us understand you better
+                    Share any specific challenges or goals you'd like help with
                   </FormDescription>
                   <FormControl>
                     <Textarea 
-                      placeholder="Share your story, goals, challenges, or anything else..." 
+                      placeholder="E.g., I want to grow my business while maintaining work-life balance..." 
                       {...field}
-                      className="min-h-[100px] bg-white rounded-xl resize-none border-secondary-200
-                               focus:border-primary-400 focus:ring-primary-400/20
-                               placeholder:text-secondary-400"
+                      className="min-h-[100px] bg-white rounded-xl resize-none"
                     />
                   </FormControl>
                 </FormItem>
