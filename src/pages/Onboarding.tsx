@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp, Sparkles, Target, Brain } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -125,44 +125,26 @@ export default function Onboarding() {
               className="text-center space-y-3 mb-12"
             >
               <div className="inline-block mb-6">
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 shadow-xl shadow-primary-500/10">
-                  <div className="flex justify-center gap-2">
-                    <motion.div 
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.3, duration: 0.5 }}
-                      className="group"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-medium shadow-lg group-hover:shadow-xl transition-all duration-300">
-                        <Target className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      <p className="text-xs font-medium mt-2 text-primary-700">Entrepreneurs</p>
-                    </motion.div>
-                    <motion.div 
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.4, duration: 0.5 }}
-                      className="group"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center text-white font-medium shadow-lg group-hover:shadow-xl transition-all duration-300">
-                        <Brain className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      <p className="text-xs font-medium mt-2 text-accent">Leaders</p>
-                    </motion.div>
-                    <motion.div 
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.5, duration: 0.5 }}
-                      className="group"
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-purple-400 flex items-center justify-center text-white font-medium shadow-lg group-hover:shadow-xl transition-all duration-300">
-                        <Sparkles className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      <p className="text-xs font-medium mt-2 text-purple-600">High-achievers</p>
-                    </motion.div>
-                  </div>
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 shadow-xl shadow-primary-500/10">
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ delay: 0.3, duration: 0.5 }}
+                    className="relative"
+                  >
+                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-all duration-300">
+                      <Sparkles className="w-8 h-8 animate-float" />
+                    </div>
+                    <div className="mt-4 space-y-1">
+                      <p className="text-sm font-medium text-primary-700">Welcome to</p>
+                      <p className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
+                        Your Journey Forward
+                      </p>
+                    </div>
+                  </motion.div>
                 </div>
               </div>
+
               <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
                 {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
               </h1>
