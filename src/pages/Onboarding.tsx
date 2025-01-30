@@ -405,43 +405,44 @@ export default function Onboarding() {
               variants={itemVariants}
               className="text-center space-y-3 mb-12"
             >
-              <div className="inline-block mb-6">
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-primary-100 via-primary-50 to-accent-50 shadow-xl shadow-primary-500/10">
+              <motion.div 
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="inline-block mb-6"
+              >
+                <div className="p-8 rounded-3xl bg-gradient-to-br from-primary-100/50 via-white to-accent-50/30 shadow-xl backdrop-blur-xl border border-white/50 hover:shadow-2xl transition-all duration-300">
                   <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.3, duration: 0.5 }}
                     className="relative"
                   >
-                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-accent flex items-center justify-center text-white shadow-lg group-hover:shadow-xl transition-all duration-300">
                       <Sparkles className="w-8 h-8 animate-float" />
                     </div>
-                    <div className="mt-4 space-y-1">
-                      <p className="text-sm font-medium text-primary-700">Welcome to</p>
-                      <p className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
+                    <div className="mt-4 space-y-2">
+                      <motion.p 
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.4 }}
+                        className="text-sm font-medium text-primary-600"
+                      >
+                        Welcome to
+                      </motion.p>
+                      <motion.p 
+                        initial={{ y: 10, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 0.5 }}
+                        className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent"
+                      >
                         Your Journey Forward
-                      </p>
+                      </motion.p>
                     </div>
                   </motion.div>
                 </div>
-              </div>
+              </motion.div>
 
-              <h1 className="text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
-                {step === "name" ? "Welcome to SHIFT" : `Hi ${form.getValues("firstName")}!`}
-              </h1>
-              <p className="text-lg text-secondary-700 max-w-sm mx-auto">
-                {step === "name" 
-                  ? "Join our community of ambitious achievers"
-                  : "Help us personalize your experience"}
-              </p>
-              {step !== "name" && (
-                <p className="text-sm text-secondary-600">
-                  All fields are optional and can be updated later in Settings
-                </p>
-              )}
-            </motion.div>
-
-            <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                 <motion.div
                   variants={itemVariants}
@@ -499,7 +500,7 @@ export default function Onboarding() {
                   </div>
                 </motion.div>
               </form>
-            </Form>
+            </motion.div>
           </div>
         </motion.div>
       </AnimatePresence>
