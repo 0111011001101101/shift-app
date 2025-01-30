@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, ArrowLeft, ArrowUp, User, Sparkles } from "lucide-react";
+import { ArrowRight, ArrowLeft, ArrowUp, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 type OnboardingStep = "name" | "personalization";
@@ -152,10 +152,10 @@ export default function Onboarding() {
                          shadow-lg border border-primary-100 mb-6"
               >
                 {step === "name" ? (
-                  <div className="space-y-8">
-                    <div className="flex justify-center mb-8">
-                      <div className="p-8 rounded-full bg-primary-50 text-primary-500">
-                        <User size={48} strokeWidth={1.5} />
+                  <div className="space-y-6">
+                    <div className="flex justify-center mb-4">
+                      <div className="p-3 rounded-lg bg-gradient-to-br from-primary-100 to-primary-50">
+                        <Sparkles className="w-6 h-6 text-primary-500" />
                       </div>
                     </div>
                     <FormField
@@ -178,13 +178,12 @@ export default function Onboarding() {
                         </FormItem>
                       )}
                     />
-                    <div className="flex items-center justify-center text-secondary-600">
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      <span className="text-sm">Your journey to better productivity starts here</span>
-                    </div>
+                    <p className="text-sm text-center text-secondary-600 mt-4">
+                      Your journey to better productivity starts here
+                    </p>
                   </div>
                 ) : (
-                  <div className="space-y-6 max-h-[calc(100vh-20rem)] overflow-y-auto pr-2">
+                  <div className="h-[calc(100vh-22rem)] overflow-y-auto pr-2 space-y-6">
                     <FormField
                       control={form.control}
                       name="aiPreferences.age"
