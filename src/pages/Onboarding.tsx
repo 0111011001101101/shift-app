@@ -35,9 +35,9 @@ interface OnboardingForm {
   firstName: string;
   aiPreferences?: {
     age?: string;
-    religion?: string;
-    ethnicity?: string;
     gender?: string;
+    ethnicity?: string;
+    religion?: string;
     country?: string;
     workStyle?: string;
     communicationStyle?: string;
@@ -193,6 +193,89 @@ export default function Onboarding() {
             </div>
             <FormField
               control={form.control}
+              name="aiPreferences.gender"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Gender</FormLabel>
+                  <FormDescription>Help us use appropriate pronouns</FormDescription>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                        <SelectValue placeholder="Select your gender" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="non-binary">Non-binary</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="aiPreferences.ethnicity"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Ethnicity</FormLabel>
+                  <FormDescription>For culturally relevant support</FormDescription>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                        <SelectValue placeholder="Select your ethnicity" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                      <SelectItem value="asian">Asian</SelectItem>
+                      <SelectItem value="black">Black</SelectItem>
+                      <SelectItem value="hispanic">Hispanic/Latino</SelectItem>
+                      <SelectItem value="middle-eastern">Middle Eastern</SelectItem>
+                      <SelectItem value="native-american">Native American</SelectItem>
+                      <SelectItem value="pacific-islander">Pacific Islander</SelectItem>
+                      <SelectItem value="white">White</SelectItem>
+                      <SelectItem value="mixed">Mixed</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="aiPreferences.religion"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
+                  <FormDescription>For value-aligned guidance</FormDescription>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger className="h-12 bg-white rounded-xl">
+                        <SelectValue placeholder="Select your religion/spirituality" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
+                      <SelectItem value="buddhism">Buddhism</SelectItem>
+                      <SelectItem value="christianity">Christianity</SelectItem>
+                      <SelectItem value="hinduism">Hinduism</SelectItem>
+                      <SelectItem value="islam">Islam</SelectItem>
+                      <SelectItem value="judaism">Judaism</SelectItem>
+                      <SelectItem value="sikhism">Sikhism</SelectItem>
+                      <SelectItem value="spiritual">Spiritual but not religious</SelectItem>
+                      <SelectItem value="atheist">Atheist</SelectItem>
+                      <SelectItem value="agnostic">Agnostic</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                      <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="aiPreferences.age"
               render={({ field }) => (
                 <FormItem>
@@ -204,7 +287,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select your age range" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="18-24">18-24 years</SelectItem>
                       <SelectItem value="25-34">25-34 years</SelectItem>
                       <SelectItem value="35-44">35-44 years</SelectItem>
@@ -307,7 +390,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select your work style" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="structured">I like structure and planning</SelectItem>
                       <SelectItem value="flexible">I prefer flexibility and adaptability</SelectItem>
                       <SelectItem value="balanced">I aim for a balance of both</SelectItem>
@@ -331,7 +414,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select communication style" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="direct">Direct and concise</SelectItem>
                       <SelectItem value="detailed">Detailed and thorough</SelectItem>
                       <SelectItem value="casual">Casual and friendly</SelectItem>
@@ -369,7 +452,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select your main goal" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="productivity">Boost productivity & focus</SelectItem>
                       <SelectItem value="balance">Better work-life harmony</SelectItem>
                       <SelectItem value="growth">Accelerate personal growth</SelectItem>
