@@ -148,7 +148,7 @@ export default function Onboarding() {
             <form onSubmit={(e) => e.preventDefault()} className="flex-1 flex flex-col">
               <motion.div
                 variants={itemVariants}
-                className="flex-1 bg-white rounded-2xl p-6 
+                className="flex-1 bg-white/95 backdrop-blur-xl rounded-2xl p-6 
                          shadow-lg border border-primary-100 mb-6 
                          space-y-6 overflow-y-auto max-h-[calc(100vh-16rem)]"
               >
@@ -401,8 +401,7 @@ export default function Onboarding() {
               {/* Navigation Buttons - Fixed at bottom */}
               <motion.div 
                 variants={itemVariants}
-                className="sticky bottom-6 w-full space-y-3 bg-white 
-                         rounded-2xl p-4 border border-primary-100 shadow-lg"
+                className="sticky bottom-6 w-full space-y-3"
               >
                 <div className="flex gap-3">
                   {step !== "name" && (
@@ -412,7 +411,8 @@ export default function Onboarding() {
                       onClick={() => setStep("name")}
                       className="h-12 px-4 bg-white text-base font-medium flex-1
                                border-secondary-200 hover:bg-secondary-50
-                               text-secondary-700 hover:text-secondary-800"
+                               text-secondary-700 hover:text-secondary-800
+                               shadow-sm hover:shadow-md transition-all"
                     >
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back
@@ -438,7 +438,7 @@ export default function Onboarding() {
                     onClick={skipPersonalization}
                     className="w-full h-12 px-4 bg-white hover:bg-secondary-50 text-base 
                              font-medium border-secondary-200 text-secondary-600 
-                             hover:text-secondary-700"
+                             hover:text-secondary-700 shadow-sm hover:shadow-md transition-all"
                   >
                     Skip for now
                   </Button>
