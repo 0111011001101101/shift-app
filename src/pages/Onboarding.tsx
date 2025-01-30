@@ -143,25 +143,36 @@ export default function Onboarding() {
     switch (step) {
       case "name":
         return (
-          <FormField
-            control={form.control}
-            name="firstName"
-            rules={{ required: "Please enter your name" }}
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input 
-                    placeholder="Enter your name" 
-                    {...field}
-                    className="h-14 text-base bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
-                             focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
-                             placeholder:text-secondary-400 transition-all duration-300"
-                  />
-                </FormControl>
-                <FormMessage className="text-sm" />
-              </FormItem>
-            )}
-          />
+          <motion.div
+            variants={itemVariants}
+            className="w-full max-w-sm mx-auto"
+          >
+            <FormField
+              control={form.control}
+              name="firstName"
+              rules={{ required: "Please enter your name" }}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-lg font-medium text-secondary-800">
+                    What's your name?
+                  </FormLabel>
+                  <FormDescription className="text-secondary-600">
+                    This helps us personalize your experience
+                  </FormDescription>
+                  <FormControl>
+                    <Input 
+                      placeholder="Enter your name" 
+                      {...field}
+                      className="h-14 text-base bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
+                               focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
+                               placeholder:text-secondary-400 transition-all duration-300"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-sm" />
+                </FormItem>
+              )}
+            />
+          </motion.div>
         );
       case "basic_info":
         return (
@@ -391,8 +402,8 @@ export default function Onboarding() {
             className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-xl border-b border-black/[0.02]"
           >
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent text-white shadow-sm">
-                <ArrowUp className="w-5 h-5" />
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500 to-accent text-white shadow-lg hover:shadow-xl transition-all duration-300">
+                <ArrowUp className="w-5 h-5" strokeWidth={2} />
               </div>
               <span className="font-medium tracking-tight text-black">SHIFT</span>
             </div>
