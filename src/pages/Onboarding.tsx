@@ -181,7 +181,10 @@ export default function Onboarding() {
         );
       case "basic_info":
         return (
-          <div className="space-y-8 rounded-2xl bg-white/90 backdrop-blur-xl p-6 shadow-lg border border-primary-100/30">
+          <motion.div
+            variants={itemVariants}
+            className="space-y-8"
+          >
             <div className="flex justify-center">
               <div className="p-3 rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 text-primary-500">
                 <Brain className="w-8 h-8" />
@@ -208,7 +211,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select your age range" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white border-secondary-200">
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="18-24">18-24 years</SelectItem>
                       <SelectItem value="25-34">25-34 years</SelectItem>
                       <SelectItem value="35-44">35-44 years</SelectItem>
@@ -234,7 +237,7 @@ export default function Onboarding() {
                         <SelectValue placeholder="Select your gender" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent className="bg-white border-secondary-200">
+                    <SelectContent className="bg-white/95 backdrop-blur-xl border-secondary-200">
                       <SelectItem value="male">Male</SelectItem>
                       <SelectItem value="female">Female</SelectItem>
                       <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
@@ -245,7 +248,7 @@ export default function Onboarding() {
             />
 
             {/* Location Information Group */}
-            <div className="space-y-6 pt-4 border-t border-secondary-100">
+            <div className="space-y-6">
               <FormField
                 control={form.control}
                 name="aiPreferences.country"
@@ -284,26 +287,24 @@ export default function Onboarding() {
             </div>
 
             {/* Religion/Spirituality */}
-            <div className="space-y-6 pt-4 border-t border-secondary-100">
-              <FormField
-                control={form.control}
-                name="aiPreferences.religion"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
-                    <FormDescription>For value-aligned guidance</FormDescription>
-                    <FormControl>
-                      <Input 
-                        placeholder="Your religion or spiritual practice" 
-                        {...field}
-                        className="h-12 text-base bg-white rounded-xl"
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </div>
+            <FormField
+              control={form.control}
+              name="aiPreferences.religion"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base font-semibold text-secondary-800">Religion/Spirituality</FormLabel>
+                  <FormDescription>For value-aligned guidance</FormDescription>
+                  <FormControl>
+                    <Input 
+                      placeholder="Your religion or spiritual practice" 
+                      {...field}
+                      className="h-12 text-base bg-white rounded-xl"
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </motion.div>
         );
       case "work_info":
         return (
@@ -493,7 +494,7 @@ export default function Onboarding() {
             
             <motion.div 
               variants={itemVariants}
-              className="text-center space-y-3 mb-12"
+              className="mt-12"
             >
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
