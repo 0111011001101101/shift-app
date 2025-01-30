@@ -162,13 +162,13 @@ export default function Onboarding() {
                     Hey there! What should we call you?
                   </FormLabel>
                   <FormDescription className="text-secondary-600">
-                    We'll use your name to make your experience more personal
+                    This is the only required field - we'll use your name to make your experience more personal
                   </FormDescription>
                   <FormControl>
                     <Input 
                       placeholder="Your name" 
                       {...field}
-                      className="h-14 text-lg bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
+                      className="h-12 text-lg bg-white/80 backdrop-blur-sm rounded-xl border-secondary-200
                                focus:border-primary-400 focus:ring-primary-400/20 shadow-lg
                                placeholder:text-secondary-400 transition-all duration-300"
                     />
@@ -449,17 +449,17 @@ export default function Onboarding() {
                     variants={itemVariants}
                     className="fixed bottom-0 left-0 right-0 w-full bg-white/80 backdrop-blur-xl border-t border-black/[0.02]"
                   >
-                    <div className="max-w-lg mx-auto px-6 py-4 space-y-3">
-                      <div className="flex gap-3">
+                    <div className="max-w-lg mx-auto px-6 py-4 space-y-2.5">
+                      <div className="flex gap-2">
                         {step !== "name" && (
                           <Button
                             type="button"
                             variant="outline"
                             onClick={prevStep}
-                            className="h-14 px-4 bg-white text-base font-medium flex-1
+                            className="h-11 px-4 bg-white text-sm font-medium flex-1
                                      border-secondary-200 hover:bg-secondary-50
                                      text-secondary-700 hover:text-secondary-800
-                                     shadow-lg hover:shadow-xl transition-all rounded-xl"
+                                     shadow-md hover:shadow-lg transition-all rounded-xl"
                           >
                             <ArrowLeft className="mr-2 h-4 w-4" />
                             Back
@@ -468,10 +468,10 @@ export default function Onboarding() {
                         <Button
                           type="button"
                           onClick={nextStep}
-                          className={`${step === "name" ? "w-full" : "flex-1"} h-14 px-6 text-base font-medium
+                          className={`${step === "name" ? "w-full" : "flex-1"} h-11 px-4 text-sm font-medium
                                     bg-gradient-to-r from-primary-600 to-accent text-white 
                                     hover:opacity-90 active:opacity-95
-                                    transition-all duration-300 shadow-lg hover:shadow-xl
+                                    transition-all duration-300 shadow-md hover:shadow-lg
                                     rounded-xl active:scale-[0.98]`}
                         >
                           {step === "goals" ? "Complete Setup" : "Continue"}
@@ -483,13 +483,18 @@ export default function Onboarding() {
                           type="button"
                           variant="outline"
                           onClick={skipPersonalization}
-                          className="w-full h-14 px-4 bg-white hover:bg-secondary-50 text-base 
+                          className="w-full h-11 px-4 bg-white hover:bg-secondary-50 text-sm 
                                    font-medium border-secondary-200 text-secondary-600 
-                                   hover:text-secondary-700 shadow-lg hover:shadow-xl transition-all
+                                   hover:text-secondary-700 shadow-md hover:shadow-lg transition-all
                                    rounded-xl active:scale-[0.98]"
                         >
                           Skip for now
                         </Button>
+                      )}
+                      {step !== "name" && (
+                        <p className="text-xs text-center text-secondary-500">
+                          You can always update these preferences later in settings
+                        </p>
                       )}
                     </div>
                   </motion.div>
