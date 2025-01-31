@@ -262,17 +262,23 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   <Button
                     size="sm"
                     variant="ghost"
-                    className={`p-0 h-auto hover:bg-transparent ${
+                    className={`relative p-0 h-auto hover:bg-transparent overflow-hidden ${
                       todo.completed 
                         ? "text-primary-500" 
                         : "text-secondary-300 hover:text-secondary-400"
                     }`}
                     onClick={() => handleToggleTodo(todo.id, todo.completed)}
                   >
-                    <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center transition-colors duration-200">
-                      {todo.completed && (
-                        <Check className="w-3.5 h-3.5 text-current animate-scale-in" />
-                      )}
+                    <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center transition-all duration-300">
+                      <motion.div
+                        initial={false}
+                        animate={todo.completed ? { scale: 1 } : { scale: 0 }}
+                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                      >
+                        {todo.completed && (
+                          <Check className="w-3.5 h-3.5 text-current" />
+                        )}
+                      </motion.div>
                     </div>
                   </Button>
 
@@ -292,12 +298,14 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                             todo.completed
                               ? "line-through text-secondary-400"
                               : "text-secondary-800"
-                          } transition-all duration-200`}
+                          } transition-all duration-300`}
                         >
                           {todo.title}
                         </span>
                         {todo.goal && !goalId && (
-                          <div
+                          <motion.div
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
                             className="flex items-center gap-1.5 mt-1.5 cursor-pointer group/goal"
                             onClick={() => navigateToGoals()}
                           >
@@ -305,7 +313,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                             <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
                               {todo.goal.title}
                             </span>
-                          </div>
+                          </motion.div>
                         )}
                       </>
                     )}

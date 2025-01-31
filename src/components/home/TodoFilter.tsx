@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Check, Filter } from "lucide-react";
+import { Filter, Check } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
