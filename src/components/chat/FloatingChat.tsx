@@ -94,12 +94,24 @@ export function FloatingChat() {
           return;
         }
 
-        const { data: recentStandUps } = await supabase
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const { data: recentStandUps, error: standUpsError } = await supabase
           .from('stand_ups')
           .select('mental_health')
           .eq('user_id', user.id)
+          .gte('created_at', today.toISOString())
+          .lt('created_at', tomorrow.toISOString())
           .order('created_at', { ascending: false })
           .limit(2);
+
+        if (standUpsError) {
+          console.error('Error fetching stand-ups:', standUpsError);
+          return;
+        }
 
         if (recentStandUps?.length >= 2 && 
             recentStandUps[0].mental_health < 5 && 
@@ -141,9 +153,12 @@ export function FloatingChat() {
           }
         });
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error calling ai-coach-suggest:', error);
+          return;
+        }
 
-        if (data.suggestion) {
+        if (data?.suggestion) {
           const aiSuggestion: Message = {
             id: (Date.now() + 2).toString(),
             content: data.suggestion,
