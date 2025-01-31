@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { AlertCircle, ChevronRight } from "lucide-react";
+import { AlertCircle, ChevronRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,7 +33,7 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#10B981] to-[#34D399] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
+      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#F97316] to-[#FEC6A1] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
@@ -43,16 +43,24 @@ export function HurdlesButton() {
           </div>
           <div className="flex flex-col items-start">
             <span className="text-base font-medium group-hover:translate-x-0.5 transition-transform">
-              Manage Hurdles
+              {activeHurdles && activeHurdles.length > 0 ? 'View Active Hurdles' : 'Add Your First Hurdle'}
             </span>
-            {activeHurdles && activeHurdles.length > 0 && (
+            {activeHurdles && activeHurdles.length > 0 ? (
               <span className="text-xs text-white/90">
-                {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'}
+                {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'} to overcome
+              </span>
+            ) : (
+              <span className="text-xs text-white/90">
+                Track and overcome challenges
               </span>
             )}
           </div>
         </div>
-        <ChevronRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform duration-500" />
+        {activeHurdles && activeHurdles.length > 0 ? (
+          <ChevronRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform duration-500" />
+        ) : (
+          <Plus className="w-5 h-5 text-white/90 group-hover:rotate-90 transition-transform duration-500" />
+        )}
       </div>
     </Button>
   );

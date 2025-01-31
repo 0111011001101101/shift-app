@@ -15,7 +15,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   
   return (
-    <div className="relative p-4 rounded-2xl bg-gradient-to-br from-[#F97316] to-[#FDBA74] border-0 shadow-lg hover:shadow-xl transition-all duration-300">
+    <div className="relative p-4 rounded-2xl bg-gradient-to-br from-[#0EA5E9] to-[#7DD3FC] border-0 shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="relative">
@@ -23,7 +23,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               <Trophy className="w-5 h-5 text-white" />
             </div>
             {streak > 0 && (
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#8B5CF6] rounded-full flex items-center justify-center animate-pulse">
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#F97316] rounded-full flex items-center justify-center animate-pulse">
                 <Star className="w-2.5 h-2.5 text-white" />
               </div>
             )}
@@ -40,14 +40,19 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
         </div>
         
         <div className="flex items-center gap-2">
-          <p className="text-xs text-white/90 flex items-center gap-1.5 bg-white/10 backdrop-blur-sm py-1.5 px-2.5 rounded-lg border border-white/20">
-            <Clock className="w-3.5 h-3.5 text-white/80" />
-            {formattedTime}
-          </p>
           <Button 
             variant="ghost" 
             size="sm" 
-            className="h-8 px-2 hover:bg-white/10 backdrop-blur-sm"
+            className="h-8 px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group"
+            onClick={() => navigate("/settings")}
+          >
+            <Clock className="w-3.5 h-3.5 text-white/80 group-hover:scale-110 transition-transform" />
+            <span className="text-xs">{formattedTime}</span>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-8 w-8 hover:bg-white/10 backdrop-blur-sm p-0"
             onClick={() => navigate("/settings")}
           >
             <Calendar className="w-3.5 h-3.5 text-white/80" />
