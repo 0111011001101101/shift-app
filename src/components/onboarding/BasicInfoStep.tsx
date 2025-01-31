@@ -7,11 +7,16 @@ import { itemVariants } from "./animations";
 export const BasicInfoStep = ({ form }: { form: any }) => {
   return (
     <motion.div variants={itemVariants} className="space-y-8">
-      <p className="text-sm text-center text-secondary-600">
+      <motion.div 
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-secondary-50/80 px-4 py-3 rounded-xl text-sm text-center text-secondary-600 shadow-sm"
+      >
         You can skip personalization and set these preferences later
-      </p>
+      </motion.div>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         <FormField
           control={form.control}
           name="aiPreferences.age"
