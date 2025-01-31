@@ -45,11 +45,11 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-4"
+        className="space-y-3"
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,16 +64,16 @@ export default function Home() {
             transition={{ delay: 0.3 }}
           >
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-3 bg-white/80 border border-primary-100/30 p-1 rounded-xl">
+              <TabsList className="w-full mb-2.5 bg-white/80 border border-accent-100/30 p-1 rounded-xl">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-2 text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300"
+                  className="flex-1 py-2 text-secondary-700 data-[state=active]:bg-accent data-[state=active]:text-white rounded-lg transition-all duration-300"
                 >
                   Today's To-Do
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-2 text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300"
+                  className="flex-1 py-2 text-secondary-700 data-[state=active]:bg-accent data-[state=active]:text-white rounded-lg transition-all duration-300"
                 >
                   Week's To-Do
                 </TabsTrigger>
