@@ -48,10 +48,10 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   return (
     <div className="space-y-3">
       <div 
-        className="relative p-6 rounded-2xl bg-gradient-to-br from-[#F97316] via-[#FB923C] to-[#FDBA74] border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer backdrop-blur-xl overflow-hidden" 
+        className="relative p-6 rounded-2xl bg-gradient-to-br from-[#F97316] via-[#FB923C] to-[#FDBA74] shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer overflow-hidden backdrop-blur-xl border border-white/10" 
         onClick={() => navigate("/stand-up")}
       >
-        {/* Decorative background elements */}
+        {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
 

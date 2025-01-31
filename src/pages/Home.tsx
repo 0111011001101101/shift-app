@@ -45,16 +45,15 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-4 px-4"
+        className="space-y-6 px-4 py-6"
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-6">
+        <div className="space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="relative"
           >
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </motion.div>
@@ -65,16 +64,16 @@ export default function Home() {
             transition={{ delay: 0.3 }}
           >
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 bg-white/80 border-0 p-1 rounded-2xl shadow-sm">
+              <TabsList className="w-full mb-6 bg-white/80 backdrop-blur-sm border border-primary-100/30 p-1 rounded-2xl shadow-lg">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-2.5 text-secondary-700 data-[state=active]:bg-accent data-[state=active]:text-white rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-xl transition-all duration-300"
                 >
                   Today's Tasks
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-2.5 text-secondary-700 data-[state=active]:bg-accent data-[state=active]:text-white rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-xl transition-all duration-300"
                 >
                   Week's Tasks
                 </TabsTrigger>
@@ -102,7 +101,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="pb-20"
+            className="pb-24"
           >
             <HurdlesButton />
           </motion.div>
