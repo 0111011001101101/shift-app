@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle2, XCircle, ArrowUp, Brain } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
 
@@ -37,63 +37,17 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative py-8">
-        <div className="space-y-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-black to-black/90 shadow-lg">
-                <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
-              </div>
-              <span className="font-medium tracking-tight text-black">SHIFT</span>
+      <div className="relative">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-black to-black/90 shadow-lg">
+              <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
+            <span className="font-medium tracking-tight text-black">SHIFT</span>
           </div>
-
-          <Button
-            onClick={() => setShowStandUp(true)}
-            className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300"
-          >
-            <div className="absolute inset-0 bg-black opacity-90 rounded-2xl" />
-            <div className="relative flex items-center justify-between w-full p-6">
-              <div className="flex items-center gap-4">
-                {isLoading ? (
-                  <div className="animate-pulse bg-white/20 h-12 w-12 rounded-xl" />
-                ) : todayStandUp?.completed ? (
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
-                    <CheckCircle2 className="w-6 h-6 text-white" />
-                  </div>
-                ) : (
-                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
-                    <Brain className="w-6 h-6 text-white" />
-                  </div>
-                )}
-                <div className="text-left">
-                  <h3 className="font-semibold text-white">
-                    AI Coach Check-in
-                  </h3>
-                  <p className="text-sm text-white/90">
-                    {todayStandUp?.completed 
-                      ? "View today's check-in" 
-                      : "Quick 2-min check-in"}
-                  </p>
-                </div>
-              </div>
-              <div className="text-white/90">
-                <svg
-                  className="w-5 h-5 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </div>
-            </div>
-          </Button>
+          <button className="text-sm font-medium text-black/70 hover:text-black transition-colors">
+            Settings
+          </button>
         </div>
         {children}
       </div>

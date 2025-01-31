@@ -13,7 +13,7 @@ export function PageContainer({ children, className = "" }: PageContainerProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`px-6 pt-28 pb-12 max-w-lg mx-auto space-y-20 ${className}`}
+        className={`px-6 pt-20 pb-12 max-w-lg mx-auto space-y-20 ${className}`}
       >
         <div className="relative">
           {children}
