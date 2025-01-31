@@ -239,7 +239,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-base font-medium text-secondary-800">
+        <h2 className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
           {frequency === "daily" ? "Daily" : "Weekly"} Tasks
         </h2>
         <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
@@ -330,11 +330,14 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-center py-8 px-4 rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30"
+              className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-50/80 via-white to-primary-100/50 p-8 shadow-lg border border-primary-100/30"
             >
-              <div className="space-y-2">
-                <p className="text-sm text-secondary-600">
-                  No tasks found. Add your first task below.
+              <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
+              <div className="relative space-y-4">
+                <Target className="w-12 h-12 text-primary-500/90" />
+                <h3 className="text-lg font-semibold text-primary-900">No tasks yet</h3>
+                <p className="text-sm text-primary-700/90">
+                  Add your first task below to start tracking your progress.
                 </p>
               </div>
             </motion.div>
@@ -379,7 +382,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           <Button
             onClick={handleAddTodo}
             size="icon"
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary-500 hover:bg-primary-600 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-primary-500 to-accent hover:opacity-90 text-white rounded-full w-8 h-8 shadow-md transition-all duration-200 hover:scale-105"
           >
             <Plus className="h-4 w-4" />
           </Button>
