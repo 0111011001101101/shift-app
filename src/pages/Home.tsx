@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Brain, Activity, Sparkles, Shield } from "lucide-react";
+import { motion } from "framer-motion"; // Added this import
 
 export default function Home() {
   const { toast } = useToast();
