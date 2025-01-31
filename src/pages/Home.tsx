@@ -45,7 +45,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-6"
+        className="space-y-8"
       >
         <WelcomeHeader username={profile?.first_name} />
 
@@ -53,28 +53,28 @@ export default function Home() {
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
+        <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-3xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-4 bg-gradient-to-br from-primary-50 to-primary-100/80 border-b border-primary-200/20 p-1.5 rounded-xl">
+            <TabsList className="w-full mb-6 bg-gradient-to-br from-primary-50 to-primary-100/80 border-b border-primary-200/20 p-1.5 rounded-2xl">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Today's To-Do
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Week's To-Do
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
+            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0">
               <TodoList frequency="daily" />
             </TabsContent>
             
-            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
+            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0">
               <TodoList frequency="weekly" />
             </TabsContent>
           </Tabs>

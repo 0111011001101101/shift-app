@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle2, XCircle, ArrowUp, Brain } from "lucide-react";
@@ -7,7 +7,7 @@ import { Button } from "../ui/button";
 
 interface WelcomeHeaderProps {
   username?: string;
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 export function WelcomeHeader({ username = "there", children }: WelcomeHeaderProps) {
@@ -41,7 +41,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         <div className="space-y-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent shadow-lg">
                 <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
               </div>
               <span className="font-medium tracking-tight text-black">SHIFT</span>
@@ -52,7 +52,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
             onClick={() => setShowStandUp(true)}
             className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0EA5E9] to-[#0284C7] opacity-90 rounded-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500 to-primary-600 opacity-90 rounded-2xl" />
             <div className="relative flex items-center justify-between w-full p-6">
               <div className="flex items-center gap-4">
                 {isLoading ? (
