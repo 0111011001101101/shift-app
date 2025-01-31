@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle2, XCircle, Sparkles, ArrowUp } from "lucide-react";
+import { CheckCircle2, XCircle, ArrowUp, Brain } from "lucide-react";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
 
@@ -28,7 +28,6 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         .gte("created_at", today.toISOString())
         .lt("created_at", tomorrow.toISOString())
         .order('created_at', { ascending: false })
-        .limit(1)
         .maybeSingle();
 
       if (error) throw error;
@@ -49,47 +48,47 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
                 <span className="font-medium tracking-tight text-black">SHIFT</span>
               </div>
               <h1 className="text-[2rem] leading-[1.1] font-medium tracking-tight">
-                Hi{" "}
-                <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
-                  {username}!
+                Peak Performance,{" "}
+                <span className="bg-gradient-to-r from-[#0EA5E9] via-[#8E9196] to-[#F97316] bg-clip-text text-transparent">
+                  Zero Burnout
                 </span>
               </h1>
               <p className="text-lg sm:text-xl leading-tight font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
-                Let's make things happen
+                A mental health & productivity app in one.
               </p>
             </div>
-            <Sparkles className="w-8 h-8 text-accent animate-float opacity-75" />
           </div>
 
           <Button
             onClick={() => setShowStandUp(true)}
-            className="w-full bg-gradient-to-br from-white/90 via-white/80 to-primary-50/20 hover:to-primary-100/30 text-left p-6 h-auto border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300 rounded-2xl group backdrop-blur-xl"
+            className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300"
           >
-            <div className="flex items-center justify-between w-full">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0EA5E9] to-[#0284C7] opacity-90 rounded-2xl" />
+            <div className="relative flex items-center justify-between w-full p-6">
               <div className="flex items-center gap-4">
                 {isLoading ? (
-                  <div className="animate-pulse bg-primary-50 h-12 w-12 rounded-xl" />
+                  <div className="animate-pulse bg-white/20 h-12 w-12 rounded-xl" />
                 ) : todayStandUp?.completed ? (
-                  <div className="p-3 bg-emerald-50/80 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
-                    <CheckCircle2 className="w-6 h-6 text-emerald-500" />
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
+                    <CheckCircle2 className="w-6 h-6 text-white" />
                   </div>
                 ) : (
-                  <div className="p-3 bg-primary-50/80 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
-                    <XCircle className="w-6 h-6 text-primary-500" />
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform">
+                    <Brain className="w-6 h-6 text-white" />
                   </div>
                 )}
                 <div className="text-left">
-                  <h3 className="font-semibold text-secondary-800 group-hover:text-primary-600 transition-colors">
-                    Morning Stand-up
+                  <h3 className="font-semibold text-white">
+                    AI Coach Check-in
                   </h3>
-                  <p className="text-sm text-secondary-600">
+                  <p className="text-sm text-white/90">
                     {todayStandUp?.completed 
                       ? "View today's check-in" 
                       : "Quick 2-min check-in"}
                   </p>
                 </div>
               </div>
-              <div className="text-primary-400 group-hover:text-primary-600 transition-colors">
+              <div className="text-white/90">
                 <svg
                   className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                   fill="none"
