@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check, Loader2, Target, ChevronRight } from "lucide-react";
+import { Plus, Pencil, Check, Target, ChevronRight, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 import { TodoFilter, FilterType } from "./TodoFilter";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface SubGoal {
   id: string;
@@ -212,7 +212,11 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
 
   if (!hasGoals && !goalId) {
     return (
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-50/80 via-white to-primary-100/50 p-8 shadow-lg border border-primary-100/30">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-50/80 via-white to-primary-100/50 p-8 shadow-lg border border-primary-100/30"
+      >
         <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
         <div className="relative space-y-4">
           <Target className="w-12 h-12 text-primary-500/90" />
@@ -221,14 +225,14 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             Create your first goal to start organizing your tasks effectively.
           </p>
           <Button 
-            onClick={navigateToGoals}
+            onClick={() => navigate("/goals")}
             className="w-full bg-white hover:bg-primary-50 text-primary-700 border border-primary-200/50 shadow-sm"
           >
             Create Your First Goal
             <ChevronRight className="w-4 h-4 ml-1" />
           </Button>
         </div>
-      </div>
+      </motion.div>
     );
   }
 
@@ -241,95 +245,102 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
       </div>
 
-      <div className="space-y-3">
-        {filteredTodos?.map((todo) => (
-          <motion.div
-            key={todo.id}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="group"
-          >
-            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300 transform hover:scale-[1.01] hover:border-primary-200/50">
-              <div className="absolute inset-0 bg-grid-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative flex items-center gap-4 p-4">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className={`p-0 h-auto hover:bg-transparent ${
-                    todo.completed 
-                      ? "text-primary-500" 
-                      : "text-secondary-300 hover:text-secondary-400"
-                  }`}
-                  onClick={() => handleToggleTodo(todo.id, todo.completed)}
-                >
-                  <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center transition-colors duration-200">
-                    {todo.completed && (
-                      <Check className="w-3.5 h-3.5 text-current animate-scale-in" />
-                    )}
-                  </div>
-                </Button>
-
-                <div className="flex-1 min-w-0">
-                  {editingTodoId === todo.id ? (
-                    <Input
-                      value={editedTodoText}
-                      onChange={(e) => setEditedTodoText(e.target.value)}
-                      onKeyPress={(e) => e.key === "Enter" && handleSaveTodo(todo.id)}
-                      className="w-full bg-white/95 border-primary-100/30 focus:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20"
-                      autoFocus
-                    />
-                  ) : (
-                    <>
-                      <span
-                        className={`block text-sm sm:text-base ${
-                          todo.completed
-                            ? "line-through text-secondary-400"
-                            : "text-secondary-800"
-                        } transition-all duration-200`}
-                      >
-                        {todo.title}
-                      </span>
-                      {todo.goal && !goalId && (
-                        <div
-                          className="flex items-center gap-1.5 mt-1.5 cursor-pointer group/goal"
-                          onClick={() => navigateToGoals()}
-                        >
-                          <Target className="w-3.5 h-3.5 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
-                          <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
-                            {todo.goal.title}
-                          </span>
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
-
-                {!editingTodoId && (
+      <AnimatePresence mode="popLayout">
+        <div className="space-y-3">
+          {todos?.map((todo) => (
+            <motion.div
+              key={todo.id}
+              layout
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="group"
+            >
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white via-white to-primary-50/10 border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+                <div className="absolute inset-0 bg-grid-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative flex items-center gap-4 p-4">
                   <Button
                     size="sm"
                     variant="ghost"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                    onClick={() => handleEditTodo(todo.id, todo.title)}
+                    className={`p-0 h-auto hover:bg-transparent ${
+                      todo.completed 
+                        ? "text-primary-500" 
+                        : "text-secondary-300 hover:text-secondary-400"
+                    }`}
+                    onClick={() => handleToggleTodo(todo.id, todo.completed)}
                   >
-                    <Pencil className="w-3.5 h-3.5 text-secondary-400 hover:text-secondary-600 transition-colors" />
+                    <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center transition-colors duration-200">
+                      {todo.completed && (
+                        <Check className="w-3.5 h-3.5 text-current animate-scale-in" />
+                      )}
+                    </div>
                   </Button>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        ))}
 
-        {filteredTodos?.length === 0 && (
-          <div className="text-center py-8 px-4 rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30">
-            <div className="space-y-2">
-              <p className="text-sm text-secondary-600">
-                No tasks found. Add your first task below.
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+                  <div className="flex-1 min-w-0">
+                    {editingTodoId === todo.id ? (
+                      <Input
+                        value={editedTodoText}
+                        onChange={(e) => setEditedTodoText(e.target.value)}
+                        onKeyPress={(e) => e.key === "Enter" && handleSaveTodo(todo.id)}
+                        className="w-full bg-white/95 border-primary-100/30 focus:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20"
+                        autoFocus
+                      />
+                    ) : (
+                      <>
+                        <span
+                          className={`block text-sm sm:text-base ${
+                            todo.completed
+                              ? "line-through text-secondary-400"
+                              : "text-secondary-800"
+                          } transition-all duration-200`}
+                        >
+                          {todo.title}
+                        </span>
+                        {todo.goal && !goalId && (
+                          <div
+                            className="flex items-center gap-1.5 mt-1.5 cursor-pointer group/goal"
+                            onClick={() => navigateToGoals()}
+                          >
+                            <Target className="w-3.5 h-3.5 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
+                            <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
+                              {todo.goal.title}
+                            </span>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+
+                  {!editingTodoId && (
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      onClick={() => handleEditTodo(todo.id, todo.title)}
+                    >
+                      <Pencil className="w-3.5 h-3.5 text-secondary-400 hover:text-secondary-600 transition-colors" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+
+          {todos?.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center py-8 px-4 rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30"
+            >
+              <div className="space-y-2">
+                <p className="text-sm text-secondary-600">
+                  No tasks found. Add your first task below.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </div>
+      </AnimatePresence>
 
       <div className="relative space-y-3 pt-4">
         {!goalId && (
