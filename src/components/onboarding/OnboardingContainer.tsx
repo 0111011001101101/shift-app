@@ -18,6 +18,21 @@ export const OnboardingContainer = ({
   nextStep,
   children,
 }: OnboardingContainerProps) => {
+  const getStepLabel = () => {
+    switch (step) {
+      case "name":
+        return "Welcome";
+      case "work":
+        return "Your Work";
+      case "goals":
+        return "Your Goals";
+      case "preferences":
+        return "Preferences";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-secondary-900/5 via-white/90 to-primary-50/30">
       <AnimatePresence mode="wait">
@@ -40,11 +55,14 @@ export const OnboardingContainer = ({
           </div>
 
           <motion.div 
-            className="fixed bottom-4 right-4"
+            className="fixed bottom-4 right-4 flex items-center gap-4"
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
           >
+            <span className="text-sm font-medium text-secondary-600">
+              {step === "preferences" ? "Complete" : "Next"}
+            </span>
             <Button
               type="button"
               onClick={nextStep}

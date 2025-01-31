@@ -1,18 +1,14 @@
-export type OnboardingStep = "name";
+export type OnboardingStep = "name" | "work" | "goals" | "preferences";
 
 export interface OnboardingForm {
   firstName: string;
   aiPreferences?: {
-    age?: string;
-    gender?: string;
-    ethnicity?: string;
-    religion?: string;
-    country?: string;
+    occupation?: string;
+    fieldOfWork?: string;
+    opportunity?: string;
     workStyle?: string;
     communicationStyle?: string;
     primaryGoal?: string;
     description?: string;
-    occupation?: string;
-    fieldOfWork?: string;
   };
 }
