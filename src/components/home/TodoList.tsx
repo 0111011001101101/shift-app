@@ -242,7 +242,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             key={todo.id}
             className="group relative transform transition-all duration-300 hover:scale-[1.01]"
           >
-            <div className="flex items-center gap-4 p-4 rounded-xl bg-white border border-secondary-100/20 shadow-sm hover:shadow-md transition-all duration-300">
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300">
               <Button
                 size="sm"
                 variant="ghost"
@@ -253,9 +253,9 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                 }`}
                 onClick={() => handleToggleTodo(todo.id, todo.completed)}
               >
-                <div className="w-5 h-5 rounded-full border-2 border-current flex items-center justify-center transition-colors duration-200">
+                <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center transition-colors duration-200">
                   {todo.completed && (
-                    <Check className="w-3 h-3 animate-scale-in" />
+                    <Check className="w-3.5 h-3.5 animate-scale-in" />
                   )}
                 </div>
               </Button>
@@ -266,7 +266,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                     value={editedTodoText}
                     onChange={(e) => setEditedTodoText(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && handleSaveTodo(todo.id)}
-                    className="w-full bg-white border-secondary-200/30"
+                    className="w-full bg-white/95 border-primary-100/30 focus:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20"
                     autoFocus
                   />
                 ) : (
@@ -276,17 +276,17 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                         todo.completed
                           ? "line-through text-secondary-400"
                           : "text-secondary-800"
-                      }`}
+                      } transition-all duration-200`}
                     >
                       {todo.title}
                     </span>
                     {todo.goal && !goalId && (
                       <div
-                        className="flex items-center gap-1 mt-1 cursor-pointer group/goal"
+                        className="flex items-center gap-1.5 mt-1.5 cursor-pointer group/goal"
                         onClick={() => navigateToGoals()}
                       >
-                        <Target className="w-3 h-3 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
-                        <span className="text-xs text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
+                        <Target className="w-3.5 h-3.5 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
+                        <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
                           {todo.goal.title}
                         </span>
                       </div>
@@ -310,10 +310,12 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         ))}
 
         {filteredTodos?.length === 0 && (
-          <div className="text-center py-8 px-4 rounded-xl bg-secondary-50/30 border border-secondary-100/20">
-            <p className="text-sm text-secondary-600">
-              No tasks found. Add your first task below.
-            </p>
+          <div className="text-center py-8 px-4 rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30">
+            <div className="space-y-2">
+              <p className="text-sm text-secondary-600">
+                No tasks found. Add your first task below.
+              </p>
+            </div>
           </div>
         )}
       </div>
@@ -324,10 +326,10 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             value={selectedGoalId || ""}
             onValueChange={(value) => setSelectedGoalId(value || null)}
           >
-            <SelectTrigger className="w-full bg-white/95 border-secondary-100/20 shadow-sm hover:border-secondary-200/20 focus:ring-2 focus:ring-primary-500/20 rounded-xl text-sm">
+            <SelectTrigger className="w-full bg-white/95 border-primary-100/30 shadow-sm hover:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20 rounded-xl text-sm">
               <SelectValue placeholder="Select a goal (optional)" />
             </SelectTrigger>
-            <SelectContent className="bg-white/95 backdrop-blur-sm border-secondary-100/20 shadow-lg">
+            <SelectContent className="bg-white/95 backdrop-blur-sm border-primary-100/30 shadow-lg">
               {goals?.map((goal) => (
                 <SelectItem 
                   key={goal.id} 
@@ -349,7 +351,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             value={newTodoText}
             onChange={(e) => setNewTodoText(e.target.value)}
             placeholder="Add a new task..."
-            className="flex-1 pr-12 bg-white/95 border-secondary-100/20 shadow-sm hover:border-secondary-200/20 focus:ring-2 focus:ring-primary-500/20 rounded-xl text-sm placeholder:text-secondary-400"
+            className="flex-1 pr-12 bg-white/95 border-primary-100/30 shadow-sm hover:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20 rounded-xl text-sm placeholder:text-secondary-400"
             onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
           />
           <Button
