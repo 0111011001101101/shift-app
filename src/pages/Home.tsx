@@ -45,11 +45,11 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-6"
+        className="space-y-4"
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -62,29 +62,28 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white/90 rounded-2xl border border-accent-100/30 shadow-lg backdrop-blur-lg"
           >
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 bg-white/10 border border-white/20 p-1.5 rounded-xl">
+              <TabsList className="w-full mb-3 bg-white/80 border border-primary-100/30 p-1 rounded-xl">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-2.5 text-secondary-700 data-[state=active]:bg-white/20 rounded-lg transition-all duration-300"
+                  className="flex-1 py-2 text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300"
                 >
                   Today's To-Do
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-2.5 text-secondary-700 data-[state=active]:bg-white/20 rounded-lg transition-all duration-300"
+                  className="flex-1 py-2 text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300"
                 >
                   Week's To-Do
                 </TabsTrigger>
               </TabsList>
               
-              <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0">
+              <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
                 <TodoList frequency="daily" />
               </TabsContent>
               
-              <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0">
+              <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
                 <TodoList frequency="weekly" />
               </TabsContent>
             </Tabs>
@@ -94,7 +93,6 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-white/90 rounded-2xl border border-secondary-100/30 shadow-lg backdrop-blur-lg"
           >
             <GoalsSection />
           </motion.div>
@@ -103,11 +101,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="pb-24"
+            className="pb-20"
           >
-            <div className="bg-white/90 rounded-2xl border border-success-100/30 shadow-lg backdrop-blur-lg">
-              <HurdlesButton />
-            </div>
+            <HurdlesButton />
           </motion.div>
         </div>
       </motion.div>

@@ -15,44 +15,44 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   
   return (
-    <div className="relative p-4 rounded-2xl bg-white/90 border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
-      <div className="relative flex items-center gap-4">
-        <div className="relative">
-          <div className="p-2.5 bg-primary-50 rounded-xl group-hover:scale-110 transition-transform duration-500">
-            <Trophy className="w-5 h-5 text-primary-600" />
-          </div>
-          {streak > 0 && (
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full flex items-center justify-center animate-bounce">
-              <Star className="w-3 h-3 text-white" />
+    <div className="relative p-3 rounded-xl bg-gradient-to-br from-primary-50 to-white border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="p-2 bg-primary-500/10 rounded-lg group-hover:scale-110 transition-transform duration-500">
+              <Trophy className="w-4 h-4 text-primary-600" />
             </div>
-          )}
-        </div>
-        <div className="flex flex-col">
-          <span className="text-sm font-medium text-secondary-600">Current Streak</span>
-          <div className="flex items-baseline gap-1.5">
-            <span className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-accent bg-clip-text text-transparent">
-              {streak}
-            </span>
-            <span className="text-xs text-secondary-500">days</span>
+            {streak > 0 && (
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full flex items-center justify-center animate-pulse">
+                <Star className="w-2 h-2 text-white" />
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xs font-medium text-secondary-600">Current Streak</span>
+            <div className="flex items-baseline gap-1">
+              <span className="text-2xl font-bold text-primary-600">
+                {streak}
+              </span>
+              <span className="text-xs text-secondary-500">days</span>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div className="mt-3 flex flex-col gap-2">
-        <p className="text-xs text-secondary-600 flex items-center gap-1.5 justify-center bg-secondary-50/50 py-2 px-3 rounded-lg backdrop-blur-sm">
-          <Clock className="w-3.5 h-3.5 text-secondary-400" />
-          Next stand-up: Tomorrow, {formattedTime}
-        </p>
         
-        <Button 
-          variant="ghost" 
-          size="sm" 
-          className="w-full text-xs hover:bg-secondary-50/50 flex items-center gap-1.5 justify-center group/btn backdrop-blur-sm active:scale-95 transition-all duration-200 text-secondary-600"
-          onClick={() => navigate("/settings")}
-        >
-          <Calendar className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform text-secondary-400" />
-          <span className="group-hover/btn:translate-x-0.5 transition-transform">Change stand-up time</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <p className="text-xs text-secondary-600 flex items-center gap-1.5 bg-secondary-50/50 py-1.5 px-2 rounded-lg">
+            <Clock className="w-3 h-3 text-secondary-400" />
+            {formattedTime}
+          </p>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-8 px-2 hover:bg-secondary-50/50"
+            onClick={() => navigate("/settings")}
+          >
+            <Calendar className="w-3 h-3 text-secondary-400" />
+          </Button>
+        </div>
       </div>
     </div>
   );
