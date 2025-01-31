@@ -2,9 +2,6 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
-import { Button } from "../ui/button";
-import { Settings } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -13,7 +10,6 @@ interface WelcomeHeaderProps {
 
 export function WelcomeHeader({ username = "there", children }: WelcomeHeaderProps) {
   const [showStandUp, setShowStandUp] = useState(false);
-  const navigate = useNavigate();
   
   const { data: todayStandUp, isLoading } = useQuery({
     queryKey: ["todayStandUp"],
@@ -40,21 +36,10 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
   return (
     <>
       <div className="relative space-y-8">
-        <div className="flex items-center justify-end">
-          <Button 
-            variant="ghost"
-            size="icon"
-            className="w-10 h-10 rounded-full bg-white/80 hover:bg-white/90 transition-colors shadow-sm"
-            onClick={() => navigate("/settings")}
-          >
-            <Settings className="w-5 h-5 text-secondary-600" />
-          </Button>
-        </div>
-
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 animate-fade-in">
           <h1 className="text-4xl font-bold tracking-tight">
-            <span className="text-black">Welcome back,</span>{" "}
-            <span className="bg-gradient-to-r from-[#0EA5E9] to-[#F97316] bg-clip-text text-transparent">
+            <span className="text-secondary-800">Welcome back,</span>{" "}
+            <span className="bg-gradient-to-r from-primary-600 to-accent bg-clip-text text-transparent">
               {username}
             </span>
           </h1>

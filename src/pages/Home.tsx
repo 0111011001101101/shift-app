@@ -50,24 +50,32 @@ export default function Home() {
         <WelcomeHeader username={profile?.first_name} />
 
         <div className="space-y-6">
-          {/* Streak Card - Professional blue gradient */}
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0EA5E9] to-[#38BDF8] shadow-lg hover:shadow-xl transition-all duration-300">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="glass-effect rounded-3xl border border-primary-100/30"
+          >
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
-          </div>
+          </motion.div>
 
-          {/* Todo Section - Warm orange gradient */}
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#F97316] to-[#FB923C] shadow-lg hover:shadow-xl transition-all duration-300">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="glass-effect rounded-3xl border border-accent-100/30"
+          >
             <Tabs defaultValue="today" className="w-full">
               <TabsList className="w-full mb-6 bg-white/10 border border-white/20 p-1.5 rounded-2xl">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-3 text-white data-[state=active]:bg-white/20 rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 text-secondary-700 data-[state=active]:bg-white/20 rounded-xl transition-all duration-300"
                 >
                   Today's To-Do
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-3 text-white data-[state=active]:bg-white/20 rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 text-secondary-700 data-[state=active]:bg-white/20 rounded-xl transition-all duration-300"
                 >
                   Week's To-Do
                 </TabsTrigger>
@@ -81,19 +89,27 @@ export default function Home() {
                 <TodoList frequency="weekly" />
               </TabsContent>
             </Tabs>
-          </div>
+          </motion.div>
 
-          {/* Goals Section - Professional purple gradient */}
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#8B5CF6] to-[#A78BFA] shadow-lg hover:shadow-xl transition-all duration-300">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="glass-effect rounded-3xl border border-secondary-100/30"
+          >
             <GoalsSection />
-          </div>
+          </motion.div>
           
-          {/* Hurdles Section - Success green gradient */}
-          <div className="pb-24">
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#10B981] to-[#34D399] shadow-lg hover:shadow-xl transition-all duration-300">
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="pb-24"
+          >
+            <div className="glass-effect rounded-3xl border border-success-100/30">
               <HurdlesButton />
             </div>
-          </div>
+          </motion.div>
         </div>
       </motion.div>
     </PageContainer>
