@@ -33,24 +33,26 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 bg-gradient-to-br from-[#FFF7ED] via-[#FFEDD5] to-[#FED7AA] border border-accent-200/30 shadow-sm hover:shadow-md backdrop-blur-lg rounded-2xl h-auto py-3"
+      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#10B981] to-[#34D399] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 bg-accent rounded-xl group-hover:scale-110 transition-transform duration-500">
-            <AlertCircle className="w-4 h-4 text-white" />
+        <div className="flex items-center gap-3">
+          <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
+            <AlertCircle className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col items-start">
-            <span className="text-accent-800 font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
+            <span className="text-base font-medium group-hover:translate-x-0.5 transition-transform">
+              Manage Hurdles
+            </span>
             {activeHurdles && activeHurdles.length > 0 && (
-              <span className="text-xs text-accent-700/80">
+              <span className="text-xs text-white/90">
                 {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'}
               </span>
             )}
           </div>
         </div>
-        <ChevronRight className="w-4 h-4 text-accent-600 group-hover:translate-x-1 transition-transform duration-500" />
+        <ChevronRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform duration-500" />
       </div>
     </Button>
   );
