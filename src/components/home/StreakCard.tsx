@@ -59,7 +59,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               )}
             </div>
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-white/90">Growth Streak</span>
+              <span className="text-xs font-medium text-white/90">Growth & Wellbeing Streak</span>
               <div className="flex items-baseline gap-1">
                 <span className="text-3xl font-bold text-white group-hover:scale-105 transition-transform">
                   {streak}
@@ -96,9 +96,9 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
           </div>
         </div>
 
-        {latestStandUp && (
+        {latestStandUp ? (
           <div className="grid grid-cols-2 gap-3">
-            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
               <div className="flex items-center gap-2 mb-1">
                 <Brain className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Mental State</span>
@@ -109,7 +109,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
             
-            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
               <div className="flex items-center gap-2 mb-1">
                 <Target className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Focus Level</span>
@@ -118,6 +118,19 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
                 {latestStandUp.focus || "Not set"}
               </div>
             </div>
+          </div>
+        ) : (
+          <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm text-center">
+            <p className="text-sm text-white/90">Start your day with intention</p>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="mt-2 text-white hover:bg-white/20"
+              onClick={() => navigate("/stand-up")}
+            >
+              Complete Morning Stand-Up
+              <TrendingUp className="w-4 h-4 ml-2" />
+            </Button>
           </div>
         )}
         
