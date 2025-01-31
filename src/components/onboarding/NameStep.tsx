@@ -7,21 +7,10 @@ import { itemVariants } from "./animations";
 export const NameStep = ({ form }: { form: any }) => {
   return (
     <motion.div variants={itemVariants} className="w-full max-w-sm mx-auto space-y-8">
-      <div className="text-center space-y-3">
-        <motion.div 
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary-500 to-accent 
-                     flex items-center justify-center shadow-lg"
-        >
-          <User className="w-8 h-8 text-white" strokeWidth={2} />
-        </motion.div>
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold">Welcome!</h1>
-          <h2 className="text-xl font-medium text-secondary-600">
-            How can we call you?
-          </h2>
+      <div className="flex justify-center">
+        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                      shadow-xl shadow-primary-500/20 animate-float">
+          <User className="w-10 h-10 text-white" />
         </div>
       </div>
       
@@ -30,15 +19,14 @@ export const NameStep = ({ form }: { form: any }) => {
         name="firstName"
         rules={{ required: "Please enter your name" }}
         render={({ field }) => (
-          <FormItem className="rounded-2xl bg-gradient-to-br from-primary-500 to-accent p-6 
-                              text-white shadow-lg animate-fade-in">
-            <FormLabel className="text-lg font-medium">Name</FormLabel>
+          <FormItem className="rounded-2xl bg-gradient-to-br from-primary-500 to-primary-600 p-6 text-white shadow-lg">
+            <FormLabel className="text-xl font-medium">What's your name?</FormLabel>
             <FormControl>
               <Input 
                 placeholder="Your name" 
                 {...field}
-                className="h-12 bg-white/10 border-white/20 text-white placeholder:text-white/70
-                          focus:ring-white/30 focus:border-white/30"
+                className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
+                         focus:ring-white/30 focus-visible:ring-white/30"
               />
             </FormControl>
             <FormMessage className="text-white/90" />
