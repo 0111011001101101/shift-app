@@ -1,7 +1,7 @@
 import { ReactNode, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle2, XCircle, Sparkles } from "lucide-react";
+import { CheckCircle2, XCircle, Sparkles, ArrowUp } from "lucide-react";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
 
@@ -38,18 +38,27 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative py-6">
-        <div className="space-y-6">
-          <div className="space-y-2">
-            <div className="flex items-baseline gap-3">
-              <h1 className="text-4xl font-bold tracking-tight bg-gradient-to-br from-primary-600 via-primary-500 to-accent bg-clip-text text-transparent animate-fadeIn">
-                Hi {username}!
+      <div className="relative py-8">
+        <div className="space-y-8">
+          <div className="flex items-center justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
+                  <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
+                </div>
+                <span className="font-medium tracking-tight text-black">SHIFT</span>
+              </div>
+              <h1 className="text-[2rem] leading-[1.1] font-medium tracking-tight">
+                Hi{" "}
+                <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
+                  {username}!
+                </span>
               </h1>
-              <Sparkles className="w-6 h-6 text-primary-400 animate-float" />
+              <p className="text-lg sm:text-xl leading-tight font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
+                Let's make things happen
+              </p>
             </div>
-            <p className="text-lg font-medium tracking-wide text-secondary-700/90 animate-slideUp">
-              Let's make things happen
-            </p>
+            <Sparkles className="w-8 h-8 text-accent animate-float opacity-75" />
           </div>
 
           <Button
