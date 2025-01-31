@@ -43,7 +43,7 @@ export const OnboardingContainer = ({
             currentStep={getCurrentStepIndex()} 
           />
           
-          <div className="flex-1 px-4 pt-20 pb-24 max-w-md mx-auto w-full">
+          <div className="flex-1 px-4 pt-16 pb-24 max-w-md mx-auto w-full">
             <motion.div>
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
