@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Trophy, Star, Clock, Calendar, Brain, TrendingUp, Sparkles, Target, Flame, Heart } from "lucide-react";
+import { Trophy, Star, Clock, Calendar, Target, Flame, Heart } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -61,17 +61,6 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
 
-        <div className="absolute top-0 right-0 p-3 sm:p-4">
-          <div className="text-white/90 text-sm font-medium flex items-center gap-2">
-            <Flame className="w-4 h-4 animate-float" />
-            {streak > 0 && (
-              <span className="animate-pulse">
-                {getStreakEmoji(streak)}
-              </span>
-            )}
-          </div>
-        </div>
-
         <div className="flex items-center justify-between mb-4 sm:mb-6 relative">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="relative">
@@ -86,11 +75,18 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             </div>
             <div className="flex flex-col">
               <span className="text-xs sm:text-sm font-medium text-white/90">Daily Growth & Wellbeing</span>
-              <div className="flex items-baseline gap-1">
+              <div className="flex items-center gap-2">
                 <span className="text-2xl sm:text-3xl font-bold text-white group-hover:scale-105 transition-transform">
                   {streak}
                 </span>
-                <span className="text-xs sm:text-sm text-white/80">day streak</span>
+                <span className="text-xs sm:text-sm text-white/80 bg-white/10 px-2 py-1 rounded-full backdrop-blur-sm">
+                  {streak === 1 ? "day" : "days"}
+                </span>
+                {streak > 0 && (
+                  <span className="text-lg animate-pulse">
+                    {getStreakEmoji(streak)}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -148,7 +144,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               onClick={() => navigate("/stand-up")}
             >
               Complete Morning Stand-Up
-              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1.5 sm:ml-2 group-hover/btn:translate-y-[-2px] transition-transform" />
+              <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1.5 sm:ml-2 group-hover/btn:translate-y-[-2px] transition-transform" />
             </Button>
           </div>
         )}
