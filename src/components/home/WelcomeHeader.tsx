@@ -49,7 +49,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold tracking-tight">
             <span className="text-black">Welcome back,</span>{" "}
-            <span className="bg-gradient-to-r from-[#007BFF] to-[#F58634] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#008CFF] to-[#FF8C42] bg-clip-text text-transparent">
               {username}
             </span>
           </h1>

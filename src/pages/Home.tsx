@@ -50,22 +50,22 @@ export default function Home() {
         <WelcomeHeader username={profile?.first_name} />
 
         <div className="space-y-6">
-          <div className="bg-gradient-to-br from-[#8B5CF6]/10 to-[#D946EF]/10 p-6 rounded-3xl backdrop-blur-xl border border-white/20">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#008CFF] to-[#00A3FF] shadow-lg hover:shadow-xl transition-all duration-300">
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </div>
 
-          <div className="bg-gradient-to-br from-[#F97316]/10 to-[#FB923C]/10 p-6 rounded-3xl backdrop-blur-xl border border-white/20">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#FF8C42] to-[#FF9F5B] shadow-lg hover:shadow-xl transition-all duration-300">
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-6 bg-black/[0.02] border border-black/[0.04] p-1.5 rounded-2xl">
+              <TabsList className="w-full mb-6 bg-white/10 border border-white/20 p-1.5 rounded-2xl">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#F97316] data-[state=active]:to-[#FB923C] data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 text-white data-[state=active]:bg-white/20 rounded-xl transition-all duration-300"
                 >
                   Today's To-Do
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#F97316] data-[state=active]:to-[#FB923C] data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 text-white data-[state=active]:bg-white/20 rounded-xl transition-all duration-300"
                 >
                   Week's To-Do
                 </TabsTrigger>
@@ -81,12 +81,14 @@ export default function Home() {
             </Tabs>
           </div>
 
-          <div className="bg-gradient-to-br from-[#0EA5E9]/10 to-[#38BDF8]/10 p-6 rounded-3xl backdrop-blur-xl border border-white/20">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#9B51E0] to-[#B47DEF] shadow-lg hover:shadow-xl transition-all duration-300">
             <GoalsSection />
           </div>
           
           <div className="pb-24">
-            <HurdlesButton />
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#3DDC97] to-[#65E5AE] shadow-lg hover:shadow-xl transition-all duration-300">
+              <HurdlesButton />
+            </div>
           </div>
         </div>
       </motion.div>
