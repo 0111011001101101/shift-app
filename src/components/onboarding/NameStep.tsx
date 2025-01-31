@@ -7,11 +7,34 @@ import { itemVariants } from "./animations";
 export const NameStep = ({ form }: { form: any }) => {
   return (
     <motion.div variants={itemVariants} className="w-full max-w-sm mx-auto space-y-8">
-      <div className="flex justify-center">
-        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
-                      shadow-xl shadow-primary-500/20 animate-float">
+      <div className="flex flex-col items-center space-y-4">
+        <motion.div 
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
+                    shadow-xl shadow-primary-500/20 animate-float"
+        >
           <User className="w-10 h-10 text-white" />
-        </div>
+        </motion.div>
+        
+        <motion.h1 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-2xl font-semibold text-center bg-clip-text text-transparent 
+                     bg-gradient-to-r from-primary-600 to-accent"
+        >
+          Welcome to SHIFT!
+        </motion.h1>
+        <motion.p 
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-secondary-600 text-center max-w-xs"
+        >
+          Let's personalize your experience. First, what should we call you?
+        </motion.p>
       </div>
       
       <FormField
