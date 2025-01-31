@@ -50,11 +50,13 @@ export default function Home() {
         <WelcomeHeader username={profile?.first_name} />
 
         <div className="space-y-6">
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#008CFF] to-[#00A3FF] shadow-lg hover:shadow-xl transition-all duration-300">
+          {/* Streak Card - Professional blue gradient */}
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#0EA5E9] to-[#38BDF8] shadow-lg hover:shadow-xl transition-all duration-300">
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </div>
 
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#FF8C42] to-[#FF9F5B] shadow-lg hover:shadow-xl transition-all duration-300">
+          {/* Todo Section - Warm orange gradient */}
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#F97316] to-[#FB923C] shadow-lg hover:shadow-xl transition-all duration-300">
             <Tabs defaultValue="today" className="w-full">
               <TabsList className="w-full mb-6 bg-white/10 border border-white/20 p-1.5 rounded-2xl">
                 <TabsTrigger 
@@ -81,12 +83,14 @@ export default function Home() {
             </Tabs>
           </div>
 
-          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#9B51E0] to-[#B47DEF] shadow-lg hover:shadow-xl transition-all duration-300">
+          {/* Goals Section - Professional purple gradient */}
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-[#8B5CF6] to-[#A78BFA] shadow-lg hover:shadow-xl transition-all duration-300">
             <GoalsSection />
           </div>
           
+          {/* Hurdles Section - Success green gradient */}
           <div className="pb-24">
-            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#3DDC97] to-[#65E5AE] shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="p-6 rounded-3xl bg-gradient-to-br from-[#10B981] to-[#34D399] shadow-lg hover:shadow-xl transition-all duration-300">
               <HurdlesButton />
             </div>
           </div>
