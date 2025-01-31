@@ -38,11 +38,6 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
     <>
       <div className="relative space-y-8">
         <div className="flex items-center justify-between">
-          <div className="flex gap-2">
-            <div className="h-12 w-3 rounded-full bg-gradient-to-b from-[#8B5CF6] to-[#D946EF]" />
-            <div className="h-12 w-3 rounded-full bg-gradient-to-b from-[#F97316] to-[#FB923C]" />
-            <div className="h-12 w-3 rounded-full bg-gradient-to-b from-[#0EA5E9] to-[#38BDF8]" />
-          </div>
           <Button 
             variant="ghost"
             className="text-sm font-medium text-black/70 hover:text-black transition-colors"
