@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { AlertCircle, ChevronRight, Plus, Brain, Shield, Heart } from "lucide-react";
+import { Brain, Shield, Heart, ChevronRight, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
