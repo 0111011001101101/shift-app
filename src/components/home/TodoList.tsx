@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useNavigate } from "react-router-dom";
 import { TodoFilter, FilterType } from "./TodoFilter";
+import { motion } from "framer-motion";
 
 interface SubGoal {
   id: string;
@@ -197,8 +198,12 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center p-4">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="space-y-3 w-full max-w-md animate-pulse">
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+        </div>
       </div>
     );
   }
@@ -238,8 +243,11 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
 
       <div className="space-y-3">
         {filteredTodos?.map((todo) => (
-          <div
+          <motion.div
             key={todo.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             className="group relative transform transition-all duration-300 hover:scale-[1.01]"
           >
             <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-white via-white to-primary-50/20 border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300">
@@ -306,7 +314,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                 </Button>
               )}
             </div>
-          </div>
+          </motion.div>
         ))}
 
         {filteredTodos?.length === 0 && (
