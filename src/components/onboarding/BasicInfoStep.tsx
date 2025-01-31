@@ -33,7 +33,8 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
                   <SelectItem value="25-34">25-34 years</SelectItem>
                   <SelectItem value="35-44">35-44 years</SelectItem>
                   <SelectItem value="45-54">45-54 years</SelectItem>
-                  <SelectItem value="55+">55+ years</SelectItem>
+                  <SelectItem value="55-64">55-64 years</SelectItem>
+                  <SelectItem value="65+">65+ years</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
@@ -44,7 +45,7 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
           control={form.control}
           name="aiPreferences.gender"
           render={({ field }) => (
-            <FormItem className="rounded-2xl bg-gradient-to-br from-accent-500 to-accent p-6 text-white shadow-lg">
+            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
               <FormLabel className="text-xl font-medium">Gender</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
@@ -79,6 +80,10 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
             </FormItem>
           )}
         />
+
+        <p className="text-sm text-center text-secondary-600">
+          You can skip personalization and set these preferences later
+        </p>
       </div>
     </motion.div>
   );

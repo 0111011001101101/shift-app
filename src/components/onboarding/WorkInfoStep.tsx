@@ -50,6 +50,28 @@ export const WorkInfoStep = ({ form }: { form: any }) => {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="aiPreferences.opportunity"
+          render={({ field }) => (
+            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
+              <FormLabel className="text-xl font-medium">Current Opportunity</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="What opportunity are you currently pursuing?" 
+                  {...field}
+                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
+                           focus:ring-white/30 focus-visible:ring-white/30"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <p className="text-sm text-center text-secondary-600">
+          You can skip personalization and set these preferences later
+        </p>
       </div>
     </motion.div>
   );
