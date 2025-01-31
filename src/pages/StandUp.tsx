@@ -48,27 +48,43 @@ export default function StandUp() {
       // If no draft in localStorage, check Supabase for today's stand-up
       const today = new Date();
       today.setHours(0, 0, 0, 0);
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
       
-      const { data: standUp } = await supabase
-        .from('stand_ups')
-        .select('*')
-        .eq('user_id', user.id)
-        .gte('created_at', today.toISOString())
-        .lt('created_at', new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString())
-        .single();
+      try {
+        const { data: standUp, error } = await supabase
+          .from('stand_ups')
+          .select('*')
+          .eq('user_id', user.id)
+          .gte('created_at', today.toISOString())
+          .lt('created_at', tomorrow.toISOString())
+          .maybeSingle(); // Changed from single() to maybeSingle()
 
-      if (standUp) {
-        setMentalHealth([standUp.mental_health]);
-        setWins(standUp.wins || '');
-        setFocus(standUp.focus || '');
-        setHurdles(standUp.hurdles || '');
-        if (standUp.completed) {
-          toast({
-            title: "Stand-up already completed",
-            description: "You've already completed your stand-up for today!",
-          });
-          navigate('/');
+        if (error) {
+          console.error('Error fetching stand-up:', error);
+          return;
         }
+
+        if (standUp) {
+          setMentalHealth([standUp.mental_health]);
+          setWins(standUp.wins || '');
+          setFocus(standUp.focus || '');
+          setHurdles(standUp.hurdles || '');
+          if (standUp.completed) {
+            toast({
+              title: "Stand-up already completed",
+              description: "You've already completed your stand-up for today!",
+            });
+            navigate('/');
+          }
+        }
+      } catch (error) {
+        console.error('Error loading saved data:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load your stand-up data. Please try again.",
+          variant: "destructive",
+        });
       }
     };
 
