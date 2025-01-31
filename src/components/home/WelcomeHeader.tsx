@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { CheckCircle2, XCircle, ArrowUp, Brain } from "lucide-react";
@@ -40,22 +40,11 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
       <div className="relative py-8">
         <div className="space-y-8">
           <div className="flex items-center justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
-                  <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
-                </div>
-                <span className="font-medium tracking-tight text-black">SHIFT</span>
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 to-accent">
+                <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
               </div>
-              <h1 className="text-[2rem] leading-[1.1] font-medium tracking-tight">
-                Peak Performance,{" "}
-                <span className="bg-gradient-to-r from-[#0EA5E9] via-[#8E9196] to-[#F97316] bg-clip-text text-transparent">
-                  Zero Burnout
-                </span>
-              </h1>
-              <p className="text-lg sm:text-xl leading-tight font-medium bg-gradient-to-r from-black/70 to-black/60 bg-clip-text text-transparent">
-                A mental health & productivity app in one.
-              </p>
+              <span className="font-medium tracking-tight text-black">SHIFT</span>
             </div>
           </div>
 
