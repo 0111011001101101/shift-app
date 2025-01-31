@@ -32,15 +32,15 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg animate-pulse backdrop-blur-lg">
-        <div className="h-20 bg-primary-50/50 rounded-lg" />
+      <section className="space-y-4 bg-white p-6 rounded-2xl border border-black/[0.08] shadow-lg animate-pulse">
+        <div className="h-20 bg-black/[0.02] rounded-lg" />
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg backdrop-blur-lg">
+      <section className="space-y-4 bg-white p-6 rounded-2xl border border-black/[0.08] shadow-lg">
         <p className="text-destructive">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -48,16 +48,16 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
+      <section className="space-y-4 bg-white p-6 rounded-2xl border border-black/[0.08] shadow-lg hover:shadow-xl transition-all duration-300">
         <div className="text-center space-y-4">
-          <Target className="w-12 h-12 mx-auto text-primary-600 opacity-50 animate-float" />
+          <Target className="w-12 h-12 mx-auto text-black/40 animate-float" />
           <div>
-            <h3 className="font-medium text-secondary-800">No Goals Yet</h3>
-            <p className="text-sm text-secondary-600">Start by creating your first goal</p>
+            <h3 className="font-medium text-black">No Goals Yet</h3>
+            <p className="text-sm text-black/60">Start by creating your first goal</p>
           </div>
           <Button 
             onClick={() => navigate("/goals")} 
-            className="mt-4 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 transition-all duration-300"
+            className="mt-4 bg-black hover:bg-black/90 transition-all duration-300"
           >
             Create Goal
           </Button>
@@ -67,18 +67,18 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
+    <section className="space-y-4 bg-white p-6 rounded-2xl border border-black/[0.08] shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-br from-primary-50 to-primary-100/80 rounded-xl">
-            <Target className="w-5 h-5 text-primary-600" />
+          <div className="p-2 bg-black/[0.02] rounded-xl">
+            <Target className="w-5 h-5 text-black/60" />
           </div>
-          <h2 className="text-lg font-semibold text-secondary-800">Long Term Goals</h2>
+          <h2 className="text-lg font-semibold text-black">Long Term Goals</h2>
         </div>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-xs hover:bg-primary-50/80 group backdrop-blur-sm"
+          className="text-xs hover:bg-black/[0.02] group backdrop-blur-sm"
           onClick={() => navigate("/goals")}
         >
           View All
@@ -90,24 +90,24 @@ export function GoalsSection() {
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 
-            className="p-4 rounded-xl border border-primary-100/30 bg-gradient-to-br from-primary-50/30 to-primary-50/10 transition-all duration-300 hover:shadow-md hover:border-primary-200/30 group backdrop-blur-sm"
+            className="p-4 rounded-xl border border-black/[0.08] bg-black/[0.02] transition-all duration-300 hover:shadow-md hover:border-black/[0.16] group backdrop-blur-sm"
           >
             <div className="flex justify-between items-start mb-3">
               <div>
-                <h3 className="font-medium text-secondary-800 group-hover:text-primary-600 transition-colors">{goal.title}</h3>
+                <h3 className="font-medium text-black group-hover:text-black transition-colors">{goal.title}</h3>
                 {goal.deadline && (
-                  <p className="text-sm text-secondary-600 mt-0.5">
+                  <p className="text-sm text-black/60 mt-0.5">
                     Target: {new Date(goal.deadline).toLocaleDateString()}
                   </p>
                 )}
               </div>
-              <span className="text-xs px-2.5 py-1 bg-gradient-to-r from-primary-50 to-primary-100/80 text-primary-600 rounded-full font-medium transition-colors">
+              <span className="text-xs px-2.5 py-1 bg-black/[0.02] text-black/70 rounded-full font-medium transition-colors">
                 {goal.completed ? "100%" : "In Progress"}
               </span>
             </div>
-            <div className="h-2 w-full rounded-full bg-primary-100/50 overflow-hidden">
+            <div className="h-2 w-full rounded-full bg-black/[0.02] overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-primary-500 to-primary-600 transition-all duration-700 ease-in-out" 
+                className="h-full bg-black transition-all duration-700 ease-in-out" 
                 style={{ width: goal.completed ? "100%" : "65%" }} 
               />
             </div>

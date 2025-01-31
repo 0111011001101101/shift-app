@@ -33,25 +33,25 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 bg-gradient-to-br from-white via-gray-50/95 to-white border border-primary-100/30 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-3xl h-auto py-4"
+      className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 bg-white border border-black/[0.08] shadow-lg hover:shadow-xl backdrop-blur-lg rounded-3xl h-auto py-4"
       onClick={() => navigate("/hurdles")}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-50/20 via-primary-100/10 to-transparent rounded-3xl" />
+      <div className="absolute inset-0 bg-black/[0.02] rounded-3xl" />
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-br from-primary-50 to-primary-100/80 rounded-xl group-hover:scale-110 transition-transform duration-500">
-            <AlertCircle className="w-4 h-4 text-primary-600" />
+          <div className="p-2 bg-black/[0.02] rounded-xl group-hover:scale-110 transition-transform duration-500">
+            <AlertCircle className="w-4 h-4 text-black/60" />
           </div>
           <div className="flex flex-col items-start">
-            <span className="text-secondary-800 font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
+            <span className="text-black font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>
             {activeHurdles && activeHurdles.length > 0 && (
-              <span className="text-xs text-secondary-600">
+              <span className="text-xs text-black/60">
                 {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'}
               </span>
             )}
           </div>
         </div>
-        <ChevronRight className="w-4 h-4 text-primary-600 group-hover:translate-x-1 transition-transform duration-500" />
+        <ChevronRight className="w-4 h-4 text-black/60 group-hover:translate-x-1 transition-transform duration-500" />
       </div>
     </Button>
   );
