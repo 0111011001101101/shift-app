@@ -32,7 +32,7 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg animate-pulse">
+      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg animate-pulse">
         <div className="h-20 bg-white/20 rounded-lg" />
       </section>
     );
@@ -40,7 +40,7 @@ export function GoalsSection() {
 
   if (error) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg">
+      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg">
         <p className="text-white">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -48,22 +48,22 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer" onClick={() => navigate("/goals")}>
-        <div className="text-center space-y-3">
-          <div className="flex items-center justify-center gap-3">
-            <Target className="w-10 h-10 text-white/90 animate-float group-hover:scale-110 transition-transform duration-500" />
-            <Brain className="w-10 h-10 text-white/90 animate-float group-hover:scale-110 transition-transform duration-500 delay-100" />
+      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer" onClick={() => navigate("/goals")}>
+        <div className="text-center space-y-4">
+          <div className="flex items-center justify-center gap-4">
+            <Target className="w-12 h-12 text-white/90 animate-float group-hover:scale-110 transition-transform duration-500" />
+            <Brain className="w-12 h-12 text-white/90 animate-float group-hover:scale-110 transition-transform duration-500 delay-100" />
           </div>
           <div>
-            <h3 className="font-medium text-white">Balance Growth & Wellbeing</h3>
-            <p className="text-sm text-white/80">Set goals that align with both your ambitions and mental health</p>
+            <h3 className="text-lg font-medium text-white mb-2">Balance Growth & Wellbeing</h3>
+            <p className="text-sm text-white/80">Set meaningful goals that align with both your ambitions and mental health</p>
           </div>
           <Button 
             onClick={(e) => {
               e.stopPropagation();
               navigate("/goals");
             }} 
-            className="mt-3 bg-white hover:bg-white/90 text-[#8B5CF6] border-0 transition-all duration-300 group font-medium"
+            className="mt-4 bg-white hover:bg-white/90 text-[#8B5CF6] border-0 transition-all duration-300 group font-medium"
           >
             <Plus className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
             Create Goal
@@ -74,8 +74,8 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-3 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl">
-      <div className="flex items-center justify-between">
+    <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl">
+      <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="p-2.5 bg-white/20 rounded-xl">
             <Target className="w-5 h-5 text-white" />
@@ -93,23 +93,23 @@ export function GoalsSection() {
         </Button>
       </div>
       
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 
-            className="p-3 rounded-xl border border-white/20 bg-white/10 transition-all duration-300 hover:bg-white/20 group backdrop-blur-sm cursor-pointer"
+            className="p-4 rounded-xl border border-white/20 bg-white/10 transition-all duration-300 hover:bg-white/20 group backdrop-blur-sm cursor-pointer"
             onClick={() => navigate("/goals")}
             role="button"
             tabIndex={0}
           >
-            <div className="flex justify-between items-start mb-2">
+            <div className="flex justify-between items-start mb-3">
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-white group-hover:text-white transition-colors">{goal.title}</h3>
                   <Sparkles className="w-4 h-4 text-white/60" />
                 </div>
                 {goal.deadline && (
-                  <p className="text-xs text-white/70 mt-0.5">
+                  <p className="text-xs text-white/70 mt-1">
                     Target: {new Date(goal.deadline).toLocaleDateString()}
                   </p>
                 )}

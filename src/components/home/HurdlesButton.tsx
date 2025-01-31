@@ -37,7 +37,7 @@ export function HurdlesButton() {
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <div className="flex -space-x-2">
             <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
               <AlertCircle className="w-5 h-5 text-white" />
@@ -51,15 +51,15 @@ export function HurdlesButton() {
           </div>
           <div className="flex flex-col items-start">
             <span className="text-base font-medium group-hover:translate-x-0.5 transition-transform">
-              {activeHurdles && activeHurdles.length > 0 ? 'Mental Hurdles & Solutions' : 'Track Your Challenges'}
+              {activeHurdles && activeHurdles.length > 0 ? 'Mental Hurdles & Solutions' : 'Build Mental Resilience'}
             </span>
             {activeHurdles && activeHurdles.length > 0 ? (
               <span className="text-xs text-white/90">
-                {activeHurdles.length} active {activeHurdles.length === 1 ? 'hurdle' : 'hurdles'} to overcome
+                {activeHurdles.length} active {activeHurdles.length === 1 ? 'challenge' : 'challenges'} to overcome
               </span>
             ) : (
               <span className="text-xs text-white/90">
-                Build resilience through awareness
+                Track and overcome challenges mindfully
               </span>
             )}
           </div>

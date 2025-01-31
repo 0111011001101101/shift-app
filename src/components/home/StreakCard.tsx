@@ -1,9 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Trophy, Star, Clock, Calendar, Brain, TrendingUp } from "lucide-react";
+import { Trophy, Star, Clock, Calendar, Brain, TrendingUp, Sparkles, Target } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 interface StreakCardProps {
   streak?: number;
@@ -14,7 +15,6 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   const navigate = useNavigate();
   const formattedTime = standUpTime ? format(new Date(`2000-01-01T${standUpTime}`), 'h:mm a') : '9:30 AM';
   
-  // Fetch latest stand-up data
   const { data: latestStandUp } = useQuery({
     queryKey: ["latestStandUp"],
     queryFn: async () => {
@@ -43,10 +43,10 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   return (
     <div className="space-y-3">
       <div 
-        className="relative p-4 rounded-2xl bg-gradient-to-br from-[#F97316] to-[#FEC6A1] border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer" 
+        className="relative p-6 rounded-2xl bg-gradient-to-br from-[#F97316] to-[#FEC6A1] border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer backdrop-blur-xl" 
         onClick={() => navigate("/stand-up")}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="p-2.5 bg-white/20 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform duration-500">
@@ -59,7 +59,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               )}
             </div>
             <div className="flex flex-col">
-              <span className="text-xs font-medium text-white/90">Current Streak</span>
+              <span className="text-xs font-medium text-white/90">Growth Streak</span>
               <div className="flex items-baseline gap-1">
                 <span className="text-3xl font-bold text-white group-hover:scale-105 transition-transform">
                   {streak}
@@ -97,8 +97,8 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
         </div>
 
         {latestStandUp && (
-          <div className="mt-4 grid grid-cols-2 gap-3">
-            <div className="p-2 rounded-xl bg-white/10 backdrop-blur-sm">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm">
               <div className="flex items-center gap-2 mb-1">
                 <Brain className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Mental State</span>
@@ -109,9 +109,9 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
             
-            <div className="p-2 rounded-xl bg-white/10 backdrop-blur-sm">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm">
               <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="w-4 h-4 text-white/80" />
+                <Target className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Focus Level</span>
               </div>
               <div className="text-sm text-white/90 truncate">
