@@ -8,6 +8,7 @@ import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const { toast } = useToast();
@@ -40,33 +41,40 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 animate-fadeIn">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-6"
+      >
+        <WelcomeHeader username={profile?.first_name} />
+
         <div className="sticky -top-2 z-10 pt-4 pb-2">
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 bg-white/80 backdrop-blur-xl rounded-3xl border border-black/[0.02] shadow-lg overflow-hidden">
+        <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-2xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-4 bg-black/[0.02] border-b border-black/[0.08] p-1.5">
+            <TabsList className="w-full mb-4 bg-gradient-to-br from-primary-50 to-primary-100/80 border-b border-primary-200/20 p-1.5 rounded-xl">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 py-2.5 data-[state=active]:bg-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                className="flex-1 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Today's To-Do
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 py-2.5 data-[state=active]:bg-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                className="flex-1 py-2.5 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Week's To-Do
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4 pb-4">
+            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
               <TodoList frequency="daily" />
             </TabsContent>
             
-            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4 pb-4">
+            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
               <TodoList frequency="weekly" />
             </TabsContent>
           </Tabs>
@@ -79,7 +87,7 @@ export default function Home() {
         <div className="px-1 pb-24">
           <HurdlesButton />
         </div>
-      </div>
+      </motion.div>
     </PageContainer>
   );
 }

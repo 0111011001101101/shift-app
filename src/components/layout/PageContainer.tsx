@@ -8,7 +8,7 @@ interface PageContainerProps {
 
 export function PageContainer({ children, className = "" }: PageContainerProps) {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80">
       <motion.main 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
