@@ -45,20 +45,40 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
 
         <FormField
           control={form.control}
-          name="aiPreferences.gender"
+          name="aiPreferences.occupation"
+          render={({ field }) => (
+            <FormItem className="rounded-2xl bg-gradient-to-br from-accent-500 to-accent p-6 text-white shadow-lg">
+              <FormLabel className="text-xl font-medium">What's your role?</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="E.g., Entrepreneur, Manager, Developer..." 
+                  {...field}
+                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
+                           focus:ring-white/30 focus-visible:ring-white/30"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="aiPreferences.workStyle"
           render={({ field }) => (
             <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
-              <FormLabel className="text-xl font-medium">Gender</FormLabel>
+              <FormLabel className="text-xl font-medium">How do you prefer to work?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-12 mt-2 bg-white/10 border-white/20 text-white">
-                    <SelectValue placeholder="Select your gender" />
+                    <SelectValue placeholder="Select your work style" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-white">
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
+                  <SelectItem value="structured">I like structure and planning</SelectItem>
+                  <SelectItem value="flexible">I prefer flexibility and adaptability</SelectItem>
+                  <SelectItem value="balanced">I aim for a balance of both</SelectItem>
+                  <SelectItem value="deadline">I work best under deadlines</SelectItem>
+                  <SelectItem value="creative">I need creative freedom</SelectItem>
                 </SelectContent>
               </Select>
             </FormItem>
@@ -67,54 +87,25 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
 
         <FormField
           control={form.control}
-          name="aiPreferences.ethnicity"
+          name="aiPreferences.primaryGoal"
           render={({ field }) => (
-            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
-              <FormLabel className="text-xl font-medium">Ethnicity</FormLabel>
-              <FormControl>
-                <Input 
-                  placeholder="Your ethnicity (optional)" 
-                  {...field}
-                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
-                           focus:ring-white/30 focus-visible:ring-white/30"
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="aiPreferences.religion"
-          render={({ field }) => (
-            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
-              <FormLabel className="text-xl font-medium">Religion/Spirituality</FormLabel>
-              <FormControl>
-                <Input 
-                  placeholder="Your religion or spiritual beliefs (optional)" 
-                  {...field}
-                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
-                           focus:ring-white/30 focus-visible:ring-white/30"
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="aiPreferences.country"
-          render={({ field }) => (
-            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
-              <FormLabel className="text-xl font-medium">Where are you based?</FormLabel>
-              <FormControl>
-                <Input 
-                  placeholder="Your country" 
-                  {...field}
-                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
-                           focus:ring-white/30 focus-visible:ring-white/30"
-                />
-              </FormControl>
+            <FormItem className="rounded-2xl bg-gradient-to-br from-accent-500 to-accent p-6 text-white shadow-lg">
+              <FormLabel className="text-xl font-medium">What's your main focus?</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="h-12 mt-2 bg-white/10 border-white/20 text-white">
+                    <SelectValue placeholder="Select your main goal" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="bg-white">
+                  <SelectItem value="productivity">Boost productivity & focus</SelectItem>
+                  <SelectItem value="balance">Better work-life harmony</SelectItem>
+                  <SelectItem value="growth">Accelerate personal growth</SelectItem>
+                  <SelectItem value="stress">Master stress & energy</SelectItem>
+                  <SelectItem value="leadership">Level up leadership</SelectItem>
+                  <SelectItem value="purpose">Find deeper purpose</SelectItem>
+                </SelectContent>
+              </Select>
             </FormItem>
           )}
         />
