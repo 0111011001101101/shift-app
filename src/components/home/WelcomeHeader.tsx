@@ -37,17 +37,32 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative">
+      <div className="relative space-y-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-black to-black/90 shadow-lg">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-lg">
               <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
             </div>
             <span className="font-medium tracking-tight text-black">SHIFT</span>
           </div>
-          <button className="text-sm font-medium text-black/70 hover:text-black transition-colors">
+          <Button 
+            variant="ghost"
+            className="text-sm font-medium text-black/70 hover:text-black transition-colors"
+          >
             Settings
-          </button>
+          </Button>
+        </div>
+
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold tracking-tight">
+            <span className="text-black">Welcome back,</span>{" "}
+            <span className="bg-gradient-to-r from-[#007BFF] to-[#F58634] bg-clip-text text-transparent">
+              {username}
+            </span>
+          </h1>
+          <p className="text-lg text-gray-600 max-w-md mx-auto">
+            Let's make today count.
+          </p>
         </div>
         {children}
       </div>

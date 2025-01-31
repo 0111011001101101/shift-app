@@ -33,14 +33,14 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 bg-white border border-black/[0.08] shadow-lg hover:shadow-xl backdrop-blur-lg rounded-3xl h-auto py-4"
+      className="w-full group relative overflow-hidden hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 bg-gradient-to-br from-white via-gray-50/95 to-white border border-black/[0.08] shadow-lg hover:shadow-xl backdrop-blur-lg rounded-3xl h-auto py-4"
       onClick={() => navigate("/hurdles")}
     >
       <div className="absolute inset-0 bg-black/[0.02] rounded-3xl" />
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-black/[0.02] rounded-xl group-hover:scale-110 transition-transform duration-500">
-            <AlertCircle className="w-4 h-4 text-black/60" />
+          <div className="p-2 bg-[#3DDC97] rounded-xl group-hover:scale-110 transition-transform duration-500">
+            <AlertCircle className="w-4 h-4 text-white" />
           </div>
           <div className="flex flex-col items-start">
             <span className="text-black font-medium group-hover:translate-x-0.5 transition-transform">View Current Hurdles</span>

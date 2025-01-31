@@ -42,37 +42,6 @@ export default function Home() {
     },
   });
 
-  const features = [
-    {
-      icon: <Brain className="w-6 h-6" />,
-      title: "AI Coach",
-      description: "24/7 personalized guidance",
-      color: "bg-[#008CFF]",
-      onClick: () => navigate("/chat"),
-    },
-    {
-      icon: <Activity className="w-6 h-6" />,
-      title: "Daily Growth",
-      description: "Track progress effortlessly",
-      color: "bg-[#FF8C42]",
-      onClick: () => navigate("/goals"),
-    },
-    {
-      icon: <Star className="w-6 h-6" />,
-      title: "Quick Check-ins",
-      description: "5-min morning stand-ups",
-      color: "bg-[#9B51E0]",
-      onClick: () => navigate("/stand-up"),
-    },
-    {
-      icon: <Shield className="w-6 h-6" />,
-      title: "Hurdle Management",
-      description: "Turn blocks into stepping stones",
-      color: "bg-[#3DDC97]",
-      onClick: () => navigate("/hurdles"),
-    },
-  ];
-
   return (
     <PageContainer>
       <motion.div 
@@ -82,41 +51,6 @@ export default function Home() {
         className="space-y-12"
       >
         <WelcomeHeader username={profile?.first_name} />
-
-        <div className="space-y-6">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold tracking-tight">
-              <span className="text-black">Peak Performance,</span>{" "}
-              <span className="bg-gradient-to-r from-[#007BFF] to-[#F58634] bg-clip-text text-transparent">
-                Zero Burnout
-              </span>
-            </h1>
-            <p className="text-lg text-gray-600 max-w-md mx-auto">
-              A mental health & productivity app in one.
-            </p>
-          </div>
-
-          <div className="space-y-4">
-            {features.map((feature, index) => (
-              <motion.button
-                key={feature.title}
-                className={`w-full p-6 rounded-2xl ${feature.color} text-white flex items-center gap-4 hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl`}
-                onClick={feature.onClick}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <div className="p-2 bg-white/20 rounded-xl">
-                  {feature.icon}
-                </div>
-                <div className="text-left">
-                  <h3 className="font-semibold text-lg">{feature.title}</h3>
-                  <p className="text-sm text-white/90">{feature.description}</p>
-                </div>
-              </motion.button>
-            ))}
-          </div>
-        </div>
 
         <div className="space-y-8">
           <div className="sticky -top-2 z-10 pt-4 pb-2">

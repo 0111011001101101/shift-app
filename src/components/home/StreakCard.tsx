@@ -15,7 +15,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   tomorrow.setDate(tomorrow.getDate() + 1);
   
   return (
-    <div className="relative p-6 rounded-3xl bg-white border border-black/[0.08] shadow-lg hover:shadow-xl transition-all duration-300 group">
+    <div className="relative p-6 rounded-3xl bg-gradient-to-br from-white via-gray-50/95 to-white border border-black/[0.08] shadow-lg hover:shadow-xl transition-all duration-300 group backdrop-blur-xl">
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -23,7 +23,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               <Trophy className="w-6 h-6 text-black" />
             </div>
             {streak > 0 && (
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-black rounded-full flex items-center justify-center animate-bounce shadow-lg">
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#F58634] rounded-full flex items-center justify-center animate-bounce shadow-lg">
                 <Star className="w-3 h-3 text-white" />
               </div>
             )}
@@ -31,12 +31,12 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
           <div className="flex flex-col">
             <span className="text-sm font-medium text-black/70">Current Streak</span>
             <div className="flex items-baseline gap-2">
-              <span className="text-4xl font-black text-black">{streak}</span>
+              <span className="text-4xl font-black bg-gradient-to-r from-[#007BFF] to-[#F58634] bg-clip-text text-transparent">{streak}</span>
               <span className="text-xs text-black/60">days</span>
             </div>
           </div>
         </div>
-        <Star className="w-5 h-5 text-black/40 animate-pulse" />
+        <Star className="w-5 h-5 text-[#F58634] animate-pulse" />
       </div>
       
       <div className="mt-4 flex flex-col gap-2">
