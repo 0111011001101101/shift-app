@@ -48,15 +48,18 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl">
+      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer" onClick={() => navigate("/goals")}>
         <div className="text-center space-y-3">
-          <Target className="w-12 h-12 mx-auto text-white/90 animate-float" />
+          <Target className="w-12 h-12 mx-auto text-white/90 animate-float group-hover:scale-110 transition-transform duration-500" />
           <div>
             <h3 className="font-medium text-white">Set Your First Goal</h3>
             <p className="text-sm text-white/80">Start by creating a goal to track your progress</p>
           </div>
           <Button 
-            onClick={() => navigate("/goals")} 
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/goals");
+            }} 
             className="mt-3 bg-white hover:bg-white/90 text-[#8B5CF6] border-0 transition-all duration-300 group font-medium"
           >
             <Plus className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />

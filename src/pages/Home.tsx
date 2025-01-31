@@ -49,11 +49,12 @@ export default function Home() {
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+            className="relative"
           >
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </motion.div>
@@ -64,18 +65,18 @@ export default function Home() {
             transition={{ delay: 0.3 }}
           >
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-3 bg-white/80 border-0 p-1 rounded-2xl shadow-sm">
+              <TabsList className="w-full mb-4 bg-white/80 border-0 p-1 rounded-2xl shadow-sm">
                 <TabsTrigger 
                   value="today" 
                   className="flex-1 py-2.5 text-secondary-700 data-[state=active]:bg-accent data-[state=active]:text-white rounded-xl transition-all duration-300"
                 >
-                  Today's To-Do
+                  Today's Tasks
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
                   className="flex-1 py-2.5 text-secondary-700 data-[state=active]:bg-accent data-[state=active]:text-white rounded-xl transition-all duration-300"
                 >
-                  Week's To-Do
+                  Week's Tasks
                 </TabsTrigger>
               </TabsList>
               

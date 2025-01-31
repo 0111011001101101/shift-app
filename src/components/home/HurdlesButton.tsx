@@ -33,7 +33,7 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#F97316] to-[#FEC6A1] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
+      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#10B981] to-[#34D399] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
@@ -62,6 +62,7 @@ export function HurdlesButton() {
           <Plus className="w-5 h-5 text-white/90 group-hover:rotate-90 transition-transform duration-500" />
         )}
       </div>
+      <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
     </Button>
   );
 }
