@@ -1,4 +1,4 @@
-export type OnboardingStep = "name" | "basic_info" | "work_info" | "preferences" | "goals";
+export type OnboardingStep = "name";
 
 export interface OnboardingForm {
   firstName: string;

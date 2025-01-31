@@ -33,7 +33,7 @@ export const NameStep = ({ form }: { form: any }) => {
           transition={{ delay: 0.3, duration: 0.5 }}
           className="text-secondary-600 text-center max-w-xs"
         >
-          Let's personalize your experience. First, what should we call you?
+          Let's start with your name
         </motion.p>
       </div>
       
