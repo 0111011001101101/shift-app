@@ -9,12 +9,9 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Brain, Activity, Star, Shield } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { toast } = useToast();
-  const navigate = useNavigate();
   
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -48,27 +45,27 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-12"
+        className="space-y-8"
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-8">
+        <div className="space-y-6">
           <div className="sticky -top-2 z-10 pt-4 pb-2">
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </div>
 
-          <div className="space-y-4 bg-white p-6 rounded-3xl border border-black/[0.08] shadow-lg hover:shadow-xl transition-all duration-300">
+          <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-3xl border border-black/[0.02] shadow-lg backdrop-blur-xl">
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-6 bg-black/[0.02] border border-black/[0.08] p-1.5 rounded-2xl">
+              <TabsList className="w-full mb-6 bg-black/[0.02] border border-black/[0.04] p-1.5 rounded-2xl">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-3 data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#007BFF] data-[state=active]:to-[#00C6FF] data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
                 >
                   Today's To-Do
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-3 data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                  className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-[#007BFF] data-[state=active]:to-[#00C6FF] data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
                 >
                   Week's To-Do
                 </TabsTrigger>
