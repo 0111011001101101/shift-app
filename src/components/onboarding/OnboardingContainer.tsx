@@ -2,9 +2,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ProgressIndicator } from "@/components/stand-up/ProgressIndicator";
 import { containerVariants } from "./animations";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Form } from "@/components/ui/form";
-import { useNavigate } from "react-router-dom";
 import { OnboardingStep } from "./types";
 
 interface OnboardingContainerProps {
@@ -75,32 +74,19 @@ export const OnboardingContainer = ({
                              text-secondary-700 hover:text-secondary-800
                              shadow-sm hover:shadow-md transition-all rounded-xl"
                   >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
                     Back
                   </Button>
                 )}
                 <Button
                   type="button"
                   onClick={nextStep}
-                  className={`${step === "name" ? "w-full" : "flex-1"} h-12 px-4 text-sm font-medium
+                  className={`${step === "name" ? "w-full" : "flex-1"} h-12 w-12 px-4 
                             bg-gradient-to-r from-primary-600/90 to-accent/90 text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
                             rounded-xl active:scale-[0.98] group`}
                 >
-                  <div className="flex items-center justify-center gap-2">
-                    <span>{step === "goals" ? "Complete Setup" : "Continue"}</span>
-                    <div className="flex items-center gap-1">
-                      <motion.span 
-                        initial={{ width: 0, opacity: 0 }}
-                        animate={{ width: "auto", opacity: 1 }}
-                        className="text-lg font-bold tracking-tight overflow-hidden whitespace-nowrap"
-                      >
-                        SHIFT
-                      </motion.span>
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
+                  <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
               {step !== "name" && skipPersonalization && (
