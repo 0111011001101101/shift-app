@@ -48,8 +48,12 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer" onClick={() => navigate("/goals")}>
-        <div className="text-center space-y-4">
+      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] via-[#A78BFA] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer relative overflow-hidden" onClick={() => navigate("/goals")}>
+        {/* Decorative background elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
+        
+        <div className="text-center space-y-4 relative">
           <div className="flex items-center justify-center gap-4">
             <div className="p-3 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
               <Target className="w-8 h-8 text-white/90" />
@@ -70,7 +74,7 @@ export function GoalsSection() {
               e.stopPropagation();
               navigate("/goals");
             }} 
-            className="mt-4 bg-white hover:bg-white/90 text-[#8B5CF6] border-0 transition-all duration-300 group font-medium"
+            className="mt-4 bg-white hover:bg-white/90 text-[#8B5CF6] border-0 transition-all duration-300 group font-medium shadow-lg hover:shadow-xl"
           >
             <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" />
             Create Your First Goal
@@ -81,8 +85,12 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl">
-      <div className="flex items-center justify-between mb-4">
+    <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] via-[#A78BFA] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32" />
+      
+      <div className="flex items-center justify-between mb-4 relative">
         <div className="flex items-center gap-3">
           <div className="p-2.5 bg-white/20 rounded-xl">
             <Target className="w-5 h-5 text-white" />
@@ -100,7 +108,7 @@ export function GoalsSection() {
         </Button>
       </div>
       
-      <div className="space-y-3">
+      <div className="space-y-3 relative">
         {goals.slice(0, 2).map((goal) => (
           <div 
             key={goal.id} 

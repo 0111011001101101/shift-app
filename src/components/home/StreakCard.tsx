@@ -48,12 +48,16 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
   return (
     <div className="space-y-3">
       <div 
-        className="relative p-6 rounded-2xl bg-gradient-to-br from-[#F97316] to-[#FEC6A1] border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer backdrop-blur-xl" 
+        className="relative p-6 rounded-2xl bg-gradient-to-br from-[#F97316] via-[#FB923C] to-[#FDBA74] border-0 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer backdrop-blur-xl overflow-hidden" 
         onClick={() => navigate("/stand-up")}
       >
+        {/* Decorative background elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
+
         <div className="absolute top-0 right-0 p-4">
-          <div className="text-white/80 text-sm font-medium flex items-center gap-2">
-            <Flame className="w-4 h-4" />
+          <div className="text-white/90 text-sm font-medium flex items-center gap-2">
+            <Flame className="w-4 h-4 animate-float" />
             {streak > 0 && (
               <span className="animate-pulse">
                 {getStreakEmoji(streak)}
@@ -62,7 +66,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
           </div>
         </div>
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-6 relative">
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="p-2.5 bg-white/20 backdrop-blur-sm rounded-xl group-hover:scale-110 transition-transform duration-500">
@@ -89,21 +93,21 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             <Button 
               variant="ghost" 
               size="sm" 
-              className="h-8 px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group"
+              className="h-8 px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group/time"
               onClick={(e) => {
                 e.stopPropagation();
                 navigate("/settings");
               }}
             >
-              <Clock className="w-3.5 h-3.5 text-white/80 group-hover:scale-110 transition-transform" />
+              <Clock className="w-3.5 h-3.5 text-white/80 group-hover/time:scale-110 transition-transform" />
               <span className="text-xs">{formattedTime}</span>
             </Button>
           </div>
         </div>
 
         {latestStandUp ? (
-          <div className="grid grid-cols-3 gap-3">
-            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
+          <div className="grid grid-cols-3 gap-3 relative">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-all duration-300">
               <div className="flex items-center gap-2 mb-1">
                 <Brain className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Mental State</span>
@@ -114,7 +118,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
             
-            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-all duration-300">
               <div className="flex items-center gap-2 mb-1">
                 <Target className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Focus</span>
@@ -124,7 +128,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-colors">
+            <div className="p-3 rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-all duration-300">
               <div className="flex items-center gap-2 mb-1">
                 <Heart className="w-4 h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Wellbeing</span>
@@ -137,16 +141,16 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             </div>
           </div>
         ) : (
-          <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm text-center">
+          <div className="p-4 rounded-xl bg-white/10 backdrop-blur-sm text-center relative">
             <p className="text-sm text-white/90 mb-2">Start your day mindfully</p>
             <Button 
               variant="ghost" 
               size="sm" 
-              className="mt-2 text-white hover:bg-white/20 group"
+              className="mt-2 text-white hover:bg-white/20 group/btn"
               onClick={() => navigate("/stand-up")}
             >
               Complete Morning Stand-Up
-              <TrendingUp className="w-4 h-4 ml-2 group-hover:translate-y-[-2px] transition-transform" />
+              <TrendingUp className="w-4 h-4 ml-2 group-hover/btn:translate-y-[-2px] transition-transform" />
             </Button>
           </div>
         )}
