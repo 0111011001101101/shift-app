@@ -50,9 +50,7 @@ export default function Home() {
         <WelcomeHeader username={profile?.first_name} />
 
         <div className="space-y-6">
-          <div className="sticky -top-2 z-10 pt-4 pb-2">
-            <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
-          </div>
+          <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
           <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-3xl border border-black/[0.02] shadow-lg backdrop-blur-xl">
             <Tabs defaultValue="today" className="w-full">
