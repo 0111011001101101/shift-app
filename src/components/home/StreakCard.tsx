@@ -44,6 +44,13 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
     if (streak >= 7) return "💫";
     return "✨";
   };
+
+  const getWellbeingEmoji = (score: number) => {
+    if (score >= 8) return "💪";
+    if (score >= 6) return "✨";
+    if (score >= 4) return "🌱";
+    return "💗";
+  };
   
   return (
     <div className="space-y-3">
@@ -105,22 +112,11 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
         </div>
 
         {latestStandUp ? (
-          <div className="grid grid-cols-3 gap-2 sm:gap-3 relative">
-            <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-all duration-300">
-              <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
-                <Brain className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80" />
-                <span className="text-xs font-medium text-white">Mental State</span>
-              </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-xl sm:text-2xl font-bold text-white">{latestStandUp.mental_health}</span>
-                <span className="text-xs text-white/80">/10</span>
-              </div>
-            </div>
-            
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 relative">
             <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-all duration-300">
               <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
                 <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80" />
-                <span className="text-xs font-medium text-white">Focus</span>
+                <span className="text-xs font-medium text-white">Today's Focus</span>
               </div>
               <div className="text-xs sm:text-sm text-white/90 truncate">
                 {latestStandUp.focus || "Not set"}
@@ -132,10 +128,13 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
                 <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80" />
                 <span className="text-xs font-medium text-white">Wellbeing</span>
               </div>
-              <div className="text-xs sm:text-sm text-white/90">
-                {latestStandUp.mental_health >= 8 ? "Thriving" :
-                 latestStandUp.mental_health >= 6 ? "Balanced" :
-                 latestStandUp.mental_health >= 4 ? "Managing" : "Needs Care"}
+              <div className="flex items-center gap-1.5">
+                <span className="text-lg">{getWellbeingEmoji(latestStandUp.mental_health)}</span>
+                <span className="text-xs sm:text-sm text-white/90">
+                  {latestStandUp.mental_health >= 8 ? "Thriving" :
+                   latestStandUp.mental_health >= 6 ? "Balanced" :
+                   latestStandUp.mental_health >= 4 ? "Growing" : "Self-Care"}
+                </span>
               </div>
             </div>
           </div>
