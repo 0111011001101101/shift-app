@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { ArrowUp } from "lucide-react";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
 
@@ -39,11 +38,10 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
     <>
       <div className="relative space-y-8">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-primary-500 via-primary-400 to-accent shadow-lg">
-              <ArrowUp className="w-5 h-5 text-white" strokeWidth={2.5} />
-            </div>
-            <span className="font-medium tracking-tight text-black">SHIFT</span>
+          <div className="flex gap-2">
+            <div className="h-12 w-3 rounded-full bg-gradient-to-b from-[#8B5CF6] to-[#D946EF]" />
+            <div className="h-12 w-3 rounded-full bg-gradient-to-b from-[#F97316] to-[#FB923C]" />
+            <div className="h-12 w-3 rounded-full bg-gradient-to-b from-[#0EA5E9] to-[#38BDF8]" />
           </div>
           <Button 
             variant="ghost"
