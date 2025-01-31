@@ -39,11 +39,11 @@ export default function Home() {
   });
 
   return (
-    <PageContainer className="max-w-3xl mx-auto space-y-8 px-4 sm:px-6 pb-safe-area-inset-bottom">
+    <PageContainer>
       <div className="space-y-6 animate-fadeIn">
         <WelcomeHeader username={profile?.first_name} />
         
-        <div className="sticky -top-2 z-10 pt-4 pb-2">
+        <div className="sticky -top-2 z-10 pt-4 pb-2 px-1">
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
@@ -64,18 +64,23 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             
-            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
+            <TabsContent value="today" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4 pb-4">
               <TodoList frequency="daily" />
             </TabsContent>
             
-            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4">
+            <TabsContent value="week" className="mt-2 focus-visible:outline-none focus-visible:ring-0 px-4 pb-4">
               <TodoList frequency="weekly" />
             </TabsContent>
           </Tabs>
         </div>
 
-        <GoalsSection />
-        <HurdlesButton />
+        <div className="px-1">
+          <GoalsSection />
+        </div>
+        
+        <div className="px-1 pb-24">
+          <HurdlesButton />
+        </div>
       </div>
     </PageContainer>
   );

@@ -38,7 +38,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative py-8">
+      <div className="relative py-6">
         <div className="space-y-6">
           <div className="space-y-2">
             <div className="flex items-baseline gap-3">

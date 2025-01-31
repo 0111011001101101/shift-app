@@ -13,7 +13,7 @@ export function PageContainer({ children, className = "" }: PageContainerProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`px-6 pt-24 pb-12 max-w-lg mx-auto space-y-12 ${className}`}
+        className={`px-4 pt-20 pb-12 max-w-lg mx-auto space-y-12 ${className}`}
       >
         {/* Decorative background elements */}
         <div className="fixed inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary-400/10 via-transparent to-transparent pointer-events-none" />
