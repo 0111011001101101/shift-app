@@ -9,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Brain, Activity, Sparkles, Shield } from "lucide-react";
-import { motion } from "framer-motion"; // Added this import
 
 export default function Home() {
   const { toast } = useToast();
@@ -74,11 +73,8 @@ export default function Home() {
         
         <div className="grid grid-cols-1 gap-4">
           {features.map((feature, index) => (
-            <motion.div
+            <div
               key={feature.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 + (index * 0.1) }}
               className={`p-6 rounded-2xl bg-gradient-to-br ${feature.bgClass}
                        hover:shadow-lg transition-all duration-300 group
                        hover:-translate-y-1`}
@@ -94,7 +90,7 @@ export default function Home() {
                   <span className="text-sm text-white/90">{feature.description}</span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
@@ -102,7 +98,7 @@ export default function Home() {
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 bg-white rounded-3xl border border-black/[0.08] shadow-xl overflow-hidden">
+        <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white rounded-3xl border border-primary-100/30 shadow-xl overflow-hidden backdrop-blur-lg">
           <Tabs defaultValue="today" className="w-full">
             <TabsList className="w-full mb-4 bg-black/[0.02] border-b border-black/[0.08] p-1.5">
               <TabsTrigger 
