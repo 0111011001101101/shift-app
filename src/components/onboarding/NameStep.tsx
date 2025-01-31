@@ -22,16 +22,18 @@ export const NameStep = ({ form }: { form: any }) => {
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="text-2xl font-semibold text-center bg-clip-text text-transparent 
-                     bg-gradient-to-r from-primary-600 to-accent"
+          className="text-4xl font-medium tracking-tight"
         >
-          Welcome to SHIFT!
+          <span className="bg-gradient-to-r from-primary-600 to-accent bg-clip-text text-transparent">
+            Welcome to SHIFT!
+          </span>
         </motion.h1>
+        
         <motion.p 
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="text-secondary-600 text-center max-w-xs"
+          className="text-lg text-secondary-600 text-center"
         >
           Let's start with your name
         </motion.p>

@@ -19,7 +19,7 @@ export const OnboardingContainer = ({
   children,
 }: OnboardingContainerProps) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-900/5 via-white/90 to-primary-50/30">
+    <div className="min-h-screen bg-gradient-to-br from-white via-primary-50/30 to-accent/5">
       <AnimatePresence mode="wait">
         <motion.div
           key={step}
@@ -40,7 +40,7 @@ export const OnboardingContainer = ({
           </div>
 
           <motion.div 
-            className="fixed bottom-4 right-4"
+            className="fixed bottom-8 right-8"
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.3 }}
@@ -48,12 +48,12 @@ export const OnboardingContainer = ({
             <Button
               type="button"
               onClick={nextStep}
-              className="h-12 w-12 rounded-full bg-gradient-to-r from-primary-600/90 to-accent/90 
+              className="h-14 w-14 rounded-full bg-gradient-to-r from-primary-600 to-accent 
                         text-white hover:opacity-90 active:opacity-95 transition-all duration-300 
                         shadow-lg hover:shadow-xl active:scale-[0.98] group p-0"
               size="icon"
             >
-              <ArrowRight className="h-5 w-5 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="h-6 w-6 group-hover:translate-x-0.5 transition-transform" />
             </Button>
           </motion.div>
         </motion.div>
