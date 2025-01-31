@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { AlertCircle, ChevronRight, Plus } from "lucide-react";
+import { AlertCircle, ChevronRight, Plus, Brain, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,12 +38,20 @@ export function HurdlesButton() {
     >
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
-            <AlertCircle className="w-5 h-5 text-white" />
+          <div className="flex -space-x-2">
+            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
+              <AlertCircle className="w-5 h-5 text-white" />
+            </div>
+            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-75">
+              <Brain className="w-5 h-5 text-white" />
+            </div>
+            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-150">
+              <Shield className="w-5 h-5 text-white" />
+            </div>
           </div>
           <div className="flex flex-col items-start">
             <span className="text-base font-medium group-hover:translate-x-0.5 transition-transform">
-              {activeHurdles && activeHurdles.length > 0 ? 'View Active Hurdles' : 'Add Your First Hurdle'}
+              {activeHurdles && activeHurdles.length > 0 ? 'Mental Hurdles & Solutions' : 'Track Your Challenges'}
             </span>
             {activeHurdles && activeHurdles.length > 0 ? (
               <span className="text-xs text-white/90">
@@ -51,7 +59,7 @@ export function HurdlesButton() {
               </span>
             ) : (
               <span className="text-xs text-white/90">
-                Track and overcome challenges
+                Build resilience through awareness
               </span>
             )}
           </div>

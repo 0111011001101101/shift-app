@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Target, ChevronRight, Plus } from "lucide-react";
+import { Target, ChevronRight, Plus, Brain, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,10 +50,13 @@ export function GoalsSection() {
     return (
       <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-4 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer" onClick={() => navigate("/goals")}>
         <div className="text-center space-y-3">
-          <Target className="w-12 h-12 mx-auto text-white/90 animate-float group-hover:scale-110 transition-transform duration-500" />
+          <div className="flex items-center justify-center gap-3">
+            <Target className="w-10 h-10 text-white/90 animate-float group-hover:scale-110 transition-transform duration-500" />
+            <Brain className="w-10 h-10 text-white/90 animate-float group-hover:scale-110 transition-transform duration-500 delay-100" />
+          </div>
           <div>
-            <h3 className="font-medium text-white">Set Your First Goal</h3>
-            <p className="text-sm text-white/80">Start by creating a goal to track your progress</p>
+            <h3 className="font-medium text-white">Balance Growth & Wellbeing</h3>
+            <p className="text-sm text-white/80">Set goals that align with both your ambitions and mental health</p>
           </div>
           <Button 
             onClick={(e) => {
@@ -77,7 +80,7 @@ export function GoalsSection() {
           <div className="p-2.5 bg-white/20 rounded-xl">
             <Target className="w-5 h-5 text-white" />
           </div>
-          <h2 className="text-base font-semibold text-white">Your Goals</h2>
+          <h2 className="text-base font-semibold text-white">Growth & Wellbeing</h2>
         </div>
         <Button 
           variant="ghost" 
@@ -101,7 +104,10 @@ export function GoalsSection() {
           >
             <div className="flex justify-between items-start mb-2">
               <div>
-                <h3 className="font-medium text-white group-hover:text-white transition-colors">{goal.title}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-medium text-white group-hover:text-white transition-colors">{goal.title}</h3>
+                  <Sparkles className="w-4 h-4 text-white/60" />
+                </div>
                 {goal.deadline && (
                   <p className="text-xs text-white/70 mt-0.5">
                     Target: {new Date(goal.deadline).toLocaleDateString()}
@@ -109,7 +115,7 @@ export function GoalsSection() {
                 )}
               </div>
               <span className={`text-xs px-2.5 py-1 ${goal.completed ? 'bg-white/30 text-white' : 'bg-white/20 text-white'} rounded-full font-medium transition-colors`}>
-                {goal.completed ? 'Completed' : 'In Progress'}
+                {goal.completed ? 'Achieved' : 'In Progress'}
               </span>
             </div>
             <div className="h-1.5 w-full rounded-full bg-white/20 overflow-hidden">
