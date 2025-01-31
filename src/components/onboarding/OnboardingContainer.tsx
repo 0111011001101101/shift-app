@@ -36,16 +36,14 @@ export const OnboardingContainer = ({
           initial="hidden"
           animate="visible"
           exit="exit"
-          className="min-h-screen flex flex-col relative pb-[80px]"
+          className="min-h-screen flex flex-col"
         >
-          <div className="flex-1 px-4 pt-8 max-w-md mx-auto w-full">
-            <div className="mb-8">
-              <ProgressIndicator 
-                steps={steps} 
-                currentStep={getCurrentStepIndex()} 
-              />
-            </div>
-            
+          <ProgressIndicator 
+            steps={steps} 
+            currentStep={getCurrentStepIndex()} 
+          />
+          
+          <div className="flex-1 px-4 pt-20 pb-24 max-w-md mx-auto w-full">
             <motion.div>
               <Form {...form}>
                 <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
