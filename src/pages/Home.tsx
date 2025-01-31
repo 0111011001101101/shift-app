@@ -53,18 +53,18 @@ export default function Home() {
           <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </div>
 
-        <div className="space-y-4 bg-gradient-to-br from-white via-gray-50/95 to-white p-6 rounded-3xl border border-primary-100/30 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-lg">
+        <div className="space-y-4 bg-white p-6 rounded-3xl border border-black/[0.08] shadow-lg hover:shadow-xl transition-all duration-300">
           <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full mb-6 bg-gradient-to-br from-primary-50 to-primary-100/80 border-b border-primary-200/20 p-1.5 rounded-2xl">
+            <TabsList className="w-full mb-6 bg-black/[0.02] border border-black/[0.08] p-1.5 rounded-2xl">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                className="flex-1 py-3 data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Today's To-Do
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 py-3 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-600 data-[state=active]:to-primary-500 data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
+                className="flex-1 py-3 data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-lg rounded-xl transition-all duration-300"
               >
                 Week's To-Do
               </TabsTrigger>
