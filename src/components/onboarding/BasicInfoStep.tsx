@@ -1,19 +1,15 @@
 import { FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Brain } from "lucide-react";
 import { motion } from "framer-motion";
 import { itemVariants } from "./animations";
 
 export const BasicInfoStep = ({ form }: { form: any }) => {
   return (
     <motion.div variants={itemVariants} className="space-y-8">
-      <div className="flex justify-center">
-        <div className="p-6 rounded-[2rem] bg-gradient-to-br from-primary-400 via-primary-500 to-accent 
-                      shadow-xl shadow-primary-500/20 animate-float">
-          <Brain className="w-10 h-10 text-white" />
-        </div>
-      </div>
+      <p className="text-sm text-center text-secondary-600">
+        You can skip personalization and set these preferences later
+      </p>
 
       <div className="space-y-6">
         <FormField
@@ -29,6 +25,7 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className="bg-white">
+                  <SelectItem value="under-18">Younger than 18</SelectItem>
                   <SelectItem value="18-24">18-24 years</SelectItem>
                   <SelectItem value="25-34">25-34 years</SelectItem>
                   <SelectItem value="35-44">35-44 years</SelectItem>
@@ -65,6 +62,42 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
 
         <FormField
           control={form.control}
+          name="aiPreferences.ethnicity"
+          render={({ field }) => (
+            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
+              <FormLabel className="text-xl font-medium">Ethnicity</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Your ethnicity (optional)" 
+                  {...field}
+                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
+                           focus:ring-white/30 focus-visible:ring-white/30"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="aiPreferences.religion"
+          render={({ field }) => (
+            <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
+              <FormLabel className="text-xl font-medium">Religion/Spirituality</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Your religion or spiritual beliefs (optional)" 
+                  {...field}
+                  className="h-12 mt-2 bg-white/10 border-white/20 text-white placeholder:text-white/70
+                           focus:ring-white/30 focus-visible:ring-white/30"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="aiPreferences.country"
           render={({ field }) => (
             <FormItem className="rounded-2xl bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white shadow-lg">
@@ -80,10 +113,6 @@ export const BasicInfoStep = ({ form }: { form: any }) => {
             </FormItem>
           )}
         />
-
-        <p className="text-sm text-center text-secondary-600">
-          You can skip personalization and set these preferences later
-        </p>
       </div>
     </motion.div>
   );
