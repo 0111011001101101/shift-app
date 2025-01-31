@@ -86,10 +86,21 @@ export const OnboardingContainer = ({
                             bg-gradient-to-r from-primary-600/90 to-accent/90 text-white 
                             hover:opacity-90 active:opacity-95
                             transition-all duration-300 shadow-sm hover:shadow-md
-                            rounded-xl active:scale-[0.98]`}
+                            rounded-xl active:scale-[0.98] group`}
                 >
-                  {step === "goals" ? "Complete Setup" : "Continue"}
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <div className="flex items-center justify-center gap-2">
+                    <span>{step === "goals" ? "Complete Setup" : "Continue"}</span>
+                    <div className="flex items-center gap-1">
+                      <motion.span 
+                        initial={{ width: 0, opacity: 0 }}
+                        animate={{ width: "auto", opacity: 1 }}
+                        className="text-lg font-bold tracking-tight overflow-hidden whitespace-nowrap"
+                      >
+                        SHIFT
+                      </motion.span>
+                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </Button>
               </div>
               {step !== "name" && skipPersonalization && (
