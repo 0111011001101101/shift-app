@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check, Target, ChevronRight, Loader2 } from "lucide-react";
+import { Plus, Pencil, Check, Target, ChevronRight, Loader2, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,6 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { TodoFilter, FilterType } from "./TodoFilter";
 import { motion, AnimatePresence } from "framer-motion";
+import { format } from "date-fns";
 
 interface SubGoal {
   id: string;
@@ -24,12 +25,14 @@ interface SubGoal {
   goal: {
     id: string;
     title: string;
+    deadline?: string | null;
   } | null;
 }
 
 interface Goal {
   id: string;
   title: string;
+  deadline?: string | null;
 }
 
 interface TodoListProps {
@@ -258,11 +261,11 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             >
               <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white via-white to-primary-50/10 border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
                 <div className="absolute inset-0 bg-grid-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative flex items-center gap-4 p-4">
+                <div className="relative flex items-start gap-4 p-4">
                   <Button
                     size="sm"
                     variant="ghost"
-                    className={`relative p-0 h-auto hover:bg-transparent overflow-hidden ${
+                    className={`relative p-0 h-auto hover:bg-transparent overflow-hidden mt-1 ${
                       todo.completed 
                         ? "text-primary-500" 
                         : "text-secondary-300 hover:text-secondary-400"
@@ -282,7 +285,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                     </div>
                   </Button>
 
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 space-y-1">
                     {editingTodoId === todo.id ? (
                       <Input
                         value={editedTodoText}
@@ -292,7 +295,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                         autoFocus
                       />
                     ) : (
-                      <>
+                      <div className="space-y-2">
                         <span
                           className={`block text-sm sm:text-base ${
                             todo.completed
@@ -302,20 +305,28 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                         >
                           {todo.title}
                         </span>
-                        {todo.goal && !goalId && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 5 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="flex items-center gap-1.5 mt-1.5 cursor-pointer group/goal"
-                            onClick={() => navigateToGoals()}
-                          >
-                            <Target className="w-3.5 h-3.5 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
-                            <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
-                              {todo.goal.title}
-                            </span>
-                          </motion.div>
+                        {todo.goal && (
+                          <div className="flex flex-col gap-1.5">
+                            <motion.div
+                              initial={{ opacity: 0, y: 5 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              className="flex items-center gap-1.5 cursor-pointer group/goal"
+                              onClick={() => navigateToGoals()}
+                            >
+                              <Target className="w-3.5 h-3.5 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
+                              <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
+                                {todo.goal.title}
+                              </span>
+                            </motion.div>
+                            {todo.goal.deadline && (
+                              <div className="flex items-center gap-1.5 text-xs text-secondary-500">
+                                <Calendar className="w-3.5 h-3.5" />
+                                <span>Due {format(new Date(todo.goal.deadline), 'MMM d, yyyy')}</span>
+                              </div>
+                            )}
+                          </div>
                         )}
-                      </>
+                      </div>
                     )}
                   </div>
 
@@ -371,7 +382,14 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                 >
                   <div className="flex items-center gap-2">
                     <Target className="w-3.5 h-3.5 text-primary-500/70" />
-                    <span className="font-medium">{goal.title}</span>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{goal.title}</span>
+                      {goal.deadline && (
+                        <span className="text-xs text-secondary-500">
+                          Due {format(new Date(goal.deadline), 'MMM d, yyyy')}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </SelectItem>
               ))}
