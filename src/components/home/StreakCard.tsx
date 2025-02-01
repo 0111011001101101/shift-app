@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Trophy, Star, Clock, Calendar, Target, Flame, Heart } from "lucide-react";
+import { Trophy, Star, Clock, Calendar, Target, Flame, Heart, XCircle, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -51,6 +51,13 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
     if (score >= 4) return "🌱";
     return "💗";
   };
+
+  const isStandUpDoneToday = () => {
+    if (!latestStandUp) return false;
+    const today = new Date().toDateString();
+    const standUpDate = new Date(latestStandUp.created_at).toDateString();
+    return today === standUpDate && latestStandUp.completed;
+  };
   
   return (
     <div className="space-y-3">
@@ -64,7 +71,11 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="relative">
                 <div className="p-2 sm:p-2.5 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl group-hover:scale-110 transition-transform duration-500">
-                  <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  {streak === 0 ? (
+                    <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-white animate-pulse" />
+                  ) : (
+                    <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  )}
                 </div>
                 {streak > 0 && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-white rounded-full flex items-center justify-center animate-pulse">
@@ -90,18 +101,26 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
             
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-7 sm:h-8 px-2 sm:px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group/time"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/settings");
-              }}
-            >
-              <Clock className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 text-white/80 group-hover/time:scale-110 transition-transform" />
-              <span className="text-xs">{formattedTime}</span>
-            </Button>
+            <div className="flex flex-col items-end gap-1">
+              {!isStandUpDoneToday() && (
+                <div className="flex items-center gap-1.5 text-xs text-white/90 bg-white/10 px-2 py-1 rounded-full backdrop-blur-sm animate-pulse">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>Next</span>
+                </div>
+              )}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 sm:h-8 px-2 sm:px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group/time"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/settings");
+                }}
+              >
+                <Clock className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 text-white/80 group-hover/time:scale-110 transition-transform" />
+                <span className="text-xs">{formattedTime}</span>
+              </Button>
+            </div>
           </div>
         </div>
 
