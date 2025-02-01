@@ -73,7 +73,6 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
                 )}
               </div>
               <div className="flex flex-col">
-                <span className="text-xs sm:text-sm font-medium text-white/90">next</span>
                 <span className="text-xs sm:text-sm font-medium text-white/90">Daily Streak</span>
                 <div className="flex items-center gap-2">
                   <span className="text-2xl sm:text-3xl font-bold text-white group-hover:scale-105 transition-transform">
@@ -91,18 +90,21 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
             
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-7 sm:h-8 px-2 sm:px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group/time"
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/settings");
-              }}
-            >
-              <Clock className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 text-white/80 group-hover/time:scale-110 transition-transform" />
-              <span className="text-xs">{formattedTime}</span>
-            </Button>
+            <div className="flex flex-col items-end gap-1">
+              <span className="text-xs sm:text-sm font-medium text-white/90">next</span>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="h-7 sm:h-8 px-2 sm:px-3 hover:bg-white/10 backdrop-blur-sm text-white flex items-center gap-1.5 group/time"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  navigate("/settings");
+                }}
+              >
+                <Clock className="w-3.5 h-3.5 sm:w-3.5 sm:h-3.5 text-white/80 group-hover/time:scale-110 transition-transform" />
+                <span className="text-xs">{formattedTime}</span>
+              </Button>
+            </div>
           </div>
         </div>
 
