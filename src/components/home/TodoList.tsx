@@ -241,7 +241,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 border-2 border-primary-500/30 rounded-2xl bg-white/95 backdrop-blur-sm shadow-lg">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
           {frequency === "daily" ? "Daily" : "Weekly"} Tasks
