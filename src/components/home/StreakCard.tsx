@@ -101,11 +101,14 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
               </div>
             </div>
             
-            <div className="flex flex-col items-end gap-1">
+            <div className="flex flex-col items-end gap-2">
               {!isStandUpDoneToday() && (
-                <div className="flex items-center gap-1.5 text-xs text-white/90 bg-white/10 px-2 py-1 rounded-full backdrop-blur-sm animate-pulse">
-                  <AlertCircle className="w-3 h-3" />
-                  <span>Next</span>
+                <div className="flex flex-col items-end gap-1">
+                  <div className="flex items-center gap-1.5 text-xs font-medium text-white bg-accent/90 px-2.5 py-1.5 rounded-full backdrop-blur-sm animate-pulse shadow-lg">
+                    <AlertCircle className="w-3.5 h-3.5" />
+                    <span>Stand-up Due</span>
+                  </div>
+                  <span className="text-[10px] text-white/80">Complete by {formattedTime}</span>
                 </div>
               )}
               <Button 
@@ -158,16 +161,22 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             </div>
           ) : (
             <div className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-white/10 backdrop-blur-sm text-center relative">
-              <p className="text-sm text-white/90 mb-2">Start your day mindfully</p>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="mt-1 sm:mt-2 text-white hover:bg-white/20 group/btn text-xs sm:text-sm"
-                onClick={() => navigate("/stand-up")}
-              >
-                Complete Morning Stand-Up
-                <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1.5 sm:ml-2 group-hover/btn:translate-y-[-2px] transition-transform" />
-              </Button>
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center gap-2 text-white/90">
+                  <AlertCircle className="w-5 h-5 animate-pulse" />
+                  <p className="text-sm font-medium">Morning Stand-up Required</p>
+                </div>
+                <p className="text-xs text-white/80">Start your day mindfully and maintain your streak</p>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="mt-1 sm:mt-2 text-white hover:bg-white/20 group/btn text-xs sm:text-sm border border-white/20"
+                  onClick={() => navigate("/stand-up")}
+                >
+                  Complete Stand-up
+                  <Flame className="w-3.5 h-3.5 sm:w-4 sm:h-4 ml-1.5 sm:ml-2 group-hover/btn:translate-y-[-2px] transition-transform" />
+                </Button>
+              </div>
             </div>
           )}
         </div>
