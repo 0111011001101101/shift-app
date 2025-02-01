@@ -57,7 +57,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("goals")
-        .select("id, title")
+        .select("id, title, deadline")
         .order("position");
 
       if (error) throw error;
@@ -78,7 +78,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           completed,
           goal:goal_id (
             id,
-            title
+            title,
+            deadline
           )
         `
         )
@@ -125,8 +126,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         setSelectedGoalId(null);
       }
       toast({
-        title: "Todo added",
-        description: "New todo has been added successfully.",
+        title: "Task added",
+        description: "New task has been added successfully.",
       });
     },
   });
@@ -146,7 +147,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
       queryClient.invalidateQueries({ queryKey: ["sub-goals"] });
       setEditingTodoId(null);
       toast({
-        title: "Todo updated",
+        title: "Task updated",
         description: "Your changes have been saved.",
       });
     },
