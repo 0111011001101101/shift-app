@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Trophy, Star, Clock, Calendar, Target, Flame, Heart, XCircle, AlertCircle } from "lucide-react";
+import { Trophy, Star, Clock, Calendar, Target, Flame, Heart, XCircle, AlertCircle, CheckCircle2 } from "lucide-react";
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -102,15 +102,19 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
             </div>
             
             <div className="flex flex-col items-end gap-2">
-              {!isStandUpDoneToday() && (
-                <div className="flex flex-col items-end gap-1">
+              <div className="flex items-center gap-2">
+                {isStandUpDoneToday() ? (
+                  <div className="flex items-center gap-1.5 text-xs font-medium text-white bg-success/90 px-2.5 py-1.5 rounded-full backdrop-blur-sm shadow-lg">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Completed</span>
+                  </div>
+                ) : (
                   <div className="flex items-center gap-1.5 text-xs font-medium text-white bg-accent/90 px-2.5 py-1.5 rounded-full backdrop-blur-sm animate-pulse shadow-lg">
                     <AlertCircle className="w-3.5 h-3.5" />
-                    <span>Stand-up Due</span>
+                    <span>Due Today</span>
                   </div>
-                  <span className="text-[10px] text-white/80">Complete by {formattedTime}</span>
-                </div>
-              )}
+                )}
+              </div>
               <Button 
                 variant="ghost" 
                 size="sm" 
@@ -132,7 +136,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
           className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-accent-500 via-accent-600 to-accent-700 shadow-lg hover:shadow-xl transition-all duration-300 group cursor-pointer overflow-hidden backdrop-blur-xl border border-white/10"
           onClick={() => navigate("/stand-up")}
         >
-          {latestStandUp ? (
+          {latestStandUp && isStandUpDoneToday() ? (
             <div className="grid grid-cols-2 gap-2 sm:gap-3 relative">
               <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-white/10 backdrop-blur-sm group-hover:bg-white/20 transition-all duration-300">
                 <div className="flex items-center gap-1.5 sm:gap-2 mb-1">
