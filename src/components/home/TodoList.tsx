@@ -260,7 +260,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
               exit={{ opacity: 0, y: -10 }}
               className="group"
             >
-              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white via-white to-primary-50/10 border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+              <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white via-white to-primary-50/10 border border-primary-100/50 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
                 <div className="absolute inset-0 bg-grid-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative flex items-start gap-4 p-4">
                   <Button
