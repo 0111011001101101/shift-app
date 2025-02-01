@@ -143,7 +143,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
                   <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/80" />
                   <span className="text-xs font-medium text-white">Today's Focus</span>
                 </div>
-                <div className="text-xs sm:text-sm text-white/90 truncate">
+                <div className="text-xs sm:text-sm text-white/90 line-clamp-3 break-words">
                   {latestStandUp.focus || "Not set"}
                 </div>
               </div>
@@ -155,7 +155,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <span className="text-lg">{getWellbeingEmoji(latestStandUp.mental_health)}</span>
-                  <span className="text-xs sm:text-sm text-white/90">
+                  <span className="text-xs sm:text-sm text-white/90 truncate">
                     {latestStandUp.mental_health >= 8 ? "Thriving" :
                      latestStandUp.mental_health >= 6 ? "Balanced" :
                      latestStandUp.mental_health >= 4 ? "Growing" : "Self-Care"}
