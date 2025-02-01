@@ -73,6 +73,7 @@ export function StreakCard({ streak = 0, standUpTime }: StreakCardProps) {
                 )}
               </div>
               <div className="flex flex-col">
+                <span className="text-xs sm:text-sm font-medium text-white/90">next</span>
                 <span className="text-xs sm:text-sm font-medium text-white/90">Daily Streak</span>
                 <div className="flex items-center gap-2">
                   <span className="text-2xl sm:text-3xl font-bold text-white group-hover:scale-105 transition-transform">
