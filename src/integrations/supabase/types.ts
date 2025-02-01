@@ -348,6 +348,7 @@ export type Database = {
         Row: {
           completed: boolean | null
           created_at: string
+          due_date: string | null
           frequency: string | null
           goal_id: string | null
           id: string
@@ -358,6 +359,7 @@ export type Database = {
         Insert: {
           completed?: boolean | null
           created_at?: string
+          due_date?: string | null
           frequency?: string | null
           goal_id?: string | null
           id?: string
@@ -368,6 +370,7 @@ export type Database = {
         Update: {
           completed?: boolean | null
           created_at?: string
+          due_date?: string | null
           frequency?: string | null
           goal_id?: string | null
           id?: string
