@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check, Target, ChevronRight, Loader2, Calendar } from "lucide-react";
+import { Plus, Pencil, Check, Target, ChevronRight, Loader2, Calendar, ListTodo, CheckCircle2, Circle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -246,9 +246,12 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
         <div className="relative space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
-              {frequency === "daily" ? "Daily" : "Weekly"} Tasks
-            </h2>
+            <div className="flex items-center gap-2">
+              <ListTodo className="w-5 h-5 text-primary-500" />
+              <h2 className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
+                {frequency === "daily" ? "Daily" : "Weekly"} Tasks
+              </h2>
+            </div>
             <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
           </div>
 
@@ -263,8 +266,8 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   exit={{ opacity: 0, y: -10 }}
                   className="group"
                 >
-                  <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white via-white to-primary-50/10 border border-primary-100/50 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
-                    <div className="absolute inset-0 bg-grid-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="relative overflow-hidden rounded-xl bg-white border border-primary-100/50 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative flex items-start gap-4 p-4">
                       <Button
                         size="sm"
@@ -276,17 +279,11 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                         }`}
                         onClick={() => handleToggleTodo(todo.id, todo.completed)}
                       >
-                        <div className="w-6 h-6 rounded-full border-2 border-current flex items-center justify-center transition-all duration-300">
-                          <motion.div
-                            initial={false}
-                            animate={todo.completed ? { scale: 1 } : { scale: 0 }}
-                            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-                          >
-                            {todo.completed && (
-                              <Check className="w-3.5 h-3.5 text-current" />
-                            )}
-                          </motion.div>
-                        </div>
+                        {todo.completed ? (
+                          <CheckCircle2 className="w-5 h-5 text-primary-500" />
+                        ) : (
+                          <Circle className="w-5 h-5" />
+                        )}
                       </Button>
 
                       <div className="flex-1 min-w-0 space-y-1">
@@ -357,7 +354,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                 >
                   <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
                   <div className="relative space-y-4">
-                    <Target className="w-12 h-12 text-primary-500/90" />
+                    <ListTodo className="w-12 h-12 text-primary-500/90" />
                     <h3 className="text-lg font-semibold text-primary-900">No tasks yet</h3>
                     <p className="text-sm text-primary-700/90">
                       Add your first task below to start tracking your progress.
