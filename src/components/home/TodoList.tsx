@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Check, Target, ChevronRight, Loader2, Calendar, ListTodo, CheckCircle2, Circle } from "lucide-react";
+import { Plus, Pencil, Target, ChevronRight, Calendar, ListTodo, CheckCircle2, Circle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -243,20 +243,20 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   return (
     <div className="space-y-6">
       <div className="relative overflow-hidden rounded-2xl border-2 border-primary-100/30 bg-gradient-to-br from-white via-white to-primary-50/20 p-6 shadow-lg backdrop-blur-sm">
-        <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-50/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="relative space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <ListTodo className="w-5 h-5 text-primary-500" />
-              <h2 className="text-base font-medium bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
-                {frequency === "daily" ? "Daily" : "Weekly"} Tasks
+              <h2 className="text-base font-medium text-secondary-800">
+                {frequency === "daily" ? "Today's" : "This Week's"} Tasks
               </h2>
             </div>
             <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
           </div>
 
           <AnimatePresence mode="popLayout">
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {todos?.map((todo) => (
                 <motion.div
                   key={todo.id}
@@ -266,13 +266,13 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   exit={{ opacity: 0, y: -10 }}
                   className="group"
                 >
-                  <div className="relative overflow-hidden rounded-xl bg-white border border-primary-100/50 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-0.5">
+                  <div className="relative overflow-hidden rounded-xl bg-white border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-50/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative flex items-start gap-4 p-4">
+                    <div className="relative flex items-center gap-3 p-3.5">
                       <Button
                         size="sm"
                         variant="ghost"
-                        className={`relative p-0 h-auto hover:bg-transparent overflow-hidden mt-1 ${
+                        className={`relative p-0 h-auto hover:bg-transparent overflow-hidden ${
                           todo.completed 
                             ? "text-primary-500" 
                             : "text-secondary-300 hover:text-secondary-400"
@@ -280,13 +280,13 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                         onClick={() => handleToggleTodo(todo.id, todo.completed)}
                       >
                         {todo.completed ? (
-                          <CheckCircle2 className="w-5 h-5 text-primary-500" />
+                          <CheckCircle2 className="w-5 h-5" />
                         ) : (
                           <Circle className="w-5 h-5" />
                         )}
                       </Button>
 
-                      <div className="flex-1 min-w-0 space-y-1">
+                      <div className="flex-1 min-w-0">
                         {editingTodoId === todo.id ? (
                           <Input
                             value={editedTodoText}
@@ -296,9 +296,9 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                             autoFocus
                           />
                         ) : (
-                          <div className="space-y-2">
+                          <div className="space-y-1">
                             <span
-                              className={`block text-sm sm:text-base ${
+                              className={`block text-sm ${
                                 todo.completed
                                   ? "line-through text-secondary-400"
                                   : "text-secondary-800"
@@ -307,7 +307,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                               {todo.title}
                             </span>
                             {todo.goal && (
-                              <div className="flex flex-col gap-1.5">
+                              <div className="flex flex-col gap-1">
                                 <motion.div
                                   initial={{ opacity: 0, y: 5 }}
                                   animate={{ opacity: 1, y: 0 }}
@@ -335,7 +335,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                         <Button
                           size="sm"
                           variant="ghost"
-                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
                           onClick={() => handleEditTodo(todo.id, todo.title)}
                         >
                           <Pencil className="w-3.5 h-3.5 text-secondary-400 hover:text-secondary-600 transition-colors" />
@@ -350,29 +350,31 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-50/80 via-white to-primary-100/50 p-8 shadow-lg border border-primary-100/30"
+                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-primary-50/80 via-white to-primary-100/50 p-6 text-center shadow-lg border border-primary-100/30"
                 >
                   <div className="absolute inset-0 bg-grid-primary/5 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]" />
-                  <div className="relative space-y-4">
-                    <ListTodo className="w-12 h-12 text-primary-500/90" />
-                    <h3 className="text-lg font-semibold text-primary-900">No tasks yet</h3>
-                    <p className="text-sm text-primary-700/90">
-                      Add your first task below to start tracking your progress.
-                    </p>
+                  <div className="relative space-y-3">
+                    <ListTodo className="w-10 h-10 text-primary-500/90 mx-auto" />
+                    <div>
+                      <h3 className="text-base font-medium text-primary-900">No tasks yet</h3>
+                      <p className="text-sm text-primary-700/90 mt-1">
+                        Add your first task below to get started
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               )}
             </div>
           </AnimatePresence>
 
-          <div className="relative space-y-3 pt-4">
+          <div className="relative space-y-3 pt-2">
             {!goalId && (
               <Select
                 value={selectedGoalId || ""}
                 onValueChange={(value) => setSelectedGoalId(value || null)}
               >
                 <SelectTrigger className="w-full bg-white/95 border-primary-100/30 shadow-sm hover:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20 rounded-xl text-sm">
-                  <SelectValue placeholder="Select a goal (optional)" />
+                  <SelectValue placeholder="Link to a goal (optional)" />
                 </SelectTrigger>
                 <SelectContent className="bg-white/95 backdrop-blur-sm border-primary-100/30 shadow-lg">
                   {goals?.map((goal) => (
@@ -383,14 +385,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                     >
                       <div className="flex items-center gap-2">
                         <Target className="w-3.5 h-3.5 text-primary-500/70" />
-                        <div className="flex flex-col">
-                          <span className="font-medium">{goal.title}</span>
-                          {goal.deadline && (
-                            <span className="text-xs text-secondary-500">
-                              Due {format(new Date(goal.deadline), 'MMM d, yyyy')}
-                            </span>
-                          )}
-                        </div>
+                        <span className="font-medium">{goal.title}</span>
                       </div>
                     </SelectItem>
                   ))}
