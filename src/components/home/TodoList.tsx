@@ -200,18 +200,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     return !todo.completed;
   });
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        <div className="space-y-3 w-full max-w-md animate-pulse">
-          <div className="h-14 bg-primary-50/50 rounded-xl" />
-          <div className="h-14 bg-primary-50/50 rounded-xl" />
-          <div className="h-14 bg-primary-50/50 rounded-xl" />
-        </div>
-      </div>
-    );
-  }
-
   const hasGoals = goals && goals.length > 0;
 
   if (!hasGoals && !goalId) {
@@ -237,6 +225,18 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           </Button>
         </div>
       </motion.div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="space-y-3 w-full max-w-md animate-pulse">
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+        </div>
+      </div>
     );
   }
 
