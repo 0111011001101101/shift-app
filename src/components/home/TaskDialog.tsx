@@ -1,27 +1,30 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, Target, Clock } from "lucide-react";
+import { Calendar as CalendarIcon } from "lucide-react";
+
+interface Goal {
+  id: string;
+  title: string;
+  deadline?: string | null;
+}
 
 interface TaskDialogProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (data: {
-    title: string;
-    goalId: string | null;
-    dueDate: Date | null;
-  }) => void;
-  goals?: { id: string; title: string }[];
+  onSubmit: (data: { title: string; goalId: string | null; dueDate: Date | null }) => void;
+  goals?: Goal[];
   initialData?: {
     title: string;
     goalId: string | null;
-    dueDate?: Date | null;
+    dueDate: Date | null;
   };
   mode: "add" | "edit";
 }
@@ -32,25 +35,24 @@ export function TaskDialog({
   onSubmit,
   goals = [],
   initialData,
-  mode
+  mode,
 }: TaskDialogProps) {
   const [title, setTitle] = useState(initialData?.title || "");
   const [selectedGoalId, setSelectedGoalId] = useState<string | null>(initialData?.goalId || null);
-  const [date, setDate] = useState<Date | null>(initialData?.dueDate || null);
+  const [dueDate, setDueDate] = useState<Date | null>(initialData?.dueDate || null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit({
       title,
       goalId: selectedGoalId,
-      dueDate: date,
+      dueDate,
     });
-    onOpenChange(false);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             {mode === "add" ? "Add New Task" : "Edit Task"}
@@ -58,56 +60,55 @@ export function TaskDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
+            <Label htmlFor="title">Task Title</Label>
             <Input
-              placeholder="Task title"
+              id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full"
-              autoFocus
+              placeholder="Enter task title..."
             />
           </div>
 
-          <div className="flex gap-2">
-            <div className="flex-1">
-              <Select
-                value={selectedGoalId || ""}
-                onValueChange={(value) => setSelectedGoalId(value || null)}
-              >
-                <SelectTrigger className="w-full">
-                  <div className="flex items-center gap-2">
-                    <Target className="w-4 h-4 text-primary-500/70" />
-                    <SelectValue placeholder="Link to goal" />
-                  </div>
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">No goal</SelectItem>
-                  {goals.map((goal) => (
-                    <SelectItem key={goal.id} value={goal.id}>
-                      {goal.title}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <Label>Link to Goal</Label>
+            <Select
+              value={selectedGoalId || undefined}
+              onValueChange={(value) => setSelectedGoalId(value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select a goal" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="none">No Goal</SelectItem>
+                {goals.map((goal) => (
+                  <SelectItem key={goal.id} value={goal.id}>
+                    {goal.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
+          <div className="space-y-2">
+            <Label>Due Date</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
+                    "w-full justify-start text-left font-normal",
+                    !dueDate && "text-muted-foreground"
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {date ? format(date, "PPP") : <span>Due date</span>}
+                  {dueDate ? format(dueDate, "PPP") : "Pick a date"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0" align="start">
                 <Calendar
                   mode="single"
-                  selected={date || undefined}
-                  onSelect={setDate}
+                  selected={dueDate}
+                  onSelect={setDueDate}
                   initialFocus
                 />
               </PopoverContent>
@@ -115,11 +116,7 @@ export function TaskDialog({
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => onOpenChange(false)}
-            >
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
             <Button type="submit">
