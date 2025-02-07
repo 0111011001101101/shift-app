@@ -353,19 +353,19 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         mode="add"
       />
 
-      {editingTodo && (
+      {editingTodoId && todos && (
         <TaskDialog
           isOpen={!!editingTodoId}
           onOpenChange={(open) => !open && setEditingTodoId(null)}
           onSubmit={handleSaveTodo}
           goals={goals}
           initialData={{
-            title: editingTodo.title,
-            goalId: editingTodo.goal?.id || null,
-            dueDate: editingTodo.due_date ? new Date(editingTodo.due_date) : null,
-            category: editingTodo.category,
-            importance: editingTodo.importance,
-            notes: editingTodo.notes || "",
+            title: todos.find(t => t.id === editingTodoId)?.title || "",
+            goalId: todos.find(t => t.id === editingTodoId)?.goal?.id || null,
+            dueDate: todos.find(t => t.id === editingTodoId)?.due_date ? new Date(todos.find(t => t.id === editingTodoId)!.due_date!) : null,
+            category: todos.find(t => t.id === editingTodoId)?.category || "personal",
+            importance: todos.find(t => t.id === editingTodoId)?.importance || 1,
+            notes: todos.find(t => t.id === editingTodoId)?.notes || "",
           }}
           mode="edit"
         />
