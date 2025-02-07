@@ -1,3 +1,4 @@
+
 import { PageContainer } from "@/components/layout/PageContainer";
 import { WelcomeHeader } from "@/components/home/WelcomeHeader";
 import { TodoList } from "@/components/home/TodoList";
@@ -48,58 +49,57 @@ export default function Home() {
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="rounded-3xl bg-white/80 shadow-sm border border-gray-100/50 backdrop-blur-xl overflow-hidden"
-          >
-            <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full h-auto flex items-center gap-1 p-2 bg-transparent border-b">
-                <TabsTrigger 
-                  value="today" 
-                  className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50/50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
-                >
-                  Today
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="week" 
-                  className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50/50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
-                >
-                  This Week
-                </TabsTrigger>
-              </TabsList>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="rounded-3xl bg-white/95 shadow-sm border border-gray-100/50 backdrop-blur-xl overflow-hidden"
+        >
+          <Tabs defaultValue="today" className="w-full">
+            <TabsList className="w-full h-auto flex items-center gap-1 p-2 bg-transparent border-b">
+              <TabsTrigger 
+                value="today" 
+                className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50/50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
+              >
+                Today
+              </TabsTrigger>
+              <TabsTrigger 
+                value="week" 
+                className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50/50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
+              >
+                This Week
+              </TabsTrigger>
+            </TabsList>
+            
+            <div className="p-4">
+              <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                <TodoList frequency="daily" />
+              </TabsContent>
               
-              <div className="p-4">
-                <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                  <TodoList frequency="daily" />
-                </TabsContent>
-                
-                <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                  <TodoList frequency="weekly" />
-                </TabsContent>
-              </div>
-            </Tabs>
-          </motion.div>
+              <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                <TodoList frequency="weekly" />
+              </TabsContent>
+            </div>
+          </Tabs>
+        </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <GoalsSection />
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="pb-24"
-          >
-            <HurdlesButton />
-          </motion.div>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="space-y-4"
+        >
+          <GoalsSection />
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="pb-24"
+        >
+          <HurdlesButton />
+        </motion.div>
       </motion.div>
     </PageContainer>
   );

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -40,17 +41,17 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
     <>
       <div className="relative">
         <div className="flex items-center justify-between mb-6">
-          <div className="space-y-1.5">
-            <p className="text-sm text-secondary-500 font-medium">
+          <div className="space-y-1">
+            <p className="text-sm text-secondary-500/80 font-medium">
               {format(new Date(), "EEEE, MMMM d")}
             </p>
-            <h1 className="text-2xl sm:text-3xl font-bold text-secondary-900">
+            <h1 className="text-2xl font-bold text-secondary-900 tracking-tight">
               Hi, {username}
             </h1>
           </div>
-          <Avatar className="h-10 w-10 ring-2 ring-white shadow-md">
+          <Avatar className="h-10 w-10 ring-2 ring-white shadow-sm">
             <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback className="bg-primary-100 text-primary-700 font-medium">
+            <AvatarFallback className="bg-primary-50 text-primary-700 font-medium">
               {username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
