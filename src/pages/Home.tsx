@@ -45,7 +45,7 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-6 max-w-2xl mx-auto"
+        className="space-y-4 max-w-lg mx-auto px-4"
       >
         <WelcomeHeader username={profile?.first_name} />
 
@@ -53,19 +53,19 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-3xl bg-white/95 shadow-sm border border-gray-100/50 backdrop-blur-xl overflow-hidden"
+          className="rounded-2xl bg-white shadow-sm border border-gray-100/50 backdrop-blur-xl overflow-hidden"
         >
           <Tabs defaultValue="today" className="w-full">
             <TabsList className="w-full h-auto flex items-center gap-1 p-2 bg-transparent border-b">
               <TabsTrigger 
                 value="today" 
-                className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50/50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
+                className="flex-1 py-2.5 text-sm data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 rounded-xl transition-all duration-200"
               >
                 Today
               </TabsTrigger>
               <TabsTrigger 
                 value="week" 
-                className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50/50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
+                className="flex-1 py-2.5 text-sm data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 rounded-xl transition-all duration-200"
               >
                 This Week
               </TabsTrigger>
@@ -96,7 +96,7 @@ export default function Home() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="pb-24"
+          className="pb-20"
         >
           <HurdlesButton />
         </motion.div>

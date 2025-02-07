@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Target, ChevronRight, Plus, Brain, Sparkles, Shield, TrendingUp } from "lucide-react";
+import { Target, ChevronRight, Plus, Brain, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -42,7 +42,7 @@ export function GoalsSection() {
   if (error) {
     return (
       <section className="space-y-4 bg-white/95 p-6 rounded-2xl border border-gray-100/50 shadow-sm">
-        <p className="text-secondary-600">Error loading goals. Please try again later.</p>
+        <p className="text-gray-600">Error loading goals. Please try again later.</p>
       </section>
     );
   }
@@ -55,29 +55,26 @@ export function GoalsSection() {
       >
         <div className="text-center space-y-4 relative">
           <div className="flex items-center justify-center gap-4">
-            <div className="p-3 bg-primary-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500">
-              <Target className="w-8 h-8 text-primary-600/90" />
+            <div className="p-3 bg-violet-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500">
+              <Target className="w-8 h-8 text-violet-600/90" />
             </div>
-            <div className="p-3 bg-primary-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-100">
-              <Brain className="w-8 h-8 text-primary-600/90" />
-            </div>
-            <div className="p-3 bg-primary-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-200">
-              <Shield className="w-8 h-8 text-primary-600/90" />
+            <div className="p-3 bg-violet-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-100">
+              <Brain className="w-8 h-8 text-violet-600/90" />
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-secondary-800 mb-2">Balance Growth & Wellbeing</h3>
-            <p className="text-sm text-secondary-600 max-w-md mx-auto">Set meaningful goals that align with both your ambitions and mental health. Break them down into achievable steps.</p>
+            <h3 className="text-lg font-medium text-gray-800 mb-2">Set Your First Goal</h3>
+            <p className="text-sm text-gray-600 max-w-md mx-auto">Break down your ambitions into achievable steps and track your progress.</p>
           </div>
           <Button 
             onClick={(e) => {
               e.stopPropagation();
               navigate("/goals");
             }} 
-            className="mt-4 bg-primary-50 hover:bg-primary-100/80 text-primary-700 border-0 transition-all duration-300 group font-medium"
+            className="mt-4 bg-violet-50 hover:bg-violet-100/80 text-violet-700 border-0 transition-all duration-300 group font-medium"
           >
             <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" />
-            Create Your First Goal
+            Create Goal
           </Button>
         </div>
       </section>
@@ -88,18 +85,18 @@ export function GoalsSection() {
     <section className="space-y-4 bg-white/95 p-6 rounded-2xl border border-gray-100/50 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-primary-50/50 rounded-xl">
-            <Target className="w-5 h-5 text-primary-600" />
+          <div className="p-2.5 bg-violet-50/50 rounded-xl">
+            <Target className="w-5 h-5 text-violet-600" />
           </div>
-          <h2 className="text-base font-semibold text-secondary-800">Growth & Wellbeing</h2>
+          <h2 className="text-base font-semibold text-gray-800">My Goals</h2>
         </div>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-xs hover:bg-primary-50/50 text-secondary-600 group"
+          className="text-xs hover:bg-violet-50/50 text-gray-600 group"
           onClick={() => navigate("/goals")}
         >
-          View All Goals
+          View All
           <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
         </Button>
       </div>
@@ -114,25 +111,24 @@ export function GoalsSection() {
             <div className="flex justify-between items-start mb-3">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-secondary-800 group-hover:text-secondary-900 transition-colors">{goal.title}</h3>
-                  <Sparkles className="w-4 h-4 text-primary-500/60" />
+                  <h3 className="font-medium text-gray-800 group-hover:text-gray-900 transition-colors">{goal.title}</h3>
+                  <Sparkles className="w-4 h-4 text-violet-500/60" />
                 </div>
                 {goal.deadline && (
-                  <p className="text-xs text-secondary-500 mt-1">
+                  <p className="text-xs text-gray-500 mt-1">
                     Target: {new Date(goal.deadline).toLocaleDateString()}
                   </p>
                 )}
               </div>
               <div className="flex items-center gap-2">
-                <span className={`text-xs px-2.5 py-1 ${goal.completed ? 'bg-primary-100/50 text-primary-700' : 'bg-gray-100/80 text-secondary-600'} rounded-full font-medium transition-colors`}>
+                <span className={`text-xs px-2.5 py-1 ${goal.completed ? 'bg-violet-100/50 text-violet-700' : 'bg-gray-100/80 text-gray-600'} rounded-full font-medium transition-colors`}>
                   {goal.completed ? 'Achieved' : 'In Progress'}
                 </span>
-                <TrendingUp className={`w-4 h-4 ${goal.completed ? 'text-primary-600' : 'text-secondary-400'}`} />
               </div>
             </div>
             <div className="h-1.5 w-full rounded-full bg-gray-100/80 overflow-hidden">
               <div 
-                className={`h-full transition-all duration-700 ease-in-out ${goal.completed ? 'bg-primary-500/60' : 'bg-primary-400/40'}`}
+                className={`h-full transition-all duration-700 ease-in-out ${goal.completed ? 'bg-violet-500/60' : 'bg-violet-400/40'}`}
                 style={{ width: goal.completed ? "100%" : "65%" }} 
               />
             </div>
