@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -37,10 +38,10 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
     <>
       <div className="relative space-y-6">
         <div className="text-center space-y-3 animate-fade-in">
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-violet-500 to-accent">
             Welcome back, {username}
           </h1>
-          <p className="text-base sm:text-lg text-secondary-600 max-w-md mx-auto font-medium">
+          <p className="text-base sm:text-lg text-secondary-600/80 max-w-md mx-auto font-medium">
             Let's make today count
           </p>
         </div>

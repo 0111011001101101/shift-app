@@ -221,6 +221,7 @@ export type Database = {
           stand_up_time: string | null
           streak: number | null
           updated_at: string
+          view_mode: string | null
         }
         Insert: {
           ai_preferences?: Json | null
@@ -234,6 +235,7 @@ export type Database = {
           stand_up_time?: string | null
           streak?: number | null
           updated_at?: string
+          view_mode?: string | null
         }
         Update: {
           ai_preferences?: Json | null
@@ -247,6 +249,7 @@ export type Database = {
           stand_up_time?: string | null
           streak?: number | null
           updated_at?: string
+          view_mode?: string | null
         }
         Relationships: []
       }
@@ -346,34 +349,43 @@ export type Database = {
       }
       sub_goals: {
         Row: {
+          category: string | null
           completed: boolean | null
           created_at: string
           due_date: string | null
           frequency: string | null
           goal_id: string | null
           id: string
+          importance: number | null
+          notes: string | null
           position: number | null
           title: string
           updated_at: string
         }
         Insert: {
+          category?: string | null
           completed?: boolean | null
           created_at?: string
           due_date?: string | null
           frequency?: string | null
           goal_id?: string | null
           id?: string
+          importance?: number | null
+          notes?: string | null
           position?: number | null
           title: string
           updated_at?: string
         }
         Update: {
+          category?: string | null
           completed?: boolean | null
           created_at?: string
           due_date?: string | null
           frequency?: string | null
           goal_id?: string | null
           id?: string
+          importance?: number | null
+          notes?: string | null
           position?: number | null
           title?: string
           updated_at?: string
