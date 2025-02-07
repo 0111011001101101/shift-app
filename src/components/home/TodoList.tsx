@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Target, ChevronRight, Calendar, ListTodo, CheckCircle2, Circle, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Pencil, Target, ChevronDown, ChevronUp, ListTodo, CheckCircle2, Circle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -248,7 +248,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
             className="w-full bg-white hover:bg-primary-50 text-primary-700 border border-primary-200/50 shadow-sm"
           >
             Create Your First Goal
-            <ChevronRight className="w-4 h-4 ml-1" />
+            <ChevronDown className="w-4 h-4 ml-1" />
           </Button>
         </div>
       </motion.div>
