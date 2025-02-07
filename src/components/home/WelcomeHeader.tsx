@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -38,18 +39,18 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
   return (
     <>
       <div className="relative">
-        <div className="flex items-center justify-between mb-8">
-          <div className="space-y-1">
-            <p className="text-sm text-gray-500">
+        <div className="flex items-center justify-between mb-6">
+          <div className="space-y-1.5">
+            <p className="text-sm text-secondary-500 font-medium">
               {format(new Date(), "EEEE, MMMM d")}
             </p>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-2xl sm:text-3xl font-bold text-secondary-900">
               Hi, {username}
             </h1>
           </div>
-          <Avatar className="h-10 w-10">
+          <Avatar className="h-10 w-10 ring-2 ring-white shadow-md">
             <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback>
+            <AvatarFallback className="bg-primary-100 text-primary-700 font-medium">
               {username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>

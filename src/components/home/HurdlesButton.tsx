@@ -33,24 +33,20 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#10B981] via-[#34D399] to-[#6EE7B7] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
+      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#F8F7FF] to-[#E5DEFF] border border-purple-100/50 shadow-sm hover:shadow-md backdrop-blur-lg rounded-2xl h-auto py-4 text-secondary-800"
       onClick={() => navigate("/hurdles")}
     >
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
-      
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-4">
           <div className="flex -space-x-2">
-            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
-              <Brain className="w-5 h-5 text-white" />
+            <div className="p-2.5 bg-purple-100/50 rounded-xl group-hover:scale-110 transition-transform duration-500">
+              <Brain className="w-5 h-5 text-purple-600" />
             </div>
-            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-75">
-              <Shield className="w-5 h-5 text-white" />
+            <div className="p-2.5 bg-purple-100/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-75">
+              <Shield className="w-5 h-5 text-purple-600" />
             </div>
-            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-150">
-              <Heart className="w-5 h-5 text-white" />
+            <div className="p-2.5 bg-purple-100/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-150">
+              <Heart className="w-5 h-5 text-purple-600" />
             </div>
           </div>
           <div className="flex flex-col items-start">
@@ -58,23 +54,22 @@ export function HurdlesButton() {
               {activeHurdles && activeHurdles.length > 0 ? 'Mental Resilience Hub' : 'Build Mental Resilience'}
             </span>
             {activeHurdles && activeHurdles.length > 0 ? (
-              <span className="text-xs text-white/90">
+              <span className="text-xs text-secondary-600">
                 {activeHurdles.length} active {activeHurdles.length === 1 ? 'challenge' : 'challenges'} to overcome
               </span>
             ) : (
-              <span className="text-xs text-white/90">
+              <span className="text-xs text-secondary-600">
                 Track and overcome challenges mindfully
               </span>
             )}
           </div>
         </div>
         {activeHurdles && activeHurdles.length > 0 ? (
-          <ChevronRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform duration-500" />
+          <ChevronRight className="w-5 h-5 text-secondary-600 group-hover:translate-x-1 transition-transform duration-500" />
         ) : (
-          <Plus className="w-5 h-5 text-white/90 group-hover:rotate-90 transition-transform duration-500" />
+          <Plus className="w-5 h-5 text-secondary-600 group-hover:rotate-90 transition-transform duration-500" />
         )}
       </div>
-      <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
     </Button>
   );
 }
