@@ -249,8 +249,48 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between mb-4">
+    <div className="space-y-6">
+      {/* Progress Section */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-violet-50/80 via-white to-violet-100/50 p-8 text-center shadow-sm border border-violet-100/30 backdrop-blur-xl"
+      >
+        <div className="flex items-center justify-center mb-6">
+          <div className="relative w-32 h-32">
+            <svg className="w-full h-full transform -rotate-90">
+              <circle
+                cx="64"
+                cy="64"
+                r="60"
+                className="stroke-violet-100"
+                strokeWidth="8"
+                fill="none"
+              />
+              <circle
+                cx="64"
+                cy="64"
+                r="60"
+                className="stroke-violet-500"
+                strokeWidth="8"
+                fill="none"
+                strokeDasharray={`${2 * Math.PI * 60}`}
+                strokeDashoffset={`${2 * Math.PI * 60 * (1 - 0.7)}`}
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-2xl font-semibold text-violet-700">70%</span>
+            </div>
+          </div>
+        </div>
+        <h3 className="text-lg font-medium text-violet-900 mb-2">Keep going!</h3>
+        <p className="text-sm text-violet-700/90">
+          {todos?.filter(t => !t.completed).length || 0} tasks remaining
+        </p>
+      </motion.div>
+
+      {/* Tabs Navigation */}
+      <div className="flex items-center justify-between mb-6">
         <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
         <Button
           onClick={() => setIsAddDialogOpen(true)}
@@ -261,8 +301,9 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         </Button>
       </div>
 
+      {/* Task List */}
       <AnimatePresence mode="popLayout">
-        <div className="space-y-3">
+        <div className="space-y-4">
           {todos?.map((todo) => (
             <motion.div
               key={todo.id}
@@ -270,7 +311,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
-              className="group flex items-start gap-3 p-4 bg-white rounded-2xl border border-violet-100/30 hover:border-violet-200/50 hover:shadow-md transition-all duration-200 backdrop-blur-sm"
+              className="group flex items-start gap-3 p-5 bg-white rounded-2xl border border-violet-100/30 hover:border-violet-200/50 hover:shadow-lg transition-all duration-200 backdrop-blur-sm"
             >
               <Button
                 size="sm"
@@ -288,18 +329,18 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                 )}
               </Button>
 
-              <div className="flex-1 min-w-0 space-y-2">
+              <div className="flex-1 min-w-0">
                 <div className={cn(
-                  "text-base font-medium",
+                  "text-base font-medium mb-1",
                   todo.completed && "line-through text-secondary-400"
                 )}>
                   {todo.title}
                 </div>
                 
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2 mt-2">
                   {todo.category && (
                     <div className={cn(
-                      "flex items-center gap-1 text-xs px-2 py-1 rounded-md",
+                      "flex items-center gap-1 text-xs px-2.5 py-1 rounded-full",
                       getCategoryColor(todo.category)
                     )}>
                       <Tag className="w-3 h-3" />
@@ -309,7 +350,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   
                   {todo.importance > 1 && (
                     <div className={cn(
-                      "flex items-center gap-1 text-xs px-2 py-1 rounded-md",
+                      "flex items-center gap-1 text-xs px-2.5 py-1 rounded-full",
                       getImportanceColor(todo.importance)
                     )}>
                       {"⭐".repeat(todo.importance - 1)}
@@ -317,14 +358,14 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
                   )}
 
                   {todo.due_date && (
-                    <div className="flex items-center gap-1 text-xs text-secondary-500 bg-secondary-50 px-2 py-1 rounded-md">
+                    <div className="flex items-center gap-1 text-xs text-secondary-500 bg-secondary-50 px-2.5 py-1 rounded-full">
                       <Clock className="w-3 h-3" />
                       {format(new Date(todo.due_date), "MMM d")}
                     </div>
                   )}
 
                   {todo.goal && (
-                    <div className="flex items-center gap-1 text-xs text-primary-500/70 bg-primary-50/50 px-2 py-1 rounded-md">
+                    <div className="flex items-center gap-1 text-xs text-primary-500/70 bg-primary-50/50 px-2.5 py-1 rounded-full">
                       <Target className="w-3 h-3" />
                       {todo.goal.title}
                     </div>
@@ -345,6 +386,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         </div>
       </AnimatePresence>
 
+      {/* Add Task Dialog */}
       <TaskDialog
         isOpen={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
@@ -353,6 +395,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         mode="add"
       />
 
+      {/* Edit Task Dialog */}
       {editingTodoId && todos && (
         <TaskDialog
           isOpen={!!editingTodoId}
@@ -370,6 +413,23 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           mode="edit"
         />
       )}
+
+      {/* Floating Action Button */}
+      <motion.div 
+        className="fixed bottom-24 right-6 z-50"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <Button
+          size="lg"
+          onClick={() => setIsAddDialogOpen(true)}
+          className="w-14 h-14 rounded-full bg-gradient-to-r from-violet-500 to-violet-600 hover:from-violet-600 hover:to-violet-700 shadow-lg hover:shadow-xl transition-all duration-200"
+        >
+          <Plus className="w-6 h-6 text-white" />
+        </Button>
+      </motion.div>
     </div>
   );
 }

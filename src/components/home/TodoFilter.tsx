@@ -7,6 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 export type FilterType = "all" | "completed" | "pending";
 
@@ -17,49 +18,24 @@ interface TodoFilterProps {
 
 export function TodoFilter({ currentFilter, onFilterChange }: TodoFilterProps) {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button 
-          variant="outline" 
+    <div className="flex items-center gap-2">
+      {["all", "completed", "pending"].map((filter) => (
+        <Button
+          key={filter}
+          variant="ghost"
           size="sm"
-          className="h-9 border-violet-100/30 bg-white hover:bg-violet-50 shadow-sm backdrop-blur-sm transition-all duration-200 rounded-full"
+          onClick={() => onFilterChange(filter as FilterType)}
+          className={cn(
+            "h-10 px-4 rounded-full transition-all duration-200",
+            currentFilter === filter
+              ? "bg-violet-500 text-white hover:bg-violet-600"
+              : "bg-white text-secondary-600 hover:bg-violet-50 border border-violet-100/30"
+          )}
         >
-          <Filter className="w-4 h-4 mr-2 text-violet-600/70" />
-          <span className="text-sm font-medium text-secondary-700">
-            {currentFilter === "all" ? "All Tasks" : 
-             currentFilter === "completed" ? "Completed" : "Pending"}
-          </span>
+          {filter === "all" ? "All Tasks" : 
+           filter === "completed" ? "Completed" : "Pending"}
         </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-44 bg-white/95 backdrop-blur-sm border-violet-100/30 shadow-lg rounded-xl">
-        <DropdownMenuItem 
-          onClick={() => onFilterChange("all")}
-          className="focus:bg-violet-50 cursor-pointer"
-        >
-          <div className="flex items-center justify-between w-full py-0.5">
-            <span className="text-sm font-medium text-secondary-700">All Tasks</span>
-            {currentFilter === "all" && <Check className="w-4 h-4 text-violet-600" />}
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => onFilterChange("completed")}
-          className="focus:bg-violet-50 cursor-pointer"
-        >
-          <div className="flex items-center justify-between w-full py-0.5">
-            <span className="text-sm font-medium text-secondary-700">Completed</span>
-            {currentFilter === "completed" && <Check className="w-4 h-4 text-violet-600" />}
-          </div>
-        </DropdownMenuItem>
-        <DropdownMenuItem 
-          onClick={() => onFilterChange("pending")}
-          className="focus:bg-violet-50 cursor-pointer"
-        >
-          <div className="flex items-center justify-between w-full py-0.5">
-            <span className="text-sm font-medium text-secondary-700">Pending</span>
-            {currentFilter === "pending" && <Check className="w-4 h-4 text-violet-600" />}
-          </div>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      ))}
+    </div>
   );
 }
