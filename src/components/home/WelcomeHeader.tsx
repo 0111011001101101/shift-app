@@ -1,12 +1,7 @@
-
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -40,24 +35,16 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative py-6 px-1">
-        <div className="flex items-center gap-5 mb-8">
-          <Avatar className="h-14 w-14 ring-2 ring-violet-100/50 shadow-md">
-            <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback className="bg-gradient-to-br from-violet-50 to-violet-100/80 text-violet-700 font-semibold text-lg">
-              {username?.charAt(0).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <h1 className="text-2xl font-semibold bg-gradient-to-br from-violet-800 via-violet-700 to-violet-600 bg-clip-text text-transparent">
-              Good morning, {username}
-            </h1>
-            <p className="text-sm text-violet-600/60 mt-1 font-medium">Let's make today count</p>
-          </div>
+      <div className="relative space-y-6">
+        <div className="text-center space-y-3 animate-fade-in">
+          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
+            Welcome back, {username}
+          </h1>
+          <p className="text-base sm:text-lg text-secondary-600 max-w-md mx-auto font-medium">
+            Let's make today count
+          </p>
         </div>
-        <div className="relative">
-          {children}
-        </div>
+        {children}
       </div>
 
       <StandUpDialog 

@@ -1,6 +1,7 @@
-
 import { PageContainer } from "@/components/layout/PageContainer";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WelcomeHeader } from "@/components/home/WelcomeHeader";
+import { StreakCard } from "@/components/home/StreakCard";
 import { TodoList } from "@/components/home/TodoList";
 import { GoalsSection } from "@/components/home/GoalsSection";
 import { HurdlesButton } from "@/components/home/HurdlesButton";
@@ -8,7 +9,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
   const { toast } = useToast();
@@ -40,90 +40,72 @@ export default function Home() {
   });
 
   return (
-    <PageContainer className="bg-gray-50/50">
+    <PageContainer>
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-4 max-w-lg mx-auto px-4"
+        className="space-y-6"
       >
-        <WelcomeHeader username={profile?.first_name}>
+        <WelcomeHeader username={profile?.first_name} />
+
+        <div className="space-y-6 sm:space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mt-4"
+          >
+            <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
           >
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full h-auto grid grid-cols-4 gap-1 p-1 bg-gray-100/80 rounded-xl">
+              <TabsList className="w-full mb-4 sm:mb-6 bg-white/80 backdrop-blur-sm border border-primary-100/30 p-1 rounded-xl sm:rounded-2xl shadow-lg">
                 <TabsTrigger 
                   value="today" 
-                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
+                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
                 >
-                  Today
+                  Today's Tasks
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
+                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
                 >
-                  Week
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="month" 
-                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
-                >
-                  Month
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="year" 
-                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
-                >
-                  Year
+                  Week's Tasks
                 </TabsTrigger>
               </TabsList>
               
-              <div className="mt-6 space-y-4">
-                <TabsContent value="today" className="m-0 focus-visible:outline-none focus-visible:ring-0">
-                  <TodoList frequency="daily" />
-                </TabsContent>
-                
-                <TabsContent value="week" className="m-0 focus-visible:outline-none focus-visible:ring-0">
-                  <TodoList frequency="weekly" />
-                </TabsContent>
-
-                <TabsContent value="month" className="m-0 focus-visible:outline-none focus-visible:ring-0">
-                  <div className="text-center py-8 text-gray-500">
-                    Coming soon
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="year" className="m-0 focus-visible:outline-none focus-visible:ring-0">
-                  <div className="text-center py-8 text-gray-500">
-                    Coming soon
-                  </div>
-                </TabsContent>
-              </div>
+              <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                <TodoList frequency="daily" />
+              </TabsContent>
+              
+              <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                <TodoList frequency="weekly" />
+              </TabsContent>
             </Tabs>
           </motion.div>
-        </WelcomeHeader>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="space-y-4"
-        >
-          <GoalsSection />
-        </motion.div>
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="pb-20"
-        >
-          <HurdlesButton />
-        </motion.div>
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <GoalsSection />
+          </motion.div>
+          
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="pb-24"
+          >
+            <HurdlesButton />
+          </motion.div>
+        </div>
       </motion.div>
     </PageContainer>
   );
