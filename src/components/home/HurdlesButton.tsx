@@ -34,19 +34,19 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-white border border-gray-100/50 shadow-sm hover:shadow-md backdrop-blur-lg rounded-2xl h-auto py-4 text-gray-800"
+      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-white border border-gray-200/50 shadow-sm hover:shadow rounded-xl h-auto py-4 text-gray-800"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-4">
           <div className="flex -space-x-2">
-            <div className="p-2.5 bg-violet-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500">
+            <div className="p-2.5 bg-violet-50 rounded-lg group-hover:scale-110 transition-transform duration-500">
               <Brain className="w-5 h-5 text-violet-600" />
             </div>
-            <div className="p-2.5 bg-violet-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-75">
+            <div className="p-2.5 bg-violet-50 rounded-lg group-hover:scale-110 transition-transform duration-500 delay-75">
               <Shield className="w-5 h-5 text-violet-600" />
             </div>
-            <div className="p-2.5 bg-violet-50/50 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-150">
+            <div className="p-2.5 bg-violet-50 rounded-lg group-hover:scale-110 transition-transform duration-500 delay-150">
               <Heart className="w-5 h-5 text-violet-600" />
             </div>
           </div>
@@ -66,9 +66,9 @@ export function HurdlesButton() {
           </div>
         </div>
         {activeHurdles && activeHurdles.length > 0 ? (
-          <ChevronRight className="w-5 h-5 text-gray-500 group-hover:translate-x-1 transition-transform duration-500" />
+          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition-transform duration-500" />
         ) : (
-          <Plus className="w-5 h-5 text-gray-500 group-hover:rotate-90 transition-transform duration-500" />
+          <Plus className="w-5 h-5 text-gray-400 group-hover:rotate-90 transition-transform duration-500" />
         )}
       </div>
     </Button>

@@ -40,48 +40,72 @@ export default function Home() {
   });
 
   return (
-    <PageContainer className="bg-[#F8F7FF]">
+    <PageContainer className="bg-gray-50/50">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="space-y-4 max-w-lg mx-auto px-4"
       >
-        <WelcomeHeader username={profile?.first_name} />
-
-        <motion.div 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="rounded-2xl bg-white shadow-sm border border-gray-100/50 backdrop-blur-xl overflow-hidden"
-        >
-          <Tabs defaultValue="today" className="w-full">
-            <TabsList className="w-full h-auto flex items-center gap-1 p-2 bg-transparent border-b">
-              <TabsTrigger 
-                value="today" 
-                className="flex-1 py-2.5 text-sm data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 rounded-xl transition-all duration-200"
-              >
-                Today
-              </TabsTrigger>
-              <TabsTrigger 
-                value="week" 
-                className="flex-1 py-2.5 text-sm data-[state=active]:bg-violet-50 data-[state=active]:text-violet-700 rounded-xl transition-all duration-200"
-              >
-                This Week
-              </TabsTrigger>
-            </TabsList>
-            
-            <div className="p-4">
-              <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                <TodoList frequency="daily" />
-              </TabsContent>
+        <WelcomeHeader username={profile?.first_name}>
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-4"
+          >
+            <Tabs defaultValue="today" className="w-full">
+              <TabsList className="w-full h-auto grid grid-cols-4 gap-1 p-1 bg-gray-100/80 rounded-xl">
+                <TabsTrigger 
+                  value="today" 
+                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
+                >
+                  Today
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="week" 
+                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
+                >
+                  Week
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="month" 
+                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
+                >
+                  Month
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="year" 
+                  className="py-2 text-sm data-[state=active]:bg-white data-[state=active]:text-violet-700 rounded-lg transition-all duration-200 shadow-none data-[state=active]:shadow-sm"
+                >
+                  Year
+                </TabsTrigger>
+              </TabsList>
               
-              <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                <TodoList frequency="weekly" />
-              </TabsContent>
-            </div>
-          </Tabs>
-        </motion.div>
+              <div className="mt-6 space-y-4">
+                <TabsContent value="today" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                  <TodoList frequency="daily" />
+                </TabsContent>
+                
+                <TabsContent value="week" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                  <TodoList frequency="weekly" />
+                </TabsContent>
+
+                <TabsContent value="month" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                  <div className="text-center py-8 text-gray-500">
+                    Coming soon
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="year" className="m-0 focus-visible:outline-none focus-visible:ring-0">
+                  <div className="text-center py-8 text-gray-500">
+                    Coming soon
+                  </div>
+                </TabsContent>
+              </div>
+            </Tabs>
+          </motion.div>
+        </WelcomeHeader>
 
         <motion.div 
           initial={{ opacity: 0, y: 10 }}

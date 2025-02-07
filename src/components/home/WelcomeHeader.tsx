@@ -6,6 +6,7 @@ import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import { ChevronRight } from "lucide-react";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -39,23 +40,20 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative">
-        <div className="flex items-center justify-between mb-4">
-          <div className="space-y-1">
-            <p className="text-sm text-gray-500/80 font-medium">
-              {format(new Date(), "EEEE, MMMM d")}
-            </p>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-600 to-violet-500">
-              Good morning, {username}
-            </h1>
-            <p className="text-sm text-gray-500">Start your productive day</p>
-          </div>
+      <div className="relative py-4">
+        <div className="flex items-center gap-3 mb-6">
           <Avatar className="h-10 w-10 ring-2 ring-white shadow-sm">
             <AvatarImage src="/placeholder.svg" />
             <AvatarFallback className="bg-violet-50 text-violet-700 font-medium">
               {username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Good morning, {username}
+            </h1>
+            <p className="text-sm text-gray-500 mt-0.5">Start your productive day</p>
+          </div>
         </div>
         {children}
       </div>
