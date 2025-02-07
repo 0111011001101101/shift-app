@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { format } from "date-fns";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -35,14 +37,22 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative space-y-6">
-        <div className="text-center space-y-3 animate-fade-in">
-          <h1 className="text-2xl sm:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent">
-            Welcome back, {username}
-          </h1>
-          <p className="text-base sm:text-lg text-secondary-600 max-w-md mx-auto font-medium">
-            Let's make today count
-          </p>
+      <div className="relative">
+        <div className="flex items-center justify-between mb-8">
+          <div className="space-y-1">
+            <p className="text-sm text-gray-500">
+              {format(new Date(), "EEEE, MMMM d")}
+            </p>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Hi, {username}
+            </h1>
+          </div>
+          <Avatar className="h-10 w-10">
+            <AvatarImage src="/placeholder.svg" />
+            <AvatarFallback>
+              {username?.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
         </div>
         {children}
       </div>

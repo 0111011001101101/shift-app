@@ -1,7 +1,5 @@
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WelcomeHeader } from "@/components/home/WelcomeHeader";
-import { StreakCard } from "@/components/home/StreakCard";
 import { TodoList } from "@/components/home/TodoList";
 import { GoalsSection } from "@/components/home/GoalsSection";
 import { HurdlesButton } from "@/components/home/HurdlesButton";
@@ -9,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Home() {
   const { toast } = useToast();
@@ -40,7 +39,7 @@ export default function Home() {
   });
 
   return (
-    <PageContainer>
+    <PageContainer className="bg-[#F8F7FF]">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -49,13 +48,39 @@ export default function Home() {
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-6 sm:space-y-8">
+        <div className="space-y-6">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
+            className="rounded-2xl bg-white shadow-sm border border-gray-100"
           >
-            <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
+            <Tabs defaultValue="today" className="w-full">
+              <TabsList className="w-full h-auto flex items-center gap-1 p-2 bg-transparent border-b">
+                <TabsTrigger 
+                  value="today" 
+                  className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
+                >
+                  Today
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="week" 
+                  className="flex-1 py-2.5 text-sm data-[state=active]:bg-primary-50 data-[state=active]:text-primary-700 rounded-xl transition-all duration-200"
+                >
+                  This Week
+                </TabsTrigger>
+              </TabsList>
+              
+              <div className="p-4">
+                <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                  <TodoList frequency="daily" />
+                </TabsContent>
+                
+                <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                  <TodoList frequency="weekly" />
+                </TabsContent>
+              </div>
+            </Tabs>
           </motion.div>
 
           <motion.div 
@@ -63,44 +88,13 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 sm:mb-6 bg-white/80 backdrop-blur-sm border border-primary-100/30 p-1 rounded-xl sm:rounded-2xl shadow-lg">
-                <TabsTrigger 
-                  value="today" 
-                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
-                >
-                  Today's Tasks
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="week" 
-                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
-                >
-                  Week's Tasks
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                <TodoList frequency="daily" />
-              </TabsContent>
-              
-              <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                <TodoList frequency="weekly" />
-              </TabsContent>
-            </Tabs>
-          </motion.div>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
             <GoalsSection />
           </motion.div>
           
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.4 }}
             className="pb-24"
           >
             <HurdlesButton />
