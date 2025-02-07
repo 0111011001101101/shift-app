@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Plus, Pencil, Target, ChevronRight, Calendar, ListTodo, CheckCircle2, Circle } from "lucide-react";
+import { Plus, Pencil, Target, ChevronRight, Calendar, ListTodo, CheckCircle2, Circle, ChevronDown, ChevronUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -47,10 +47,9 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [editedTodoText, setEditedTodoText] = useState("");
   const [newTodoText, setNewTodoText] = useState("");
-  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(
-    goalId || null
-  );
+  const [selectedGoalId, setSelectedGoalId] = useState<string | null>(goalId || null);
   const [filter, setFilter] = useState<FilterType>("all");
+  const [expandedGoals, setExpandedGoals] = useState<Record<string, boolean>>({});
 
   const { data: goals } = useQuery({
     queryKey: ["goals"],
@@ -200,6 +199,34 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     return !todo.completed;
   });
 
+  const todosByGoal = todos?.reduce((acc: Record<string, SubGoal[]>, todo) => {
+    const goalId = todo.goal?.id || 'no-goal';
+    if (!acc[goalId]) {
+      acc[goalId] = [];
+    }
+    acc[goalId].push(todo);
+    return acc;
+  }, {});
+
+  const toggleGoalExpansion = (goalId: string) => {
+    setExpandedGoals(prev => ({
+      ...prev,
+      [goalId]: !prev[goalId]
+    }));
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-[200px]">
+        <div className="space-y-3 w-full max-w-md animate-pulse">
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+          <div className="h-14 bg-primary-50/50 rounded-xl" />
+        </div>
+      </div>
+    );
+  }
+
   const hasGoals = goals && goals.length > 0;
 
   if (!hasGoals && !goalId) {
@@ -228,18 +255,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
     );
   }
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-[200px]">
-        <div className="space-y-3 w-full max-w-md animate-pulse">
-          <div className="h-14 bg-primary-50/50 rounded-xl" />
-          <div className="h-14 bg-primary-50/50 rounded-xl" />
-          <div className="h-14 bg-primary-50/50 rounded-xl" />
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-6">
       <div className="relative overflow-hidden rounded-2xl border-2 border-primary-100/30 bg-gradient-to-br from-white via-white to-primary-50/20 p-6 shadow-lg backdrop-blur-sm">
@@ -256,97 +271,117 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
           </div>
 
           <AnimatePresence mode="popLayout">
-            <div className="space-y-2.5">
-              {todos?.map((todo) => (
-                <motion.div
-                  key={todo.id}
-                  layout
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="group"
-                >
-                  <div className="relative overflow-hidden rounded-xl bg-white border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary-50/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative flex items-center gap-3 p-3.5">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        className={`relative p-0 h-auto hover:bg-transparent overflow-hidden ${
-                          todo.completed 
-                            ? "text-primary-500" 
-                            : "text-secondary-300 hover:text-secondary-400"
-                        }`}
-                        onClick={() => handleToggleTodo(todo.id, todo.completed)}
-                      >
-                        {todo.completed ? (
-                          <CheckCircle2 className="w-5 h-5" />
-                        ) : (
-                          <Circle className="w-5 h-5" />
-                        )}
-                      </Button>
+            <div className="space-y-4">
+              {todosByGoal && Object.entries(todosByGoal).map(([goalId, goalTodos]) => {
+                const goal = goals?.find(g => g.id === goalId);
+                const isExpanded = expandedGoals[goalId] ?? true;
 
-                      <div className="flex-1 min-w-0">
-                        {editingTodoId === todo.id ? (
-                          <Input
-                            value={editedTodoText}
-                            onChange={(e) => setEditedTodoText(e.target.value)}
-                            onKeyPress={(e) => e.key === "Enter" && handleSaveTodo(todo.id)}
-                            className="w-full bg-white/95 border-primary-100/30 focus:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20"
-                            autoFocus
-                          />
-                        ) : (
-                          <div className="space-y-1">
-                            <span
-                              className={`block text-sm ${
-                                todo.completed
-                                  ? "line-through text-secondary-400"
-                                  : "text-secondary-800"
-                              } transition-all duration-300`}
-                            >
-                              {todo.title}
+                return (
+                  <motion.div
+                    key={goalId}
+                    layout
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="group"
+                  >
+                    {goalId !== 'no-goal' && (
+                      <div 
+                        className="flex items-center justify-between mb-2 px-3 py-2 bg-primary-50/50 rounded-lg cursor-pointer"
+                        onClick={() => toggleGoalExpansion(goalId)}
+                      >
+                        <div className="flex items-center gap-2">
+                          <Target className="w-4 h-4 text-primary-500/70" />
+                          <span className="text-sm font-medium text-primary-700">{goal?.title}</span>
+                          {goal?.deadline && (
+                            <span className="text-xs text-primary-500/70">
+                              · Due {format(new Date(goal.deadline), 'MMM d')}
                             </span>
-                            {todo.goal && (
-                              <div className="flex flex-col gap-1">
-                                <motion.div
-                                  initial={{ opacity: 0, y: 5 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  className="flex items-center gap-1.5 cursor-pointer group/goal"
-                                  onClick={() => navigateToGoals()}
-                                >
-                                  <Target className="w-3.5 h-3.5 text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200" />
-                                  <span className="text-xs font-medium text-primary-500/70 group-hover/goal:text-primary-600 transition-colors duration-200">
-                                    {todo.goal.title}
-                                  </span>
-                                </motion.div>
-                                {todo.goal.deadline && (
-                                  <div className="flex items-center gap-1.5 text-xs text-secondary-500">
-                                    <Calendar className="w-3.5 h-3.5" />
-                                    <span>Due {format(new Date(todo.goal.deadline), 'MMM d, yyyy')}</span>
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
+                          )}
+                        </div>
+                        {isExpanded ? (
+                          <ChevronUp className="w-4 h-4 text-primary-500/70" />
+                        ) : (
+                          <ChevronDown className="w-4 h-4 text-primary-500/70" />
                         )}
                       </div>
-
-                      {!editingTodoId && (
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
-                          onClick={() => handleEditTodo(todo.id, todo.title)}
+                    )}
+                    
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="space-y-2"
                         >
-                          <Pencil className="w-3.5 h-3.5 text-secondary-400 hover:text-secondary-600 transition-colors" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                          {goalTodos.map((todo) => (
+                            <motion.div
+                              key={todo.id}
+                              layout
+                              className="relative overflow-hidden rounded-xl bg-white border border-primary-100/30 shadow-sm hover:shadow-md transition-all duration-300 group"
+                            >
+                              <div className="flex items-center gap-3 p-3.5">
+                                <Button
+                                  size="sm"
+                                  variant="ghost"
+                                  className={`relative p-0 h-auto hover:bg-transparent overflow-hidden ${
+                                    todo.completed 
+                                      ? "text-primary-500" 
+                                      : "text-secondary-300 hover:text-secondary-400"
+                                  }`}
+                                  onClick={() => handleToggleTodo(todo.id, todo.completed)}
+                                >
+                                  {todo.completed ? (
+                                    <CheckCircle2 className="w-5 h-5" />
+                                  ) : (
+                                    <Circle className="w-5 h-5" />
+                                  )}
+                                </Button>
 
-              {todos?.length === 0 && (
+                                <div className="flex-1 min-w-0">
+                                  {editingTodoId === todo.id ? (
+                                    <Input
+                                      value={editedTodoText}
+                                      onChange={(e) => setEditedTodoText(e.target.value)}
+                                      onKeyPress={(e) => e.key === "Enter" && handleSaveTodo(todo.id)}
+                                      className="w-full bg-white/95 border-primary-100/30 focus:border-primary-200/50 focus:ring-2 focus:ring-primary-500/20"
+                                      autoFocus
+                                    />
+                                  ) : (
+                                    <span
+                                      className={`block text-sm ${
+                                        todo.completed
+                                          ? "line-through text-secondary-400"
+                                          : "text-secondary-800"
+                                      } transition-all duration-300`}
+                                    >
+                                      {todo.title}
+                                    </span>
+                                  )}
+                                </div>
+
+                                {!editingTodoId && (
+                                  <Button
+                                    size="sm"
+                                    variant="ghost"
+                                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
+                                    onClick={() => handleEditTodo(todo.id, todo.title)}
+                                  >
+                                    <Pencil className="w-3.5 h-3.5 text-secondary-400 hover:text-secondary-600 transition-colors" />
+                                  </Button>
+                                )}
+                              </div>
+                            </motion.div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+
+              {(!todos || todos.length === 0) && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
