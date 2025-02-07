@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Home, Target, AlertTriangle, BookOpen, Settings } from "lucide-react";
@@ -7,31 +8,31 @@ const navItems = [
     label: "Home",
     icon: Home,
     href: "/home",
-    gradient: "from-[#007BFF] to-[#00C6FF]"
+    gradient: "from-violet-600 to-violet-500"
   },
   {
     label: "Goals",
     icon: Target,
     href: "/goals",
-    gradient: "from-[#FF8C42] to-[#F97316]"
+    gradient: "from-violet-500 to-violet-400"
   },
   {
     label: "Hurdles",
     icon: AlertTriangle,
     href: "/hurdles",
-    gradient: "from-[#9B51E0] to-[#7928CA]"
+    gradient: "from-violet-600 to-violet-500"
   },
   {
     label: "Learn",
     icon: BookOpen,
     href: "/learn",
-    gradient: "from-[#3DDC97] to-[#2ECC71]"
+    gradient: "from-violet-500 to-violet-400"
   },
   {
     label: "Settings",
     icon: Settings,
     href: "/settings",
-    gradient: "from-gray-600 to-gray-500"
+    gradient: "from-violet-400 to-violet-300"
   },
 ];
 
@@ -39,7 +40,7 @@ export function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-black/[0.02] pb-safe-area-inset-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-violet-100/20 pb-safe-area-inset-bottom">
       <div className="mx-auto max-w-lg">
         <div className="flex items-center justify-around px-2 py-1">
           {navItems.map(({ label, icon: Icon, href, gradient }) => {
@@ -52,7 +53,7 @@ export function BottomNav() {
                   "flex flex-1 flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl transition-all duration-300",
                   isActive 
                     ? `bg-gradient-to-br ${gradient} text-white shadow-lg scale-110` 
-                    : "text-black/60 hover:text-black/80 hover:bg-black/[0.02]"
+                    : "text-violet-600/60 hover:text-violet-600/80 hover:bg-violet-50/50"
                 )}
               >
                 <Icon className={cn(

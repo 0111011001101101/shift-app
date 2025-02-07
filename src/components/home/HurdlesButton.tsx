@@ -34,19 +34,19 @@ export function HurdlesButton() {
     <Button
       variant="outline"
       size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-white border border-gray-200/50 shadow-sm hover:shadow rounded-xl h-auto py-4 text-gray-800"
+      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-white/80 backdrop-blur-sm border border-violet-100/50 shadow-sm hover:shadow-md rounded-xl h-auto py-4 text-gray-800"
       onClick={() => navigate("/hurdles")}
     >
       <div className="relative flex items-center justify-between w-full">
         <div className="flex items-center gap-4">
           <div className="flex -space-x-2">
-            <div className="p-2.5 bg-violet-50 rounded-lg group-hover:scale-110 transition-transform duration-500">
+            <div className="p-2.5 bg-violet-50/80 rounded-lg group-hover:scale-110 transition-transform duration-500">
               <Brain className="w-5 h-5 text-violet-600" />
             </div>
-            <div className="p-2.5 bg-violet-50 rounded-lg group-hover:scale-110 transition-transform duration-500 delay-75">
+            <div className="p-2.5 bg-violet-50/80 rounded-lg group-hover:scale-110 transition-transform duration-500 delay-75">
               <Shield className="w-5 h-5 text-violet-600" />
             </div>
-            <div className="p-2.5 bg-violet-50 rounded-lg group-hover:scale-110 transition-transform duration-500 delay-150">
+            <div className="p-2.5 bg-violet-50/80 rounded-lg group-hover:scale-110 transition-transform duration-500 delay-150">
               <Heart className="w-5 h-5 text-violet-600" />
             </div>
           </div>
@@ -55,11 +55,11 @@ export function HurdlesButton() {
               {activeHurdles && activeHurdles.length > 0 ? 'Mental Resilience Hub' : 'Build Mental Resilience'}
             </span>
             {activeHurdles && activeHurdles.length > 0 ? (
-              <span className="text-xs text-gray-500">
+              <span className="text-sm text-gray-500">
                 {activeHurdles.length} active {activeHurdles.length === 1 ? 'challenge' : 'challenges'} to overcome
               </span>
             ) : (
-              <span className="text-xs text-gray-500">
+              <span className="text-sm text-gray-500">
                 Track and overcome challenges mindfully
               </span>
             )}
