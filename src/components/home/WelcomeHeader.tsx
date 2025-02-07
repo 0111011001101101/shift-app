@@ -40,22 +40,24 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative py-4">
-        <div className="flex items-center gap-4 mb-6">
-          <Avatar className="h-12 w-12 ring-2 ring-violet-100 shadow-sm">
+      <div className="relative py-6 px-1">
+        <div className="flex items-center gap-5 mb-8">
+          <Avatar className="h-14 w-14 ring-2 ring-violet-100/50 shadow-md">
             <AvatarImage src="/placeholder.svg" />
-            <AvatarFallback className="bg-violet-50 text-violet-700 font-medium">
+            <AvatarFallback className="bg-gradient-to-br from-violet-50 to-violet-100/80 text-violet-700 font-semibold text-lg">
               {username?.charAt(0).toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-2xl font-semibold bg-gradient-to-r from-violet-700 to-violet-500 bg-clip-text text-transparent">
+            <h1 className="text-2xl font-semibold bg-gradient-to-br from-violet-800 via-violet-700 to-violet-600 bg-clip-text text-transparent">
               Good morning, {username}
             </h1>
-            <p className="text-sm text-gray-500 mt-0.5">Let's make today count</p>
+            <p className="text-sm text-violet-600/60 mt-1 font-medium">Let's make today count</p>
           </div>
         </div>
-        {children}
+        <div className="relative">
+          {children}
+        </div>
       </div>
 
       <StandUpDialog 

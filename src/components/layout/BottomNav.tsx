@@ -40,7 +40,7 @@ export function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-xl border-t border-violet-100/20 pb-safe-area-inset-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-t border-violet-100/20 pb-safe-area-inset-bottom shadow-lg">
       <div className="mx-auto max-w-lg">
         <div className="flex items-center justify-around px-2 py-1">
           {navItems.map(({ label, icon: Icon, href, gradient }) => {
@@ -50,10 +50,10 @@ export function BottomNav() {
                 key={href}
                 to={href}
                 className={cn(
-                  "flex flex-1 flex-col items-center justify-center gap-1 py-2 px-3 rounded-xl transition-all duration-300",
+                  "flex flex-1 flex-col items-center justify-center gap-1.5 py-2.5 px-3 rounded-2xl transition-all duration-300",
                   isActive 
                     ? `bg-gradient-to-br ${gradient} text-white shadow-lg scale-110` 
-                    : "text-violet-600/60 hover:text-violet-600/80 hover:bg-violet-50/50"
+                    : "text-violet-600/50 hover:text-violet-600/70 hover:bg-violet-50/50"
                 )}
               >
                 <Icon className={cn(
