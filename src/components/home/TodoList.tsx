@@ -9,6 +9,7 @@ import { TodoFilter, FilterType } from "./TodoFilter";
 import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
 import { TaskDialog } from "./TaskDialog";
+import { cn } from "@/lib/utils";
 
 interface SubGoal {
   id: string;
