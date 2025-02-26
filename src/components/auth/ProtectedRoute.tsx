@@ -14,93 +14,93 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
 
   useEffect(() => {
+    let mounted = true;
+
     const checkAuth = async () => {
       try {
-        console.log("Checking auth...");
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log("Session:", session);
-        setSession(session);
-
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (sessionError) throw sessionError;
+        
         if (!session) {
-          console.log("No session, redirecting to auth");
+          if (mounted) {
+            setIsLoading(false);
+            setSession(null);
+          }
           navigate("/auth", { replace: true });
-          setIsLoading(false);
           return;
         }
 
-        // Fetch user profile
+        if (mounted) {
+          setSession(session);
+        }
+
         const { data: profile, error: profileError } = await supabase
           .from("profiles")
-          .select("*")
+          .select()
           .eq("id", session.user.id)
-          .single();
+          .maybeSingle();
 
-        console.log("Profile:", profile);
-        console.log("Profile error:", profileError);
+        if (profileError) throw profileError;
 
-        if (profileError) {
-          console.error("Error fetching profile:", profileError);
-          setIsLoading(false);
-          return;
+        if (mounted) {
+          setProfile(profile);
         }
 
-        setProfile(profile);
-
-        // Handle routing based on onboarding status
         if (!profile?.onboarding_completed && location.pathname !== "/onboarding") {
-          console.log("Redirecting to onboarding");
           navigate("/onboarding", { replace: true });
         } else if (profile?.onboarding_completed && location.pathname === "/onboarding") {
-          console.log("Redirecting to home");
           navigate("/home", { replace: true });
         }
 
-        setIsLoading(false);
       } catch (error) {
         console.error("Auth check error:", error);
+        if (mounted) {
+          setSession(null);
+          setProfile(null);
+        }
         navigate("/auth", { replace: true });
-        setIsLoading(false);
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
       }
     };
 
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event);
+      if (!mounted) return;
+
       setSession(session);
-      
+
       if (!session) {
-        console.log("No session after auth change");
+        setProfile(null);
         navigate("/auth", { replace: true });
         return;
       }
 
-      // Fetch user profile on auth state change
-      const { data: profile, error: profileError } = await supabase
+      const { data: profile } = await supabase
         .from("profiles")
-        .select("*")
+        .select()
         .eq("id", session.user.id)
-        .single();
+        .maybeSingle();
 
-      if (profileError) {
-        console.error("Error fetching profile on auth change:", profileError);
-        return;
+      if (mounted) {
+        setProfile(profile);
       }
 
-      console.log("Profile after auth change:", profile);
-      setProfile(profile);
-
-      // Handle routing based on onboarding status
       if (!profile?.onboarding_completed && location.pathname !== "/onboarding") {
-        console.log("Redirecting to onboarding after auth change");
         navigate("/onboarding", { replace: true });
       } else if (profile?.onboarding_completed && location.pathname === "/onboarding") {
-        console.log("Redirecting to home after auth change");
         navigate("/home", { replace: true });
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, [navigate, location.pathname]);
 
   if (isLoading) {
@@ -115,6 +115,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   }
 
   if (!session) {
+    navigate("/auth", { replace: true });
     return null;
   }
 
