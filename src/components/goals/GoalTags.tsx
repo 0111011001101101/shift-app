@@ -166,7 +166,6 @@ export function GoalTags({ goalId, onTagsChange }: GoalTagsProps) {
       {showAddTag && (
         <div className="flex items-center gap-2">
           <Input
-            size="sm"
             placeholder="Enter tag name..."
             value={newTagName}
             onChange={(e) => setNewTagName(e.target.value)}
