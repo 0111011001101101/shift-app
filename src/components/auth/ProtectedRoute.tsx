@@ -23,7 +23,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
         if (!session) {
           console.log("No session, redirecting to auth");
-          navigate("/auth");
+          navigate("/auth", { replace: true });
           setIsLoading(false);
           return;
         }
@@ -33,7 +33,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           .from("profiles")
           .select("*")
           .eq("id", session.user.id)
-          .maybeSingle();
+          .single();
 
         console.log("Profile:", profile);
         console.log("Profile error:", profileError);
@@ -49,15 +49,16 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         // Handle routing based on onboarding status
         if (!profile?.onboarding_completed && location.pathname !== "/onboarding") {
           console.log("Redirecting to onboarding");
-          navigate("/onboarding");
+          navigate("/onboarding", { replace: true });
         } else if (profile?.onboarding_completed && location.pathname === "/onboarding") {
           console.log("Redirecting to home");
-          navigate("/home");
+          navigate("/home", { replace: true });
         }
+
+        setIsLoading(false);
       } catch (error) {
         console.error("Auth check error:", error);
-        navigate("/auth");
-      } finally {
+        navigate("/auth", { replace: true });
         setIsLoading(false);
       }
     };
@@ -70,7 +71,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       
       if (!session) {
         console.log("No session after auth change");
-        navigate("/auth");
+        navigate("/auth", { replace: true });
         return;
       }
 
@@ -79,7 +80,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         .from("profiles")
         .select("*")
         .eq("id", session.user.id)
-        .maybeSingle();
+        .single();
 
       if (profileError) {
         console.error("Error fetching profile on auth change:", profileError);
@@ -92,10 +93,10 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       // Handle routing based on onboarding status
       if (!profile?.onboarding_completed && location.pathname !== "/onboarding") {
         console.log("Redirecting to onboarding after auth change");
-        navigate("/onboarding");
+        navigate("/onboarding", { replace: true });
       } else if (profile?.onboarding_completed && location.pathname === "/onboarding") {
         console.log("Redirecting to home after auth change");
-        navigate("/home");
+        navigate("/home", { replace: true });
       }
     });
 
