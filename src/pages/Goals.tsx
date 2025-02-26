@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -15,17 +16,20 @@ import {
   ChevronUp,
   ChevronDown,
   ArrowLeft,
+  LayoutGrid,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TodoList } from "@/components/home/TodoList";
-
-interface SubGoal {
-  id: string;
-  title: string;
-  isCompleted: boolean;
-  frequency: "daily" | "weekly";
-}
+import { GoalTags } from "@/components/goals/GoalTags";
+import { GoalProgress } from "@/components/goals/GoalProgress";
 
 interface Goal {
   id: string;
@@ -33,16 +37,28 @@ interface Goal {
   deadline?: string;
   completed?: boolean;
   position?: number;
+  category?: string;
+  reminder_enabled?: boolean;
+  reminder_frequency?: string;
 }
+
+const CATEGORIES = [
+  { value: "personal", label: "Personal" },
+  { value: "work", label: "Work" },
+  { value: "health", label: "Health" },
+  { value: "learning", label: "Learning" },
+  { value: "finance", label: "Finance" },
+];
 
 export default function Goals() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [newGoalTitle, setNewGoalTitle] = useState("");
+  const [newGoalCategory, setNewGoalCategory] = useState("personal");
   const [showNewGoalInput, setShowNewGoalInput] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
-  // Get current user
   const { data: session } = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
@@ -55,17 +71,22 @@ export default function Goals() {
     },
   });
 
-  // Fetch goals with proper user filtering
   const { data: goals, isLoading } = useQuery({
-    queryKey: ["goals"],
+    queryKey: ["goals", selectedCategory],
     queryFn: async () => {
       if (!session?.user.id) return [];
       
-      const { data, error } = await supabase
+      let query = supabase
         .from("goals")
         .select("*")
         .eq("user_id", session.user.id)
         .order("position");
+
+      if (selectedCategory) {
+        query = query.eq("category", selectedCategory);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         toast({
@@ -80,7 +101,6 @@ export default function Goals() {
     enabled: !!session?.user.id,
   });
 
-  // Add new goal with user_id
   const addGoalMutation = useMutation({
     mutationFn: async () => {
       if (!session?.user.id) throw new Error("Not authenticated");
@@ -89,6 +109,7 @@ export default function Goals() {
         .from("goals")
         .insert([{ 
           title: newGoalTitle,
+          category: newGoalCategory,
           user_id: session.user.id,
           position: (goals?.length || 0) + 1
         }])
@@ -100,6 +121,7 @@ export default function Goals() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
       setNewGoalTitle("");
+      setNewGoalCategory("personal");
       setShowNewGoalInput(false);
       toast({
         title: "Goal Added",
@@ -115,7 +137,6 @@ export default function Goals() {
     },
   });
 
-  // Toggle goal completion
   const toggleGoalMutation = useMutation({
     mutationFn: async (goalId: string) => {
       const goal = goals?.find(g => g.id === goalId);
@@ -144,7 +165,6 @@ export default function Goals() {
     },
   });
 
-  // Delete goal
   const deleteGoalMutation = useMutation({
     mutationFn: async (goalId: string) => {
       const { error } = await supabase.from("goals").delete().eq("id", goalId);
@@ -166,7 +186,6 @@ export default function Goals() {
     },
   });
 
-  // Move goal position
   const moveGoalMutation = useMutation({
     mutationFn: async ({
       goalId,
@@ -242,22 +261,69 @@ export default function Goals() {
           </Button>
         </div>
 
+        <div className="flex items-center gap-2 overflow-x-auto pb-2">
+          <Button
+            variant={selectedCategory === null ? "secondary" : "ghost"}
+            size="sm"
+            onClick={() => setSelectedCategory(null)}
+            className="whitespace-nowrap"
+          >
+            <LayoutGrid className="w-4 h-4 mr-1" />
+            All Categories
+          </Button>
+          {CATEGORIES.map((category) => (
+            <Button
+              key={category.value}
+              variant={selectedCategory === category.value ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setSelectedCategory(category.value)}
+              className="whitespace-nowrap"
+            >
+              {category.label}
+            </Button>
+          ))}
+        </div>
+
         {showNewGoalInput && (
           <Card className="p-4 border-primary-100 dark:border-primary-900/20">
-            <div className="flex gap-2">
+            <div className="space-y-4">
               <Input
                 value={newGoalTitle}
                 onChange={(e) => setNewGoalTitle(e.target.value)}
                 placeholder="Enter goal title..."
                 className="flex-1"
               />
-              <Button 
-                onClick={addGoal} 
-                size="sm"
-                className="bg-primary hover:bg-primary-600 text-white"
+              <Select
+                value={newGoalCategory}
+                onValueChange={setNewGoalCategory}
               >
-                Add
-              </Button>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CATEGORIES.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setShowNewGoalInput(false)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={addGoal}
+                  size="sm"
+                  className="bg-primary hover:bg-primary-600 text-white"
+                >
+                  Add Goal
+                </Button>
+              </div>
             </div>
           </Card>
         )}
@@ -276,7 +342,12 @@ export default function Goals() {
             <Card className="p-6 text-center space-y-3 border-primary-100 dark:border-primary-900/20">
               <Target className="w-12 h-12 mx-auto text-primary opacity-50" />
               <div className="space-y-1">
-                <h3 className="font-medium text-gray-900 dark:text-gray-100">No Goals Yet</h3>
+                <h3 className="font-medium text-gray-900 dark:text-gray-100">
+                  {selectedCategory 
+                    ? `No goals in ${CATEGORIES.find(c => c.value === selectedCategory)?.label}`
+                    : "No Goals Yet"
+                  }
+                </h3>
                 <p className="text-sm text-muted-foreground">
                   Add your first goal to start tracking your progress
                 </p>
@@ -286,7 +357,8 @@ export default function Goals() {
                 onClick={() => setShowNewGoalInput(true)}
                 className="mx-auto bg-primary hover:bg-primary-600 text-white"
               >
-                <Plus className="w-4 h-4 mr-1" /> Add Your First Goal
+                <Plus className="w-4 h-4 mr-1" />
+                Add Your First Goal
               </Button>
             </Card>
           ) : (
@@ -312,18 +384,21 @@ export default function Goals() {
                   </Button>
                   <div className="flex-1">
                     <div className="flex items-start justify-between gap-2">
-                      <div>
+                      <div className="space-y-1">
                         <h3 className={`font-medium text-gray-900 dark:text-gray-100 ${
                           goal.completed ? 'line-through text-muted-foreground' : ''
                         }`}>
                           {goal.title}
                         </h3>
                         {goal.deadline && (
-                          <div className="flex items-center text-xs text-muted-foreground mt-1">
+                          <div className="flex items-center text-xs text-muted-foreground">
                             <Calendar className="w-3.5 h-3.5 mr-1" />
                             Due {new Date(goal.deadline).toLocaleDateString()}
                           </div>
                         )}
+                        <div className="mt-2">
+                          <GoalTags goalId={goal.id} />
+                        </div>
                       </div>
                       <div className="flex items-center gap-1">
                         {index > 0 && (
@@ -358,6 +433,10 @@ export default function Goals() {
                     </div>
 
                     <div className="mt-4">
+                      <GoalProgress goalId={goal.id} />
+                    </div>
+
+                    <div className="mt-4">
                       <Tabs defaultValue="daily" className="w-full">
                         <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-primary-100 dark:border-primary-900/20">
                           <TabsTrigger 
@@ -378,7 +457,7 @@ export default function Goals() {
                           <TodoList frequency="daily" goalId={goal.id} />
                         </TabsContent>
                         
-                        <TabsContent value="week" className="mt-2">
+                        <TabsContent value="weekly" className="mt-2">
                           <TodoList frequency="weekly" goalId={goal.id} />
                         </TabsContent>
                       </Tabs>

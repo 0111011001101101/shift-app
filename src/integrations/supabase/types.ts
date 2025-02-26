@@ -9,33 +9,80 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      goal_tags: {
+        Row: {
+          color: string | null
+          created_at: string
+          id: string
+          name: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goal_tags_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       goals: {
         Row: {
+          category: string | null
           completed: boolean | null
           created_at: string
           deadline: string | null
           id: string
+          last_reminder_sent: string | null
           position: number | null
+          reminder_enabled: boolean | null
+          reminder_frequency: string | null
           title: string
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          category?: string | null
           completed?: boolean | null
           created_at?: string
           deadline?: string | null
           id?: string
+          last_reminder_sent?: string | null
           position?: number | null
+          reminder_enabled?: boolean | null
+          reminder_frequency?: string | null
           title: string
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          category?: string | null
           completed?: boolean | null
           created_at?: string
           deadline?: string | null
           id?: string
+          last_reminder_sent?: string | null
           position?: number | null
+          reminder_enabled?: boolean | null
+          reminder_frequency?: string | null
           title?: string
           updated_at?: string
           user_id?: string | null
@@ -50,8 +97,109 @@ export type Database = {
           },
         ]
       }
+      goals_tags: {
+        Row: {
+          goal_id: string
+          tag_id: string
+        }
+        Insert: {
+          goal_id: string
+          tag_id: string
+        }
+        Update: {
+          goal_id?: string
+          tag_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "goals_tags_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "goals_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "goal_tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hurdle_history: {
+        Row: {
+          created_at: string
+          hurdle_id: string | null
+          id: string
+          notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          hurdle_id?: string | null
+          id?: string
+          notes?: string | null
+          status: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          hurdle_id?: string | null
+          id?: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hurdle_history_hurdle_id_fkey"
+            columns: ["hurdle_id"]
+            isOneToOne: false
+            referencedRelation: "hurdles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hurdle_suggestions: {
+        Row: {
+          created_at: string
+          hurdle_id: string | null
+          id: string
+          is_implemented: boolean | null
+          suggestion: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          hurdle_id?: string | null
+          id?: string
+          is_implemented?: boolean | null
+          suggestion: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          hurdle_id?: string | null
+          id?: string
+          is_implemented?: boolean | null
+          suggestion?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hurdle_suggestions_hurdle_id_fkey"
+            columns: ["hurdle_id"]
+            isOneToOne: false
+            referencedRelation: "hurdles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       hurdles: {
         Row: {
+          category: string | null
           completed: boolean | null
           created_at: string
           id: string
@@ -61,6 +209,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          category?: string | null
           completed?: boolean | null
           created_at?: string
           id?: string
@@ -70,6 +219,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          category?: string | null
           completed?: boolean | null
           created_at?: string
           id?: string
