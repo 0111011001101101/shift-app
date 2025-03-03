@@ -1,4 +1,4 @@
-<lov-code>
+
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -824,3 +824,6 @@ function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, c
           </Tabs>
         </div>
       )}
+    </Card>
+  );
+}
