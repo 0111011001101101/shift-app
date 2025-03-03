@@ -66,7 +66,7 @@ export function BottomNav() {
                   )} />
                 </div>
                 <span className={cn(
-                  "text-[10px]",
+                  "text-[10px] mt-0.5",
                   isActive 
                     ? "text-primary-500 font-medium" 
                     : "text-gray-500"

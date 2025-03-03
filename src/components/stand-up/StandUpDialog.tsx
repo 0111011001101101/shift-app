@@ -28,60 +28,60 @@ export function StandUpDialog({ open, onOpenChange, completed, standUpData }: St
   if (completed && standUpData) {
     return (
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[500px] bg-gradient-to-br from-white via-primary-50/50 to-secondary-50/50 dark:from-gray-900 dark:via-primary-900/10 dark:to-secondary-900/10 backdrop-blur-xl">
-          <DialogTitle className="text-2xl font-semibold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-            Today's Stand-up Complete!
+        <DialogContent className="sm:max-w-[500px] bg-white rounded-xl">
+          <DialogTitle className="text-2xl font-semibold text-gray-800">
+            Today's Stand-up
           </DialogTitle>
-          <DialogDescription className="text-muted-foreground">
+          <DialogDescription className="text-gray-600">
             Here's your daily summary:
           </DialogDescription>
 
           <div className="space-y-4">
-            <div className="p-4 rounded-lg bg-white/70 dark:bg-gray-800/50 border border-primary-100/50 dark:border-primary-700/30 shadow-sm space-y-2">
-              <div className="flex items-center gap-2 text-sm font-medium text-primary-600 dark:text-primary-400">
-                <div className="p-1.5 rounded-full bg-primary-100 dark:bg-primary-900/50">
+            <div className="p-4 rounded-lg bg-gray-50 space-y-2">
+              <div className="flex items-center gap-2 text-sm font-medium text-primary-600">
+                <div className="p-1.5 rounded-full bg-primary-100">
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
                 Mood Score: {standUpData.mental_health}/10
               </div>
-              <p className="text-sm text-gray-600 dark:text-gray-300 pl-8">
+              <p className="text-sm text-gray-600 pl-8">
                 {standUpData.mental_health >= 7 ? "You're doing great!" : "Keep pushing forward!"}
               </p>
             </div>
 
             {standUpData.wins && (
-              <div className="p-4 rounded-lg bg-white/70 dark:bg-gray-800/50 border border-secondary-100/50 dark:border-secondary-700/30 shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-secondary-600 dark:text-secondary-400">
-                  <div className="p-1.5 rounded-full bg-secondary-100 dark:bg-secondary-900/50">
+              <div className="p-4 rounded-lg bg-gray-50 space-y-2">
+                <div className="flex items-center gap-2 text-sm font-medium text-secondary-600">
+                  <div className="p-1.5 rounded-full bg-secondary-100">
                     <CheckCircle2 className="w-4 h-4" />
                   </div>
                   Yesterday's Wins
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 pl-8">{standUpData.wins}</p>
+                <p className="text-sm text-gray-600 pl-8">{standUpData.wins}</p>
               </div>
             )}
 
             {standUpData.focus && (
-              <div className="p-4 rounded-lg bg-white/70 dark:bg-gray-800/50 border border-primary-100/50 dark:border-primary-700/30 shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-primary-600 dark:text-primary-400">
-                  <div className="p-1.5 rounded-full bg-primary-100 dark:bg-primary-900/50">
+              <div className="p-4 rounded-lg bg-gray-50 space-y-2">
+                <div className="flex items-center gap-2 text-sm font-medium text-primary-600">
+                  <div className="p-1.5 rounded-full bg-primary-100">
                     <Target className="w-4 h-4" />
                   </div>
                   Today's Focus
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 pl-8">{standUpData.focus}</p>
+                <p className="text-sm text-gray-600 pl-8">{standUpData.focus}</p>
               </div>
             )}
 
             {standUpData.hurdles && (
-              <div className="p-4 rounded-lg bg-white/70 dark:bg-gray-800/50 border border-rose-100/50 dark:border-rose-900/30 shadow-sm space-y-2">
-                <div className="flex items-center gap-2 text-sm font-medium text-rose-600 dark:text-rose-400">
-                  <div className="p-1.5 rounded-full bg-rose-100 dark:bg-rose-900/50">
+              <div className="p-4 rounded-lg bg-gray-50 space-y-2">
+                <div className="flex items-center gap-2 text-sm font-medium text-rose-600">
+                  <div className="p-1.5 rounded-full bg-rose-100">
                     <AlertCircle className="w-4 h-4" />
                   </div>
                   Potential Hurdles
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 pl-8">{standUpData.hurdles}</p>
+                <p className="text-sm text-gray-600 pl-8">{standUpData.hurdles}</p>
               </div>
             )}
           </div>
@@ -90,7 +90,7 @@ export function StandUpDialog({ open, onOpenChange, completed, standUpData }: St
             <Button 
               variant="outline"
               onClick={() => onOpenChange(false)}
-              className="w-full sm:w-auto shadow-sm border-primary-100 hover:bg-primary-50"
+              className="w-full sm:w-auto"
             >
               Close
             </Button>

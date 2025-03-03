@@ -27,14 +27,14 @@ export function HurdlesButton() {
 
   if (isLoading) {
     return (
-      <Card className="h-16 animate-pulse rounded-xl shadow-sm border-none" />
+      <Card className="h-16 animate-pulse rounded-xl shadow-sm" />
     );
   }
 
   if (isError || !hurdles?.length) {
     return (
       <Link to="/hurdles" className="block">
-        <Card className="rounded-xl border border-gray-100 shadow-sm hover:shadow transition-all">
+        <Card className="rounded-xl shadow-sm hover:shadow transition-all bg-white">
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="rounded-full bg-gray-50 p-2">
@@ -53,7 +53,7 @@ export function HurdlesButton() {
 
   return (
     <Link to="/hurdles" className="block">
-      <Card className="rounded-xl border border-gray-100 shadow-sm hover:shadow transition-all">
+      <Card className="rounded-xl shadow-sm hover:shadow transition-all bg-white">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="rounded-full bg-orange-50 p-2">
