@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 pb-20 max-w-screen-sm mx-auto">
+      <div className="space-y-5 pb-20 max-w-screen-sm mx-auto px-1">
         <WelcomeHeader username={profile?.first_name} />
         
         <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />

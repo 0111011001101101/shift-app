@@ -27,7 +27,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
-      <div className="mx-auto max-w-lg min-h-screen relative pb-20">
+      <div className="mx-auto max-w-lg min-h-screen relative pb-24">
         <Toaster />
         <Sonner />
         <Routes>
