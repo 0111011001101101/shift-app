@@ -1,13 +1,14 @@
-
 import { Button } from "@/components/ui/button";
-import { Target, ChevronRight, Plus, Brain, Sparkles, Shield, TrendingUp, Clock } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Target, ChevronRight, Plus, Brain, Clock, Calendar } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useDemoMode } from "@/context/DemoContext";
 import { useState } from "react";
-import { format } from "date-fns";
+import { format, isThisWeek, isToday, isAfter } from "date-fns";
 
 interface Goal {
   id: string;
@@ -87,7 +88,6 @@ export function GoalsSection() {
     enabled: isDemoMode || !!session?.user?.id,
   });
 
-  // Explicitly type cast the goals to handle the timeframe property
   const typedGoals = goals as Goal[];
 
   const longTermGoals = typedGoals?.filter(goal => 
@@ -104,84 +104,63 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg animate-pulse">
-        <div className="h-20 bg-white/20 rounded-lg" />
-      </section>
+      <Card className="p-5 border border-gray-100 shadow-sm animate-pulse h-48" />
     );
   }
 
   if (error) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg">
-        <p className="text-white">Error loading goals. Please try again later.</p>
-      </section>
+      <Card className="p-5 border border-gray-100 shadow-sm">
+        <p className="text-muted-foreground">Error loading goals. Please try again later.</p>
+      </Card>
     );
   }
 
   if (!goals?.length) {
     return (
-      <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] via-[#A78BFA] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer relative overflow-hidden" onClick={() => navigate("/goals")}>
-        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
-        
-        <div className="text-center space-y-4 relative">
-          <div className="flex items-center justify-center gap-4">
-            <div className="p-3 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
-              <Target className="w-8 h-8 text-white/90" />
-            </div>
-            <div className="p-3 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-100">
-              <Brain className="w-8 h-8 text-white/90" />
-            </div>
-            <div className="p-3 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-200">
-              <Shield className="w-8 h-8 text-white/90" />
-            </div>
+      <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+        <div className="text-center space-y-4">
+          <div className="mx-auto bg-primary-50 p-3 rounded-full w-16 h-16 flex items-center justify-center">
+            <Target className="w-8 h-8 text-primary-500" />
           </div>
           <div>
-            <h3 className="text-lg font-medium text-white mb-2">Balance Growth & Wellbeing</h3>
-            <p className="text-sm text-white/80 max-w-md mx-auto">Set meaningful goals that align with both your ambitions and mental health. Break them down into achievable steps.</p>
+            <h3 className="text-lg font-medium text-gray-800 mb-2">Set Meaningful Goals</h3>
+            <p className="text-sm text-gray-600 max-w-md mx-auto">Break down your ambitions into achievable steps that align with both your personal growth and wellbeing.</p>
           </div>
           <Button 
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("/goals");
-            }} 
-            className="mt-4 bg-white hover:bg-white/90 text-[#8B5CF6] border-0 transition-all duration-300 group font-medium shadow-lg hover:shadow-xl"
+            onClick={() => navigate("/goals")} 
+            className="mt-2 bg-primary-500 hover:bg-primary-600 text-white"
           >
-            <Plus className="w-4 h-4 mr-2 group-hover:rotate-90 transition-transform" />
+            <Plus className="w-4 h-4 mr-2" />
             Create Your First Goal
           </Button>
         </div>
-      </section>
+      </Card>
     );
   }
   
   return (
-    <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] via-[#A78BFA] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32" />
-      
-      <div className="flex items-center justify-between mb-4 relative">
-        <div className="flex items-center gap-3">
-          <div className="p-2.5 bg-white/20 rounded-xl">
-            <Target className="w-5 h-5 text-white" />
-          </div>
-          <h2 className="text-base font-semibold text-white">Goals & Growth</h2>
+    <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Target className="w-5 h-5 text-primary-500" />
+          <span className="font-medium text-gray-800">Your Goals</span>
         </div>
         <Button 
           variant="ghost" 
           size="sm" 
-          className="text-xs hover:bg-white/20 text-white group backdrop-blur-sm flex items-center gap-1"
+          className="text-xs text-primary-500 hover:text-primary-600 hover:bg-primary-50 group"
           onClick={() => navigate("/goals")}
         >
-          View All Goals
-          <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+          View All
+          <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
         </Button>
       </div>
       
-      <div className="space-y-4 relative">
+      <div className="space-y-4">
         {todayGoals.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
               <Clock className="w-3.5 h-3.5" />
               <span>Today</span>
             </div>
@@ -193,8 +172,8 @@ export function GoalsSection() {
 
         {thisWeekGoals.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
-              <Clock className="w-3.5 h-3.5" />
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+              <Calendar className="w-3.5 h-3.5" />
               <span>This Week</span>
             </div>
             {thisWeekGoals.map(goal => (
@@ -205,8 +184,8 @@ export function GoalsSection() {
 
         {longTermGoals.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
-              <Target className="w-3.5 h-3.5" />
+            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+              <Brain className="w-3.5 h-3.5" />
               <span>Long-term Vision</span>
             </div>
             {longTermGoals.map(goal => (
@@ -215,7 +194,7 @@ export function GoalsSection() {
           </div>
         )}
       </div>
-    </section>
+    </Card>
   );
 }
 
@@ -225,30 +204,44 @@ interface GoalItemProps {
 }
 
 function GoalItem({ goal, onClick }: GoalItemProps) {
+  const isCompleted = goal.completed;
+  const hasDeadline = goal.deadline && new Date(goal.deadline);
+  const isDeadlineToday = hasDeadline && isToday(new Date(goal.deadline));
+  const isDeadlineThisWeek = hasDeadline && isThisWeek(new Date(goal.deadline));
+  const isDeadlinePassed = hasDeadline && isAfter(new Date(), new Date(goal.deadline));
+
   return (
     <div 
-      className="p-3 rounded-xl border border-white/20 bg-white/10 transition-all duration-300 hover:bg-white/20 group backdrop-blur-sm cursor-pointer"
+      className="p-3 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 cursor-pointer"
       onClick={onClick}
     >
       <div className="flex justify-between items-start">
-        <div>
-          <div className="flex items-center gap-2">
-            <h3 className="font-medium text-white group-hover:text-white transition-colors text-sm">{goal.title}</h3>
-            <Sparkles className="w-3.5 h-3.5 text-white/60" />
-          </div>
-          {goal.deadline && (
-            <p className="text-xs text-white/70 mt-1">
-              {goal.timeframe === 'today' ? 'Today' : 
-                goal.timeframe === 'week' ? 'This week' : 
-                `Due: ${format(new Date(goal.deadline), "MMM d")}`}
+        <div className="space-y-1">
+          <h3 className={`font-medium text-sm ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
+            {goal.title}
+          </h3>
+          {hasDeadline && (
+            <p className="text-xs text-gray-500 flex items-center">
+              <Calendar className="w-3 h-3 mr-1 inline" />
+              {isDeadlineToday 
+                ? <span className="text-amber-500 font-medium">Due today</span>
+                : isDeadlineThisWeek
+                  ? <span className={isDeadlinePassed ? "text-red-500" : "text-amber-500"}>
+                      Due {format(new Date(goal.deadline), "EEE")}
+                    </span>
+                  : <span className={isDeadlinePassed ? "text-red-500" : ""}>
+                      Due {format(new Date(goal.deadline), "MMM d")}
+                    </span>
+              }
             </p>
           )}
         </div>
-        <div className="flex items-center">
-          <span className={`text-xs px-2 py-0.5 ${goal.completed ? 'bg-white/30 text-white' : 'bg-white/20 text-white'} rounded-full font-medium transition-colors`}>
-            {goal.completed ? 'Done' : 'In Progress'}
-          </span>
-        </div>
+        <Badge 
+          variant={isCompleted ? "outline" : "secondary"} 
+          className={`text-xs px-2 py-0.5 ${isCompleted ? 'text-green-500 bg-green-50 hover:bg-green-50 border-green-100' : 'bg-secondary-50 text-secondary-700 hover:bg-secondary-100 border-none'}`}
+        >
+          {isCompleted ? 'Done' : 'In Progress'}
+        </Badge>
       </div>
     </div>
   );

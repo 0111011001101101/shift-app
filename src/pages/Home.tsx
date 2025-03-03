@@ -1,3 +1,4 @@
+
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WelcomeHeader } from "@/components/home/WelcomeHeader";
@@ -9,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
 
 export default function Home() {
   const { toast } = useToast();
@@ -45,11 +47,11 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-6"
+        className="space-y-5 pb-24"
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-6 sm:space-y-8">
+        <Card className="border border-gray-100 shadow-sm overflow-hidden">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -57,25 +59,29 @@ export default function Home() {
           >
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </motion.div>
+        </Card>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="space-y-1"
+        >
+          <h2 className="text-base font-medium text-gray-800 mb-2 px-1">Tasks</h2>
+          <Card className="border border-gray-100 shadow-sm p-4">
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 sm:mb-6 bg-white/80 backdrop-blur-sm border border-primary-100/30 p-1 rounded-xl sm:rounded-2xl shadow-lg">
+              <TabsList className="w-full mb-4 grid grid-cols-2 h-10 rounded-lg bg-gray-100 p-1">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
+                  className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm"
                 >
-                  Today's Tasks
+                  Today
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-gradient-to-r data-[state=active]:from-primary-500 data-[state=active]:to-accent data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
+                  className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm"
                 >
-                  Week's Tasks
+                  This Week
                 </TabsTrigger>
               </TabsList>
               
@@ -87,25 +93,27 @@ export default function Home() {
                 <TodoList frequency="weekly" />
               </TabsContent>
             </Tabs>
-          </motion.div>
+          </Card>
+        </motion.div>
 
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <GoalsSection />
-          </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="pb-24"
-          >
-            <HurdlesButton />
-          </motion.div>
-        </div>
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="space-y-1"
+        >
+          <h2 className="text-base font-medium text-gray-800 mb-2 px-1">Goals & Growth</h2>
+          <GoalsSection />
+        </motion.div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <h2 className="text-base font-medium text-gray-800 mb-2 px-1">Overcome Challenges</h2>
+          <HurdlesButton />
+        </motion.div>
       </motion.div>
     </PageContainer>
   );

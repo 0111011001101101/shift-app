@@ -1,8 +1,12 @@
+
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Brain, Shield, Heart, ChevronRight, Plus } from "lucide-react";
+import { Shield, ChevronRight, Plus, AlertCircle, CheckCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 export function HurdlesButton() {
   const navigate = useNavigate();
@@ -29,52 +33,123 @@ export function HurdlesButton() {
     },
   });
   
-  return (
-    <Button
-      variant="outline"
-      size="lg"
-      className="w-full group relative overflow-hidden hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 bg-gradient-to-br from-[#10B981] via-[#34D399] to-[#6EE7B7] border-0 shadow-lg hover:shadow-xl backdrop-blur-lg rounded-2xl h-auto py-4 text-white"
-      onClick={() => navigate("/hurdles")}
-    >
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
-      
-      <div className="relative flex items-center justify-between w-full">
-        <div className="flex items-center gap-4">
-          <div className="flex -space-x-2">
-            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500">
-              <Brain className="w-5 h-5 text-white" />
-            </div>
-            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-75">
-              <Shield className="w-5 h-5 text-white" />
-            </div>
-            <div className="p-2.5 bg-white/20 rounded-xl group-hover:scale-110 transition-transform duration-500 delay-150">
-              <Heart className="w-5 h-5 text-white" />
-            </div>
+  // Calculate completion percentage for each hurdle
+  const hurdlesWithProgress = activeHurdles?.map(hurdle => {
+    const totalSolutions = hurdle.solutions?.length || 0;
+    const completedSolutions = hurdle.solutions?.filter(s => s.isCompleted)?.length || 0;
+    const progressPercent = totalSolutions > 0 
+      ? Math.round((completedSolutions / totalSolutions) * 100) 
+      : 0;
+    
+    return {
+      ...hurdle,
+      progressPercent
+    };
+  });
+  
+  // Sort by progress (least complete first)
+  const sortedHurdles = hurdlesWithProgress?.sort((a, b) => a.progressPercent - b.progressPercent);
+  
+  // Show up to 2 hurdles
+  const displayHurdles = sortedHurdles?.slice(0, 2) || [];
+  
+  if (!activeHurdles || activeHurdles.length === 0) {
+    return (
+      <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+        <div className="text-center space-y-4">
+          <div className="mx-auto bg-orange-50 p-3 rounded-full w-16 h-16 flex items-center justify-center">
+            <Shield className="w-8 h-8 text-orange-500" />
           </div>
-          <div className="flex flex-col items-start">
-            <span className="text-base font-medium group-hover:translate-x-0.5 transition-transform">
-              {activeHurdles && activeHurdles.length > 0 ? 'Mental Resilience Hub' : 'Build Mental Resilience'}
-            </span>
-            {activeHurdles && activeHurdles.length > 0 ? (
-              <span className="text-xs text-white/90">
-                {activeHurdles.length} active {activeHurdles.length === 1 ? 'challenge' : 'challenges'} to overcome
-              </span>
-            ) : (
-              <span className="text-xs text-white/90">
-                Track and overcome challenges mindfully
-              </span>
-            )}
+          <div>
+            <h3 className="text-lg font-medium text-gray-800 mb-2">Overcome Challenges</h3>
+            <p className="text-sm text-gray-600 max-w-md mx-auto">Track and tackle obstacles mindfully to build mental resilience while achieving your goals.</p>
           </div>
+          <Button 
+            onClick={() => navigate("/hurdles")} 
+            className="mt-2 bg-orange-500 hover:bg-orange-600 text-white"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Add Your First Challenge
+          </Button>
         </div>
-        {activeHurdles && activeHurdles.length > 0 ? (
-          <ChevronRight className="w-5 h-5 text-white/90 group-hover:translate-x-1 transition-transform duration-500" />
-        ) : (
-          <Plus className="w-5 h-5 text-white/90 group-hover:rotate-90 transition-transform duration-500" />
+      </Card>
+    );
+  }
+  
+  return (
+    <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <Shield className="w-5 h-5 text-orange-500" />
+          <span className="font-medium text-gray-800">Mental Resilience</span>
+        </div>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          className="text-xs text-orange-500 hover:text-orange-600 hover:bg-orange-50 group"
+          onClick={() => navigate("/hurdles")}
+        >
+          View All
+          <ChevronRight className="w-3.5 h-3.5 ml-1 group-hover:translate-x-0.5 transition-transform" />
+        </Button>
+      </div>
+      
+      <div className="space-y-3">
+        {displayHurdles.map(hurdle => (
+          <div 
+            key={hurdle.id}
+            className="p-3 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+            onClick={() => navigate("/hurdles")}
+          >
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
+              <div className="flex-1 space-y-2">
+                <div className="flex justify-between items-start">
+                  <h3 className="font-medium text-sm text-gray-800">{hurdle.title}</h3>
+                  <Badge 
+                    variant="outline" 
+                    className="text-xs px-2 py-0.5 border-orange-100 text-orange-700 bg-orange-50"
+                  >
+                    {hurdle.progressPercent}% complete
+                  </Badge>
+                </div>
+                
+                <div className="w-full">
+                  <Progress value={hurdle.progressPercent} className="h-1.5" />
+                </div>
+                
+                {hurdle.solutions && hurdle.solutions.length > 0 && (
+                  <div className="space-y-1">
+                    {hurdle.solutions.slice(0, 2).map((solution, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs">
+                        {solution.isCompleted ? (
+                          <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                        ) : (
+                          <div className="w-3.5 h-3.5 border border-gray-300 rounded-full flex-shrink-0" />
+                        )}
+                        <span className={solution.isCompleted ? "text-gray-400 line-through" : "text-gray-600"}>
+                          {solution.text}
+                        </span>
+                      </div>
+                    ))}
+                    {hurdle.solutions.length > 2 && (
+                      <div className="text-xs text-gray-500">
+                        +{hurdle.solutions.length - 2} more steps
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+        
+        {activeHurdles.length > 2 && (
+          <div className="text-center text-sm text-gray-500 pt-1">
+            {activeHurdles.length - 2} more challenges to overcome
+          </div>
         )}
       </div>
-      <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl" />
-    </Button>
+    </Card>
   );
 }
