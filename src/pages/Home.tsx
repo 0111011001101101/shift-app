@@ -3,12 +3,12 @@ import { PageContainer } from "@/components/layout/PageContainer";
 import { WelcomeHeader } from "@/components/home/WelcomeHeader";
 import { StreakCard } from "@/components/home/StreakCard";
 import { TodoList } from "@/components/home/TodoList";
-import { GoalsSection } from "@/components/home/GoalsSection";
+import { LongTermGoalsCard } from "@/components/home/LongTermGoalsCard";
 import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarClock, Target, AlertTriangle } from "lucide-react";
+import { CalendarClock, AlertTriangle } from "lucide-react";
 
 export default function Home() {
   const { toast } = useToast();
@@ -41,12 +41,12 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 pb-24 max-w-screen-sm mx-auto">
+      <div className="space-y-7 pb-24 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
-        <section className="space-y-3">
+        <section className="space-y-4">
           <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center">
               <CalendarClock className="w-3.5 h-3.5 text-primary-600" />
@@ -58,17 +58,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="space-y-3">
-          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
-              <Target className="w-3.5 h-3.5 text-purple-600" />
-            </div>
-            Goals & Growth
-          </h2>
-          <GoalsSection />
-        </section>
+        <LongTermGoalsCard />
         
-        <section className="space-y-3">
+        <section className="space-y-4">
           <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
             <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
               <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
