@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -69,6 +70,133 @@ const TIMEFRAMES = [
   { value: "week", label: "This Week" },
   { value: "today", label: "Today" },
 ];
+
+// Create the GoalCard component to clean up the main component
+const GoalCard = ({ 
+  goal, 
+  onToggle, 
+  onDelete, 
+  onMoveUp, 
+  onMoveDown, 
+  canMoveUp, 
+  canMoveDown,
+  isDemoMode 
+}: { 
+  goal: Goal;
+  onToggle: () => void;
+  onDelete: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
+  isDemoMode: boolean;
+}) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  return (
+    <Card className="overflow-hidden border border-primary-100 dark:border-primary-900/20 shadow-sm transition-all hover:shadow-md">
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3 flex-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onToggle}
+              className={`mt-0.5 h-5 w-5 p-0 rounded-full ${
+                goal.completed
+                  ? 'text-primary bg-primary-100 dark:bg-primary-900/20'
+                  : 'text-muted-foreground hover:bg-primary-50 dark:hover:bg-primary-900/10'
+              }`}
+            >
+              <CheckCircle className={`h-4 w-4 ${goal.completed ? 'fill-primary-200' : ''}`} />
+            </Button>
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <h3 className={`font-medium ${goal.completed ? 'line-through text-muted-foreground' : 'text-gray-900 dark:text-gray-100'}`}>
+                  {goal.title}
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="h-7 w-7 p-0 ml-2 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
+                  {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-2 mt-1">
+                {goal.category && (
+                  <span className="text-xs px-2 py-0.5 bg-primary-50 text-primary-700 rounded-full">
+                    {CATEGORIES.find(c => c.value === goal.category)?.label}
+                  </span>
+                )}
+                {goal.timeframe && (
+                  <span className="text-xs px-2 py-0.5 bg-secondary-50 text-secondary-700 rounded-full">
+                    {TIMEFRAMES.find(t => t.value === goal.timeframe)?.label}
+                  </span>
+                )}
+                {goal.deadline && (
+                  <span className="text-xs text-gray-500 flex items-center">
+                    <Calendar className="w-3 h-3 mr-1" />
+                    {format(new Date(goal.deadline), "MMM d, yyyy")}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {isExpanded && (
+          <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 space-y-3">
+            <div className="flex flex-wrap gap-2">
+              <Button 
+                variant="outline"
+                size="sm"
+                onClick={onDelete}
+                className="h-8 text-xs text-red-600 bg-red-50 hover:bg-red-100 border-red-100 hover:text-red-700"
+              >
+                <Trash2 className="h-3.5 w-3.5 mr-1" />
+                Delete
+              </Button>
+              
+              <div className="flex rounded-md overflow-hidden">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onMoveUp}
+                  disabled={!canMoveUp}
+                  className="h-8 rounded-r-none text-xs border-primary-100 hover:bg-primary-50"
+                >
+                  <ChevronUp className="h-3.5 w-3.5" />
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onMoveDown}
+                  disabled={!canMoveDown}
+                  className="h-8 rounded-l-none text-xs border-primary-100 hover:bg-primary-50"
+                >
+                  <ChevronDown className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            </div>
+            
+            {/* Add progress tracking */}
+            <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
+              <GoalProgress completed={goal.completed ? 100 : 0} />
+              {!isDemoMode && (
+                <div className="mt-3">
+                  <GoalTags tags={["Focus", "Priority"]} />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </Card>
+  );
+};
 
 export default function Goals() {
   const { toast } = useToast();
@@ -828,4 +956,120 @@ export default function Goals() {
                                         : 'text-muted-foreground hover:bg-amber-50'
                                     }`}
                                   >
-                                    <CheckCircle className={`h-4 w-4 ${goal.completed ? 'fill
+                                    <CheckCircle className={`h-4 w-4 ${goal.completed ? 'fill-amber-200' : ''}`} />
+                                  </Button>
+                                  <div>
+                                    <h4 className={`text-sm font-medium ${goal.completed ? 'line-through text-muted-foreground' : ''}`}>
+                                      {goal.title}
+                                    </h4>
+                                    {goal.deadline && (
+                                      <p className="text-xs text-gray-500 mt-0.5">
+                                        <Calendar className="w-3 h-3 inline mr-1" /> 
+                                        Due {format(new Date(goal.deadline), "MMM d")}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                {goal.category && (
+                                  <span className="text-xs px-2 py-0.5 bg-amber-50 text-amber-700 rounded-full">
+                                    {CATEGORIES.find(c => c.value === goal.category)?.label}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                          {groupedGoals["month"].length > 2 && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => setSelectedTimeframe("month")}
+                              className="text-xs text-amber-600 hover:bg-amber-50"
+                            >
+                              +{groupedGoals["month"].length - 2} more this month
+                            </Button>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">No goals set for this month</p>
+                      )}
+                    </div>
+                    
+                    {/* Long-term */}
+                    <div className="relative pl-10">
+                      <div className="absolute left-2 top-1.5 w-5 h-5 rounded-full bg-indigo-500 border-4 border-white dark:border-gray-900 z-10"></div>
+                      <h3 className="text-base font-medium text-indigo-600 mb-2 flex items-center">
+                        Long-term
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={() => setSelectedTimeframe("long-term")} 
+                          className="ml-2 text-xs h-7 text-indigo-600 hover:bg-indigo-50"
+                        >
+                          <span>View All</span>
+                          <ArrowRight className="ml-1 h-3 w-3" />
+                        </Button>
+                      </h3>
+                      
+                      {groupedGoals["long-term"]?.length ? (
+                        <div className="space-y-2">
+                          {groupedGoals["long-term"].slice(0, 2).map(goal => (
+                            <div key={goal.id} className="p-3 bg-white rounded-lg shadow-sm border border-indigo-100 hover:border-indigo-200 transition-all">
+                              <div className="flex justify-between items-start">
+                                <div className="flex items-start gap-3">
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => toggleGoalMutation.mutate(goal.id)}
+                                    className={`h-6 w-6 p-0 rounded-full ${
+                                      goal.completed
+                                        ? 'text-indigo-500 bg-indigo-100'
+                                        : 'text-muted-foreground hover:bg-indigo-50'
+                                    }`}
+                                  >
+                                    <CheckCircle className={`h-4 w-4 ${goal.completed ? 'fill-indigo-200' : ''}`} />
+                                  </Button>
+                                  <div>
+                                    <h4 className={`text-sm font-medium ${goal.completed ? 'line-through text-muted-foreground' : ''}`}>
+                                      {goal.title}
+                                    </h4>
+                                    {goal.deadline && (
+                                      <p className="text-xs text-gray-500 mt-0.5">
+                                        <Calendar className="w-3 h-3 inline mr-1" /> 
+                                        Due {format(new Date(goal.deadline), "MMM d")}
+                                      </p>
+                                    )}
+                                  </div>
+                                </div>
+                                {goal.category && (
+                                  <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full">
+                                    {CATEGORIES.find(c => c.value === goal.category)?.label}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                          {groupedGoals["long-term"].length > 2 && (
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              onClick={() => setSelectedTimeframe("long-term")}
+                              className="text-xs text-indigo-600 hover:bg-indigo-50"
+                            >
+                              +{groupedGoals["long-term"].length - 2} more long-term
+                            </Button>
+                          )}
+                        </div>
+                      ) : (
+                        <p className="text-sm text-muted-foreground">No long-term goals set</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </div>
+        )}
+      </div>
+    </PageContainer>
+  );
+}
