@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { motion } from "framer-motion";
-import { Card } from "@/components/ui/card";
 
 export default function Home() {
   const { toast } = useToast();
@@ -41,78 +40,55 @@ export default function Home() {
     },
   });
 
-  const container = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.05,
-      }
-    }
-  };
-  
-  const item = {
-    hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.4 } }
-  };
-
   return (
     <PageContainer>
-      <motion.div 
-        variants={container}
-        initial="hidden"
-        animate="show"
-        className="space-y-5 pb-20"
-      >
-        <motion.div variants={item}>
-          <WelcomeHeader username={profile?.first_name} />
-        </motion.div>
+      <div className="space-y-6 pb-20">
+        <WelcomeHeader username={profile?.first_name} />
+        
+        <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
-        <motion.div variants={item}>
-          <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
-        </motion.div>
-
-        <motion.div variants={item} className="space-y-2">
-          <h2 className="text-base font-semibold text-gray-800 mb-2 px-1">Today's Focus</h2>
-          <Card className="border-none shadow-sm p-4 rounded-2xl bg-white/90 backdrop-blur-sm">
+        <section className="space-y-4">
+          <h2 className="text-base font-medium text-gray-700 px-1">Today's Focus</h2>
+          <div className="rounded-xl bg-white/80 shadow-sm overflow-hidden">
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-3 grid grid-cols-2 h-10 rounded-lg bg-gray-100/80 p-1">
+              <TabsList className="w-full grid grid-cols-2 rounded-none border-b bg-transparent">
                 <TabsTrigger 
                   value="today" 
-                  className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm font-medium"
+                  className="rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary-500 data-[state=active]:shadow-none py-3 text-sm font-medium transition-all"
                 >
                   Today
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm font-medium"
+                  className="rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary-500 data-[state=active]:shadow-none py-3 text-sm font-medium transition-all"
                 >
                   This Week
                 </TabsTrigger>
               </TabsList>
               
-              <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                <TodoList frequency="daily" />
-              </TabsContent>
-              
-              <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
-                <TodoList frequency="weekly" />
-              </TabsContent>
+              <div className="p-4">
+                <TabsContent value="today" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                  <TodoList frequency="daily" />
+                </TabsContent>
+                
+                <TabsContent value="week" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
+                  <TodoList frequency="weekly" />
+                </TabsContent>
+              </div>
             </Tabs>
-          </Card>
-        </motion.div>
+          </div>
+        </section>
 
-        <motion.div variants={item} className="space-y-2">
-          <h2 className="text-base font-semibold text-gray-800 mb-2 px-1">Goals & Growth</h2>
+        <section className="space-y-4">
+          <h2 className="text-base font-medium text-gray-700 px-1">Goals & Growth</h2>
           <GoalsSection />
-        </motion.div>
+        </section>
         
-        <motion.div variants={item} className="space-y-2">
-          <h2 className="text-base font-semibold text-gray-800 mb-2 px-1">Overcome Challenges</h2>
+        <section className="space-y-4">
+          <h2 className="text-base font-medium text-gray-700 px-1">Overcome Challenges</h2>
           <HurdlesButton />
-        </motion.div>
-      </motion.div>
+        </section>
+      </div>
     </PageContainer>
   );
 }
