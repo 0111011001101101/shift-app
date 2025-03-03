@@ -9,9 +9,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { CalendarClock, AlertTriangle } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { useState } from "react";
 
 export default function Home() {
   const { toast } = useToast();
+  const [focusTab, setFocusTab] = useState<"daily" | "weekly">("daily");
   
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -51,10 +54,38 @@ export default function Home() {
             <div className="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
               <CalendarClock className="w-4 h-4 text-primary-600" />
             </div>
-            Today's Focus
+            Focus
           </h2>
           <div className="rounded-xl bg-white shadow-md overflow-hidden border border-primary-100/30 hover:shadow-lg transition-all duration-300">
-            <TodoList frequency="daily" />
+            <Tabs 
+              defaultValue="daily" 
+              value={focusTab} 
+              onValueChange={(value) => setFocusTab(value as "daily" | "weekly")}
+              className="w-full"
+            >
+              <div className="px-3 pt-3 border-b border-primary-100/30">
+                <TabsList className="bg-primary-50/50 w-full grid grid-cols-2 h-9">
+                  <TabsTrigger 
+                    value="daily" 
+                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:font-medium"
+                  >
+                    Today
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="weekly"
+                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:font-medium"
+                  >
+                    This Week
+                  </TabsTrigger>
+                </TabsList>
+              </div>
+              <TabsContent value="daily" className="mt-0">
+                <TodoList frequency="daily" />
+              </TabsContent>
+              <TabsContent value="weekly" className="mt-0">
+                <TodoList frequency="weekly" />
+              </TabsContent>
+            </Tabs>
           </div>
         </section>
 
