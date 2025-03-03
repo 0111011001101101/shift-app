@@ -19,10 +19,10 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     let mounted = true;
 
-    // Skip authentication in demo mode
+    // Skip authentication completely in demo mode
     if (isDemoMode) {
       setIsLoading(false);
-      return;
+      return () => { mounted = false; };
     }
 
     const checkAuth = async () => {
@@ -123,7 +123,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  // In demo mode, always render children
+  // Always render children in demo mode, regardless of authentication state
   if (isDemoMode || session) {
     return <>{children}</>;
   }

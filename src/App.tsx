@@ -26,7 +26,7 @@ function AppContent() {
                        location.pathname === "/auth" || 
                        location.pathname === "/onboarding";
   
-  // Demo mode is enabled but banner is hidden
+  // Demo mode is enabled
   const isDemoMode = true;
 
   return (

@@ -52,10 +52,48 @@ export default function Welcome() {
           <Button
             onClick={() => navigate("/home")}
             variant="outline"
-            className="w-full py-6 text-base font-medium bg-white hover:bg-primary-50 text-primary-600 border-primary-200 shadow-sm transition-all"
+            className="w-full py-6 text-base font-medium bg-white hover:bg-primary-50 text-primary-600 border-primary-200 shadow-md transition-all"
           >
             Explore Demo
           </Button>
+          
+          <div className="mt-4 pt-4 border-t border-gray-200">
+            <p className="text-sm text-gray-500 mb-3">Direct Navigation (Demo Mode):</p>
+            <div className="grid grid-cols-2 gap-2">
+              <Button 
+                onClick={() => navigate("/goals")} 
+                variant="secondary"
+                size="sm"
+                className="text-sm"
+              >
+                Goals
+              </Button>
+              <Button 
+                onClick={() => navigate("/hurdles")} 
+                variant="secondary"
+                size="sm"
+                className="text-sm"
+              >
+                Hurdles
+              </Button>
+              <Button 
+                onClick={() => navigate("/stand-up")} 
+                variant="secondary"
+                size="sm"
+                className="text-sm"
+              >
+                Stand-Up
+              </Button>
+              <Button 
+                onClick={() => navigate("/learn")} 
+                variant="secondary"
+                size="sm"
+                className="text-sm"
+              >
+                Learn
+              </Button>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     </div>

@@ -7,7 +7,7 @@ interface DemoContextType {
 }
 
 // Create a fixed demo user ID for consistent data in demo mode
-const DEMO_USER_ID = "00000000-0000-0000-0000-000000000000";
+const DEMO_USER_ID = "demo-user-123";
 
 const DemoContext = createContext<DemoContextType>({
   isDemoMode: false,
@@ -17,8 +17,7 @@ const DemoContext = createContext<DemoContextType>({
 export const useDemoContext = () => useContext(DemoContext);
 
 export const DemoProvider = ({ children }: { children: ReactNode }) => {
-  // In a real app, you might want to check a query param or localStorage
-  // For our purposes, we'll make demo mode always enabled
+  // Always enable demo mode for easier testing
   const [isDemoMode] = useState(true);
   
   const value = {
