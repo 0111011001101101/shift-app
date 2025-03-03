@@ -7,11 +7,38 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { useState, useEffect } from "react";
+
+// Define proper types for our data
+interface Solution {
+  id: string;
+  title: string;
+  isCompleted: boolean;
+  text: string;
+}
+
+interface Hurdle {
+  id: string;
+  title: string;
+  category: string;
+  completed: boolean;
+  created_at: string;
+  updated_at: string;
+  position: number;
+  user_id: string;
+}
+
+interface HurdleWithSolutions extends Hurdle {
+  solutions: Solution[];
+  progressPercent: number;
+}
 
 export function HurdlesButton() {
   const navigate = useNavigate();
+  const [hurdlesWithSolutions, setHurdlesWithSolutions] = useState<HurdleWithSolutions[]>([]);
   
-  const { data: activeHurdles } = useQuery({
+  // Fetch active hurdles
+  const { data: activeHurdles, isLoading: isLoadingHurdles } = useQuery({
     queryKey: ["activeHurdles"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -29,31 +56,74 @@ export function HurdlesButton() {
         return [];
       }
       
-      return data || [];
+      return data as Hurdle[] || [];
     },
   });
-  
-  // Calculate completion percentage for each hurdle
-  const hurdlesWithProgress = activeHurdles?.map(hurdle => {
-    const totalSolutions = hurdle.solutions?.length || 0;
-    const completedSolutions = hurdle.solutions?.filter(s => s.isCompleted)?.length || 0;
-    const progressPercent = totalSolutions > 0 
-      ? Math.round((completedSolutions / totalSolutions) * 100) 
-      : 0;
-    
-    return {
-      ...hurdle,
-      progressPercent
-    };
+
+  // Fetch solutions for each hurdle
+  const { data: solutions, isLoading: isLoadingSolutions } = useQuery({
+    queryKey: ["hurdleSolutions"],
+    queryFn: async () => {
+      if (!activeHurdles || activeHurdles.length === 0) return [];
+      
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return [];
+      
+      const hurdle_ids = activeHurdles.map(h => h.id);
+      
+      const { data, error } = await supabase
+        .from("solutions")
+        .select("*")
+        .in("hurdle_id", hurdle_ids);
+        
+      if (error) {
+        console.error("Error fetching solutions:", error);
+        return [];
+      }
+      
+      return data || [];
+    },
+    enabled: !!activeHurdles && activeHurdles.length > 0,
   });
-  
-  // Sort by progress (least complete first)
-  const sortedHurdles = hurdlesWithProgress?.sort((a, b) => a.progressPercent - b.progressPercent);
+
+  // Combine hurdles with their solutions
+  useEffect(() => {
+    if (!activeHurdles || isLoadingHurdles || isLoadingSolutions) return;
+    
+    const combined = activeHurdles.map(hurdle => {
+      const hurdleSolutions = solutions?.filter(s => s.hurdle_id === hurdle.id) || [];
+      
+      // Map the solutions array with the correct structure
+      const formattedSolutions = hurdleSolutions.map(s => ({
+        id: s.id,
+        text: s.title,
+        isCompleted: s.completed || false
+      }));
+      
+      // Calculate progress percentage
+      const totalSolutions = formattedSolutions.length;
+      const completedSolutions = formattedSolutions.filter(s => s.isCompleted).length;
+      const progressPercent = totalSolutions > 0 
+        ? Math.round((completedSolutions / totalSolutions) * 100) 
+        : 0;
+      
+      return {
+        ...hurdle,
+        solutions: formattedSolutions,
+        progressPercent
+      };
+    });
+    
+    // Sort by progress (least complete first)
+    combined.sort((a, b) => a.progressPercent - b.progressPercent);
+    
+    setHurdlesWithSolutions(combined);
+  }, [activeHurdles, solutions, isLoadingHurdles, isLoadingSolutions]);
   
   // Show up to 2 hurdles
-  const displayHurdles = sortedHurdles?.slice(0, 2) || [];
+  const displayHurdles = hurdlesWithSolutions?.slice(0, 2) || [];
   
-  if (!activeHurdles || activeHurdles.length === 0) {
+  if (isLoadingHurdles || (!activeHurdles || activeHurdles.length === 0)) {
     return (
       <Card className="p-5 border border-gray-100 shadow-sm bg-white">
         <div className="text-center space-y-4">
@@ -144,7 +214,7 @@ export function HurdlesButton() {
           </div>
         ))}
         
-        {activeHurdles.length > 2 && (
+        {activeHurdles && activeHurdles.length > 2 && (
           <div className="text-center text-sm text-gray-500 pt-1">
             {activeHurdles.length - 2} more challenges to overcome
           </div>
