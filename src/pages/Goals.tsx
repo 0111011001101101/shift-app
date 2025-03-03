@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -822,3 +823,8 @@ function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, c
               <TodoList frequency="monthly" goalId={goal.id} />
             </TabsContent>
           </Tabs>
+        </div>
+      )}
+    </Card>
+  );
+}
