@@ -1,59 +1,115 @@
 
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { StandUpDialog } from "../stand-up/StandUpDialog";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Bell, Info, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { formatGreeting } from "@/lib/utils";
 
 interface WelcomeHeaderProps {
   username?: string;
-  children?: React.ReactNode;
 }
 
-export function WelcomeHeader({ username = "there", children }: WelcomeHeaderProps) {
-  const [showStandUp, setShowStandUp] = useState(false);
+export function WelcomeHeader({ username }: WelcomeHeaderProps) {
+  const navigate = useNavigate();
+  const greeting = formatGreeting();
+  const [showTip, setShowTip] = useState(false);
   
-  const { data: todayStandUp, isLoading } = useQuery({
-    queryKey: ["todayStandUp"],
-    queryFn: async () => {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      
-      const { data, error } = await supabase
-        .from("stand_ups")
-        .select("*")
-        .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
-        .gte("created_at", today.toISOString())
-        .lt("created_at", tomorrow.toISOString())
-        .order('created_at', { ascending: false })
-        .maybeSingle();
+  // Demo mode is enabled
+  const isDemoMode = true;
 
-      if (error) throw error;
-      return data;
-    },
-  });
+  // Initials for avatar
+  const initials = username
+    ? username.charAt(0).toUpperCase()
+    : "D"; // "D" for Demo if no username
+
+  // Demo name for display
+  const displayName = username || "Explorer";
 
   return (
-    <>
-      <div className="relative space-y-6">
-        <div className="text-center space-y-3 animate-fade-in">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-violet-500 to-accent">
-            Welcome back, {username}
-          </h1>
-          <p className="text-base sm:text-lg text-secondary-600/80 max-w-md mx-auto font-medium">
-            Let's make today count
-          </p>
-        </div>
-        {children}
+    <motion.div 
+      className="flex justify-between items-center mb-6"
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <div>
+        <h2 className="font-medium text-slate-500 mb-1 flex items-center">
+          {greeting}
+          {isDemoMode && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-violet-100 text-violet-800">
+                    Demo
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p className="text-xs">You're in demo mode. All features are available without login.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </h2>
+        <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent-600">
+          Hey, {displayName}
+        </h1>
       </div>
-
-      <StandUpDialog 
-        open={showStandUp} 
-        onOpenChange={setShowStandUp}
-        completed={todayStandUp?.completed}
-        standUpData={todayStandUp}
-      />
-    </>
+      
+      <div className="flex items-center gap-3">
+        {!showTip && (
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="rounded-full relative"
+            onClick={() => setShowTip(true)}
+          >
+            <Bell className="h-5 w-5 text-slate-500" />
+            <span className="absolute top-0 right-0 block w-2 h-2 rounded-full bg-violet-500" />
+          </Button>
+        )}
+        
+        {showTip && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-violet-100 text-violet-800 cursor-pointer"
+            onClick={() => setShowTip(false)}
+          >
+            <Info className="h-3 w-3" />
+            <span>Stand-up reminder</span>
+            <ChevronRight className="h-3 w-3" />
+          </motion.div>
+        )}
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="h-9 w-9 cursor-pointer bg-primary-100 hover:bg-primary-200 transition-colors border-2 border-white">
+              <AvatarFallback className="bg-gradient-to-r from-primary-500 to-accent text-white font-medium">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            <DropdownMenuItem onClick={() => navigate("/settings")}>
+              Settings
+            </DropdownMenuItem>
+            {isDemoMode && (
+              <DropdownMenuItem onClick={() => navigate("/")}>
+                Exit Demo
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </motion.div>
   );
 }
