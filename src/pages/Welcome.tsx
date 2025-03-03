@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import logo from "/logo.svg";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -22,7 +21,9 @@ export default function Welcome() {
           className="space-y-6"
         >
           <div className="flex justify-center">
-            <img src={logo} alt="SHIFT Logo" className="h-12" />
+            <div className="h-12 flex items-center justify-center font-bold text-2xl text-transparent bg-clip-text bg-gradient-to-r from-primary-500 to-accent">
+              SHIFT
+            </div>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-secondary-900">
             Welcome to
