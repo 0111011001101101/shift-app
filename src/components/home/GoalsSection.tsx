@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -104,13 +105,13 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <Card className="p-5 shadow-sm animate-pulse h-48 border-none rounded-2xl" />
+      <Card className="p-4 shadow-sm animate-pulse h-40 border-none rounded-xl" />
     );
   }
 
   if (error) {
     return (
-      <Card className="p-5 shadow-sm border-none rounded-2xl">
+      <Card className="p-4 shadow-sm border-none rounded-xl">
         <p className="text-muted-foreground">Error loading goals. Please try again later.</p>
       </Card>
     );
@@ -118,18 +119,18 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <Card className="p-5 shadow-sm bg-white/90 backdrop-blur-sm border-none rounded-2xl">
-        <div className="text-center space-y-4">
-          <div className="mx-auto bg-primary-50 p-3 rounded-full w-16 h-16 flex items-center justify-center">
-            <Target className="w-8 h-8 text-primary-500" />
+      <Card className="p-5 shadow-sm bg-white border-none rounded-xl">
+        <div className="text-center space-y-3">
+          <div className="mx-auto bg-primary-50 p-3 rounded-full w-14 h-14 flex items-center justify-center">
+            <Target className="w-7 h-7 text-primary-500" />
           </div>
           <div>
-            <h3 className="text-lg font-medium text-gray-800 mb-2">Set Meaningful Goals</h3>
+            <h3 className="text-base font-medium text-gray-800 mb-1">Set Meaningful Goals</h3>
             <p className="text-sm text-gray-600 max-w-md mx-auto">Break down your ambitions into achievable steps that align with both your personal growth and wellbeing.</p>
           </div>
           <Button 
             onClick={() => navigate("/goals")} 
-            className="mt-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white border-none"
+            className="mt-1 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white border-none"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create Your First Goal
@@ -140,8 +141,8 @@ export function GoalsSection() {
   }
   
   return (
-    <Card className="p-5 shadow-sm bg-white/90 backdrop-blur-sm border-none rounded-2xl">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="p-4 shadow-sm bg-white border-none rounded-xl">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <Target className="w-5 h-5 text-primary-500" />
           <span className="font-medium text-gray-800">Your Goals</span>
@@ -157,11 +158,11 @@ export function GoalsSection() {
         </Button>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-3">
         {todayGoals.length > 0 && (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-              <Clock className="w-3.5 h-3.5" />
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+              <Clock className="w-3 h-3" />
               <span>Today</span>
             </div>
             {todayGoals.map(goal => (
@@ -171,9 +172,9 @@ export function GoalsSection() {
         )}
 
         {thisWeekGoals.length > 0 && (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-              <Calendar className="w-3.5 h-3.5" />
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+              <Calendar className="w-3 h-3" />
               <span>This Week</span>
             </div>
             {thisWeekGoals.map(goal => (
@@ -183,9 +184,9 @@ export function GoalsSection() {
         )}
 
         {longTermGoals.length > 0 && (
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-              <Brain className="w-3.5 h-3.5" />
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
+              <Brain className="w-3 h-3" />
               <span>Long-term Vision</span>
             </div>
             {longTermGoals.map(goal => (
@@ -212,7 +213,7 @@ function GoalItem({ goal, onClick }: GoalItemProps) {
 
   return (
     <div 
-      className="p-3 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+      className="p-2.5 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 cursor-pointer"
       onClick={onClick}
     >
       <div className="flex justify-between items-start">

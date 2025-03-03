@@ -46,15 +46,15 @@ export default function Home() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
+        staggerChildren: 0.08,
+        delayChildren: 0.05,
       }
     }
   };
   
   const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    hidden: { opacity: 0, y: 10 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.4 } }
   };
 
   return (
@@ -63,23 +63,21 @@ export default function Home() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="space-y-6 pb-24"
+        className="space-y-5 pb-20"
       >
         <motion.div variants={item}>
           <WelcomeHeader username={profile?.first_name} />
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="border-none shadow-sm overflow-hidden rounded-2xl bg-white/90 backdrop-blur-sm">
-            <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
-          </Card>
+          <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
         </motion.div>
 
         <motion.div variants={item} className="space-y-2">
           <h2 className="text-base font-semibold text-gray-800 mb-2 px-1">Today's Focus</h2>
           <Card className="border-none shadow-sm p-4 rounded-2xl bg-white/90 backdrop-blur-sm">
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 grid grid-cols-2 h-10 rounded-lg bg-gray-100/80 p-1">
+              <TabsList className="w-full mb-3 grid grid-cols-2 h-10 rounded-lg bg-gray-100/80 p-1">
                 <TabsTrigger 
                   value="today" 
                   className="rounded-md data-[state=active]:bg-white data-[state=active]:shadow-sm text-sm font-medium"

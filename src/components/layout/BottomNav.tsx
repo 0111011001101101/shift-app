@@ -42,7 +42,7 @@ export function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-gray-100 shadow-md pb-safe-area-inset-bottom">
       <div className="mx-auto max-w-lg">
-        <div className="flex items-center justify-around py-2">
+        <div className="flex items-center justify-between py-1 px-1">
           {navItems.map(({ label, icon: Icon, href, gradient }) => {
             const isActive = location.pathname === href;
             return (
@@ -50,19 +50,19 @@ export function BottomNav() {
                 key={href}
                 to={href}
                 className={cn(
-                  "flex flex-1 flex-col items-center justify-center gap-1 py-2 rounded-xl transition-all duration-300",
+                  "flex flex-col items-center justify-center py-2 px-3 rounded-xl transition-all duration-200",
                   isActive 
-                    ? `bg-gradient-to-br ${gradient} text-white` 
-                    : "text-gray-400 hover:text-gray-900"
+                    ? `bg-gradient-to-br ${gradient} text-white shadow-sm` 
+                    : "text-gray-500 hover:text-gray-700"
                 )}
               >
                 <Icon className={cn(
-                  "w-5 h-5 transition-transform duration-300",
+                  "w-[18px] h-[18px] mb-1",
                   isActive ? "text-white" : "text-inherit"
                 )} />
                 <span className={cn(
-                  "text-xs font-medium transition-all",
-                  isActive ? "font-semibold" : ""
+                  "text-[10px] font-medium",
+                  isActive ? "font-medium" : ""
                 )}>{label}</span>
               </Link>
             );

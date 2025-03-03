@@ -15,7 +15,6 @@ interface Solution {
   text: string;
   isCompleted: boolean;
   hurdle_id?: string;
-  title?: string;
   completed?: boolean;
 }
 
@@ -101,7 +100,7 @@ export function HurdlesButton() {
         text: s.title || "",
         isCompleted: s.completed || false,
         hurdle_id: s.hurdle_id
-      }));
+      })) as Solution[];
       
       // Calculate progress percentage
       const totalSolutions = formattedSolutions.length;
@@ -114,7 +113,7 @@ export function HurdlesButton() {
         ...hurdle,
         solutions: formattedSolutions,
         progressPercent
-      };
+      } as HurdleWithSolutions;
     });
     
     // Sort by progress (least complete first)
@@ -128,18 +127,18 @@ export function HurdlesButton() {
   
   if (isLoadingHurdles || (!activeHurdles || activeHurdles.length === 0)) {
     return (
-      <Card className="p-5 shadow-sm bg-white/90 backdrop-blur-sm rounded-2xl hover:shadow-md transition-all duration-300 border-none">
-        <div className="text-center space-y-4">
-          <div className="mx-auto bg-orange-50 p-3 rounded-full w-16 h-16 flex items-center justify-center">
-            <Shield className="w-8 h-8 text-orange-500" />
+      <Card className="p-5 shadow-sm bg-white rounded-xl border-none">
+        <div className="text-center space-y-3">
+          <div className="mx-auto bg-orange-50 p-3 rounded-full w-14 h-14 flex items-center justify-center">
+            <Shield className="w-7 h-7 text-orange-500" />
           </div>
           <div>
-            <h3 className="text-lg font-medium text-gray-800 mb-2">Overcome Challenges</h3>
+            <h3 className="text-base font-medium text-gray-800 mb-1">Overcome Challenges</h3>
             <p className="text-sm text-gray-600 max-w-md mx-auto">Track and tackle obstacles mindfully to build mental resilience while achieving your goals.</p>
           </div>
           <Button 
             onClick={() => navigate("/hurdles")} 
-            className="mt-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md hover:shadow-lg transition-all duration-300 border-none"
+            className="mt-1 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-sm hover:shadow transition-all duration-300 border-none"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Your First Challenge
@@ -150,8 +149,8 @@ export function HurdlesButton() {
   }
   
   return (
-    <Card className="p-5 shadow-sm bg-white/90 backdrop-blur-sm rounded-2xl hover:shadow-md transition-all duration-300 border-none">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="p-4 shadow-sm bg-white rounded-xl border-none">
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <Shield className="w-5 h-5 text-orange-500" />
           <span className="font-medium text-gray-800">Mental Resilience</span>
@@ -167,16 +166,16 @@ export function HurdlesButton() {
         </Button>
       </div>
       
-      <div className="space-y-3">
+      <div className="space-y-2">
         {displayHurdles.map(hurdle => (
           <div 
             key={hurdle.id}
-            className="p-3 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-300 cursor-pointer"
+            className="p-3 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 cursor-pointer"
             onClick={() => navigate("/hurdles")}
           >
             <div className="flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-orange-500 mt-0.5 flex-shrink-0" />
-              <div className="flex-1 space-y-2">
+              <AlertCircle className="w-4 h-4 text-orange-500 mt-0.5 flex-shrink-0" />
+              <div className="flex-1 space-y-1.5">
                 <div className="flex justify-between items-start">
                   <h3 className="font-medium text-sm text-gray-800">{hurdle.title}</h3>
                   <Badge 
@@ -196,9 +195,9 @@ export function HurdlesButton() {
                     {hurdle.solutions.slice(0, 2).map((solution, idx) => (
                       <div key={idx} className="flex items-center gap-2 text-xs">
                         {solution.isCompleted ? (
-                          <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                          <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />
                         ) : (
-                          <div className="w-3.5 h-3.5 border border-gray-300 rounded-full flex-shrink-0" />
+                          <div className="w-3 h-3 border border-gray-300 rounded-full flex-shrink-0" />
                         )}
                         <span className={solution.isCompleted ? "text-gray-400 line-through" : "text-gray-600"}>
                           {solution.text}
@@ -218,7 +217,7 @@ export function HurdlesButton() {
         ))}
         
         {activeHurdles && activeHurdles.length > 2 && (
-          <div className="text-center text-sm text-gray-500 pt-1">
+          <div className="text-center text-xs text-gray-500 pt-1">
             {activeHurdles.length - 2} more challenges to overcome
           </div>
         )}
