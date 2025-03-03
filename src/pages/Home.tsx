@@ -41,19 +41,19 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-7 pb-24 max-w-screen-sm mx-auto">
+      <div className="space-y-8 pb-24 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
         <section className="space-y-4">
           <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center">
-              <CalendarClock className="w-3.5 h-3.5 text-primary-600" />
+            <div className="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
+              <CalendarClock className="w-4 h-4 text-primary-600" />
             </div>
             Today's Focus
           </h2>
-          <div className="rounded-xl bg-white shadow-md overflow-hidden border border-primary-100/30">
+          <div className="rounded-xl bg-white shadow-md overflow-hidden border border-primary-100/30 hover:shadow-lg transition-all duration-300">
             <TodoList frequency="daily" />
           </div>
         </section>
@@ -62,8 +62,8 @@ export default function Home() {
         
         <section className="space-y-4">
           <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
-              <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
+            <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
+              <AlertTriangle className="w-4 h-4 text-orange-500" />
             </div>
             Overcome Challenges
           </h2>

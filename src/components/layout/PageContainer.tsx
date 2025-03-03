@@ -15,7 +15,7 @@ export function PageContainer({ children, className = "" }: PageContainerProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`relative px-5 sm:px-6 py-8 pb-28 max-w-lg mx-auto space-y-9 ${className}`}
+        className={`relative px-5 sm:px-6 py-10 pb-28 max-w-lg mx-auto space-y-10 ${className}`}
       >
         {children}
       </motion.main>

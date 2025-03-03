@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Target, ChevronRight, Plus, ArrowRight } from "lucide-react";
+import { Target, ChevronRight, Plus, ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -104,10 +104,10 @@ export function LongTermGoalsCard() {
 
   if (!longTermGoals.length) {
     return (
-      <Card className="p-4 shadow-sm bg-white border-none rounded-xl">
+      <Card className="p-5 shadow-sm bg-white border-none rounded-xl hover:shadow-md transition-all duration-300">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-purple-50 flex items-center justify-center">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-full bg-purple-50 flex items-center justify-center shadow-sm">
               <Target className="w-5 h-5 text-purple-500" />
             </div>
             <span className="font-medium text-gray-800">Vision & Goals</span>
@@ -116,7 +116,7 @@ export function LongTermGoalsCard() {
             onClick={() => navigate("/goals")} 
             variant="outline"
             size="sm" 
-            className="border-purple-200 text-purple-600 hover:bg-purple-50"
+            className="border-purple-200 text-purple-600 hover:bg-purple-50 shadow-sm"
           >
             <Plus className="w-3.5 h-3.5 mr-1" />
             Add
@@ -129,15 +129,18 @@ export function LongTermGoalsCard() {
   return (
     <section className="space-y-4">
       <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-        <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
-          <Target className="w-3.5 h-3.5 text-purple-600" />
+        <div className="w-7 h-7 rounded-full bg-purple-100 flex items-center justify-center shadow-sm">
+          <Target className="w-4 h-4 text-purple-600" />
         </div>
         Vision & Goals
       </h2>
       
-      <Card className="p-4 shadow-sm bg-white border-none rounded-xl">
+      <Card className="p-4 shadow-sm bg-white border-none rounded-xl hover:shadow-md transition-all duration-300">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm text-gray-500">Long-term vision</span>
+          <span className="text-sm text-gray-500 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+            Long-term vision
+          </span>
           <Button 
             variant="ghost" 
             size="sm" 
@@ -153,7 +156,7 @@ export function LongTermGoalsCard() {
           {longTermGoals.map(goal => (
             <div 
               key={goal.id}
-              className="p-2.5 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 cursor-pointer"
+              className="p-3 border border-gray-100 hover:border-purple-200 rounded-lg bg-white hover:bg-purple-50/30 transition-all duration-200 cursor-pointer shadow-sm hover:shadow"
               onClick={() => navigate("/goals", { state: { selectedGoalId: goal.id } })}
             >
               <div className="flex justify-between items-center">
@@ -162,14 +165,14 @@ export function LongTermGoalsCard() {
                     {goal.title}
                   </h3>
                   {goal.category && (
-                    <span className="text-2xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">
+                    <span className="text-2xs px-1.5 py-0.5 bg-purple-50 text-purple-600 rounded-full">
                       {goal.category}
                     </span>
                   )}
                 </div>
                 <span className={`text-xs px-2 py-1 rounded-full ${goal.completed 
-                  ? 'text-green-600 bg-green-50' 
-                  : 'text-purple-600 bg-purple-50'
+                  ? 'text-green-600 bg-green-50 border border-green-100' 
+                  : 'text-purple-600 bg-purple-50 border border-purple-100'
                 }`}>
                   {goal.completed ? 'Done' : 'In Progress'}
                 </span>
@@ -182,7 +185,7 @@ export function LongTermGoalsCard() {
           onClick={() => navigate("/goals")}
           variant="outline"
           size="sm"
-          className="mt-3 text-xs text-purple-600 border-purple-200 hover:bg-purple-50 w-full rounded-full flex items-center justify-center"
+          className="mt-3.5 text-xs text-purple-600 border-purple-200 hover:bg-purple-50 w-full rounded-full flex items-center justify-center shadow-sm"
         >
           Manage All Goals <ArrowRight className="w-3 h-3 ml-1" />
         </Button>
