@@ -8,10 +8,11 @@ import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarClock, AlertTriangle } from "lucide-react";
+import { CalendarClock } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
 
 export default function Home() {
   const { toast } = useToast();
@@ -44,13 +45,13 @@ export default function Home() {
   });
 
   const sectionVariants = {
-    hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: 0, y: 10 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.1 + 0.1,
-        duration: 0.5,
+        delay: i * 0.1,
+        duration: 0.3,
         ease: "easeOut"
       }
     })
@@ -58,7 +59,7 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 max-w-screen-sm mx-auto">
+      <div className="space-y-6 mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <motion.div
@@ -79,14 +80,9 @@ export default function Home() {
           animate="visible"
           variants={sectionVariants}
         >
-          <div className="flex items-center gap-3 mb-3.5">
-            <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
-              <CalendarClock className="w-4.5 h-4.5 text-primary-600" />
-            </div>
-            <h2 className="text-lg font-semibold text-gray-800">Focus Areas</h2>
-          </div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">Today's Focus</h2>
           
-          <div className="rounded-xl bg-white/90 shadow-sm overflow-hidden border border-primary-100/30 hover:shadow-md transition-all duration-300">
+          <Card className="rounded-xl overflow-hidden border-none shadow-sm">
             <Tabs 
               defaultValue="daily" 
               value={focusTab} 
@@ -94,7 +90,7 @@ export default function Home() {
               className="w-full"
             >
               <div className="px-3 pt-3">
-                <TabsList className="bg-primary-50/50 w-full grid grid-cols-2 h-10 p-1 rounded-lg">
+                <TabsList className="bg-gray-100 w-full grid grid-cols-2 h-10 p-1 rounded-lg">
                   <TabsTrigger 
                     value="daily" 
                     className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
@@ -116,7 +112,7 @@ export default function Home() {
                 <TodoList frequency="weekly" />
               </TabsContent>
             </Tabs>
-          </div>
+          </Card>
         </motion.section>
 
         <motion.div
@@ -125,6 +121,7 @@ export default function Home() {
           animate="visible"
           variants={sectionVariants}
         >
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">Long-term Goals</h2>
           <LongTermGoalsCard />
         </motion.div>
         
@@ -133,14 +130,9 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
-          className="pb-8"
+          className="pb-6"
         >
-          <div className="flex items-center gap-3 mb-3.5">
-            <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
-              <AlertTriangle className="w-4.5 h-4.5 text-orange-500" />
-            </div>
-            <h2 className="text-lg font-semibold text-gray-800">Current Challenges</h2>
-          </div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">Current Challenges</h2>
           <HurdlesButton />
         </motion.section>
       </div>

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface WelcomeHeaderProps {
@@ -51,13 +51,13 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex flex-col items-center py-2 mb-2"
+            className="flex flex-col items-center py-2 mb-6"
           >
             <div className="text-center mb-5">
-              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
-                Welcome, {username}
+              <h1 className="text-3xl font-bold text-gray-800">
+                Hello, {username}
               </h1>
-              <p className="text-sm text-gray-600 mt-1">
+              <p className="text-gray-500 mt-1">
                 Let's make today count
               </p>
             </div>
@@ -70,10 +70,9 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
               >
                 <Button 
                   onClick={() => setShowStandUp(true)}
-                  className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow hover:shadow-md py-2.5 px-5 rounded-full text-sm flex items-center gap-2 transition-all duration-200 hover:translate-y-[-1px]"
+                  className="bg-primary text-white py-2.5 px-5 rounded-full text-sm flex items-center gap-2 shadow-sm"
                 >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Start Morning Check-in
+                  Morning Check-in
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Button>
               </motion.div>
