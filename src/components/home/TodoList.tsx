@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus, Pencil, Target, CheckCircle2, Circle, Tag, Clock } from "lucide-react";
@@ -10,7 +11,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { format } from "date-fns";
 import { TaskDialog } from "./TaskDialog";
 import { cn } from "@/lib/utils";
-import { useDemoContext } from "@/context/DemoContext";
 
 interface SubGoal {
   id: string;
@@ -67,20 +67,14 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [filter, setFilter] = useState<FilterType>("all");
-  const { isDemoMode, demoUserId } = useDemoContext();
 
   const { data: goals } = useQuery({
     queryKey: ["goals"],
     queryFn: async () => {
-      const userId = isDemoMode ? demoUserId : null;
-      
-      let query = supabase.from("goals").select("id, title, deadline").order("position");
-      
-      if (userId) {
-        query = query.eq("user_id", userId);
-      }
-
-      const { data, error } = await query;
+      const { data, error } = await supabase
+        .from("goals")
+        .select("id, title, deadline")
+        .order("position");
 
       if (error) throw error;
       return data as Goal[];
@@ -90,8 +84,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
   const { data: todos, isLoading } = useQuery({
     queryKey: ["sub-goals", frequency, goalId, filter],
     queryFn: async () => {
-      const userId = isDemoMode ? demoUserId : null;
-      
       let query = supabase
         .from("sub_goals")
         .select(
@@ -116,16 +108,6 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
 
       if (goalId) {
         query = query.eq("goal_id", goalId);
-      } 
-      else if (userId) {
-        const { data: userGoals } = await supabase
-          .from("goals")
-          .select("id")
-          .eq("user_id", userId);
-        
-        if (userGoals && userGoals.length > 0) {
-          query = query.in("goal_id", userGoals.map(g => g.id));
-        }
       }
 
       if (filter === "completed") {
@@ -268,6 +250,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
 
   return (
     <div className="space-y-6">
+      {/* Progress Section */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -306,6 +289,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         </p>
       </motion.div>
 
+      {/* Tabs Navigation */}
       <div className="flex items-center justify-between mb-6">
         <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
         <Button
@@ -317,6 +301,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         </Button>
       </div>
 
+      {/* Task List */}
       <AnimatePresence mode="popLayout">
         <div className="space-y-4">
           {todos?.map((todo) => (
@@ -401,6 +386,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         </div>
       </AnimatePresence>
 
+      {/* Add Task Dialog */}
       <TaskDialog
         isOpen={isAddDialogOpen}
         onOpenChange={setIsAddDialogOpen}
@@ -409,6 +395,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         mode="add"
       />
 
+      {/* Edit Task Dialog */}
       {editingTodoId && todos && (
         <TaskDialog
           isOpen={!!editingTodoId}
@@ -427,6 +414,7 @@ export function TodoList({ frequency, goalId }: TodoListProps) {
         />
       )}
 
+      {/* Floating Action Button */}
       <motion.div 
         className="fixed bottom-24 right-6 z-50"
         initial={{ scale: 0 }}

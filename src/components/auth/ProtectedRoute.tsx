@@ -5,7 +5,6 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Tables } from "@/integrations/supabase/types";
 import { Loader2 } from "lucide-react";
-import { useDemoContext } from "@/context/DemoContext";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -14,15 +13,16 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
   
-  const { isDemoMode } = useDemoContext();
+  // For demonstration mode - bypass authentication
+  const isDemoMode = true;
 
   useEffect(() => {
     let mounted = true;
 
-    // Skip authentication completely in demo mode
+    // Skip authentication in demo mode
     if (isDemoMode) {
       setIsLoading(false);
-      return () => { mounted = false; };
+      return;
     }
 
     const checkAuth = async () => {
@@ -123,7 +123,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  // Always render children in demo mode, regardless of authentication state
+  // In demo mode, always render children
   if (isDemoMode || session) {
     return <>{children}</>;
   }

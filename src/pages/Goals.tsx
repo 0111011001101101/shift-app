@@ -30,7 +30,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TodoList } from "@/components/home/TodoList";
 import { GoalTags } from "@/components/goals/GoalTags";
 import { GoalProgress } from "@/components/goals/GoalProgress";
-import { useDemoContext } from "@/context/DemoContext";
 
 interface Goal {
   id: string;
@@ -59,16 +58,10 @@ export default function Goals() {
   const [newGoalCategory, setNewGoalCategory] = useState("personal");
   const [showNewGoalInput, setShowNewGoalInput] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { isDemoMode, demoUserId } = useDemoContext();
 
   const { data: session } = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
-      if (isDemoMode) {
-        // Return a mock session for demo mode
-        return { user: { id: demoUserId } };
-      }
-      
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
         navigate("/auth");
