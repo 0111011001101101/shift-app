@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { BottomNav } from "./components/layout/BottomNav";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
