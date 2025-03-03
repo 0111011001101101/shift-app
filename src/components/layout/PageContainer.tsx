@@ -1,3 +1,4 @@
+
 import { ReactNode } from "react";
 import { motion } from "framer-motion";
 
@@ -14,7 +15,7 @@ export function PageContainer({ children, className = "" }: PageContainerProps) 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className={`relative px-4 sm:px-6 py-6 pb-24 max-w-lg mx-auto space-y-6 ${className}`}
+        className={`relative px-4 sm:px-6 py-8 pb-28 max-w-lg mx-auto space-y-8 ${className}`}
       >
         {children}
       </motion.main>

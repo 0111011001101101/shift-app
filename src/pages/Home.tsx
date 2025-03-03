@@ -1,6 +1,5 @@
 
 import { PageContainer } from "@/components/layout/PageContainer";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { WelcomeHeader } from "@/components/home/WelcomeHeader";
 import { StreakCard } from "@/components/home/StreakCard";
 import { TodoList } from "@/components/home/TodoList";
@@ -9,7 +8,7 @@ import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarClock } from "lucide-react";
+import { CalendarClock, Target, AlertTriangle } from "lucide-react";
 
 export default function Home() {
   const { toast } = useToast();
@@ -42,30 +41,40 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-4 pb-24 max-w-screen-sm mx-auto px-1">
+      <div className="space-y-6 pb-24 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
-        <section className="space-y-2">
-          <h2 className="text-base font-medium text-gray-700 px-1 flex items-center gap-1.5">
-            <div className="w-5 h-5 rounded-full bg-primary-100 flex items-center justify-center">
-              <CalendarClock className="w-3 h-3 text-primary-600" />
+        <section className="space-y-3">
+          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center">
+              <CalendarClock className="w-3.5 h-3.5 text-primary-600" />
             </div>
             Today's Focus
           </h2>
-          <div className="rounded-xl bg-white shadow-sm overflow-hidden">
+          <div className="rounded-xl bg-white shadow-md overflow-hidden border border-primary-100/30">
             <TodoList frequency="daily" />
           </div>
         </section>
 
-        <section className="space-y-2">
-          <h2 className="text-base font-medium text-gray-700 px-1">Goals & Growth</h2>
+        <section className="space-y-3">
+          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center">
+              <Target className="w-3.5 h-3.5 text-purple-600" />
+            </div>
+            Goals & Growth
+          </h2>
           <GoalsSection />
         </section>
         
-        <section className="space-y-2">
-          <h2 className="text-base font-medium text-gray-700 px-1">Overcome Challenges</h2>
+        <section className="space-y-3">
+          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center">
+              <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
+            </div>
+            Overcome Challenges
+          </h2>
           <HurdlesButton />
         </section>
       </div>

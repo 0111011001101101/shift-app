@@ -27,10 +27,10 @@ export function HurdlesButton() {
     return (
       <Link 
         to="/hurdles" 
-        className="block rounded-xl bg-white shadow-sm transition-all hover:shadow-md"
+        className="block rounded-xl bg-white shadow-md transition-all hover:shadow-lg border border-orange-100/30"
       >
         <div className="p-6 flex flex-col items-center justify-center text-center">
-          <div className="rounded-full bg-orange-50 p-3 mb-3">
+          <div className="rounded-full bg-orange-50 p-3 mb-3 border border-orange-100/50">
             <AlertTriangle className="w-5 h-5 text-orange-500" />
           </div>
           <h3 className="font-medium text-gray-900 mb-1">
@@ -47,11 +47,11 @@ export function HurdlesButton() {
   return (
     <Link 
       to="/hurdles" 
-      className="block rounded-xl bg-white shadow-sm overflow-hidden transition-all hover:shadow-md"
+      className="block rounded-xl bg-white shadow-md overflow-hidden transition-all hover:shadow-lg border border-orange-100/30"
     >
       <div className="p-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="rounded-full bg-orange-50 p-2.5">
+          <div className="rounded-full bg-orange-50 p-2.5 border border-orange-100/50">
             <AlertTriangle className="w-4 h-4 text-orange-500" />
           </div>
           <div>
@@ -69,14 +69,14 @@ export function HurdlesButton() {
       {hurdles.slice(0, 2).map((hurdle) => (
         <div 
           key={hurdle.id} 
-          className="px-4 py-3 border-t border-gray-100"
+          className="px-4 py-3.5 border-t border-gray-100"
         >
           <p className="text-sm text-gray-700 truncate">{hurdle.title}</p>
         </div>
       ))}
       
       {hurdles.length > 2 && (
-        <div className="p-2 text-xs text-center text-primary-600 bg-primary-50/50 border-t border-gray-100">
+        <div className="p-2.5 text-xs text-center text-primary-600 bg-primary-50/80 border-t border-gray-100 font-medium">
           +{hurdles.length - 2} more
         </div>
       )}

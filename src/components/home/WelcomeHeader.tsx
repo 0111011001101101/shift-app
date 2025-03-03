@@ -38,12 +38,12 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="flex flex-col items-center py-4">
-        <div className="text-center mb-4">
-          <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
+      <div className="flex flex-col items-center py-6">
+        <div className="text-center mb-5">
+          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent mb-1.5">
             Welcome back, {username}
           </h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-600 mt-1">
             Let's make today count
           </p>
         </div>
@@ -51,7 +51,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         {!todayStandUp?.completed && (
           <Button 
             onClick={() => setShowStandUp(true)}
-            className="bg-white text-primary-600 hover:bg-gray-50 shadow-sm py-2 px-5 rounded-full text-sm flex items-center gap-2 border border-gray-100"
+            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md hover:shadow-lg py-2 px-6 rounded-full text-sm flex items-center gap-2 transition-all duration-200"
           >
             Start Morning Check-in
             <ArrowRight className="h-3.5 w-3.5" />
