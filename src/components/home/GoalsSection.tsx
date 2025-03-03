@@ -15,6 +15,7 @@ interface Goal {
   deadline?: string;
   timeframe?: string;
   completed?: boolean;
+  user_id?: string;
 }
 
 export function GoalsSection() {
@@ -46,16 +47,30 @@ export function GoalsSection() {
     }
   ]);
   
+  const { data: session } = useQuery({
+    queryKey: ["session"],
+    queryFn: async () => {
+      if (isDemoMode) {
+        return { user: { id: "demo-user" } };
+      }
+      const { data } = await supabase.auth.getSession();
+      return data.session;
+    },
+  });
+  
   const { data: goals, isLoading, error } = useQuery({
-    queryKey: ["goals-home"],
+    queryKey: ["goals-home", session?.user?.id],
     queryFn: async () => {
       if (isDemoMode) {
         return demoGoals;
       }
       
+      if (!session?.user?.id) return [];
+      
       const { data, error } = await supabase
         .from("goals")
         .select("*")
+        .eq("user_id", session.user.id)
         .order("position");
 
       if (error) {
@@ -69,6 +84,7 @@ export function GoalsSection() {
       }
       return data as Goal[];
     },
+    enabled: isDemoMode || !!session?.user?.id,
   });
 
   // Explicitly type cast the goals to handle the timeframe property

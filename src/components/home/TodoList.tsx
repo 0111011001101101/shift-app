@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -21,6 +22,7 @@ interface Todo {
   completed: boolean;
   goal_id: string;
   frequency: string;
+  user_id?: string;
 }
 
 interface TodoListProps {
@@ -33,7 +35,7 @@ interface TodoListProps {
 export function TodoList({
   compact,
   goalId,
-  frequency,
+  frequency = "daily",
   limit,
 }: TodoListProps): React.ReactNode {
   const { toast } = useToast();
@@ -64,6 +66,17 @@ export function TodoList({
       frequency: "monthly",
     },
   ]);
+
+  const { data: session } = useQuery({
+    queryKey: ["session"],
+    queryFn: async () => {
+      if (isDemoMode) {
+        return { user: { id: "demo-user" } };
+      }
+      const { data } = await supabase.auth.getSession();
+      return data.session;
+    },
+  });
 
   const { data: todos, isLoading } = useQuery({
     queryKey: ["todos", goalId, frequency, demoTodos],
@@ -103,6 +116,7 @@ export function TodoList({
   const addTodoMutation = useMutation({
     mutationFn: async () => {
       if (!goalId) throw new Error("Goal ID is required");
+      if (!session?.user?.id && !isDemoMode) throw new Error("User not authenticated");
 
       if (isDemoMode) {
         const newTodo = {
@@ -125,6 +139,7 @@ export function TodoList({
             completed: false,
             goal_id: goalId,
             frequency: frequency || "daily",
+            user_id: session?.user.id,
           },
         ])
         .select();
@@ -140,7 +155,7 @@ export function TodoList({
         description: "Your new todo has been created successfully.",
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast({
         title: "Error adding todo",
         description: error.message,
@@ -177,7 +192,7 @@ export function TodoList({
         description: "Todo status has been updated successfully.",
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast({
         title: "Error updating todo",
         description: error.message,
@@ -203,7 +218,7 @@ export function TodoList({
         description: "The todo has been removed successfully.",
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       toast({
         title: "Error deleting todo",
         description: error.message,

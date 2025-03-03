@@ -55,6 +55,7 @@ export type Database = {
           position: number | null
           reminder_enabled: boolean | null
           reminder_frequency: string | null
+          timeframe: string | null
           title: string
           updated_at: string
           user_id: string | null
@@ -69,6 +70,7 @@ export type Database = {
           position?: number | null
           reminder_enabled?: boolean | null
           reminder_frequency?: string | null
+          timeframe?: string | null
           title: string
           updated_at?: string
           user_id?: string | null
@@ -83,6 +85,7 @@ export type Database = {
           position?: number | null
           reminder_enabled?: boolean | null
           reminder_frequency?: string | null
+          timeframe?: string | null
           title?: string
           updated_at?: string
           user_id?: string | null
@@ -543,6 +546,47 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "sub_goals_goal_id_fkey"
+            columns: ["goal_id"]
+            isOneToOne: false
+            referencedRelation: "goals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      todos: {
+        Row: {
+          completed: boolean | null
+          created_at: string
+          frequency: string | null
+          goal_id: string | null
+          id: string
+          text: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          completed?: boolean | null
+          created_at?: string
+          frequency?: string | null
+          goal_id?: string | null
+          id?: string
+          text: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          completed?: boolean | null
+          created_at?: string
+          frequency?: string | null
+          goal_id?: string | null
+          id?: string
+          text?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "todos_goal_id_fkey"
             columns: ["goal_id"]
             isOneToOne: false
             referencedRelation: "goals"

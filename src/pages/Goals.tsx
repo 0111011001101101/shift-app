@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -51,6 +50,7 @@ interface Goal {
   reminder_enabled?: boolean;
   reminder_frequency?: string;
   timeframe?: string; // 'long-term', 'month', 'week', 'today'
+  user_id?: string;
 }
 
 const CATEGORIES = [
@@ -822,8 +822,3 @@ function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, c
               <TodoList frequency="monthly" goalId={goal.id} />
             </TabsContent>
           </Tabs>
-        </div>
-      )}
-    </Card>
-  );
-}

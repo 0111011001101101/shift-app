@@ -1,3 +1,4 @@
+
 import {
   Dialog,
   DialogContent,
@@ -13,9 +14,21 @@ interface QuickGoalsDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
+interface Goal {
+  id: string;
+  title: string;
+  deadline?: string;
+  todos?: {
+    id: string;
+    title: string;
+    frequency?: string;
+    completed?: boolean;
+  }[];
+}
+
 export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) {
   const { data: goals, isLoading } = useQuery({
-    queryKey: ["goals"],
+    queryKey: ["quick-goals"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("goals")
@@ -23,9 +36,9 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
           id,
           title,
           deadline,
-          sub_goals (
+          todos (
             id,
-            title,
+            text,
             frequency,
             completed
           )
@@ -35,6 +48,7 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
       if (error) throw error;
       return data;
     },
+    enabled: open,
   });
 
   return (
@@ -52,15 +66,15 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
             {goals?.map((goal) => (
               <div key={goal.id} className="space-y-2">
                 <h3 className="font-medium">{goal.title}</h3>
-                {goal.sub_goals?.length > 0 && (
+                {goal.todos?.length > 0 && (
                   <ul className="space-y-1 text-sm text-muted-foreground">
-                    {goal.sub_goals.map((subGoal) => (
-                      <li key={subGoal.id} className="flex items-center gap-2">
+                    {goal.todos.map((todo) => (
+                      <li key={todo.id} className="flex items-center gap-2">
                         <span className="w-4">•</span>
-                        <span>{subGoal.title}</span>
-                        {subGoal.frequency && (
+                        <span>{todo.text}</span>
+                        {todo.frequency && (
                           <span className="text-xs px-1.5 py-0.5 rounded-full bg-muted">
-                            {subGoal.frequency}
+                            {todo.frequency}
                           </span>
                         )}
                       </li>
