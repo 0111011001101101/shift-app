@@ -12,9 +12,18 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
+  
+  // For demonstration mode - bypass authentication
+  const isDemoMode = true;
 
   useEffect(() => {
     let mounted = true;
+
+    // Skip authentication in demo mode
+    if (isDemoMode) {
+      setIsLoading(false);
+      return;
+    }
 
     const checkAuth = async () => {
       try {
@@ -70,7 +79,7 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     checkAuth();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (!mounted) return;
+      if (!mounted || isDemoMode) return;
 
       setSession(session);
 
@@ -99,9 +108,9 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
     return () => {
       mounted = false;
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
-  }, [navigate, location.pathname]);
+  }, [navigate, location.pathname, isDemoMode]);
 
   if (isLoading) {
     return (
@@ -114,10 +123,11 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
-  if (!session) {
-    navigate("/auth", { replace: true });
-    return null;
+  // In demo mode, always render children
+  if (isDemoMode || session) {
+    return <>{children}</>;
   }
 
-  return <>{children}</>;
+  navigate("/auth", { replace: true });
+  return null;
 };
