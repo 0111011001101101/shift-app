@@ -47,7 +47,7 @@ export function BottomNav() {
                 className="flex flex-col items-center justify-center"
               >
                 <div className={cn(
-                  "flex items-center justify-center mb-1",
+                  "flex items-center justify-center mb-0.5",
                   isActive 
                     ? "text-primary-500" 
                     : "text-gray-400"

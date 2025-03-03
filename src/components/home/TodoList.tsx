@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +8,7 @@ import {
   CheckCircle,
   ChevronUp,
   ChevronDown,
+  ArrowRight,
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -151,13 +151,13 @@ export function TodoList({
       queryClient.invalidateQueries({ queryKey: ["todos", goalId, frequency] });
       setNewTodoText("");
       toast({
-        title: "Todo Added",
-        description: "Your new todo has been created successfully.",
+        title: "Task Added",
+        description: "Your new task has been created.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Error adding todo",
+        title: "Error adding task",
         description: error.message,
         variant: "destructive",
       });
@@ -187,14 +187,10 @@ export function TodoList({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos", goalId, frequency] });
-      toast({
-        title: "Todo Updated",
-        description: "Todo status has been updated successfully.",
-      });
     },
     onError: (error: Error) => {
       toast({
-        title: "Error updating todo",
+        title: "Error updating task",
         description: error.message,
         variant: "destructive",
       });
@@ -214,13 +210,13 @@ export function TodoList({
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos", goalId, frequency] });
       toast({
-        title: "Todo Deleted",
-        description: "The todo has been removed successfully.",
+        title: "Task Removed",
+        description: "The task has been removed.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Error deleting todo",
+        title: "Error removing task",
         description: error.message,
         variant: "destructive",
       });
@@ -304,7 +300,7 @@ export function TodoList({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="p-3 space-y-3">
       {isLoading ? (
         <div className="animate-pulse space-y-2">
           {[1, 2, 3].map((i) => (
@@ -315,23 +311,26 @@ export function TodoList({
           ))}
         </div>
       ) : !todos?.length ? (
-        <p className="text-sm text-muted-foreground">No tasks for this goal.</p>
+        <div className="text-center py-2">
+          <p className="text-sm text-muted-foreground">No tasks scheduled for today.</p>
+          <p className="text-xs text-muted-foreground mt-1">Add a task to get started!</p>
+        </div>
       ) : (
         <ul className="space-y-2">
           {todos.map((todo) => (
             <li
               key={todo.id}
-              className="flex items-center justify-between rounded-md border border-primary-100 dark:border-primary-900/20 bg-white dark:bg-gray-950 shadow-sm p-2"
+              className="flex items-center justify-between rounded-lg border border-primary-100/50 bg-white dark:bg-gray-950 shadow-sm p-3"
             >
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 cursor-pointer flex-1">
                 <input
                   type="checkbox"
                   checked={todo.completed}
                   onChange={() => toggleTodo(todo.id)}
-                  className="h-5 w-5 rounded-sm border border-primary-200 text-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-primary-900 dark:border-primary-800 dark:focus:ring-primary-800 dark:checked:bg-primary-500 dark:checked:border-primary-500"
+                  className="h-4 w-4 rounded-sm border border-primary-200 text-primary-500 focus:ring-primary-500 disabled:opacity-50 disabled:pointer-events-none"
                 />
                 <span
-                  className={todo.completed ? "line-through text-muted-foreground" : "text-gray-900 dark:text-gray-100"}
+                  className={`${todo.completed ? "line-through text-muted-foreground" : "text-gray-800"} text-sm`}
                 >
                   {todo.text}
                 </span>
@@ -340,28 +339,34 @@ export function TodoList({
                 variant="ghost"
                 size="icon"
                 onClick={() => deleteTodo(todo.id)}
-                className="text-destructive hover:text-destructive hover:bg-destructive/10 rounded-full"
+                className="h-7 w-7 rounded-full text-gray-400 hover:text-destructive hover:bg-destructive/10"
               >
-                <Trash2 className="h-4 w-4" />
+                <Trash2 className="h-3.5 w-3.5" />
               </Button>
             </li>
           ))}
         </ul>
       )}
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 pt-1">
         <Input
           type="text"
           value={newTodoText}
           onChange={(e) => setNewTodoText(e.target.value)}
-          placeholder="Add new task..."
-          className="border-primary-100 dark:border-primary-800/30 focus:ring-2 focus:ring-primary-500/20"
+          placeholder="Add task for today..."
+          className="text-sm border-primary-100 focus-visible:ring-1 focus-visible:ring-primary-300 focus-visible:ring-offset-0"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' && newTodoText.trim()) {
+              addTodo();
+            }
+          }}
         />
         <Button
           onClick={addTodo}
-          className="bg-primary hover:bg-primary-600 text-white"
+          size="sm"
+          className="bg-primary hover:bg-primary-600 text-white h-9 px-3"
         >
-          Add Task
+          <Plus className="h-4 w-4" />
         </Button>
       </div>
     </div>
