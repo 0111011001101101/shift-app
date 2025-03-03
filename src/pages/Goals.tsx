@@ -184,7 +184,7 @@ const GoalCard = ({
             
             {/* Add progress tracking */}
             <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
-              <GoalProgress completed={goal.completed ? 100 : 0} />
+              <GoalProgress value={goal.completed ? 100 : 0} />
               {!isDemoMode && (
                 <div className="mt-3">
                   <GoalTags tags={["Focus", "Priority"]} />

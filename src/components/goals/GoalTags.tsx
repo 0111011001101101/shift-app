@@ -15,11 +15,12 @@ interface GoalTag {
 }
 
 interface GoalTagsProps {
-  goalId: string;
+  goalId?: string;
+  tags?: string[]; // Add support for direct tags array
   onTagsChange?: () => void;
 }
 
-export function GoalTags({ goalId, onTagsChange }: GoalTagsProps) {
+export function GoalTags({ goalId, tags: directTags, onTagsChange }: GoalTagsProps) {
   const [showAddTag, setShowAddTag] = useState(false);
   const [newTagName, setNewTagName] = useState("");
   const { toast } = useToast();
@@ -28,6 +29,15 @@ export function GoalTags({ goalId, onTagsChange }: GoalTagsProps) {
   const { data: tags, isLoading } = useQuery({
     queryKey: ["goalTags", goalId],
     queryFn: async () => {
+      // If we have direct tags or no goalId, don't fetch from the database
+      if (directTags || !goalId) {
+        return directTags?.map(tag => ({
+          id: tag,
+          name: tag,
+          color: ""
+        })) || [];
+      }
+
       const { data: goalTags, error } = await supabase
         .from("goals_tags")
         .select(`
@@ -43,10 +53,13 @@ export function GoalTags({ goalId, onTagsChange }: GoalTagsProps) {
       if (error) throw error;
       return goalTags.map((gt: any) => gt.goal_tags) as GoalTag[];
     },
+    enabled: !!goalId || !!directTags,
   });
 
   const addTagMutation = useMutation({
     mutationFn: async (name: string) => {
+      if (!goalId) return;
+      
       // First, create or get the tag
       const { data: existingTags, error: searchError } = await supabase
         .from("goal_tags")
@@ -98,6 +111,8 @@ export function GoalTags({ goalId, onTagsChange }: GoalTagsProps) {
 
   const removeTagMutation = useMutation({
     mutationFn: async (tagId: string) => {
+      if (!goalId) return;
+      
       const { error } = await supabase
         .from("goals_tags")
         .delete()
@@ -143,27 +158,31 @@ export function GoalTags({ goalId, onTagsChange }: GoalTagsProps) {
           >
             <Tag className="w-3 h-3" />
             {tag.name}
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-4 w-4 p-0 hover:bg-transparent"
-              onClick={() => removeTagMutation.mutate(tag.id)}
-            >
-              <X className="h-3 w-3" />
-            </Button>
+            {goalId && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-4 w-4 p-0 hover:bg-transparent"
+                onClick={() => removeTagMutation.mutate(tag.id)}
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            )}
           </Badge>
         ))}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-7 px-2 text-xs"
-          onClick={() => setShowAddTag(true)}
-        >
-          <Plus className="h-3 w-3 mr-1" />
-          Add Tag
-        </Button>
+        {goalId && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 px-2 text-xs"
+            onClick={() => setShowAddTag(true)}
+          >
+            <Plus className="h-3 w-3 mr-1" />
+            Add Tag
+          </Button>
+        )}
       </div>
-      {showAddTag && (
+      {showAddTag && goalId && (
         <div className="flex items-center gap-2">
           <Input
             placeholder="Enter tag name..."

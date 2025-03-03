@@ -5,13 +5,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2, CheckCircle2 } from "lucide-react";
 
 interface GoalProgressProps {
-  goalId: string;
+  goalId?: string;
+  value?: number; // Added to support direct percentage value
 }
 
-export function GoalProgress({ goalId }: GoalProgressProps) {
+export function GoalProgress({ goalId, value }: GoalProgressProps) {
   const { data: progress, isLoading } = useQuery({
     queryKey: ["goalProgress", goalId],
     queryFn: async () => {
+      // If we have a direct value or no goalId, don't fetch from the database
+      if (value !== undefined || !goalId) return value ?? 0;
+
       const { data: subGoals, error } = await supabase
         .from("sub_goals")
         .select("completed")
@@ -24,6 +28,7 @@ export function GoalProgress({ goalId }: GoalProgressProps) {
       const completedCount = subGoals.filter((sg) => sg.completed).length;
       return Math.round((completedCount / subGoals.length) * 100);
     },
+    enabled: !!goalId || value !== undefined,
   });
 
   if (isLoading) {
@@ -37,16 +42,18 @@ export function GoalProgress({ goalId }: GoalProgressProps) {
     );
   }
 
+  const progressValue = value !== undefined ? value : progress ?? 0;
+
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">Progress</span>
         <div className="flex items-center gap-1">
-          <CheckCircle2 className={`h-4 w-4 ${progress === 100 ? "text-success" : "text-muted-foreground"}`} />
-          <span className="text-sm font-medium">{progress}%</span>
+          <CheckCircle2 className={`h-4 w-4 ${progressValue === 100 ? "text-success" : "text-muted-foreground"}`} />
+          <span className="text-sm font-medium">{progressValue}%</span>
         </div>
       </div>
-      <Progress value={progress} className="h-2" />
+      <Progress value={progressValue} className="h-2" />
     </div>
   );
 }
