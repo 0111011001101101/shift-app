@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft,
   Plus,
@@ -128,9 +128,6 @@ export default function Hurdles() {
       return data;
     }
   });
-
-  // In a real app, we would load hurdles from Supabase here
-  // For now, we'll use the mock data
 
   const addHurdle = () => {
     if (!newHurdleTitle.trim()) return;
@@ -255,7 +252,12 @@ export default function Hurdles() {
 
   return (
     <PageContainer>
-      <div className="space-y-5 pb-20">
+      <motion.div 
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="space-y-6 pb-20"
+      >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Button
@@ -268,17 +270,22 @@ export default function Hurdles() {
             </Button>
             <h1 className="text-xl font-semibold text-gray-900">Mental Resilience</h1>
           </div>
-          <Button
-            size="sm"
-            onClick={() => setShowNewHurdleDialog(true)}
-            className="text-white bg-orange-500 hover:bg-orange-600"
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <Plus className="w-4 h-4 mr-1" /> Add Challenge
-          </Button>
+            <Button
+              size="sm"
+              onClick={() => setShowNewHurdleDialog(true)}
+              className="text-white bg-orange-500 hover:bg-orange-600 shadow-sm"
+            >
+              <Plus className="w-4 h-4 mr-1" /> Add Challenge
+            </Button>
+          </motion.div>
         </div>
 
-        <Card className="border border-gray-100 shadow-sm p-4">
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-2">
+        <Card className="border border-gray-100 shadow-sm p-4 rounded-xl overflow-hidden bg-gradient-to-br from-white to-gray-50">
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 mb-2 scrollbar-none">
             <Button
               variant={filter === null ? "secondary" : "outline"}
               size="sm"
@@ -307,82 +314,134 @@ export default function Hurdles() {
           </div>
         </Card>
 
-        <div className="space-y-4">
-          {inProgressHurdles.length > 0 && (
-            <div className="space-y-3">
-              <h2 className="text-base font-medium text-gray-800 px-1">In Progress</h2>
-              {inProgressHurdles.map((hurdle) => (
-                <HurdleCard 
-                  key={hurdle.id} 
-                  hurdle={hurdle} 
-                  onToggleSolution={toggleSolution}
-                  onDelete={deleteHurdle}
-                  onView={() => setActiveHurdle(hurdle)}
-                  onDeleteSolution={deleteSolution}
-                />
-              ))}
-            </div>
-          )}
-          
-          {notStartedHurdles.length > 0 && (
-            <div className="space-y-3">
-              <h2 className="text-base font-medium text-gray-800 px-1">Not Started</h2>
-              {notStartedHurdles.map((hurdle) => (
-                <HurdleCard 
-                  key={hurdle.id} 
-                  hurdle={hurdle} 
-                  onToggleSolution={toggleSolution}
-                  onDelete={deleteHurdle}
-                  onView={() => setActiveHurdle(hurdle)}
-                  onDeleteSolution={deleteSolution}
-                />
-              ))}
-            </div>
-          )}
-          
-          {completedHurdles.length > 0 && (
-            <div className="space-y-3">
-              <h2 className="text-base font-medium text-gray-800 px-1">Completed</h2>
-              {completedHurdles.map((hurdle) => (
-                <HurdleCard 
-                  key={hurdle.id} 
-                  hurdle={hurdle} 
-                  onToggleSolution={toggleSolution}
-                  onDelete={deleteHurdle}
-                  onView={() => setActiveHurdle(hurdle)}
-                  onDeleteSolution={deleteSolution}
-                />
-              ))}
-            </div>
-          )}
-          
-          {filteredHurdles.length === 0 && (
-            <Card className="p-8 text-center space-y-4 border border-gray-100">
-              <div className="bg-orange-50 w-16 h-16 mx-auto rounded-full flex items-center justify-center">
-                <Shield className="w-8 h-8 text-orange-500" />
-              </div>
-              <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">No Challenges Found</h3>
-                <p className="text-sm text-gray-600 max-w-md mx-auto">
-                  {filter 
-                    ? `You don't have any ${CATEGORIES.find(c => c.value === filter)?.label.toLowerCase()} challenges yet.` 
-                    : "Start tracking the challenges that stand between you and your goals."}
-                </p>
-              </div>
-              <Button 
-                onClick={() => setShowNewHurdleDialog(true)} 
-                className="bg-orange-500 hover:bg-orange-600 text-white"
+        <AnimatePresence>
+          <div className="space-y-5">
+            {inProgressHurdles.length > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                className="space-y-3"
               >
-                <Plus className="w-4 h-4 mr-1" /> Add Your First Challenge
-              </Button>
-            </Card>
-          )}
-        </div>
-      </div>
+                <h2 className="text-base font-medium text-gray-800 px-1 flex items-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-500 mr-2"></div>
+                  In Progress
+                </h2>
+                {inProgressHurdles.map((hurdle, index) => (
+                  <motion.div
+                    key={hurdle.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                  >
+                    <HurdleCard 
+                      hurdle={hurdle} 
+                      onToggleSolution={toggleSolution}
+                      onDelete={deleteHurdle}
+                      onView={() => setActiveHurdle(hurdle)}
+                      onDeleteSolution={deleteSolution}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+            
+            {notStartedHurdles.length > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2 }}
+                className="space-y-3"
+              >
+                <h2 className="text-base font-medium text-gray-800 px-1 flex items-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-gray-400 mr-2"></div>
+                  Not Started
+                </h2>
+                {notStartedHurdles.map((hurdle, index) => (
+                  <motion.div
+                    key={hurdle.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                  >
+                    <HurdleCard 
+                      hurdle={hurdle} 
+                      onToggleSolution={toggleSolution}
+                      onDelete={deleteHurdle}
+                      onView={() => setActiveHurdle(hurdle)}
+                      onDeleteSolution={deleteSolution}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+            
+            {completedHurdles.length > 0 && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.3 }}
+                className="space-y-3"
+              >
+                <h2 className="text-base font-medium text-gray-800 px-1 flex items-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500 mr-2"></div>
+                  Completed
+                </h2>
+                {completedHurdles.map((hurdle, index) => (
+                  <motion.div
+                    key={hurdle.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: 0.1 * index }}
+                  >
+                    <HurdleCard 
+                      hurdle={hurdle} 
+                      onToggleSolution={toggleSolution}
+                      onDelete={deleteHurdle}
+                      onView={() => setActiveHurdle(hurdle)}
+                      onDeleteSolution={deleteSolution}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
+            )}
+            
+            {filteredHurdles.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+              >
+                <Card className="p-8 text-center space-y-4 border border-gray-100 rounded-xl bg-gradient-to-br from-white to-gray-50">
+                  <div className="bg-orange-50 w-16 h-16 mx-auto rounded-full flex items-center justify-center shadow-inner">
+                    <Shield className="w-8 h-8 text-orange-500" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">No Challenges Found</h3>
+                    <p className="text-sm text-gray-600 max-w-md mx-auto">
+                      {filter 
+                        ? `You don't have any ${CATEGORIES.find(c => c.value === filter)?.label.toLowerCase()} challenges yet.` 
+                        : "Start tracking the challenges that stand between you and your goals."}
+                    </p>
+                  </div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button 
+                      onClick={() => setShowNewHurdleDialog(true)} 
+                      className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md"
+                    >
+                      <Plus className="w-4 h-4 mr-1" /> Add Your First Challenge
+                    </Button>
+                  </motion.div>
+                </Card>
+              </motion.div>
+            )}
+          </div>
+        </AnimatePresence>
+      </motion.div>
       
       {/* New Hurdle Dialog */}
       <Dialog open={showNewHurdleDialog} onOpenChange={setShowNewHurdleDialog}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md rounded-xl bg-gradient-to-br from-white to-gray-50 border-0 shadow-xl">
           <DialogHeader>
             <DialogTitle>Add New Challenge</DialogTitle>
           </DialogHeader>
@@ -393,13 +452,14 @@ export default function Hurdles() {
                 value={newHurdleTitle}
                 onChange={(e) => setNewHurdleTitle(e.target.value)}
                 placeholder="What's holding you back?"
+                className="rounded-lg border-gray-200 focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
               />
             </div>
             
             <div className="space-y-2">
               <label className="text-sm font-medium">Category</label>
               <Select value={newHurdleCategory} onValueChange={setNewHurdleCategory}>
-                <SelectTrigger>
+                <SelectTrigger className="rounded-lg border-gray-200">
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
                 <SelectContent>
@@ -422,14 +482,15 @@ export default function Hurdles() {
                 value={newHurdleDeadline}
                 onChange={(e) => setNewHurdleDeadline(e.target.value)}
                 min={format(new Date(), "yyyy-MM-dd")}
+                className="rounded-lg border-gray-200"
               />
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline" className="rounded-lg">Cancel</Button>
             </DialogClose>
-            <Button onClick={addHurdle} className="bg-orange-500 hover:bg-orange-600">Add Challenge</Button>
+            <Button onClick={addHurdle} className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg">Add Challenge</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -437,7 +498,7 @@ export default function Hurdles() {
       {/* Hurdle Detail Dialog */}
       <Dialog open={!!activeHurdle} onOpenChange={(open) => !open && setActiveHurdle(null)}>
         {activeHurdle && (
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-md rounded-xl bg-gradient-to-br from-white to-gray-50 border-0 shadow-xl">
             <DialogHeader>
               <div className="flex items-center gap-2 mb-1">
                 {activeHurdle.category && (
@@ -472,11 +533,14 @@ export default function Hurdles() {
                   No steps added yet. Add steps to overcome this challenge.
                 </div>
               ) : (
-                <div className="space-y-2">
+                <div className="space-y-2 max-h-[40vh] overflow-y-auto pr-1">
                   {activeHurdle.solutions.map((solution) => (
-                    <div 
+                    <motion.div 
                       key={solution.id} 
-                      className="flex items-start justify-between p-3 border border-gray-100 rounded-md"
+                      initial={{ opacity: 0, y: 5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="flex items-start justify-between p-3 border border-gray-100 rounded-md bg-white shadow-sm"
                     >
                       <div className="flex items-start gap-2">
                         <button
@@ -503,7 +567,7 @@ export default function Hurdles() {
                       >
                         <XCircle className="h-4 w-4" />
                       </button>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               )}
@@ -514,11 +578,11 @@ export default function Hurdles() {
                   value={newSolutionText}
                   onChange={(e) => setNewSolutionText(e.target.value)}
                   placeholder="What can you do to overcome this challenge?"
-                  className="min-h-[80px]"
+                  className="min-h-[80px] rounded-lg border-gray-200 focus:border-orange-300 focus:ring focus:ring-orange-200 focus:ring-opacity-50"
                 />
                 <div className="flex justify-between items-center">
                   <Select value={newSolutionFrequency} onValueChange={setNewSolutionFrequency}>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-[180px] rounded-lg border-gray-200">
                       <SelectValue placeholder="Frequency" />
                     </SelectTrigger>
                     <SelectContent>
@@ -530,7 +594,7 @@ export default function Hurdles() {
                   <Button 
                     onClick={() => addSolution(activeHurdle.id)} 
                     disabled={!newSolutionText.trim()}
-                    className="bg-orange-500 hover:bg-orange-600 text-white"
+                    className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg"
                   >
                     Add Step
                   </Button>
@@ -546,13 +610,13 @@ export default function Hurdles() {
                   deleteHurdle(activeHurdle.id);
                   setActiveHurdle(null);
                 }}
-                className="mr-auto"
+                className="mr-auto rounded-lg"
               >
                 <Trash2 className="w-4 h-4 mr-1" />
                 Delete Challenge
               </Button>
               <DialogClose asChild>
-                <Button variant="outline">Close</Button>
+                <Button variant="outline" className="rounded-lg">Close</Button>
               </DialogClose>
             </DialogFooter>
           </DialogContent>
@@ -584,103 +648,105 @@ function HurdleCard({ hurdle, onToggleSolution, onDelete, onView, onDeleteSoluti
   };
   
   return (
-    <Card className={`border border-gray-100 shadow-sm ${allCompleted ? 'bg-gray-50' : 'bg-white'}`}>
-      <div className="p-4">
-        <div className="flex items-start gap-3">
-          <div className="mt-0.5 flex-shrink-0">
-            {getCategoryIcon()}
-          </div>
-          <div className="flex-1">
-            <div className="flex items-start justify-between gap-2">
-              <div>
-                <h3 className={`font-medium text-gray-900 ${allCompleted ? 'line-through text-gray-500' : ''}`}>
-                  {hurdle.title}
-                </h3>
-                {hurdle.deadline && (
-                  <div className="text-xs text-gray-500 mt-1 flex items-center">
-                    <Calendar className="w-3.5 h-3.5 mr-1" />
-                    Target: {format(new Date(hurdle.deadline), "MMM d, yyyy")}
+    <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
+      <Card className={`border border-gray-100 shadow-sm ${allCompleted ? 'bg-gray-50' : 'bg-white'} rounded-xl overflow-hidden hover:shadow-md transition-all duration-200`}>
+        <div className="p-4">
+          <div className="flex items-start gap-3">
+            <div className="mt-0.5 flex-shrink-0">
+              {getCategoryIcon()}
+            </div>
+            <div className="flex-1">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h3 className={`font-medium text-gray-900 ${allCompleted ? 'line-through text-gray-500' : ''}`}>
+                    {hurdle.title}
+                  </h3>
+                  {hurdle.deadline && (
+                    <div className="text-xs text-gray-500 mt-1 flex items-center">
+                      <Calendar className="w-3.5 h-3.5 mr-1" />
+                      Target: {format(new Date(hurdle.deadline), "MMM d, yyyy")}
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center">
+                  <Badge 
+                    variant={allCompleted ? "outline" : "secondary"} 
+                    className={`${allCompleted ? 'bg-green-50 text-green-600 border-green-200' : 'bg-orange-50 text-orange-600 border-none'}`}
+                  >
+                    {allCompleted ? 'Completed' : `${progress}%`}
+                  </Badge>
+                </div>
+              </div>
+
+              {hurdle.solutions.length > 0 && (
+                <div className="mt-3">
+                  <Progress value={progress} className="h-1.5" />
+                </div>
+              )}
+
+              <div className="mt-3 space-y-2">
+                {hurdle.solutions.slice(0, 3).map((solution) => (
+                  <div
+                    key={solution.id}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onToggleSolution(hurdle.id, solution.id)}
+                      className={`h-6 w-6 p-0 rounded-full ${
+                        solution.isCompleted
+                          ? "text-green-500"
+                          : "text-gray-300 hover:text-gray-400"
+                      }`}
+                    >
+                      <CheckCircle className="h-4 w-4" />
+                    </Button>
+                    <span
+                      className={`flex-1 ${
+                        solution.isCompleted
+                          ? "line-through text-gray-400"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {solution.text}
+                    </span>
+                    <span className="text-xs px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500">
+                      {solution.frequency}
+                    </span>
+                  </div>
+                ))}
+                {hurdle.solutions.length > 3 && (
+                  <div className="text-xs text-gray-500 ml-8">
+                    +{hurdle.solutions.length - 3} more steps
                   </div>
                 )}
               </div>
-              <div className="flex items-center">
-                <Badge 
-                  variant={allCompleted ? "outline" : "secondary"} 
-                  className={`${allCompleted ? 'bg-green-50 text-green-600 border-green-200' : 'bg-orange-50 text-orange-600 border-none'}`}
+              
+              <div className="flex justify-between mt-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => onDelete(hurdle.id)}
+                  className="text-xs text-red-500 border-red-100 hover:bg-red-50 rounded-lg"
                 >
-                  {allCompleted ? 'Completed' : `${progress}%`}
-                </Badge>
-              </div>
-            </div>
-
-            {hurdle.solutions.length > 0 && (
-              <div className="mt-3">
-                <Progress value={progress} className="h-1.5" />
-              </div>
-            )}
-
-            <div className="mt-3 space-y-2">
-              {hurdle.solutions.slice(0, 3).map((solution) => (
-                <div
-                  key={solution.id}
-                  className="flex items-center gap-2 text-sm"
+                  <Trash2 className="h-3.5 w-3.5 mr-1" />
+                  Delete
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onView}
+                  className="text-xs rounded-lg bg-gray-50 hover:bg-gray-100"
                 >
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => onToggleSolution(hurdle.id, solution.id)}
-                    className={`h-6 w-6 p-0 rounded-full ${
-                      solution.isCompleted
-                        ? "text-green-500"
-                        : "text-gray-300 hover:text-gray-400"
-                    }`}
-                  >
-                    <CheckCircle className="h-4 w-4" />
-                  </Button>
-                  <span
-                    className={`flex-1 ${
-                      solution.isCompleted
-                        ? "line-through text-gray-400"
-                        : "text-gray-600"
-                    }`}
-                  >
-                    {solution.text}
-                  </span>
-                  <span className="text-xs px-1.5 py-0.5 rounded-full bg-gray-100 text-gray-500">
-                    {solution.frequency}
-                  </span>
-                </div>
-              ))}
-              {hurdle.solutions.length > 3 && (
-                <div className="text-xs text-gray-500 ml-8">
-                  +{hurdle.solutions.length - 3} more steps
-                </div>
-              )}
-            </div>
-            
-            <div className="flex justify-between mt-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => onDelete(hurdle.id)}
-                className="text-xs text-red-500 border-red-100 hover:bg-red-50"
-              >
-                <Trash2 className="h-3.5 w-3.5 mr-1" />
-                Delete
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onView}
-                className="text-xs"
-              >
-                View Details
-              </Button>
+                  View Details
+                </Button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
 

@@ -5,7 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -44,33 +44,44 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <motion.div 
-        initial={mounted ? { opacity: 0, y: 10 } : false}
-        animate={mounted ? { opacity: 1, y: 0 } : false}
-        transition={{ duration: 0.5 }}
-        className="flex flex-col items-center py-4"
-      >
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent mb-2">
-            Welcome back, {username}
-          </h1>
-          <p className="text-sm text-gray-600 mt-1.5">
-            Let's make today count
-          </p>
-        </div>
-        
-        {!isLoading && !todayStandUp?.completed && (
-          <Button 
-            onClick={() => setShowStandUp(true)}
-            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md hover:shadow-lg py-2.5 px-6 rounded-full text-sm flex items-center gap-2 transition-all duration-200"
+      <AnimatePresence>
+        {mounted && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="flex flex-col items-center py-4"
           >
-            <Sparkles className="h-3.5 w-3.5" />
-            Start Morning Check-in
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
+            <div className="text-center mb-6">
+              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent mb-2">
+                Welcome back, {username}
+              </h1>
+              <p className="text-sm text-gray-600 mt-1.5">
+                Let's make today count
+              </p>
+            </div>
+            
+            {!isLoading && !todayStandUp?.completed && (
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.2, duration: 0.3 }}
+              >
+                <Button 
+                  onClick={() => setShowStandUp(true)}
+                  className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md hover:shadow-lg py-2.5 px-6 rounded-full text-sm flex items-center gap-2 transition-all duration-200 hover:translate-y-[-1px]"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Start Morning Check-in
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Button>
+              </motion.div>
+            )}
+            {children}
+          </motion.div>
         )}
-        {children}
-      </motion.div>
+      </AnimatePresence>
 
       <StandUpDialog 
         open={showStandUp} 
