@@ -38,12 +38,12 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="flex flex-col items-center pt-2 pb-4">
-        <div className="text-center mb-5">
-          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent mb-1">
-            Welcome, {username}
+      <div className="flex flex-col items-center py-4">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent mb-2">
+            Welcome back, {username}
           </h1>
-          <p className="text-xs text-gray-600 mt-1">
+          <p className="text-sm text-gray-600 mt-1.5">
             Let's make today count
           </p>
         </div>
@@ -51,11 +51,11 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         {!todayStandUp?.completed && (
           <Button 
             onClick={() => setShowStandUp(true)}
-            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md hover:shadow-lg py-2 px-5 rounded-full text-xs flex items-center gap-2 transition-all duration-200 animate-pulse"
+            className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md hover:shadow-lg py-2.5 px-6 rounded-full text-sm flex items-center gap-2 transition-all duration-200 animate-pulse"
           >
-            <Sparkles className="h-3 w-3" />
+            <Sparkles className="h-3.5 w-3.5" />
             Start Morning Check-in
-            <ArrowRight className="h-3 w-3" />
+            <ArrowRight className="h-3.5 w-3.5" />
           </Button>
         )}
         {children}
