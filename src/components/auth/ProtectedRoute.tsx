@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Session } from "@supabase/supabase-js";
 import { Tables } from "@/integrations/supabase/types";
 import { Loader2 } from "lucide-react";
+import { useDemoMode } from "@/context/DemoContext";
 
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -13,8 +14,8 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
   
-  // For demonstration mode - bypass authentication
-  const isDemoMode = true;
+  // Get demo mode from context
+  const { isDemoMode } = useDemoMode();
 
   useEffect(() => {
     let mounted = true;

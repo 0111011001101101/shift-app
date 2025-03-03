@@ -16,6 +16,7 @@ import Auth from "./pages/Auth";
 import Learn from "./pages/Learn";
 import Welcome from "./pages/Welcome";
 import Onboarding from "./pages/Onboarding";
+import { DemoProvider } from "./context/DemoContext";
 
 const queryClient = new QueryClient();
 
@@ -24,9 +25,6 @@ function AppContent() {
   const isPublicRoute = location.pathname === "/" || 
                        location.pathname === "/auth" || 
                        location.pathname === "/onboarding";
-  
-  // Demo mode is enabled but banner is hidden
-  const isDemoMode = true;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
@@ -93,7 +91,7 @@ function AppContent() {
             }
           />
         </Routes>
-        {(!isPublicRoute || isDemoMode) && (
+        {(!isPublicRoute) && (
           <>
             <FloatingChat />
             <BottomNav />
@@ -107,9 +105,11 @@ function AppContent() {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <DemoProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </DemoProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
