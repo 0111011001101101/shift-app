@@ -46,11 +46,11 @@ export default function Home() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="space-y-5"
+        className="space-y-6"
       >
         <WelcomeHeader username={profile?.first_name} />
 
-        <div className="space-y-5">
+        <div className="space-y-6 sm:space-y-8">
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -65,16 +65,16 @@ export default function Home() {
             transition={{ delay: 0.3 }}
           >
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full mb-4 bg-white border border-gray-100 p-1 rounded-xl shadow-sm">
+              <TabsList className="w-full mb-4 sm:mb-6 bg-white backdrop-blur-sm border border-primary-100/40 p-1 rounded-xl sm:rounded-2xl shadow-sm">
                 <TabsTrigger 
                   value="today" 
-                  className="flex-1 py-2.5 text-sm text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300"
+                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
                 >
                   Today's Tasks
                 </TabsTrigger>
                 <TabsTrigger 
                   value="week" 
-                  className="flex-1 py-2.5 text-sm text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg transition-all duration-300"
+                  className="flex-1 py-2.5 sm:py-3 text-sm sm:text-base text-secondary-700 data-[state=active]:bg-primary-500 data-[state=active]:text-white rounded-lg sm:rounded-xl transition-all duration-300"
                 >
                   Week's Tasks
                 </TabsTrigger>

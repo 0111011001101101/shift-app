@@ -102,7 +102,7 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <section className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm animate-pulse">
+      <section className="space-y-4 bg-white p-6 rounded-2xl border border-primary-100/40 shadow-sm animate-pulse">
         <div className="h-20 bg-gray-100 rounded-lg" />
       </section>
     );
@@ -110,7 +110,7 @@ export function GoalsSection() {
 
   if (error) {
     return (
-      <section className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm">
+      <section className="space-y-4 bg-white p-6 rounded-2xl border border-primary-100/40 shadow-sm">
         <p className="text-secondary-700">Error loading goals. Please try again later.</p>
       </section>
     );
@@ -118,21 +118,16 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <section 
-        className="p-4 bg-white rounded-xl border border-gray-100 shadow-sm group cursor-pointer relative overflow-hidden" 
-        onClick={() => navigate("/goals")}
-      >
+      <section className="space-y-4 bg-white p-6 rounded-2xl border border-primary-100/40 shadow-sm group cursor-pointer relative overflow-hidden" onClick={() => navigate("/goals")}>
         <div className="text-center space-y-4 relative">
-          <div className="flex items-center justify-center">
-            <div className="p-3 bg-primary-50 rounded-xl">
-              <Target className="w-7 h-7 text-primary-500" />
+          <div className="flex items-center justify-center gap-4">
+            <div className="p-3 bg-primary-50 rounded-xl group-hover:scale-110 transition-transform duration-500">
+              <Target className="w-8 h-8 text-primary-500" />
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium text-secondary-800 mb-2">Set Meaningful Goals</h3>
-            <p className="text-sm text-secondary-600 max-w-md mx-auto">
-              Balance your ambitions and wellbeing with clear, achievable goals
-            </p>
+            <h3 className="text-lg font-medium text-secondary-800 mb-2">Balance Growth & Wellbeing</h3>
+            <p className="text-sm text-secondary-600 max-w-md mx-auto">Set meaningful goals that align with both your ambitions and mental health. Break them down into achievable steps.</p>
           </div>
           <Button 
             onClick={(e) => {
@@ -150,13 +145,13 @@ export function GoalsSection() {
   }
   
   return (
-    <section className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
+    <section className="space-y-4 bg-white p-6 rounded-2xl border border-primary-100/40 shadow-sm relative overflow-hidden">
+      <div className="flex items-center justify-between mb-4 relative">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary-50 rounded-lg">
+          <div className="p-2.5 bg-primary-50 rounded-xl">
             <Target className="w-5 h-5 text-primary-500" />
           </div>
-          <h2 className="text-base font-medium text-secondary-800">Goals</h2>
+          <h2 className="text-base font-semibold text-secondary-800">Goals & Growth</h2>
         </div>
         <Button 
           variant="ghost" 
@@ -164,15 +159,15 @@ export function GoalsSection() {
           className="text-xs hover:bg-primary-50 text-primary-500 group flex items-center gap-1"
           onClick={() => navigate("/goals")}
         >
-          View All
+          View All Goals
           <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
         </Button>
       </div>
       
-      <div className="space-y-4">
+      <div className="space-y-4 relative">
         {todayGoals.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-secondary-600 text-xs mb-1">
+            <div className="flex items-center gap-2 text-secondary-600 text-sm mb-1">
               <Clock className="w-3.5 h-3.5" />
               <span>Today</span>
             </div>
@@ -184,7 +179,7 @@ export function GoalsSection() {
 
         {thisWeekGoals.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-secondary-600 text-xs mb-1">
+            <div className="flex items-center gap-2 text-secondary-600 text-sm mb-1">
               <Clock className="w-3.5 h-3.5" />
               <span>This Week</span>
             </div>
@@ -196,7 +191,7 @@ export function GoalsSection() {
 
         {longTermGoals.length > 0 && (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-secondary-600 text-xs mb-1">
+            <div className="flex items-center gap-2 text-secondary-600 text-sm mb-1">
               <Target className="w-3.5 h-3.5" />
               <span>Long-term Vision</span>
             </div>
@@ -218,7 +213,7 @@ interface GoalItemProps {
 function GoalItem({ goal, onClick }: GoalItemProps) {
   return (
     <div 
-      className="p-3 rounded-lg border border-gray-100 bg-gray-50 transition-all duration-300 hover:bg-white hover:shadow-sm group cursor-pointer"
+      className="p-3 rounded-xl border border-primary-100/40 bg-gray-50 transition-all duration-300 hover:bg-white hover:shadow-sm group backdrop-blur-sm cursor-pointer"
       onClick={onClick}
     >
       <div className="flex justify-between items-start">
@@ -235,7 +230,7 @@ function GoalItem({ goal, onClick }: GoalItemProps) {
           )}
         </div>
         <div className="flex items-center">
-          <span className={`text-xs px-2 py-0.5 ${goal.completed ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-secondary-600'} rounded-full font-medium`}>
+          <span className={`text-xs px-2 py-0.5 ${goal.completed ? 'bg-primary-100 text-primary-600' : 'bg-gray-100 text-secondary-600'} rounded-full font-medium transition-colors`}>
             {goal.completed ? 'Done' : 'In Progress'}
           </span>
         </div>

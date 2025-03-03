@@ -36,12 +36,12 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="relative space-y-3">
-        <div className="text-center space-y-2 animate-fade-in">
-          <h1 className="text-2xl font-semibold text-secondary-800">
+      <div className="relative space-y-6">
+        <div className="text-center space-y-3 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-violet-500 to-accent">
             Welcome back, {username}
           </h1>
-          <p className="text-sm text-secondary-600 max-w-md mx-auto">
+          <p className="text-base sm:text-lg text-secondary-600/80 max-w-md mx-auto font-medium">
             Let's make today count
           </p>
         </div>
