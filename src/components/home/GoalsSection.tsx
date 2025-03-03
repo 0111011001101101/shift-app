@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Target, ChevronRight, Plus, Brain, Sparkles, Shield, TrendingUp, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -71,7 +70,6 @@ export function GoalsSection() {
     },
   });
 
-  // Group goals by timeframe
   const longTermGoals = goals?.filter(goal => 
     goal.timeframe === "long-term" || !goal.timeframe
   ).slice(0, 2) || [];
@@ -103,7 +101,6 @@ export function GoalsSection() {
   if (!goals?.length) {
     return (
       <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] via-[#A78BFA] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl group cursor-pointer relative overflow-hidden" onClick={() => navigate("/goals")}>
-        {/* Decorative background elements */}
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32 group-hover:translate-y-[-120px] transition-transform duration-700" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32 group-hover:translate-y-[120px] transition-transform duration-700" />
         
@@ -140,7 +137,6 @@ export function GoalsSection() {
   
   return (
     <section className="space-y-4 bg-gradient-to-br from-[#8B5CF6] via-[#A78BFA] to-[#D946EF] p-6 rounded-2xl border-0 shadow-lg hover:shadow-xl transition-all duration-300 backdrop-blur-xl relative overflow-hidden">
-      {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-32 translate-x-32" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-y-32 -translate-x-32" />
       
@@ -163,7 +159,6 @@ export function GoalsSection() {
       </div>
       
       <div className="space-y-4 relative">
-        {/* Today's Goals */}
         {todayGoals.length > 0 && (
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
@@ -176,7 +171,6 @@ export function GoalsSection() {
           </div>
         )}
 
-        {/* This Week's Goals */}
         {thisWeekGoals.length > 0 && (
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
@@ -189,7 +183,6 @@ export function GoalsSection() {
           </div>
         )}
 
-        {/* Long-term Goals */}
         {longTermGoals.length > 0 && (
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
