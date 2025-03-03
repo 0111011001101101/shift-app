@@ -1,10 +1,11 @@
+
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { Bell, Clock, LogOut, Moon, Palette, ChevronRight, Shield, User } from "lucide-react";
+import { Bell, Clock, LogOut, Moon, Palette, ChevronRight, Shield, User, Sparkles, BookOpen, Bot } from "lucide-react";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -65,6 +66,26 @@ export default function Settings() {
       ],
     },
     {
+      title: "Upcoming Features",
+      description: "New features coming to SHIFT",
+      items: [
+        {
+          icon: BookOpen,
+          label: "Learn & Grow",
+          description: "Curated modules to boost mental resilience",
+          comingSoon: true,
+          highlight: true,
+        },
+        {
+          icon: Bot,
+          label: "AI Coach",
+          description: "Personalized guidance and support",
+          comingSoon: true,
+          highlight: true,
+        },
+      ],
+    },
+    {
       title: "Account",
       description: "Manage your account settings",
       items: [
@@ -107,22 +128,27 @@ export default function Settings() {
                 <Button
                   key={item.label}
                   variant="ghost"
-                  className="w-full justify-between px-4 py-6 h-auto group hover:bg-secondary-50 active:bg-secondary-100 transition-all duration-200"
+                  className={`w-full justify-between px-4 py-6 h-auto group hover:bg-secondary-50 active:bg-secondary-100 transition-all duration-200 ${item.highlight ? 'border border-primary-100 bg-primary-50/50' : ''}`}
                   disabled={item.comingSoon}
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="p-2 rounded-xl bg-primary-50 text-primary-600 group-hover:bg-primary-100 transition-colors duration-200">
+                    <div className={`p-2 rounded-xl ${item.highlight ? 'bg-primary-100 text-primary-700' : 'bg-primary-50 text-primary-600'} group-hover:bg-primary-100 transition-colors duration-200`}>
                       <item.icon className="h-5 w-5" />
                     </div>
                     <div className="text-left">
-                      <div className="font-medium text-secondary-800">{item.label}</div>
+                      <div className="font-medium text-secondary-800 flex items-center">
+                        {item.label}
+                        {item.highlight && (
+                          <Sparkles className="h-3.5 w-3.5 text-primary-500 ml-2" />
+                        )}
+                      </div>
                       <div className="text-sm text-muted-foreground">
                         {item.description}
                       </div>
                     </div>
                   </div>
                   {item.comingSoon ? (
-                    <span className="text-xs bg-secondary-50 text-secondary-600 px-2 py-1 rounded-lg font-medium">
+                    <span className={`text-xs ${item.highlight ? 'bg-primary-100 text-primary-700' : 'bg-secondary-50 text-secondary-600'} px-2 py-1 rounded-lg font-medium`}>
                       Coming soon
                     </span>
                   ) : (
