@@ -39,8 +39,8 @@ export function BottomNav() {
     <motion.nav 
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.3, duration: 0.4 }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 pb-safe-area-inset-bottom shadow-md"
+      transition={{ duration: 0.3 }}
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-100 pb-safe-area-inset-bottom shadow-sm"
     >
       <div className="mx-auto max-w-lg">
         <div className="grid grid-cols-5 h-16">
@@ -54,7 +54,7 @@ export function BottomNav() {
               >
                 <div
                   className={cn(
-                    "flex items-center justify-center mb-1 rounded-full p-1.5 transition-all duration-200",
+                    "flex items-center justify-center rounded-full p-1.5 transition-all duration-200",
                     isActive 
                       ? "text-primary-500 bg-primary-50" 
                       : "text-gray-400 hover:text-gray-600"
