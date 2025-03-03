@@ -19,26 +19,18 @@ import Onboarding from "./pages/Onboarding";
 
 const queryClient = new QueryClient();
 
-// Demo mode banner
-const DemoBanner = () => (
-  <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-primary-500 to-accent text-white text-xs text-center py-1 font-medium">
-    Demo Mode - Explore all features without login
-  </div>
-);
-
 function AppContent() {
   const location = useLocation();
   const isPublicRoute = location.pathname === "/" || 
                        location.pathname === "/auth" || 
                        location.pathname === "/onboarding";
   
-  // Demo mode is enabled
+  // Demo mode is enabled but banner is hidden
   const isDemoMode = true;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
-      {isDemoMode && <DemoBanner />}
-      <div className={`mx-auto max-w-lg min-h-screen relative pb-20 ${isDemoMode ? 'pt-6' : ''}`}>
+      <div className="mx-auto max-w-lg min-h-screen relative pb-20">
         <Toaster />
         <Sonner />
         <Routes>
