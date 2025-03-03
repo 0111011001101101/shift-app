@@ -82,6 +82,14 @@ function AppContent() {
             }
           />
           <Route
+            path="/coach"
+            element={
+              <ProtectedRoute>
+                <Learn />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/settings"
             element={
               <ProtectedRoute>

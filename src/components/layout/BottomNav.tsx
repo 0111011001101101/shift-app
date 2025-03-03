@@ -1,7 +1,7 @@
 
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { Home, Target, AlertTriangle, BookOpen, MessageSquare } from "lucide-react";
+import { Home, Target, AlertTriangle, BookOpen, Settings } from "lucide-react";
 
 const navItems = [
   {
@@ -25,9 +25,9 @@ const navItems = [
     href: "/learn",
   },
   {
-    label: "Coach",
-    icon: MessageSquare,
-    href: "/coach",
+    label: "Settings",
+    icon: Settings,
+    href: "/settings",
   },
 ];
 
