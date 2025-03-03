@@ -185,7 +185,7 @@ export default function Goals() {
         });
         return [];
       }
-      return data;
+      return data as Goal[];
     },
     enabled: !!session?.user.id,
   });
@@ -377,14 +377,14 @@ export default function Goals() {
     moveGoalMutation.mutate({ goalId, newPosition });
   };
 
-  const groupedGoals = goals?.reduce((acc, goal) => {
+  const groupedGoals = (goals || []).reduce<Record<string, Goal[]>>((acc, goal) => {
     const timeframe = goal.timeframe || 'long-term';
     if (!acc[timeframe]) {
       acc[timeframe] = [];
     }
     acc[timeframe].push(goal);
     return acc;
-  }, {} as Record<string, Goal[]>) || {};
+  }, {});
 
   return (
     <PageContainer>
@@ -686,6 +686,7 @@ interface GoalCardProps {
 
 function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, canMoveDown, isDemoMode }: GoalCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const localSelectedTimeframe = goal.timeframe;
 
   return (
     <Card 
@@ -721,7 +722,7 @@ function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, c
                       {CATEGORIES.find(c => c.value === goal.category)?.label || goal.category}
                     </div>
                   )}
-                  {goal.timeframe && goal.timeframe !== selectedTimeframe && (
+                  {goal.timeframe && goal.timeframe !== localSelectedTimeframe && (
                     <div className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-700 dark:bg-primary-900/20 dark:text-primary-300">
                       {TIMEFRAMES.find(t => t.value === goal.timeframe)?.label || goal.timeframe}
                     </div>
@@ -823,5 +824,3 @@ function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, c
         </div>
       )}
     </Card>
-  );
-}

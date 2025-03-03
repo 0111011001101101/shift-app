@@ -70,15 +70,18 @@ export function GoalsSection() {
     },
   });
 
-  const longTermGoals = goals?.filter(goal => 
+  // Explicitly type cast the goals to handle the timeframe property
+  const typedGoals = goals as Goal[];
+
+  const longTermGoals = typedGoals?.filter(goal => 
     goal.timeframe === "long-term" || !goal.timeframe
   ).slice(0, 2) || [];
   
-  const todayGoals = goals?.filter(goal => 
+  const todayGoals = typedGoals?.filter(goal => 
     goal.timeframe === "today"
   ).slice(0, 2) || [];
 
-  const thisWeekGoals = goals?.filter(goal => 
+  const thisWeekGoals = typedGoals?.filter(goal => 
     goal.timeframe === "week"
   ).slice(0, 2) || [];
   
