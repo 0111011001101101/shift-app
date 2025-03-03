@@ -8,7 +8,7 @@ import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarClock, AlertTriangle } from "lucide-react";
+import { CalendarClock, AlertTriangle, ListTodo } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 
@@ -44,17 +44,17 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-8 pb-24 max-w-screen-sm mx-auto">
+      <div className="space-y-6 pb-16 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
-        <section className="space-y-4">
-          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
-              <CalendarClock className="w-4 h-4 text-primary-600" />
+        <section className="space-y-3">
+          <h2 className="text-sm font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
+              <ListTodo className="w-3.5 h-3.5 text-primary-600" />
             </div>
-            Focus
+            FOCUS & TASKS
           </h2>
           <div className="rounded-xl bg-white shadow-md overflow-hidden border border-primary-100/30 hover:shadow-lg transition-all duration-300">
             <Tabs 
@@ -91,12 +91,12 @@ export default function Home() {
 
         <LongTermGoalsCard />
         
-        <section className="space-y-4">
-          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
-              <AlertTriangle className="w-4 h-4 text-orange-500" />
+        <section className="space-y-3">
+          <h2 className="text-sm font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
+              <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
             </div>
-            Overcome Challenges
+            CHALLENGES TO OVERCOME
           </h2>
           <HurdlesButton />
         </section>
