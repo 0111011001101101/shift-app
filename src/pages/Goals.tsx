@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,8 @@ import {
   ChevronDown,
   ArrowLeft,
   LayoutGrid,
+  Clock,
+  ChevronDown as ChevronDownIcon,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -31,6 +34,12 @@ import { GoalTags } from "@/components/goals/GoalTags";
 import { GoalProgress } from "@/components/goals/GoalProgress";
 import { useDemoMode } from "@/context/DemoContext";
 import { v4 as uuidv4 } from "uuid";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogClose } from "@/components/ui/dialog";
+import { format } from "date-fns";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface Goal {
   id: string;
@@ -41,6 +50,7 @@ interface Goal {
   category?: string;
   reminder_enabled?: boolean;
   reminder_frequency?: string;
+  timeframe?: string; // 'long-term', 'month', 'week', 'today'
 }
 
 const CATEGORIES = [
@@ -51,17 +61,73 @@ const CATEGORIES = [
   { value: "finance", label: "Finance" },
 ];
 
+const TIMEFRAMES = [
+  { value: "long-term", label: "Long-term" },
+  { value: "month", label: "This Month" },
+  { value: "week", label: "This Week" },
+  { value: "today", label: "Today" },
+];
+
 export default function Goals() {
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [newGoalTitle, setNewGoalTitle] = useState("");
   const [newGoalCategory, setNewGoalCategory] = useState("personal");
+  const [newGoalTimeframe, setNewGoalTimeframe] = useState("long-term");
+  const [newGoalDeadline, setNewGoalDeadline] = useState<Date | undefined>(undefined);
   const [showNewGoalInput, setShowNewGoalInput] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [selectedTimeframe, setSelectedTimeframe] = useState<string | null>(null);
   const { isDemoMode } = useDemoMode();
   
-  const [demoGoals, setDemoGoals] = useState<Goal[]>([]);
+  const [demoGoals, setDemoGoals] = useState<Goal[]>([
+    {
+      id: uuidv4(),
+      title: "Start a business",
+      deadline: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
+      category: "work",
+      position: 1,
+      completed: false,
+      timeframe: "long-term"
+    },
+    {
+      id: uuidv4(),
+      title: "Improve fitness level",
+      deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      category: "health",
+      position: 2,
+      completed: false,
+      timeframe: "long-term"
+    },
+    {
+      id: uuidv4(),
+      title: "Prepare business plan",
+      deadline: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      category: "work",
+      position: 3,
+      completed: false,
+      timeframe: "month"
+    },
+    {
+      id: uuidv4(),
+      title: "Research market competition",
+      deadline: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      category: "work",
+      position: 4,
+      completed: false,
+      timeframe: "week"
+    },
+    {
+      id: uuidv4(),
+      title: "Complete 30-minute workout",
+      deadline: new Date().toISOString(),
+      category: "health",
+      position: 5,
+      completed: false,
+      timeframe: "today"
+    }
+  ]);
 
   const { data: session } = useQuery({
     queryKey: ["session"],
@@ -78,15 +144,22 @@ export default function Goals() {
   });
 
   const { data: goals, isLoading } = useQuery({
-    queryKey: ["goals", selectedCategory, demoGoals],
+    queryKey: ["goals", selectedCategory, selectedTimeframe, demoGoals],
     queryFn: async () => {
       if (!session?.user.id) return [];
       
       if (isDemoMode) {
+        let filteredGoals = [...demoGoals];
+        
         if (selectedCategory) {
-          return demoGoals.filter(goal => goal.category === selectedCategory);
+          filteredGoals = filteredGoals.filter(goal => goal.category === selectedCategory);
         }
-        return demoGoals;
+        
+        if (selectedTimeframe) {
+          filteredGoals = filteredGoals.filter(goal => goal.timeframe === selectedTimeframe);
+        }
+        
+        return filteredGoals;
       }
       
       let query = supabase
@@ -97,6 +170,11 @@ export default function Goals() {
 
       if (selectedCategory) {
         query = query.eq("category", selectedCategory);
+      }
+      
+      // This would need a column in the database for timeframe
+      if (selectedTimeframe) {
+        query = query.eq("timeframe", selectedTimeframe);
       }
 
       const { data, error } = await query;
@@ -123,6 +201,8 @@ export default function Goals() {
           id: uuidv4(),
           title: newGoalTitle,
           category: newGoalCategory,
+          timeframe: newGoalTimeframe,
+          deadline: newGoalDeadline ? newGoalDeadline.toISOString() : undefined,
           user_id: "demo-user",
           position: (demoGoals.length || 0) + 1,
           completed: false,
@@ -139,6 +219,8 @@ export default function Goals() {
         .insert([{ 
           title: newGoalTitle,
           category: newGoalCategory,
+          timeframe: newGoalTimeframe,
+          deadline: newGoalDeadline,
           user_id: session.user.id,
           position: (goals?.length || 0) + 1
         }])
@@ -151,6 +233,8 @@ export default function Goals() {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
       setNewGoalTitle("");
       setNewGoalCategory("personal");
+      setNewGoalTimeframe("long-term");
+      setNewGoalDeadline(undefined);
       setShowNewGoalInput(false);
       toast({
         title: "Goal Added",
@@ -295,6 +379,16 @@ export default function Goals() {
     moveGoalMutation.mutate({ goalId, newPosition });
   };
 
+  // Group goals by timeframe
+  const groupedGoals = goals?.reduce((acc, goal) => {
+    const timeframe = goal.timeframe || 'long-term';
+    if (!acc[timeframe]) {
+      acc[timeframe] = [];
+    }
+    acc[timeframe].push(goal);
+    return acc;
+  }, {} as Record<string, Goal[]>) || {};
+
   return (
     <PageContainer>
       <div className="space-y-4">
@@ -321,27 +415,56 @@ export default function Goals() {
           </Button>
         </div>
 
-        <div className="flex items-center gap-2 overflow-x-auto pb-2">
-          <Button
-            variant={selectedCategory === null ? "secondary" : "ghost"}
-            size="sm"
-            onClick={() => setSelectedCategory(null)}
-            className="whitespace-nowrap"
-          >
-            <LayoutGrid className="w-4 h-4 mr-1" />
-            All Categories
-          </Button>
-          {CATEGORIES.map((category) => (
+        <div className="flex flex-col space-y-3">
+          <div className="text-sm font-medium text-secondary-500">Filter by Category:</div>
+          <div className="flex items-center gap-2 overflow-x-auto pb-2">
             <Button
-              key={category.value}
-              variant={selectedCategory === category.value ? "secondary" : "ghost"}
+              variant={selectedCategory === null ? "secondary" : "ghost"}
               size="sm"
-              onClick={() => setSelectedCategory(category.value)}
+              onClick={() => setSelectedCategory(null)}
               className="whitespace-nowrap"
             >
-              {category.label}
+              <LayoutGrid className="w-4 h-4 mr-1" />
+              All Categories
             </Button>
-          ))}
+            {CATEGORIES.map((category) => (
+              <Button
+                key={category.value}
+                variant={selectedCategory === category.value ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedCategory(category.value)}
+                className="whitespace-nowrap"
+              >
+                {category.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col space-y-3">
+          <div className="text-sm font-medium text-secondary-500">Filter by Timeframe:</div>
+          <div className="flex items-center gap-2 overflow-x-auto pb-2">
+            <Button
+              variant={selectedTimeframe === null ? "secondary" : "ghost"}
+              size="sm"
+              onClick={() => setSelectedTimeframe(null)}
+              className="whitespace-nowrap"
+            >
+              <Clock className="w-4 h-4 mr-1" />
+              All Timeframes
+            </Button>
+            {TIMEFRAMES.map((timeframe) => (
+              <Button
+                key={timeframe.value}
+                variant={selectedTimeframe === timeframe.value ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => setSelectedTimeframe(timeframe.value)}
+                className="whitespace-nowrap"
+              >
+                {timeframe.label}
+              </Button>
+            ))}
+          </div>
         </div>
 
         {showNewGoalInput && (
@@ -353,21 +476,73 @@ export default function Goals() {
                 placeholder="Enter goal title..."
                 className="flex-1"
               />
-              <Select
-                value={newGoalCategory}
-                onValueChange={setNewGoalCategory}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {CATEGORIES.map((category) => (
-                    <SelectItem key={category.value} value={category.value}>
-                      {category.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-secondary-500 mb-1 block">Category</label>
+                  <Select
+                    value={newGoalCategory}
+                    onValueChange={setNewGoalCategory}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CATEGORIES.map((category) => (
+                        <SelectItem key={category.value} value={category.value}>
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <label className="text-sm font-medium text-secondary-500 mb-1 block">Timeframe</label>
+                  <Select
+                    value={newGoalTimeframe}
+                    onValueChange={setNewGoalTimeframe}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select timeframe" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {TIMEFRAMES.map((timeframe) => (
+                        <SelectItem key={timeframe.value} value={timeframe.value}>
+                          {timeframe.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              
+              <div>
+                <label className="text-sm font-medium text-secondary-500 mb-1 block">Deadline (Optional)</label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !newGoalDeadline && "text-muted-foreground"
+                      )}
+                    >
+                      <Calendar className="mr-2 h-4 w-4" />
+                      {newGoalDeadline ? format(newGoalDeadline, "PPP") : <span>Select a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <CalendarComponent
+                      mode="single"
+                      selected={newGoalDeadline}
+                      onSelect={setNewGoalDeadline}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+              
               <div className="flex justify-end gap-2">
                 <Button
                   variant="ghost"
@@ -388,7 +563,7 @@ export default function Goals() {
           </Card>
         )}
 
-        <div className="space-y-3">
+        <div className="space-y-6">
           {isLoading ? (
             <div className="animate-pulse space-y-3">
               {[1, 2, 3].map((i) => (
@@ -398,13 +573,13 @@ export default function Goals() {
                 />
               ))}
             </div>
-          ) : goals?.length === 0 ? (
+          ) : !goals?.length ? (
             <Card className="p-6 text-center space-y-3 border-primary-100 dark:border-primary-900/20">
               <Target className="w-12 h-12 mx-auto text-primary opacity-50" />
               <div className="space-y-1">
                 <h3 className="font-medium text-gray-900 dark:text-gray-100">
-                  {selectedCategory 
-                    ? `No goals in ${CATEGORIES.find(c => c.value === selectedCategory)?.label}`
+                  {selectedCategory || selectedTimeframe
+                    ? "No matching goals found"
                     : "No Goals Yet"
                   }
                 </h3>
@@ -421,118 +596,217 @@ export default function Goals() {
                 Add Your First Goal
               </Button>
             </Card>
+          ) : selectedTimeframe ? (
+            // When filtering by timeframe, show goals in a simple list
+            <div className="space-y-3">
+              {goals.map((goal, index) => (
+                <GoalCard 
+                  key={goal.id}
+                  goal={goal}
+                  onToggle={() => toggleGoalMutation.mutate(goal.id)}
+                  onDelete={() => deleteGoal(goal.id)}
+                  onMoveUp={() => moveGoal(goal.id, "up")}
+                  onMoveDown={() => moveGoal(goal.id, "down")}
+                  canMoveUp={index > 0}
+                  canMoveDown={index < (goals?.length ?? 0) - 1}
+                  isDemoMode={isDemoMode}
+                />
+              ))}
+            </div>
           ) : (
-            goals?.map((goal, index) => (
-              <Card 
-                key={goal.id} 
-                className={`p-4 transition-all duration-300 border-primary-100 dark:border-primary-900/20 ${
-                  goal.completed ? 'bg-primary-50 dark:bg-primary-900/10' : ''
-                }`}
-              >
-                <div className="flex items-start gap-3">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => toggleGoalMutation.mutate(goal.id)}
-                    className={`h-8 w-8 p-0 ${
-                      goal.completed
-                        ? 'text-primary'
-                        : 'text-muted-foreground'
-                    }`}
-                  >
-                    <CheckCircle className="h-5 w-5" />
-                  </Button>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="space-y-1">
-                        <h3 className={`font-medium text-gray-900 dark:text-gray-100 ${
-                          goal.completed ? 'line-through text-muted-foreground' : ''
-                        }`}>
-                          {goal.title}
-                        </h3>
-                        {goal.deadline && (
-                          <div className="flex items-center text-xs text-muted-foreground">
-                            <Calendar className="w-3.5 h-3.5 mr-1" />
-                            Due {new Date(goal.deadline).toLocaleDateString()}
-                          </div>
-                        )}
-                        <div className="mt-2">
-                          {!isDemoMode && <GoalTags goalId={goal.id} />}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        {index > 0 && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => moveGoal(goal.id, "up")}
-                            className="h-8 w-8 p-0 hover:bg-primary-50 dark:hover:bg-primary-900/10"
-                          >
-                            <ChevronUp className="h-4 w-4" />
-                          </Button>
-                        )}
-                        {index < (goals?.length ?? 0) - 1 && (
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => moveGoal(goal.id, "down")}
-                            className="h-8 w-8 p-0 hover:bg-primary-50 dark:hover:bg-primary-900/10"
-                          >
-                            <ChevronDown className="h-4 w-4" />
-                          </Button>
-                        )}
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => deleteGoal(goal.id)}
-                          className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </div>
-
-                    {!isDemoMode && (
-                      <div className="mt-4">
-                        <GoalProgress goalId={goal.id} />
-                      </div>
-                    )}
-
-                    {!isDemoMode && (
-                      <div className="mt-4">
-                        <Tabs defaultValue="daily" className="w-full">
-                          <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-primary-100 dark:border-primary-900/20">
-                            <TabsTrigger 
-                              value="daily" 
-                              className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
-                            >
-                              Daily Tasks
-                            </TabsTrigger>
-                            <TabsTrigger 
-                              value="weekly" 
-                              className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
-                            >
-                              Weekly Tasks
-                            </TabsTrigger>
-                          </TabsList>
-                          
-                          <TabsContent value="daily" className="mt-2">
-                            <TodoList frequency="daily" goalId={goal.id} />
-                          </TabsContent>
-                          
-                          <TabsContent value="weekly" className="mt-2">
-                            <TodoList frequency="weekly" goalId={goal.id} />
-                          </TabsContent>
-                        </Tabs>
-                      </div>
-                    )}
+            // When not filtering by timeframe, group goals by timeframe
+            Object.entries(TIMEFRAMES.reduce((acc, timeframe) => {
+              acc[timeframe.value] = {
+                label: timeframe.label,
+                goals: groupedGoals[timeframe.value] || []
+              };
+              return acc;
+            }, {} as Record<string, { label: string, goals: Goal[] }>))
+            .filter(([_, { goals }]) => goals.length > 0)
+            .map(([timeframeKey, { label, goals }]) => (
+              <Collapsible key={timeframeKey} className="space-y-3">
+                <CollapsibleTrigger className="flex items-center justify-between w-full p-3 bg-primary-50 dark:bg-primary-900/10 rounded-lg">
+                  <div className="flex items-center">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100">{label}</h3>
+                    <span className="ml-2 px-2 py-0.5 bg-primary-200 dark:bg-primary-800 text-primary-700 dark:text-primary-300 text-xs rounded-full">
+                      {goals.length}
+                    </span>
                   </div>
-                </div>
-              </Card>
+                  <ChevronDownIcon className="h-5 w-5 text-gray-500 transform transition-transform" />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="space-y-3 pt-2">
+                  {goals.map((goal, index) => (
+                    <GoalCard 
+                      key={goal.id}
+                      goal={goal}
+                      onToggle={() => toggleGoalMutation.mutate(goal.id)}
+                      onDelete={() => deleteGoal(goal.id)}
+                      onMoveUp={() => moveGoal(goal.id, "up")}
+                      onMoveDown={() => moveGoal(goal.id, "down")}
+                      canMoveUp={index > 0}
+                      canMoveDown={index < goals.length - 1}
+                      isDemoMode={isDemoMode}
+                    />
+                  ))}
+                </CollapsibleContent>
+              </Collapsible>
             ))
           )}
         </div>
       </div>
     </PageContainer>
+  );
+}
+
+interface GoalCardProps {
+  goal: Goal;
+  onToggle: () => void;
+  onDelete: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  canMoveUp: boolean;
+  canMoveDown: boolean;
+  isDemoMode: boolean;
+}
+
+function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, canMoveDown, isDemoMode }: GoalCardProps) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <Card 
+      className={`transition-all duration-300 border-primary-100 dark:border-primary-900/20 ${
+        goal.completed ? 'bg-primary-50 dark:bg-primary-900/10' : ''
+      }`}
+    >
+      <div className="p-4">
+        <div className="flex items-start gap-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onToggle}
+            className={`h-8 w-8 p-0 ${
+              goal.completed
+                ? 'text-primary'
+                : 'text-muted-foreground'
+            }`}
+          >
+            <CheckCircle className="h-5 w-5" />
+          </Button>
+          <div className="flex-1">
+            <div className="flex items-start justify-between gap-2">
+              <div className="space-y-1">
+                <h3 className={`font-medium text-gray-900 dark:text-gray-100 ${
+                  goal.completed ? 'line-through text-muted-foreground' : ''
+                }`}>
+                  {goal.title}
+                </h3>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {goal.category && (
+                    <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+                      {CATEGORIES.find(c => c.value === goal.category)?.label || goal.category}
+                    </div>
+                  )}
+                  {goal.timeframe && (
+                    <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-800 dark:text-primary-200">
+                      {TIMEFRAMES.find(t => t.value === goal.timeframe)?.label || goal.timeframe}
+                    </div>
+                  )}
+                </div>
+                {goal.deadline && (
+                  <div className="flex items-center text-xs text-muted-foreground mt-1">
+                    <Calendar className="w-3.5 h-3.5 mr-1" />
+                    Due {new Date(goal.deadline).toLocaleDateString()}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                {canMoveUp && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onMoveUp}
+                    className="h-8 w-8 p-0 hover:bg-primary-50 dark:hover:bg-primary-900/10"
+                  >
+                    <ChevronUp className="h-4 w-4" />
+                  </Button>
+                )}
+                {canMoveDown && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={onMoveDown}
+                    className="h-8 w-8 p-0 hover:bg-primary-50 dark:hover:bg-primary-900/10"
+                  >
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={onDelete}
+                  className="h-8 w-8 p-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+
+            {!isDemoMode && (
+              <div className="mt-4">
+                <GoalProgress goalId={goal.id} />
+              </div>
+            )}
+
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => setIsOpen(!isOpen)} 
+              className="mt-3 text-xs text-primary"
+            >
+              {isOpen ? "Hide Tasks" : "Show Tasks"}
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {isOpen && (
+        <div className="px-4 pb-4">
+          <Tabs defaultValue="daily" className="w-full">
+            <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-primary-100 dark:border-primary-900/20">
+              <TabsTrigger 
+                value="daily" 
+                className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+              >
+                Daily Tasks
+              </TabsTrigger>
+              <TabsTrigger 
+                value="weekly" 
+                className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+              >
+                Weekly Tasks
+              </TabsTrigger>
+              <TabsTrigger 
+                value="monthly" 
+                className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+              >
+                Monthly Tasks
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="daily" className="mt-2">
+              <TodoList frequency="daily" goalId={goal.id} />
+            </TabsContent>
+            
+            <TabsContent value="weekly" className="mt-2">
+              <TodoList frequency="weekly" goalId={goal.id} />
+            </TabsContent>
+            
+            <TabsContent value="monthly" className="mt-2">
+              <TodoList frequency="monthly" goalId={goal.id} />
+            </TabsContent>
+          </Tabs>
+        </div>
+      )}
+    </Card>
   );
 }

@@ -1,17 +1,58 @@
+
 import { Button } from "@/components/ui/button";
-import { Target, ChevronRight, Plus, Brain, Sparkles, Shield, TrendingUp } from "lucide-react";
+import { Target, ChevronRight, Plus, Brain, Sparkles, Shield, TrendingUp, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useDemoMode } from "@/context/DemoContext";
+import { useState } from "react";
+import { format } from "date-fns";
+
+interface Goal {
+  id: string;
+  title: string;
+  deadline?: string;
+  timeframe?: string;
+  completed?: boolean;
+}
 
 export function GoalsSection() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { isDemoMode } = useDemoMode();
+  
+  const [demoGoals] = useState<Goal[]>([
+    {
+      id: "1",
+      title: "Start a business",
+      deadline: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
+      timeframe: "long-term",
+      completed: false
+    },
+    {
+      id: "2",
+      title: "Improve fitness level",
+      deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+      timeframe: "long-term",
+      completed: false
+    },
+    {
+      id: "3",
+      title: "Prepare presentation for client",
+      deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), 
+      timeframe: "week",
+      completed: false
+    }
+  ]);
   
   const { data: goals, isLoading, error } = useQuery({
-    queryKey: ["goals"],
+    queryKey: ["goals-home"],
     queryFn: async () => {
+      if (isDemoMode) {
+        return demoGoals;
+      }
+      
       const { data, error } = await supabase
         .from("goals")
         .select("*")
@@ -29,6 +70,19 @@ export function GoalsSection() {
       return data || [];
     },
   });
+
+  // Group goals by timeframe
+  const longTermGoals = goals?.filter(goal => 
+    goal.timeframe === "long-term" || !goal.timeframe
+  ).slice(0, 2) || [];
+  
+  const todayGoals = goals?.filter(goal => 
+    goal.timeframe === "today"
+  ).slice(0, 2) || [];
+
+  const thisWeekGoals = goals?.filter(goal => 
+    goal.timeframe === "week"
+  ).slice(0, 2) || [];
   
   if (isLoading) {
     return (
@@ -95,7 +149,7 @@ export function GoalsSection() {
           <div className="p-2.5 bg-white/20 rounded-xl">
             <Target className="w-5 h-5 text-white" />
           </div>
-          <h2 className="text-base font-semibold text-white">Growth & Wellbeing</h2>
+          <h2 className="text-base font-semibold text-white">Goals & Growth</h2>
         </div>
         <Button 
           variant="ghost" 
@@ -108,41 +162,81 @@ export function GoalsSection() {
         </Button>
       </div>
       
-      <div className="space-y-3 relative">
-        {goals.slice(0, 2).map((goal) => (
-          <div 
-            key={goal.id} 
-            className="p-4 rounded-xl border border-white/20 bg-white/10 transition-all duration-300 hover:bg-white/20 group backdrop-blur-sm cursor-pointer"
-            onClick={() => navigate("/goals")}
-          >
-            <div className="flex justify-between items-start mb-3">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-white group-hover:text-white transition-colors">{goal.title}</h3>
-                  <Sparkles className="w-4 h-4 text-white/60" />
-                </div>
-                {goal.deadline && (
-                  <p className="text-xs text-white/70 mt-1">
-                    Target: {new Date(goal.deadline).toLocaleDateString()}
-                  </p>
-                )}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className={`text-xs px-2.5 py-1 ${goal.completed ? 'bg-white/30 text-white' : 'bg-white/20 text-white'} rounded-full font-medium transition-colors`}>
-                  {goal.completed ? 'Achieved' : 'In Progress'}
-                </span>
-                <TrendingUp className={`w-4 h-4 ${goal.completed ? 'text-white' : 'text-white/60'}`} />
-              </div>
+      <div className="space-y-4 relative">
+        {/* Today's Goals */}
+        {todayGoals.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
+              <Clock className="w-3.5 h-3.5" />
+              <span>Today</span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-white/20 overflow-hidden">
-              <div 
-                className={`h-full transition-all duration-700 ease-in-out ${goal.completed ? 'bg-white/60' : 'bg-white/40'}`}
-                style={{ width: goal.completed ? "100%" : "65%" }} 
-              />
-            </div>
+            {todayGoals.map(goal => (
+              <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
+            ))}
           </div>
-        ))}
+        )}
+
+        {/* This Week's Goals */}
+        {thisWeekGoals.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
+              <Clock className="w-3.5 h-3.5" />
+              <span>This Week</span>
+            </div>
+            {thisWeekGoals.map(goal => (
+              <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
+            ))}
+          </div>
+        )}
+
+        {/* Long-term Goals */}
+        {longTermGoals.length > 0 && (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
+              <Target className="w-3.5 h-3.5" />
+              <span>Long-term Vision</span>
+            </div>
+            {longTermGoals.map(goal => (
+              <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
+            ))}
+          </div>
+        )}
       </div>
     </section>
+  );
+}
+
+interface GoalItemProps {
+  goal: Goal;
+  onClick: () => void;
+}
+
+function GoalItem({ goal, onClick }: GoalItemProps) {
+  return (
+    <div 
+      className="p-3 rounded-xl border border-white/20 bg-white/10 transition-all duration-300 hover:bg-white/20 group backdrop-blur-sm cursor-pointer"
+      onClick={onClick}
+    >
+      <div className="flex justify-between items-start">
+        <div>
+          <div className="flex items-center gap-2">
+            <h3 className="font-medium text-white group-hover:text-white transition-colors text-sm">{goal.title}</h3>
+            <Sparkles className="w-3.5 h-3.5 text-white/60" />
+          </div>
+          {goal.deadline && (
+            <p className="text-xs text-white/70 mt-1">
+              {goal.timeframe === 'today' ? 'Today' : 
+                goal.timeframe === 'week' ? 'This week' : 
+                `Due: ${format(new Date(goal.deadline), "MMM d")}`}
+            </p>
+          )}
+        </div>
+        <div className="flex items-center">
+          <span className={`text-xs px-2 py-0.5 ${goal.completed ? 'bg-white/30 text-white' : 'bg-white/20 text-white'} rounded-full font-medium transition-colors`}>
+            {goal.completed ? 'Done' : 'In Progress'}
+          </span>
+        </div>
+      </div>
+    </div>
   );
 }
