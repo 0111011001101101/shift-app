@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -30,6 +29,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TodoList } from "@/components/home/TodoList";
 import { GoalTags } from "@/components/goals/GoalTags";
 import { GoalProgress } from "@/components/goals/GoalProgress";
+import { useDemoMode } from "@/context/DemoContext";
+import { v4 as uuidv4 } from "uuid";
 
 interface Goal {
   id: string;
@@ -58,10 +59,15 @@ export default function Goals() {
   const [newGoalCategory, setNewGoalCategory] = useState("personal");
   const [showNewGoalInput, setShowNewGoalInput] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const { isDemoMode } = useDemoMode();
+  
+  const [demoGoals, setDemoGoals] = useState<Goal[]>([]);
 
   const { data: session } = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
+      if (isDemoMode) return { user: { id: "demo-user" } };
+      
       const { data } = await supabase.auth.getSession();
       if (!data.session) {
         navigate("/auth");
@@ -72,9 +78,16 @@ export default function Goals() {
   });
 
   const { data: goals, isLoading } = useQuery({
-    queryKey: ["goals", selectedCategory],
+    queryKey: ["goals", selectedCategory, demoGoals],
     queryFn: async () => {
       if (!session?.user.id) return [];
+      
+      if (isDemoMode) {
+        if (selectedCategory) {
+          return demoGoals.filter(goal => goal.category === selectedCategory);
+        }
+        return demoGoals;
+      }
       
       let query = supabase
         .from("goals")
@@ -104,6 +117,22 @@ export default function Goals() {
   const addGoalMutation = useMutation({
     mutationFn: async () => {
       if (!session?.user.id) throw new Error("Not authenticated");
+
+      if (isDemoMode) {
+        const newGoal = {
+          id: uuidv4(),
+          title: newGoalTitle,
+          category: newGoalCategory,
+          user_id: "demo-user",
+          position: (demoGoals.length || 0) + 1,
+          completed: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        };
+        
+        setDemoGoals(prev => [...prev, newGoal]);
+        return [newGoal];
+      }
 
       const { data, error } = await supabase
         .from("goals")
@@ -142,6 +171,15 @@ export default function Goals() {
       const goal = goals?.find(g => g.id === goalId);
       if (!goal) throw new Error("Goal not found");
 
+      if (isDemoMode) {
+        setDemoGoals(prev => 
+          prev.map(g => 
+            g.id === goalId ? { ...g, completed: !g.completed } : g
+          )
+        );
+        return;
+      }
+
       const { error } = await supabase
         .from("goals")
         .update({ completed: !goal.completed })
@@ -167,6 +205,11 @@ export default function Goals() {
 
   const deleteGoalMutation = useMutation({
     mutationFn: async (goalId: string) => {
+      if (isDemoMode) {
+        setDemoGoals(prev => prev.filter(g => g.id !== goalId));
+        return;
+      }
+      
       const { error } = await supabase.from("goals").delete().eq("id", goalId);
       if (error) throw error;
     },
@@ -194,6 +237,23 @@ export default function Goals() {
       goalId: string;
       newPosition: number;
     }) => {
+      if (isDemoMode) {
+        setDemoGoals(prev => {
+          const updatedGoals = [...prev];
+          const goalIndex = updatedGoals.findIndex(g => g.id === goalId);
+          
+          if (goalIndex !== -1) {
+            updatedGoals[goalIndex] = {
+              ...updatedGoals[goalIndex],
+              position: newPosition
+            };
+          }
+          
+          return updatedGoals;
+        });
+        return;
+      }
+      
       const { error } = await supabase
         .from("goals")
         .update({ position: newPosition })
@@ -397,7 +457,7 @@ export default function Goals() {
                           </div>
                         )}
                         <div className="mt-2">
-                          <GoalTags goalId={goal.id} />
+                          {!isDemoMode && <GoalTags goalId={goal.id} />}
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
@@ -432,36 +492,40 @@ export default function Goals() {
                       </div>
                     </div>
 
-                    <div className="mt-4">
-                      <GoalProgress goalId={goal.id} />
-                    </div>
+                    {!isDemoMode && (
+                      <div className="mt-4">
+                        <GoalProgress goalId={goal.id} />
+                      </div>
+                    )}
 
-                    <div className="mt-4">
-                      <Tabs defaultValue="daily" className="w-full">
-                        <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-primary-100 dark:border-primary-900/20">
-                          <TabsTrigger 
-                            value="daily" 
-                            className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
-                          >
-                            Daily Tasks
-                          </TabsTrigger>
-                          <TabsTrigger 
-                            value="weekly" 
-                            className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
-                          >
-                            Weekly Tasks
-                          </TabsTrigger>
-                        </TabsList>
-                        
-                        <TabsContent value="daily" className="mt-2">
-                          <TodoList frequency="daily" goalId={goal.id} />
-                        </TabsContent>
-                        
-                        <TabsContent value="weekly" className="mt-2">
-                          <TodoList frequency="weekly" goalId={goal.id} />
-                        </TabsContent>
-                      </Tabs>
-                    </div>
+                    {!isDemoMode && (
+                      <div className="mt-4">
+                        <Tabs defaultValue="daily" className="w-full">
+                          <TabsList className="w-full mb-4 bg-white dark:bg-gray-800 border border-primary-100 dark:border-primary-900/20">
+                            <TabsTrigger 
+                              value="daily" 
+                              className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+                            >
+                              Daily Tasks
+                            </TabsTrigger>
+                            <TabsTrigger 
+                              value="weekly" 
+                              className="flex-1 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-600 dark:data-[state=active]:bg-primary-900/10 dark:data-[state=active]:text-primary-400"
+                            >
+                              Weekly Tasks
+                            </TabsTrigger>
+                          </TabsList>
+                          
+                          <TabsContent value="daily" className="mt-2">
+                            <TodoList frequency="daily" goalId={goal.id} />
+                          </TabsContent>
+                          
+                          <TabsContent value="weekly" className="mt-2">
+                            <TodoList frequency="weekly" goalId={goal.id} />
+                          </TabsContent>
+                        </Tabs>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Card>
