@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Target, ChevronRight, Plus, Brain, Clock, Calendar } from "lucide-react";
+import { Target, ChevronRight, Plus, Brain, Clock, Calendar, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -18,6 +18,7 @@ interface Goal {
   timeframe?: string;
   completed?: boolean;
   user_id?: string;
+  category?: string;
 }
 
 export function GoalsSection() {
@@ -31,6 +32,7 @@ export function GoalsSection() {
       title: "Start a business",
       deadline: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString(),
       timeframe: "long-term",
+      category: "work",
       completed: false
     },
     {
@@ -38,6 +40,7 @@ export function GoalsSection() {
       title: "Improve fitness level",
       deadline: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
       timeframe: "long-term",
+      category: "health",
       completed: false
     },
     {
@@ -45,6 +48,7 @@ export function GoalsSection() {
       title: "Prepare presentation for client",
       deadline: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), 
       timeframe: "week",
+      category: "work",
       completed: false
     }
   ]);
@@ -145,7 +149,7 @@ export function GoalsSection() {
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <Target className="w-5 h-5 text-primary-500" />
-          <span className="font-medium text-gray-800">Your Goals</span>
+          <span className="font-medium text-gray-800">Your Path to Success</span>
         </div>
         <Button 
           variant="ghost" 
@@ -158,42 +162,81 @@ export function GoalsSection() {
         </Button>
       </div>
       
-      <div className="space-y-3">
+      <div className="relative pl-7 before:content-[''] before:absolute before:left-2 before:top-2 before:bottom-6 before:w-0.5 before:bg-primary-100">
         {todayGoals.length > 0 && (
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-              <Clock className="w-3 h-3" />
-              <span>Today</span>
+          <div className="mb-4 relative">
+            <div className="absolute left-[-11px] top-1 w-4 h-4 rounded-full bg-primary-500 border-2 border-white"></div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-medium text-primary-600">Today</h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/goals", { state: { timeframe: "today" } })}
+                className="text-xs text-primary-500 h-6 px-2 py-0"
+              >
+                View All <ArrowRight className="w-3 h-3 ml-0.5" />
+              </Button>
             </div>
-            {todayGoals.map(goal => (
-              <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
-            ))}
+            <div className="space-y-2">
+              {todayGoals.map(goal => (
+                <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
+              ))}
+            </div>
           </div>
         )}
 
         {thisWeekGoals.length > 0 && (
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-              <Calendar className="w-3 h-3" />
-              <span>This Week</span>
+          <div className="mb-4 relative">
+            <div className="absolute left-[-11px] top-1 w-4 h-4 rounded-full bg-secondary-500 border-2 border-white"></div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-medium text-secondary-600">This Week</h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/goals", { state: { timeframe: "week" } })}
+                className="text-xs text-secondary-500 h-6 px-2 py-0"
+              >
+                View All <ArrowRight className="w-3 h-3 ml-0.5" />
+              </Button>
             </div>
-            {thisWeekGoals.map(goal => (
-              <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
-            ))}
+            <div className="space-y-2">
+              {thisWeekGoals.map(goal => (
+                <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
+              ))}
+            </div>
           </div>
         )}
 
         {longTermGoals.length > 0 && (
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2 text-xs text-gray-500 mb-1">
-              <Brain className="w-3 h-3" />
-              <span>Long-term Vision</span>
+          <div className="relative">
+            <div className="absolute left-[-11px] top-1 w-4 h-4 rounded-full bg-purple-500 border-2 border-white"></div>
+            <div className="flex items-center justify-between mb-2">
+              <h4 className="text-sm font-medium text-purple-600">Long-term Vision</h4>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/goals", { state: { timeframe: "long-term" } })}
+                className="text-xs text-purple-500 h-6 px-2 py-0"
+              >
+                View All <ArrowRight className="w-3 h-3 ml-0.5" />
+              </Button>
             </div>
-            {longTermGoals.map(goal => (
-              <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
-            ))}
+            <div className="space-y-2">
+              {longTermGoals.map(goal => (
+                <GoalItem key={goal.id} goal={goal} onClick={() => navigate("/goals")} />
+              ))}
+            </div>
           </div>
         )}
+
+        <Button
+          onClick={() => navigate("/goals")}
+          variant="outline"
+          size="sm"
+          className="mt-3 text-xs text-primary-600 border-primary-200 hover:bg-primary-50 w-full"
+        >
+          See All Goals <ArrowRight className="w-3 h-3 ml-1" />
+        </Button>
       </div>
     </Card>
   );
@@ -211,6 +254,16 @@ function GoalItem({ goal, onClick }: GoalItemProps) {
   const isDeadlineThisWeek = hasDeadline && isThisWeek(new Date(goal.deadline));
   const isDeadlinePassed = hasDeadline && isAfter(new Date(), new Date(goal.deadline));
 
+  const getTimeframeColor = (timeframe?: string) => {
+    switch(timeframe) {
+      case 'today': return 'bg-primary-50 text-primary-700';
+      case 'week': return 'bg-secondary-50 text-secondary-700';
+      case 'month': return 'bg-amber-50 text-amber-700';
+      case 'long-term': return 'bg-purple-50 text-purple-700';
+      default: return 'bg-gray-50 text-gray-700';
+    }
+  };
+
   return (
     <div 
       className="p-2.5 border border-gray-100 hover:border-gray-200 rounded-lg bg-white hover:bg-gray-50 transition-all duration-200 cursor-pointer"
@@ -221,25 +274,28 @@ function GoalItem({ goal, onClick }: GoalItemProps) {
           <h3 className={`font-medium text-sm ${isCompleted ? 'text-gray-400 line-through' : 'text-gray-800'}`}>
             {goal.title}
           </h3>
-          {hasDeadline && (
-            <p className="text-xs text-gray-500 flex items-center">
-              <Calendar className="w-3 h-3 mr-1 inline" />
-              {isDeadlineToday 
-                ? <span className="text-amber-500 font-medium">Due today</span>
-                : isDeadlineThisWeek
-                  ? <span className={isDeadlinePassed ? "text-red-500" : "text-amber-500"}>
-                      Due {format(new Date(goal.deadline), "EEE")}
-                    </span>
-                  : <span className={isDeadlinePassed ? "text-red-500" : ""}>
-                      Due {format(new Date(goal.deadline), "MMM d")}
-                    </span>
-              }
-            </p>
-          )}
+          <div className="flex flex-wrap gap-2 items-center">
+            {goal.category && (
+              <span className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded-full">
+                {goal.category}
+              </span>
+            )}
+            {hasDeadline && (
+              <span className={`text-xs flex items-center ${isDeadlinePassed ? "text-red-500" : "text-gray-500"}`}>
+                <Calendar className="w-3 h-3 mr-0.5 inline" />
+                {isDeadlineToday 
+                  ? "Due today"
+                  : isDeadlineThisWeek
+                    ? `Due ${format(new Date(goal.deadline), "EEE")}`
+                    : `Due ${format(new Date(goal.deadline), "MMM d")}`
+                }
+              </span>
+            )}
+          </div>
         </div>
         <Badge 
           variant={isCompleted ? "outline" : "secondary"} 
-          className={`text-xs px-2 py-0.5 ${isCompleted ? 'text-green-500 bg-green-50 hover:bg-green-50 border-green-100' : 'bg-secondary-50 text-secondary-700 hover:bg-secondary-100 border-none'}`}
+          className={`text-xs px-2 py-0.5 ${isCompleted ? 'text-green-500 bg-green-50 hover:bg-green-50 border-green-100' : getTimeframeColor(goal.timeframe)}`}
         >
           {isCompleted ? 'Done' : 'In Progress'}
         </Badge>
