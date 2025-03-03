@@ -56,44 +56,6 @@ export default function Welcome() {
           >
             Explore Demo
           </Button>
-          
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <p className="text-sm text-gray-500 mb-3">Direct Navigation (Demo Mode):</p>
-            <div className="grid grid-cols-2 gap-2">
-              <Button 
-                onClick={() => navigate("/goals")} 
-                variant="secondary"
-                size="sm"
-                className="text-sm"
-              >
-                Goals
-              </Button>
-              <Button 
-                onClick={() => navigate("/hurdles")} 
-                variant="secondary"
-                size="sm"
-                className="text-sm"
-              >
-                Hurdles
-              </Button>
-              <Button 
-                onClick={() => navigate("/stand-up")} 
-                variant="secondary"
-                size="sm"
-                className="text-sm"
-              >
-                Stand-Up
-              </Button>
-              <Button 
-                onClick={() => navigate("/learn")} 
-                variant="secondary"
-                size="sm"
-                className="text-sm"
-              >
-                Learn
-              </Button>
-            </div>
-          </div>
         </motion.div>
       </motion.div>
     </div>
