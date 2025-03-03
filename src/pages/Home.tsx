@@ -44,20 +44,21 @@ export default function Home() {
   });
 
   const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.1,
+        delay: i * 0.1 + 0.1,
         duration: 0.5,
+        ease: "easeOut"
       }
     })
   };
 
   return (
     <PageContainer>
-      <div className="space-y-7 pb-24 max-w-screen-sm mx-auto">
+      <div className="space-y-6 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <motion.div
@@ -77,41 +78,41 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
-          className="space-y-4"
         >
-          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
-              <CalendarClock className="w-4 h-4 text-primary-600" />
+          <div className="flex items-center gap-3 mb-3.5">
+            <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
+              <CalendarClock className="w-4.5 h-4.5 text-primary-600" />
             </div>
-            Focus
-          </h2>
-          <div className="rounded-xl bg-white shadow-md overflow-hidden border border-primary-100/30 hover:shadow-lg transition-all duration-300">
+            <h2 className="text-lg font-semibold text-gray-800">Focus Areas</h2>
+          </div>
+          
+          <div className="rounded-xl bg-white/90 shadow-sm overflow-hidden border border-primary-100/30 hover:shadow-md transition-all duration-300">
             <Tabs 
               defaultValue="daily" 
               value={focusTab} 
               onValueChange={(value) => setFocusTab(value as "daily" | "weekly")}
               className="w-full"
             >
-              <div className="px-3 pt-3 border-b border-primary-100/30">
-                <TabsList className="bg-primary-50/50 w-full grid grid-cols-2 h-9">
+              <div className="px-3 pt-3">
+                <TabsList className="bg-primary-50/50 w-full grid grid-cols-2 h-10 p-1 rounded-lg">
                   <TabsTrigger 
                     value="daily" 
-                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:font-medium"
+                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
                   >
                     Today
                   </TabsTrigger>
                   <TabsTrigger 
                     value="weekly"
-                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:font-medium"
+                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
                   >
                     This Week
                   </TabsTrigger>
                 </TabsList>
               </div>
-              <TabsContent value="daily" className="mt-0">
+              <TabsContent value="daily" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
                 <TodoList frequency="daily" />
               </TabsContent>
-              <TabsContent value="weekly" className="mt-0">
+              <TabsContent value="weekly" className="mt-0 focus-visible:outline-none focus-visible:ring-0">
                 <TodoList frequency="weekly" />
               </TabsContent>
             </Tabs>
@@ -132,14 +133,14 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
-          className="space-y-4"
+          className="pb-8"
         >
-          <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
-              <AlertTriangle className="w-4 h-4 text-orange-500" />
+          <div className="flex items-center gap-3 mb-3.5">
+            <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
+              <AlertTriangle className="w-4.5 h-4.5 text-orange-500" />
             </div>
-            Overcome Challenges
-          </h2>
+            <h2 className="text-lg font-semibold text-gray-800">Current Challenges</h2>
+          </div>
           <HurdlesButton />
         </motion.section>
       </div>

@@ -44,33 +44,33 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {mounted && (
           <motion.div 
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="flex flex-col items-center py-4"
+            className="flex flex-col items-center py-2 mb-2"
           >
-            <div className="text-center mb-6">
-              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent mb-2">
-                Welcome back, {username}
+            <div className="text-center mb-5">
+              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
+                Welcome, {username}
               </h1>
-              <p className="text-sm text-gray-600 mt-1.5">
+              <p className="text-sm text-gray-600 mt-1">
                 Let's make today count
               </p>
             </div>
             
             {!isLoading && !todayStandUp?.completed && (
               <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
+                initial={{ scale: 0.97, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.3 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
               >
                 <Button 
                   onClick={() => setShowStandUp(true)}
-                  className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-md hover:shadow-lg py-2.5 px-6 rounded-full text-sm flex items-center gap-2 transition-all duration-200 hover:translate-y-[-1px]"
+                  className="bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow hover:shadow-md py-2.5 px-5 rounded-full text-sm flex items-center gap-2 transition-all duration-200 hover:translate-y-[-1px]"
                 >
                   <Sparkles className="h-3.5 w-3.5" />
                   Start Morning Check-in
