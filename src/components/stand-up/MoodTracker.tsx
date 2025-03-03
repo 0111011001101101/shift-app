@@ -1,3 +1,4 @@
+
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -11,11 +12,11 @@ interface MoodTrackerProps {
 export function MoodTracker({ value, onChange }: MoodTrackerProps) {
   const getMoodIcon = (score: number) => {
     const iconClass = "w-12 h-12 transition-all duration-300";
-    if (score <= 3) return <Frown className={cn(iconClass, "text-destructive animate-pulse")} />;
+    if (score <= 3) return <Frown className={cn(iconClass, "text-destructive")} />;
     if (score <= 5) return <Meh className={cn(iconClass, "text-warning")} />;
     if (score <= 7) return <Smile className={cn(iconClass, "text-primary")} />;
     if (score <= 9) return <SmilePlus className={cn(iconClass, "text-success")} />;
-    return <Heart className={cn(iconClass, "text-success animate-bounce")} />;
+    return <Heart className={cn(iconClass, "text-success")} />;
   };
 
   const getMoodLabel = (score: number) => {
@@ -27,14 +28,14 @@ export function MoodTracker({ value, onChange }: MoodTrackerProps) {
   };
 
   return (
-    <Card className="p-6 space-y-4 bg-gradient-to-br from-background to-muted/20">
-      <div className="space-y-4">
-        <h2 className="font-medium text-center">How are you feeling today?</h2>
+    <Card className="p-6 space-y-6 bg-white shadow-sm border border-gray-100">
+      <div className="space-y-5">
+        <h2 className="font-medium text-center text-gray-800">How are you feeling today?</h2>
         <div className="flex flex-col items-center gap-2">
           {getMoodIcon(value[0])}
-          <p className="text-sm text-muted-foreground">{getMoodLabel(value[0])}</p>
+          <p className="text-sm font-medium text-gray-700">{getMoodLabel(value[0])}</p>
         </div>
-        <div className="px-2">
+        <div className="px-2 pt-2">
           <Slider
             value={value}
             onValueChange={onChange}
@@ -50,7 +51,7 @@ export function MoodTracker({ value, onChange }: MoodTrackerProps) {
               "accent-success"
             )}
           />
-          <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+          <div className="flex justify-between mt-2 text-xs text-gray-500">
             <span>Not great</span>
             <span>Amazing</span>
           </div>

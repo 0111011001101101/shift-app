@@ -54,7 +54,7 @@ export function BottomNav() {
               >
                 <div
                   className={cn(
-                    "flex items-center justify-center rounded-full p-1.5 transition-all duration-200",
+                    "flex items-center justify-center rounded-full w-10 h-10 transition-all duration-200",
                     isActive 
                       ? "text-primary-500 bg-primary-50" 
                       : "text-gray-400 hover:text-gray-600"

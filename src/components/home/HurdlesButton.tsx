@@ -37,7 +37,7 @@ export function HurdlesButton() {
         <Card className="rounded-xl shadow-sm hover:shadow transition-all bg-white">
           <div className="p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="rounded-full bg-gray-50 p-2">
+              <div className="rounded-full bg-gray-50 p-2.5">
                 <Shield className="w-5 h-5 text-gray-400" />
               </div>
               <p className="text-gray-600 text-sm">
@@ -56,7 +56,7 @@ export function HurdlesButton() {
       <Card className="rounded-xl shadow-sm hover:shadow transition-all bg-white">
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="rounded-full bg-orange-50 p-2">
+            <div className="rounded-full bg-orange-50 p-2.5">
               <AlertTriangle className="w-5 h-5 text-orange-500" />
             </div>
             <div>
@@ -71,7 +71,7 @@ export function HurdlesButton() {
         {hurdles.slice(0, 1).map((hurdle) => (
           <div 
             key={hurdle.id} 
-            className="px-4 py-2 pb-3 border-t border-gray-50"
+            className="px-4 py-3 border-t border-gray-50"
           >
             <p className="text-sm text-gray-600 truncate">{hurdle.title}</p>
           </div>

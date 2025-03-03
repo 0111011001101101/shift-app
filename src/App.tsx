@@ -4,7 +4,6 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { BottomNav } from "./components/layout/BottomNav";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
@@ -26,7 +25,7 @@ function AppContent() {
                        location.pathname === "/onboarding";
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/80 text-secondary-800 antialiased">
+    <div className="min-h-screen bg-white text-secondary-800 antialiased">
       <div className="mx-auto max-w-lg min-h-screen relative pb-24">
         <Toaster />
         <Sonner />

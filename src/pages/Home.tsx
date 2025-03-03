@@ -8,7 +8,6 @@ import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { CalendarClock } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -59,7 +58,7 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 mx-auto">
+      <div className="space-y-5">
         <WelcomeHeader username={profile?.first_name} />
         
         <motion.div
@@ -80,7 +79,7 @@ export default function Home() {
           animate="visible"
           variants={sectionVariants}
         >
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">Today's Focus</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-3">Today's Focus</h2>
           
           <Card className="rounded-xl overflow-hidden border-none shadow-sm">
             <Tabs 
@@ -120,8 +119,9 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
+          className="pt-1"
         >
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">Long-term Goals</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-3">Long-term Goals</h2>
           <LongTermGoalsCard />
         </motion.div>
         
@@ -130,9 +130,9 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
-          className="pb-6"
+          className="pb-6 pt-1"
         >
-          <h2 className="text-xl font-semibold text-gray-800 mb-3">Current Challenges</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-3">Current Challenges</h2>
           <HurdlesButton />
         </motion.section>
       </div>
