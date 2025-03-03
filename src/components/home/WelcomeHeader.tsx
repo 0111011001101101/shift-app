@@ -38,8 +38,8 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
 
   return (
     <>
-      <div className="flex flex-col items-center justify-between py-2">
-        <div className="text-center mb-3">
+      <div className="flex flex-col items-center py-4">
+        <div className="text-center mb-4">
           <h1 className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-accent">
             Welcome back, {username}
           </h1>
@@ -51,7 +51,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
         {!todayStandUp?.completed && (
           <Button 
             onClick={() => setShowStandUp(true)}
-            className="bg-white text-primary-600 hover:bg-gray-50 shadow-sm py-2 px-4 rounded-full text-sm flex items-center gap-2 border border-gray-100"
+            className="bg-white text-primary-600 hover:bg-gray-50 shadow-sm py-2 px-5 rounded-full text-sm flex items-center gap-2 border border-gray-100"
           >
             Start Morning Check-in
             <ArrowRight className="h-3.5 w-3.5" />

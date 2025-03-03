@@ -9,7 +9,6 @@ import { HurdlesButton } from "@/components/home/HurdlesButton";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { motion } from "framer-motion";
 
 export default function Home() {
   const { toast } = useToast();
@@ -42,16 +41,16 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-6 pb-20">
+      <div className="space-y-6 pb-20 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
         <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
 
-        <section className="space-y-4">
+        <section className="space-y-3">
           <h2 className="text-base font-medium text-gray-700 px-1">Today's Focus</h2>
-          <div className="rounded-xl bg-white/80 shadow-sm overflow-hidden">
+          <div className="rounded-xl bg-white shadow-sm">
             <Tabs defaultValue="today" className="w-full">
-              <TabsList className="w-full grid grid-cols-2 rounded-none border-b bg-transparent">
+              <TabsList className="w-full grid grid-cols-2 rounded-none border-b bg-transparent h-12">
                 <TabsTrigger 
                   value="today" 
                   className="rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary-500 data-[state=active]:shadow-none py-3 text-sm font-medium transition-all"
@@ -79,12 +78,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-3">
           <h2 className="text-base font-medium text-gray-700 px-1">Goals & Growth</h2>
           <GoalsSection />
         </section>
         
-        <section className="space-y-4">
+        <section className="space-y-3">
           <h2 className="text-base font-medium text-gray-700 px-1">Overcome Challenges</h2>
           <HurdlesButton />
         </section>
