@@ -11,12 +11,13 @@ import { useToast } from "@/hooks/use-toast";
 import { CalendarClock, AlertTriangle } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const { toast } = useToast();
   const [focusTab, setFocusTab] = useState<"daily" | "weekly">("daily");
   
-  const { data: profile } = useQuery({
+  const { data: profile, isLoading: profileLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -42,14 +43,42 @@ export default function Home() {
     },
   });
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.5,
+      }
+    })
+  };
+
   return (
     <PageContainer>
-      <div className="space-y-8 pb-24 max-w-screen-sm mx-auto">
+      <div className="space-y-7 pb-24 max-w-screen-sm mx-auto">
         <WelcomeHeader username={profile?.first_name} />
         
-        <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
+        <motion.div
+          custom={0}
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+        >
+          <StreakCard 
+            streak={profile?.streak || 0} 
+            standUpTime={profile?.stand_up_time} 
+          />
+        </motion.div>
 
-        <section className="space-y-4">
+        <motion.section 
+          custom={1}
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+          className="space-y-4"
+        >
           <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-full bg-primary-100 flex items-center justify-center shadow-sm">
               <CalendarClock className="w-4 h-4 text-primary-600" />
@@ -87,11 +116,24 @@ export default function Home() {
               </TabsContent>
             </Tabs>
           </div>
-        </section>
+        </motion.section>
 
-        <LongTermGoalsCard />
+        <motion.div
+          custom={2}
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+        >
+          <LongTermGoalsCard />
+        </motion.div>
         
-        <section className="space-y-4">
+        <motion.section
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          variants={sectionVariants}
+          className="space-y-4"
+        >
           <h2 className="text-base font-semibold text-secondary-800 px-1 flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-full bg-orange-100 flex items-center justify-center shadow-sm">
               <AlertTriangle className="w-4 h-4 text-orange-500" />
@@ -99,7 +141,7 @@ export default function Home() {
             Overcome Challenges
           </h2>
           <HurdlesButton />
-        </section>
+        </motion.section>
       </div>
     </PageContainer>
   );
