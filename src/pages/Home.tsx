@@ -70,14 +70,14 @@ export default function Home() {
         </motion.div>
 
         <motion.div variants={item}>
-          <Card className="border border-gray-100 shadow-sm overflow-hidden rounded-xl bg-white/90 backdrop-blur-sm">
+          <Card className="border-none shadow-sm overflow-hidden rounded-2xl bg-white/90 backdrop-blur-sm">
             <StreakCard streak={profile?.streak || 0} standUpTime={profile?.stand_up_time} />
           </Card>
         </motion.div>
 
         <motion.div variants={item} className="space-y-2">
           <h2 className="text-base font-semibold text-gray-800 mb-2 px-1">Today's Focus</h2>
-          <Card className="border border-gray-100 shadow-sm p-4 rounded-xl bg-white/90 backdrop-blur-sm">
+          <Card className="border-none shadow-sm p-4 rounded-2xl bg-white/90 backdrop-blur-sm">
             <Tabs defaultValue="today" className="w-full">
               <TabsList className="w-full mb-4 grid grid-cols-2 h-10 rounded-lg bg-gray-100/80 p-1">
                 <TabsTrigger 

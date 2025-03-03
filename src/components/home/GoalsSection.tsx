@@ -104,13 +104,13 @@ export function GoalsSection() {
   
   if (isLoading) {
     return (
-      <Card className="p-5 border border-gray-100 shadow-sm animate-pulse h-48" />
+      <Card className="p-5 shadow-sm animate-pulse h-48 border-none rounded-2xl" />
     );
   }
 
   if (error) {
     return (
-      <Card className="p-5 border border-gray-100 shadow-sm">
+      <Card className="p-5 shadow-sm border-none rounded-2xl">
         <p className="text-muted-foreground">Error loading goals. Please try again later.</p>
       </Card>
     );
@@ -118,7 +118,7 @@ export function GoalsSection() {
 
   if (!goals?.length) {
     return (
-      <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+      <Card className="p-5 shadow-sm bg-white/90 backdrop-blur-sm border-none rounded-2xl">
         <div className="text-center space-y-4">
           <div className="mx-auto bg-primary-50 p-3 rounded-full w-16 h-16 flex items-center justify-center">
             <Target className="w-8 h-8 text-primary-500" />
@@ -129,7 +129,7 @@ export function GoalsSection() {
           </div>
           <Button 
             onClick={() => navigate("/goals")} 
-            className="mt-2 bg-primary-500 hover:bg-primary-600 text-white"
+            className="mt-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white border-none"
           >
             <Plus className="w-4 h-4 mr-2" />
             Create Your First Goal
@@ -140,7 +140,7 @@ export function GoalsSection() {
   }
   
   return (
-    <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+    <Card className="p-5 shadow-sm bg-white/90 backdrop-blur-sm border-none rounded-2xl">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Target className="w-5 h-5 text-primary-500" />

@@ -1,6 +1,7 @@
+
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ArrowUp, Brain, Target, Shield, Sparkles, BrainCog, Activity } from "lucide-react";
+import { ArrowRight, ArrowUp, Target, Shield, Sparkles, Calendar } from "lucide-react";
 
 export default function Welcome() {
   const navigate = useNavigate();
@@ -55,30 +56,30 @@ export default function Welcome() {
         >
           {[
             { 
-              icon: <BrainCog className="w-6 h-6 stroke-[1.5]" />,
-              label: "AI Coach",
-              description: "24/7 personalized guidance",
+              icon: <Calendar className="w-6 h-6 stroke-[1.5]" />,
+              label: "Daily Stand-ups",
+              description: "Track your progress daily",
               bgClass: "from-primary-500/90 to-primary-600",
               iconBgClass: "from-white/20 to-white/5"
             },
             { 
-              icon: <Activity className="w-6 h-6 stroke-[1.5]" />,
-              label: "Daily Growth",
-              description: "Track progress effortlessly",
+              icon: <Target className="w-6 h-6 stroke-[1.5]" />,
+              label: "Smart Goals",
+              description: "Set and achieve your goals",
               bgClass: "from-accent/90 to-accent",
-              iconBgClass: "from-white/20 to-white/5"
-            },
-            { 
-              icon: <Sparkles className="w-6 h-6 stroke-[1.5]" />,
-              label: "Quick Check-ins",
-              description: "5-min morning stand-ups",
-              bgClass: "from-purple-500/90 to-purple-500",
               iconBgClass: "from-white/20 to-white/5"
             },
             { 
               icon: <Shield className="w-6 h-6 stroke-[1.5]" />,
               label: "Hurdle Management",
-              description: "Turn blocks into stepping stones",
+              description: "Overcome your challenges",
+              bgClass: "from-purple-500/90 to-purple-500",
+              iconBgClass: "from-white/20 to-white/5"
+            },
+            { 
+              icon: <Sparkles className="w-6 h-6 stroke-[1.5]" />,
+              label: "Task Management",
+              description: "Keep track of your daily tasks",
               bgClass: "from-emerald-500/90 to-emerald-500",
               iconBgClass: "from-white/20 to-white/5"
             },
