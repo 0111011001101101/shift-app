@@ -1,3 +1,4 @@
+<lov-code>
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -127,7 +128,7 @@ export default function Goals() {
       timeframe: "today"
     }
   ]);
-
+  
   const { data: session } = useQuery({
     queryKey: ["session"],
     queryFn: async () => {
@@ -823,4 +824,3 @@ function GoalCard({ goal, onToggle, onDelete, onMoveUp, onMoveDown, canMoveUp, c
           </Tabs>
         </div>
       )}
-    </Card>

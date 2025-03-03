@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Target, ChevronRight, Plus, Brain, Sparkles, Shield, TrendingUp, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +67,7 @@ export function GoalsSection() {
         });
         return [];
       }
-      return data || [];
+      return data as Goal[];
     },
   });
 
