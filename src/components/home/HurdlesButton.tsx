@@ -124,7 +124,7 @@ export function HurdlesButton() {
   
   if (isLoadingHurdles || (!activeHurdles || activeHurdles.length === 0)) {
     return (
-      <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+      <Card className="p-5 border border-gray-100 shadow-sm bg-white/90 backdrop-blur-sm rounded-xl hover:shadow-md transition-all duration-300">
         <div className="text-center space-y-4">
           <div className="mx-auto bg-orange-50 p-3 rounded-full w-16 h-16 flex items-center justify-center">
             <Shield className="w-8 h-8 text-orange-500" />
@@ -135,7 +135,7 @@ export function HurdlesButton() {
           </div>
           <Button 
             onClick={() => navigate("/hurdles")} 
-            className="mt-2 bg-orange-500 hover:bg-orange-600 text-white"
+            className="mt-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-md hover:shadow-lg transition-all duration-300"
           >
             <Plus className="w-4 h-4 mr-2" />
             Add Your First Challenge
@@ -146,7 +146,7 @@ export function HurdlesButton() {
   }
   
   return (
-    <Card className="p-5 border border-gray-100 shadow-sm bg-white">
+    <Card className="p-5 border border-gray-100 shadow-sm bg-white/90 backdrop-blur-sm rounded-xl hover:shadow-md transition-all duration-300">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Shield className="w-5 h-5 text-orange-500" />

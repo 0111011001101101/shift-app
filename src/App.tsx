@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { BottomNav } from "./components/layout/BottomNav";
-import { FloatingChat } from "./components/chat/FloatingChat";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
@@ -92,10 +91,7 @@ function AppContent() {
           />
         </Routes>
         {(!isPublicRoute) && (
-          <>
-            <FloatingChat />
-            <BottomNav />
-          </>
+          <BottomNav />
         )}
       </div>
     </div>
