@@ -12,9 +12,8 @@ import { useState, useEffect } from "react";
 // Define proper types for our data
 interface Solution {
   id: string;
-  title: string;
-  isCompleted: boolean;
   text: string;
+  isCompleted: boolean;
 }
 
 interface Hurdle {
@@ -93,7 +92,7 @@ export function HurdlesButton() {
     const combined = activeHurdles.map(hurdle => {
       const hurdleSolutions = solutions?.filter(s => s.hurdle_id === hurdle.id) || [];
       
-      // Map the solutions array with the correct structure
+      // Map the solutions array with the correct structure that matches our Solution interface
       const formattedSolutions = hurdleSolutions.map(s => ({
         id: s.id,
         text: s.title,
