@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { BottomNav } from "./components/layout/BottomNav";
 import { FloatingChat } from "./components/chat/FloatingChat";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
+import { DemoProvider } from "./context/DemoContext";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
@@ -107,9 +108,11 @@ function AppContent() {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <DemoProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </DemoProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

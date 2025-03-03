@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatGreeting } from "@/lib/utils";
+import { useDemoContext } from "@/context/DemoContext";
 
 interface WelcomeHeaderProps {
   username?: string;
@@ -22,9 +23,7 @@ export function WelcomeHeader({ username }: WelcomeHeaderProps) {
   const navigate = useNavigate();
   const greeting = formatGreeting();
   const [showTip, setShowTip] = useState(false);
-  
-  // Demo mode is enabled
-  const isDemoMode = true;
+  const { isDemoMode } = useDemoContext();
 
   // Initials for avatar
   const initials = username
