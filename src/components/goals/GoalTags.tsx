@@ -11,30 +11,30 @@ import { useToast } from "@/hooks/use-toast";
 interface GoalTag {
   id: string;
   name: string;
-  color: string;
+  color?: string;
 }
 
 interface GoalTagsProps {
   goalId?: string;
-  tags?: string[]; // Add support for direct tags array
+  tags?: string[]; // Support for direct tags array
   onTagsChange?: () => void;
+  readOnly?: boolean;
 }
 
-export function GoalTags({ goalId, tags: directTags, onTagsChange }: GoalTagsProps) {
+export function GoalTags({ goalId, tags: directTags, onTagsChange, readOnly = false }: GoalTagsProps) {
   const [showAddTag, setShowAddTag] = useState(false);
   const [newTagName, setNewTagName] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: tags, isLoading } = useQuery({
-    queryKey: ["goalTags", goalId],
+    queryKey: ["goalTags", goalId, directTags],
     queryFn: async () => {
       // If we have direct tags or no goalId, don't fetch from the database
       if (directTags || !goalId) {
         return directTags?.map(tag => ({
           id: tag,
-          name: tag,
-          color: ""
+          name: tag
         })) || [];
       }
 
@@ -144,40 +144,44 @@ export function GoalTags({ goalId, tags: directTags, onTagsChange }: GoalTagsPro
   };
 
   if (isLoading) {
-    return <div className="animate-pulse h-8 bg-muted rounded" />;
+    return <div className="animate-pulse h-6 bg-muted rounded" />;
+  }
+
+  if (!tags?.length && readOnly) {
+    return null;
   }
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {tags?.map((tag) => (
           <Badge
             key={tag.id}
-            variant="secondary"
-            className="flex items-center gap-1 px-2 py-1"
+            variant="outline"
+            className="flex items-center gap-1 px-2 py-0.5 text-xs bg-primary-50/50 text-primary-700 border-primary-100"
           >
-            <Tag className="w-3 h-3" />
+            <Tag className="w-2.5 h-2.5" />
             {tag.name}
-            {goalId && (
+            {!readOnly && goalId && (
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-4 w-4 p-0 hover:bg-transparent"
+                className="h-3.5 w-3.5 p-0 ml-0.5 hover:bg-transparent"
                 onClick={() => removeTagMutation.mutate(tag.id)}
               >
-                <X className="h-3 w-3" />
+                <X className="h-2.5 w-2.5" />
               </Button>
             )}
           </Badge>
         ))}
-        {goalId && (
+        {!readOnly && goalId && (
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 px-2 text-xs"
+            className="h-6 px-2 text-xs text-primary-600 hover:bg-primary-50/50"
             onClick={() => setShowAddTag(true)}
           >
-            <Plus className="h-3 w-3 mr-1" />
+            <Plus className="h-2.5 w-2.5 mr-1" />
             Add Tag
           </Button>
         )}
@@ -188,7 +192,7 @@ export function GoalTags({ goalId, tags: directTags, onTagsChange }: GoalTagsPro
             placeholder="Enter tag name..."
             value={newTagName}
             onChange={(e) => setNewTagName(e.target.value)}
-            className="h-8 text-sm"
+            className="h-7 text-sm"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 handleAddTag();
@@ -199,7 +203,7 @@ export function GoalTags({ goalId, tags: directTags, onTagsChange }: GoalTagsPro
           />
           <Button
             size="sm"
-            className="h-8"
+            className="h-7"
             onClick={handleAddTag}
             disabled={!newTagName.trim()}
           >

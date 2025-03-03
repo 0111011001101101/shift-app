@@ -6,7 +6,7 @@ import { Loader2, CheckCircle2 } from "lucide-react";
 
 interface GoalProgressProps {
   goalId?: string;
-  value?: number; // Added to support direct percentage value
+  value?: number; // Support direct percentage value
 }
 
 export function GoalProgress({ goalId, value }: GoalProgressProps) {
@@ -35,9 +35,7 @@ export function GoalProgress({ goalId, value }: GoalProgressProps) {
     return (
       <div className="flex items-center gap-2">
         <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
-        <span className="text-sm text-muted-foreground">
-          Calculating progress...
-        </span>
+        <span className="text-sm text-muted-foreground">Loading...</span>
       </div>
     );
   }
@@ -45,15 +43,17 @@ export function GoalProgress({ goalId, value }: GoalProgressProps) {
   const progressValue = value !== undefined ? value : progress ?? 0;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between">
         <span className="text-sm text-muted-foreground">Progress</span>
         <div className="flex items-center gap-1">
-          <CheckCircle2 className={`h-4 w-4 ${progressValue === 100 ? "text-success" : "text-muted-foreground"}`} />
-          <span className="text-sm font-medium">{progressValue}%</span>
+          <CheckCircle2 
+            className={`h-3.5 w-3.5 ${progressValue === 100 ? "text-success" : "text-muted-foreground"}`} 
+          />
+          <span className="text-xs font-medium">{progressValue}%</span>
         </div>
       </div>
-      <Progress value={progressValue} className="h-2" />
+      <Progress value={progressValue} className="h-1.5" />
     </div>
   );
 }
