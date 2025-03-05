@@ -245,16 +245,20 @@ export function LongTermGoalsCard() {
           </motion.div>
 
           <motion.div variants={item}>
-            <Button
-              onClick={() => navigate("/goals")}
-              variant="outline"
-              size="sm"
-              className="mt-3.5 text-xs text-purple-600 border-purple-200 hover:bg-purple-50 w-full rounded-full flex items-center justify-center shadow-sm"
+            {/* Fix: Wrap Button with motion.div instead of adding motion props directly to Button */}
+            <motion.div 
               whileHover={{ y: -2 }}
               whileTap={{ y: 0 }}
             >
-              Manage All Goals <ArrowRight className="w-3 h-3 ml-1" />
-            </Button>
+              <Button
+                onClick={() => navigate("/goals")}
+                variant="outline"
+                size="sm"
+                className="mt-3.5 text-xs text-purple-600 border-purple-200 hover:bg-purple-50 w-full rounded-full flex items-center justify-center shadow-sm transition-all duration-300"
+              >
+                Manage All Goals <ArrowRight className="w-3 h-3 ml-1" />
+              </Button>
+            </motion.div>
           </motion.div>
         </Card>
       </motion.div>
