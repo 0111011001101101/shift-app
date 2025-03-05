@@ -223,6 +223,3 @@
     50% { opacity: 0.7; }
   }
 }
-
-/* Remove App.css as we're consolidating styles in index.css */
-<lov-delete file_path="src/App.css" />
