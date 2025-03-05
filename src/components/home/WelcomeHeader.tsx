@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { StandUpDialog } from "../stand-up/StandUpDialog";
 import { Button } from "../ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface WelcomeHeaderProps {
@@ -54,7 +54,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
             className="flex flex-col items-center py-2 mb-6"
           >
             <div className="text-center mb-5">
-              <h1 className="text-3xl font-bold text-gray-800">
+              <h1 className="text-3xl font-bold text-gradient">
                 Hello, {username}
               </h1>
               <p className="text-gray-500 mt-1">
@@ -62,7 +62,7 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
               </p>
             </div>
             
-            {!isLoading && !todayStandUp?.completed && (
+            {!isLoading && !todayStandUp?.completed ? (
               <motion.div
                 initial={{ scale: 0.97, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -70,13 +70,23 @@ export function WelcomeHeader({ username = "there", children }: WelcomeHeaderPro
               >
                 <Button 
                   onClick={() => setShowStandUp(true)}
-                  className="bg-primary text-white py-2.5 px-5 rounded-full text-sm flex items-center gap-2 shadow-sm"
+                  className="bg-primary text-white py-2.5 px-5 rounded-full text-sm flex items-center gap-2 shadow-md hover:shadow-lg transition-all"
                 >
                   Morning Check-in
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Button>
               </motion.div>
-            )}
+            ) : todayStandUp?.completed ? (
+              <motion.div
+                initial={{ scale: 0.97, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.3 }}
+                className="flex items-center gap-2 text-green-600 bg-green-50 py-2 px-4 rounded-full text-sm"
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                <span>Check-in completed</span>
+              </motion.div>
+            ) : null}
             {children}
           </motion.div>
         )}

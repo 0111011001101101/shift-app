@@ -44,13 +44,13 @@ export default function Home() {
   });
 
   const sectionVariants = {
-    hidden: { opacity: 0, y: 10 },
+    hidden: { opacity: 0, y: 15 },
     visible: (i: number) => ({
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.1,
-        duration: 0.3,
+        delay: i * 0.12,
+        duration: 0.35,
         ease: "easeOut"
       }
     })
@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <PageContainer>
-      <div className="space-y-5">
+      <div className="space-y-6">
         <WelcomeHeader username={profile?.first_name} />
         
         <motion.div
@@ -78,27 +78,30 @@ export default function Home() {
           initial="hidden"
           animate="visible"
           variants={sectionVariants}
+          className="space-y-3"
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Today's Focus</h2>
+          <h2 className="text-lg font-semibold text-gray-800 px-1 flex items-center gap-2">
+            Today's Focus
+          </h2>
           
-          <Card className="rounded-xl overflow-hidden border-none shadow-sm">
+          <Card className="rounded-xl overflow-hidden border-none shadow-md">
             <Tabs 
               defaultValue="daily" 
               value={focusTab} 
               onValueChange={(value) => setFocusTab(value as "daily" | "weekly")}
               className="w-full"
             >
-              <div className="px-3 pt-3">
+              <div className="px-4 pt-4 pb-2">
                 <TabsList className="bg-gray-100 w-full grid grid-cols-2 h-10 p-1 rounded-lg">
                   <TabsTrigger 
                     value="daily" 
-                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
+                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
                   >
                     Today
                   </TabsTrigger>
                   <TabsTrigger 
                     value="weekly"
-                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary-600 data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
+                    className="text-sm data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm rounded-md data-[state=active]:font-medium"
                   >
                     This Week
                   </TabsTrigger>
@@ -121,7 +124,6 @@ export default function Home() {
           variants={sectionVariants}
           className="pt-1"
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Long-term Goals</h2>
           <LongTermGoalsCard />
         </motion.div>
         
@@ -132,7 +134,7 @@ export default function Home() {
           variants={sectionVariants}
           className="pb-6 pt-1"
         >
-          <h2 className="text-lg font-semibold text-gray-800 mb-3">Current Challenges</h2>
+          <h2 className="text-lg font-semibold text-gray-800 mb-3 px-1">Current Challenges</h2>
           <HurdlesButton />
         </motion.section>
       </div>

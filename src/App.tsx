@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { BottomNav } from "./components/layout/BottomNav";
+import { FloatingChat } from "./components/chat/FloatingChat";
 import Home from "./pages/Home";
 import Goals from "./pages/Goals";
 import StandUp from "./pages/StandUp";
@@ -21,15 +22,21 @@ const queryClient = new QueryClient();
 
 function AppContent() {
   const location = useLocation();
+  
+  // Routes that don't need the bottom navigation
   const isPublicRoute = location.pathname === "/" || 
                        location.pathname === "/auth" || 
                        location.pathname === "/onboarding";
+                       
+  // Routes that need the AI coach floating button
+  const needsCoach = !isPublicRoute && location.pathname !== "/coach";
 
   return (
     <div className="min-h-screen bg-white text-secondary-800 antialiased">
-      <div className="mx-auto max-w-lg min-h-screen relative pb-24">
+      <div className="mx-auto max-w-lg min-h-screen relative">
         <Toaster />
         <Sonner />
+        
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/auth" element={<Auth />} />
@@ -98,9 +105,9 @@ function AppContent() {
             }
           />
         </Routes>
-        {(!isPublicRoute) && (
-          <BottomNav />
-        )}
+        
+        {(!isPublicRoute) && <BottomNav />}
+        {(needsCoach) && <FloatingChat />}
       </div>
     </div>
   );

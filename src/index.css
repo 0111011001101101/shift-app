@@ -42,7 +42,7 @@
   }
 
   h1 {
-    @apply text-2xl sm:text-3xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent;
+    @apply text-2xl sm:text-3xl font-bold tracking-tight;
   }
 
   h2 {
@@ -55,6 +55,23 @@
 
   p {
     @apply text-base leading-relaxed text-secondary-700;
+  }
+
+  /* Add some scrollbar styling */
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400;
   }
 }
 
@@ -110,12 +127,25 @@
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent;
   }
 
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent;
+  }
+
   .gradient-bg {
     @apply bg-gradient-to-br from-primary-600 to-primary-500;
   }
 
   .gradient-border {
     @apply border border-transparent bg-gradient-to-br from-primary-200/20 to-primary-300/20;
+  }
+  
+  /* Card styles */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+  }
+  
+  .button-hover {
+    @apply transition-all duration-300 hover:shadow-md active:scale-[0.98];
   }
 }
 
@@ -126,10 +156,6 @@
   
   .glass-effect {
     @apply backdrop-blur-xl bg-white/90 shadow-lg;
-  }
-  
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-accent;
   }
 
   .hover-scale {
@@ -187,4 +213,16 @@
     from { transform: translateY(20px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
+  
+  .animate-pulse-soft {
+    animation: pulseSoft 2.5s infinite;
+  }
+  
+  @keyframes pulseSoft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
 }
+
+/* Remove App.css as we're consolidating styles in index.css */
+<lov-delete file_path="src/App.css" />
