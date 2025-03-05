@@ -73,19 +73,24 @@
   ::-webkit-scrollbar-thumb:hover {
     @apply bg-gray-400;
   }
+  
+  /* Focus states for better accessibility */
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-500/50 ring-offset-2;
+  }
 }
 
 @layer components {
   .btn-primary {
     @apply w-full h-14 rounded-2xl bg-black text-white font-medium 
            flex items-center justify-center gap-2 
-           hover:bg-black/90 active:bg-black/95 transition-colors;
+           hover:bg-black/90 active:scale-[0.98] active:bg-black/95 transition-all duration-200;
   }
 
   .btn-secondary {
     @apply w-full h-14 rounded-2xl border border-black/[0.08] font-medium 
            text-black/80 hover:text-black
-           hover:bg-black/[0.02] active:bg-black/[0.05] transition-colors;
+           hover:bg-black/[0.02] active:scale-[0.98] active:bg-black/[0.05] transition-all duration-200;
   }
 
   .feature-card {
@@ -146,6 +151,28 @@
   
   .button-hover {
     @apply transition-all duration-300 hover:shadow-md active:scale-[0.98];
+  }
+  
+  /* Task list styles */
+  .task-item {
+    @apply flex items-center justify-between rounded-lg border border-primary-100/50 
+           bg-white shadow-sm p-3 transition-all duration-200
+           hover:border-primary-200 hover:shadow;
+  }
+  
+  .task-checkbox {
+    @apply h-4 w-4 rounded-sm border border-primary-200 text-primary-500 
+           focus:ring-1 focus:ring-primary-500/30 focus:ring-offset-0;
+  }
+  
+  /* Bottom navigation enhancements */
+  .nav-item {
+    @apply flex flex-col items-center justify-center relative transition-all duration-200;
+  }
+  
+  .nav-icon-container {
+    @apply flex items-center justify-center rounded-full w-10 h-10 
+           transition-all duration-200;
   }
 }
 
@@ -221,5 +248,28 @@
   @keyframes pulseSoft {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
+  }
+  
+  /* Haptic feedback styles */
+  .touch-feedback {
+    @apply active:scale-[0.98] active:opacity-90 transition-all duration-200;
+  }
+  
+  /* Accessibility improvements */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  }
+  
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+  
+  .hardware-accelerated {
+    @apply will-change-transform translate-z-0;
+  }
+  
+  .translate-z-0 {
+    transform: translateZ(0);
   }
 }

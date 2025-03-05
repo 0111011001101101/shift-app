@@ -40,7 +40,7 @@ export function BottomNav() {
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.4, delay: 0.1 }}
-      className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-lg border-t border-gray-100 pb-safe-area-inset-bottom shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-gray-100 pb-safe-area-inset-bottom shadow-lg"
     >
       <div className="mx-auto max-w-lg">
         <div className="grid grid-cols-5 h-16">
@@ -62,11 +62,13 @@ export function BottomNav() {
                     style={{ translateX: "-50%" }}
                   />
                 )}
-                <div
+                <motion.div
+                  whileTap={{ scale: 0.9 }}
+                  whileHover={{ y: -2 }}
                   className={cn(
-                    "flex items-center justify-center rounded-full w-10 h-10 transition-all duration-300",
+                    "flex items-center justify-center rounded-full w-10 h-10 transition-all duration-200",
                     isActive 
-                      ? "text-primary bg-primary-50 scale-110" 
+                      ? "text-primary bg-primary-50 scale-110 shadow-sm" 
                       : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
                   )}
                 >
@@ -74,7 +76,7 @@ export function BottomNav() {
                     "w-5 h-5",
                     isActive && "stroke-[2.5px]"
                   )} />
-                </div>
+                </motion.div>
                 <span className={cn(
                   "text-[10px] mt-0.5 font-medium transition-colors duration-300",
                   isActive 
