@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Button } from "@/components/ui/button";
@@ -71,7 +70,6 @@ const TIMEFRAMES = [
   { value: "today", label: "Today" },
 ];
 
-// Create the GoalCard component to clean up the main component
 const GoalCard = ({ 
   goal, 
   onToggle, 
@@ -182,7 +180,6 @@ const GoalCard = ({
               </div>
             </div>
             
-            {/* Add progress tracking */}
             <div className="bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg">
               <GoalProgress value={goal.completed ? 100 : 0} />
               {!isDemoMode && (
@@ -348,14 +345,12 @@ export default function Goals() {
         return [newGoal];
       }
 
-      // Create goal object with only required fields
       const goalData: any = { 
         title: newGoalTitle,
         user_id: session.user.id,
         position: (goals?.length || 0) + 1
       };
       
-      // Only add optional fields if they have values
       if (newGoalCategory) {
         goalData.category = newGoalCategory;
       }
@@ -542,6 +537,10 @@ export default function Goals() {
     return acc;
   }, {});
 
+  const shouldShowDeadline = () => {
+    return newGoalTimeframe === "long-term";
+  };
+
   return (
     <PageContainer>
       <div className="space-y-6 pb-24">
@@ -679,11 +678,16 @@ export default function Goals() {
                 
                 <div>
                   <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
-                    Timeframe <span className="text-xs text-gray-500">(Optional)</span>
+                    Timeframe <span className="text-xs text-gray-500">(When to complete)</span>
                   </label>
                   <Select
                     value={newGoalTimeframe}
-                    onValueChange={setNewGoalTimeframe}
+                    onValueChange={(value) => {
+                      setNewGoalTimeframe(value);
+                      if (value !== "long-term") {
+                        setNewGoalDeadline(undefined);
+                      }
+                    }}
                   >
                     <SelectTrigger className="border-primary-100 dark:border-primary-800/30">
                       <SelectValue placeholder="Select timeframe" />
@@ -699,47 +703,49 @@ export default function Goals() {
                 </div>
               </div>
               
-              <div>
-                <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
-                  Deadline <span className="text-xs text-gray-500">(Optional)</span>
-                </label>
-                <div className="flex items-center gap-2">
-                  <Popover>
-                    <PopoverTrigger asChild>
+              {shouldShowDeadline() && (
+                <div>
+                  <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
+                    Deadline <span className="text-xs text-gray-500">(Optional)</span>
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "flex-1 justify-start text-left font-normal border-primary-100 dark:border-primary-800/30",
+                            !newGoalDeadline && "text-muted-foreground"
+                          )}
+                        >
+                          <Calendar className="mr-2 h-4 w-4" />
+                          {newGoalDeadline ? format(newGoalDeadline, "PPP") : <span>No deadline set</span>}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0">
+                        <CalendarComponent
+                          mode="single"
+                          selected={newGoalDeadline}
+                          onSelect={setNewGoalDeadline}
+                          initialFocus
+                          className="p-3 pointer-events-auto"
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    
+                    {newGoalDeadline && (
                       <Button
-                        variant="outline"
-                        className={cn(
-                          "flex-1 justify-start text-left font-normal border-primary-100 dark:border-primary-800/30",
-                          !newGoalDeadline && "text-muted-foreground"
-                        )}
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setNewGoalDeadline(undefined)}
+                        className="h-10 w-10 rounded-full text-gray-500 hover:text-red-500"
                       >
-                        <Calendar className="mr-2 h-4 w-4" />
-                        {newGoalDeadline ? format(newGoalDeadline, "PPP") : <span>No deadline set</span>}
+                        <Trash2 className="h-4 w-4" />
                       </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0">
-                      <CalendarComponent
-                        mode="single"
-                        selected={newGoalDeadline}
-                        onSelect={setNewGoalDeadline}
-                        initialFocus
-                        className="p-3 pointer-events-auto"
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  
-                  {newGoalDeadline && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setNewGoalDeadline(undefined)}
-                      className="h-10 w-10 rounded-full text-gray-500 hover:text-red-500"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
               
               <div className="flex justify-end gap-2 pt-2">
                 <Button

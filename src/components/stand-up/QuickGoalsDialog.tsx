@@ -79,6 +79,11 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
     'long-term': 'Long-term'
   };
 
+  // Helper function to display dates based on timeframe
+  const shouldShowDate = (timeframe?: string): boolean => {
+    return timeframe === 'long-term';
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[80vh] overflow-y-auto bg-gradient-to-br from-white via-primary-50/20 to-secondary-50/20 backdrop-blur-xl">
@@ -142,7 +147,7 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
                             </h4>
                           </div>
                           
-                          {goal.deadline && (
+                          {shouldShowDate(goal.timeframe) && goal.deadline && (
                             <div className="flex items-center text-xs text-muted-foreground">
                               <Calendar className="w-3 h-3 mr-1" />
                               {format(new Date(goal.deadline), "MMM d")}
