@@ -324,6 +324,10 @@ export default function Goals() {
 
   const addGoalMutation = useMutation({
     mutationFn: async () => {
+      if (!newGoalTitle.trim()) {
+        throw new Error("Goal title is required");
+      }
+      
       if (!session?.user.id) throw new Error("Not authenticated");
 
       if (isDemoMode) {
@@ -344,16 +348,29 @@ export default function Goals() {
         return [newGoal];
       }
 
+      // Create goal object with only required fields
+      const goalData: any = { 
+        title: newGoalTitle,
+        user_id: session.user.id,
+        position: (goals?.length || 0) + 1
+      };
+      
+      // Only add optional fields if they have values
+      if (newGoalCategory) {
+        goalData.category = newGoalCategory;
+      }
+      
+      if (newGoalTimeframe) {
+        goalData.timeframe = newGoalTimeframe;
+      }
+      
+      if (newGoalDeadline) {
+        goalData.deadline = newGoalDeadline.toISOString();
+      }
+
       const { data, error } = await supabase
         .from("goals")
-        .insert([{ 
-          title: newGoalTitle,
-          category: newGoalCategory,
-          timeframe: newGoalTimeframe,
-          deadline: newGoalDeadline ? newGoalDeadline.toISOString() : undefined,
-          user_id: session.user.id,
-          position: (goals?.length || 0) + 1
-        }])
+        .insert([goalData])
         .select();
 
       if (error) throw error;
@@ -487,7 +504,14 @@ export default function Goals() {
   });
 
   const addGoal = () => {
-    if (!newGoalTitle.trim()) return;
+    if (!newGoalTitle.trim()) {
+      toast({
+        title: "Goal title required",
+        description: "Please enter a title for your goal.",
+        variant: "destructive",
+      });
+      return;
+    }
     addGoalMutation.mutate();
   };
 
@@ -617,18 +641,25 @@ export default function Goals() {
             <h2 className="text-lg font-medium mb-4 text-primary-700 dark:text-primary-300">Add New Goal</h2>
             <div className="space-y-5">
               <div>
-                <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">Goal Title</label>
+                <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
+                  Goal Title <span className="text-red-500">*</span>
+                </label>
                 <Input
                   value={newGoalTitle}
                   onChange={(e) => setNewGoalTitle(e.target.value)}
                   placeholder="Enter goal title..."
                   className="border-primary-100 dark:border-primary-800/30 focus:ring-2 focus:ring-primary-500/20"
                 />
+                {newGoalTitle.trim() === "" && (
+                  <p className="text-xs text-red-500 mt-1">Title is required</p>
+                )}
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">Category</label>
+                  <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
+                    Category <span className="text-xs text-gray-500">(Optional)</span>
+                  </label>
                   <Select
                     value={newGoalCategory}
                     onValueChange={setNewGoalCategory}
@@ -647,7 +678,9 @@ export default function Goals() {
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">Timeframe</label>
+                  <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
+                    Timeframe <span className="text-xs text-gray-500">(Optional)</span>
+                  </label>
                   <Select
                     value={newGoalTimeframe}
                     onValueChange={setNewGoalTimeframe}
@@ -667,29 +700,45 @@ export default function Goals() {
               </div>
               
               <div>
-                <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">Deadline (Optional)</label>
-                <Popover>
-                  <PopoverTrigger asChild>
+                <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
+                  Deadline <span className="text-xs text-gray-500">(Optional)</span>
+                </label>
+                <div className="flex items-center gap-2">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "flex-1 justify-start text-left font-normal border-primary-100 dark:border-primary-800/30",
+                          !newGoalDeadline && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {newGoalDeadline ? format(newGoalDeadline, "PPP") : <span>No deadline set</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <CalendarComponent
+                        mode="single"
+                        selected={newGoalDeadline}
+                        onSelect={setNewGoalDeadline}
+                        initialFocus
+                        className="p-3 pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  
+                  {newGoalDeadline && (
                     <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal border-primary-100 dark:border-primary-800/30",
-                        !newGoalDeadline && "text-muted-foreground"
-                      )}
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => setNewGoalDeadline(undefined)}
+                      className="h-10 w-10 rounded-full text-gray-500 hover:text-red-500"
                     >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      {newGoalDeadline ? format(newGoalDeadline, "PPP") : <span>Select a date</span>}
+                      <Trash2 className="h-4 w-4" />
                     </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <CalendarComponent
-                      mode="single"
-                      selected={newGoalDeadline}
-                      onSelect={setNewGoalDeadline}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                  )}
+                </div>
               </div>
               
               <div className="flex justify-end gap-2 pt-2">
@@ -704,7 +753,8 @@ export default function Goals() {
                 <Button 
                   onClick={addGoal}
                   size="sm"
-                  className="bg-primary hover:bg-primary-600 text-white"
+                  disabled={!newGoalTitle.trim()}
+                  className={`bg-primary hover:bg-primary-600 text-white ${!newGoalTitle.trim() ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   Add Goal
                 </Button>
