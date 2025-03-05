@@ -62,7 +62,7 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
 
   // Group goals by timeframe
   const groupedGoals = goals?.reduce<Record<string, Goal[]>>((acc, goal) => {
-    const timeframe = goal.timeframe || 'long-term';
+    const timeframe = goal.timeframe || 'general';
     if (!acc[timeframe]) {
       acc[timeframe] = [];
     }
@@ -71,12 +71,13 @@ export function QuickGoalsDialog({ open, onOpenChange }: QuickGoalsDialogProps) 
   }, {}) || {};
 
   // Define timeframes for order
-  const timeframeOrder = ['today', 'week', 'month', 'long-term'];
+  const timeframeOrder = ['today', 'week', 'month', 'long-term', 'general'];
   const timeframeLabels: Record<string, string> = {
     'today': 'Today',
     'week': 'This Week',
     'month': 'This Month',
-    'long-term': 'Long-term'
+    'long-term': 'Long-term',
+    'general': 'Standalone Goals'
   };
 
   // Helper function to display dates based on timeframe

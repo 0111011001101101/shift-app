@@ -17,9 +17,9 @@ import {
   ArrowLeft,
   LayoutGrid,
   Clock,
-  ChevronDown as ChevronDownIcon,
   Filter,
   ArrowRight,
+  Sparkles,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -51,7 +51,7 @@ interface Goal {
   category?: string;
   reminder_enabled?: boolean;
   reminder_frequency?: string;
-  timeframe?: string; // 'long-term', 'month', 'week', 'today'
+  timeframe?: string; // 'general', 'long-term', 'month', 'week', 'today'
   user_id?: string;
 }
 
@@ -64,6 +64,7 @@ const CATEGORIES = [
 ];
 
 const TIMEFRAMES = [
+  { value: "general", label: "Standalone Goal" },
   { value: "long-term", label: "Long-term" },
   { value: "month", label: "This Month" },
   { value: "week", label: "This Week" },
@@ -201,12 +202,13 @@ export default function Goals() {
   const queryClient = useQueryClient();
   const [newGoalTitle, setNewGoalTitle] = useState("");
   const [newGoalCategory, setNewGoalCategory] = useState("personal");
-  const [newGoalTimeframe, setNewGoalTimeframe] = useState("long-term");
+  const [newGoalTimeframe, setNewGoalTimeframe] = useState("general");
   const [newGoalDeadline, setNewGoalDeadline] = useState<Date | undefined>(undefined);
   const [showNewGoalInput, setShowNewGoalInput] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTimeframe, setSelectedTimeframe] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [showBreakdownHint, setShowBreakdownHint] = useState(false);
   const { isDemoMode } = useDemoMode();
   
   const [demoGoals, setDemoGoals] = useState<Goal[]>([
@@ -333,7 +335,7 @@ export default function Goals() {
           title: newGoalTitle,
           category: newGoalCategory,
           timeframe: newGoalTimeframe,
-          deadline: newGoalDeadline ? newGoalDeadline.toISOString() : undefined,
+          deadline: newGoalTimeframe === "long-term" && newGoalDeadline ? newGoalDeadline.toISOString() : undefined,
           user_id: "demo-user",
           position: (demoGoals.length || 0) + 1,
           completed: false,
@@ -359,7 +361,7 @@ export default function Goals() {
         goalData.timeframe = newGoalTimeframe;
       }
       
-      if (newGoalDeadline) {
+      if (newGoalTimeframe === "long-term" && newGoalDeadline) {
         goalData.deadline = newGoalDeadline.toISOString();
       }
 
@@ -375,9 +377,10 @@ export default function Goals() {
       queryClient.invalidateQueries({ queryKey: ["goals"] });
       setNewGoalTitle("");
       setNewGoalCategory("personal");
-      setNewGoalTimeframe("long-term");
+      setNewGoalTimeframe("general");
       setNewGoalDeadline(undefined);
       setShowNewGoalInput(false);
+      setShowBreakdownHint(true);
       toast({
         title: "Goal Added",
         description: "Your new goal has been created successfully.",
@@ -678,7 +681,7 @@ export default function Goals() {
                 
                 <div>
                   <label className="text-sm font-medium text-secondary-700 dark:text-secondary-300 mb-1 block">
-                    Timeframe <span className="text-xs text-gray-500">(When to complete)</span>
+                    Timeframe <span className="text-xs text-gray-500">(Optional)</span>
                   </label>
                   <Select
                     value={newGoalTimeframe}
@@ -767,6 +770,31 @@ export default function Goals() {
               </div>
             </div>
           </Card>
+        )}
+
+        {showBreakdownHint && goals && goals.length > 0 && (
+          <div className="bg-primary-50/70 border border-primary-100 rounded-xl p-4 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="bg-primary-100 rounded-full p-2">
+                <Sparkles className="h-5 w-5 text-primary-600" />
+              </div>
+              <div>
+                <h3 className="font-medium text-primary-700 mb-1">Need to break down your goal?</h3>
+                <p className="text-sm text-primary-600/80">
+                  Try expanding a goal and adding sub-tasks to track progress toward achieving it. 
+                  This helps to make large goals more manageable.
+                </p>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setShowBreakdownHint(false)}
+                  className="mt-2 text-xs text-primary-600 hover:bg-primary-100"
+                >
+                  Got it
+                </Button>
+              </div>
+            </div>
+          </div>
         )}
 
         {isLoading ? (
