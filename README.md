@@ -1,5 +1,5 @@
 
-**URL**: https://lovable.dev/projects/7cc954d9-231c-4a70-b87f-e09438ce732e
+**URL**: https://shift-app.lovable.app/
 
 
 
