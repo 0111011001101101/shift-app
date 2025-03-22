@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUp, Target, Shield, Sparkles, Calendar } from "lucide-react";
@@ -36,9 +35,8 @@ export default function Welcome() {
           className="space-y-4"
         >
           <h1 className="text-[2rem] leading-[1.1] font-medium tracking-tight text-black">
-            Peak Performance,{" "}
             <span className="bg-gradient-to-r from-primary-500 to-accent bg-clip-text text-transparent">
-              Zero Burnout
+              Healthier habits
             </span>
           </h1>
           <div>
