@@ -1,40 +1,31 @@
-
 import { PageContainer } from "@/components/layout/PageContainer";
 import { Brain, Clock, Target, ThumbsUp, ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-
 export default function Learn() {
   const navigate = useNavigate();
-
-  const upcomingModules = [
-    {
-      title: "Managing Burnout",
-      description: "Learn proven techniques to identify, prevent and recover from burnout",
-      icon: ThumbsUp,
-      estimatedMinutes: 15,
-      gradient: "from-blue-500 to-indigo-600",
-    },
-    {
-      title: "Overcoming Imposter Syndrome",
-      description: "Build confidence and overcome self-doubt with evidence-based strategies",
-      icon: Target,
-      estimatedMinutes: 12,
-      gradient: "from-orange-500 to-amber-600",
-    },
-    {
-      title: "Peak Performance Routines",
-      description: "Design your ideal day for maximum productivity and wellness",
-      icon: Clock,
-      estimatedMinutes: 18,
-      gradient: "from-emerald-500 to-teal-600",
-    },
-  ];
-
-  return (
-    <PageContainer className="max-w-4xl">
+  const upcomingModules = [{
+    title: "Managing Burnout",
+    description: "Learn proven techniques to identify, prevent and recover from burnout",
+    icon: ThumbsUp,
+    estimatedMinutes: 15,
+    gradient: "from-blue-500 to-indigo-600"
+  }, {
+    title: "Overcoming Imposter Syndrome",
+    description: "Build confidence and overcome self-doubt with evidence-based strategies",
+    icon: Target,
+    estimatedMinutes: 12,
+    gradient: "from-orange-500 to-amber-600"
+  }, {
+    title: "Peak Performance Routines",
+    description: "Design your ideal day for maximum productivity and wellness",
+    icon: Clock,
+    estimatedMinutes: 18,
+    gradient: "from-emerald-500 to-teal-600"
+  }];
+  return <PageContainer className="max-w-4xl">
       <div className="space-y-8 animate-fadeIn">
         {/* Header Section */}
         <div className="text-center space-y-4 px-4">
@@ -62,7 +53,7 @@ export default function Learn() {
                 <div className="bg-white/20 w-fit p-2 rounded-lg">
                   <Brain className="h-6 w-6" />
                 </div>
-                <h2 className="text-xl font-bold">Mental Resilience for High Achievers</h2>
+                <h2 className="text-xl font-bold">Mental Resilience </h2>
                 <p className="text-white/80">
                   A comprehensive guide to maintaining peak mental performance while avoiding burnout
                 </p>
@@ -85,13 +76,15 @@ export default function Learn() {
         <div className="px-4 space-y-4">
           <h2 className="text-lg font-semibold px-1">Upcoming Modules</h2>
           <div className="grid gap-4">
-            {upcomingModules.map((module, index) => (
-              <motion.div
-                key={module.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + index * 0.1 }}
-              >
+            {upcomingModules.map((module, index) => <motion.div key={module.title} initial={{
+            opacity: 0,
+            y: 10
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            delay: 0.2 + index * 0.1
+          }}>
                 <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
                   <div className="p-5">
                     <div className="flex items-start gap-4">
@@ -111,8 +104,7 @@ export default function Learn() {
                     </div>
                   </div>
                 </Card>
-              </motion.div>
-            ))}
+              </motion.div>)}
           </div>
         </div>
 
@@ -127,17 +119,12 @@ export default function Learn() {
               <p className="text-gray-600 text-sm max-w-md mx-auto">
                 We're developing comprehensive learning modules with expert insights and interactive exercises to boost your mental resilience.
               </p>
-              <Button 
-                variant="outline" 
-                className="bg-white border-primary-200 text-primary-700 hover:bg-primary-50"
-                onClick={() => navigate('/settings')}
-              >
+              <Button variant="outline" className="bg-white border-primary-200 text-primary-700 hover:bg-primary-50" onClick={() => navigate('/settings')}>
                 Learn More in Settings
               </Button>
             </div>
           </Card>
         </div>
       </div>
-    </PageContainer>
-  );
+    </PageContainer>;
 }
