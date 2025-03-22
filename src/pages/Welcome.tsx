@@ -140,9 +140,7 @@ export default function Welcome() {
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center text-xs font-medium text-purple-700 ring-2 ring-white">H</div>
               </div>
               
-              <p className="text-center text-sm text-black/60 font-medium px-4 leading-relaxed">
-                Join our growing community of high achievers, entrepreneurs and leaders
-              </p>
+              <p className="text-center text-sm text-black/60 font-medium px-4 leading-relaxed">Join our growing community</p>
             </div>
           </motion.div>
         </motion.div>
