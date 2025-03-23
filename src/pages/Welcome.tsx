@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUp, Target, Shield, Sparkles, Calendar } from "lucide-react";
+
 export default function Welcome() {
   const navigate = useNavigate();
+  
   return <div className="min-h-screen bg-white">
       <motion.nav initial={{
       opacity: 0,
@@ -19,8 +21,8 @@ export default function Welcome() {
           </div>
           <span className="font-medium tracking-tight text-black">SHIFT</span>
         </div>
-        <button onClick={() => navigate("/auth")} className="text-sm font-medium px-4 py-2 rounded-lg text-black/70 hover:text-black transition-colors">
-          Sign in
+        <button onClick={() => navigate("/onboarding")} className="text-sm font-medium px-4 py-2 rounded-lg text-black/70 hover:text-black transition-colors">
+          Try it out
         </button>
       </motion.nav>
 
@@ -115,7 +117,7 @@ export default function Welcome() {
             Experience success without sacrificing well-being, make the shift.
           </p>
           
-          <button onClick={() => navigate("/auth?view=sign_up")} className="w-full h-14 rounded-2xl bg-black text-white font-medium 
+          <button onClick={() => navigate("/onboarding")} className="w-full h-14 rounded-2xl bg-black text-white font-medium 
                      flex items-center justify-center gap-2 
                      hover:bg-black/90 active:bg-black/95 transition-colors">
             Get started
