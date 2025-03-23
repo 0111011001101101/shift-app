@@ -1,20 +1,6 @@
 
 **URL**: https://shift-app.lovable.app/
 
-
-![image](https://github.com/user-attachments/assets/2c069cd7-ce42-4e70-b8c9-ce30ba732d43)
-
-![image](https://github.com/user-attachments/assets/2698b338-f486-478c-9050-131ae7644c01)
-
-![image](https://github.com/user-attachments/assets/5dda3b2a-71c2-4652-b9d6-cd9793df5ef8)
-
-![image](https://github.com/user-attachments/assets/56795672-d7ed-4315-8873-57292caff6ce)
-
-![image](https://github.com/user-attachments/assets/49ef7fcd-8788-4aed-a0c2-cb84767b6338)
-
-
-
-
 **Use your preferred IDE**
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
